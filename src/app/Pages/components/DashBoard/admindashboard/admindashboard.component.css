@@ -1,0 +1,31 @@
+.my-box {
+  border-radius: 3px;
+  box-shadow: 8px 8px 10px rgb(195 195 195);
+  margin: 0px;
+  border: none;
+  padding: 5px 6px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0px !important;
+  color: #fff !important;
+}
+
+.my-box2 {
+  border-radius: 0px;
+  box-shadow: 1px 1px 10px rgb(195 195 195);
+  border: none;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+th {
+  font-weight: 600 !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+}

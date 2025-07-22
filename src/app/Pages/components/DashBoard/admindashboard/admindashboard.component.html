@@ -1,0 +1,563 @@
+<div nz-row [nzGutter]="10" >
+  <div nz-col nzSpan="11"  style="border: 1px solid grey; border-radius: 5px;">
+    <div  class="formname" style="margin:13px 0px 0px 10px;">Item Sold Count</div>
+
+    <nz-spin [nzSpinning]="pieGraph1Loading" >
+      <div id="chartss" style="margin: 45px 0px 0px -10px ;">
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [labels]="chartOptions.labels"
+          [responsive]="chartOptions.responsive"
+        ></apx-chart>
+      </div>
+
+    </nz-spin>
+    
+  </div>
+  <!-- <div nz-col nzSpan="11" style="border-right: 1px solid grey"></div> -->
+
+  <div
+    nz-col
+    nzSpan="12"
+    style="border: 1px solid grey; border-radius: 5px; margin-left: 33px"
+  >
+    <div class="formname" style="margin: 13px 0px 12px 10px">
+      Top 10 Sold Products
+    </div>
+
+    <div style="margin-top: 10px">
+      <nz-table
+        style="margin: 10px 10px 10px 10px"
+        class="my-scroll no-wrap1"
+        nzBordered
+        #table11
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzData]="dashboard"
+        [nzSize]="'small'"
+        [nzLoading]="loadingRecordstop"
+      >
+        <thead>
+          <tr>
+            <th nzAlign="center" nzWidth="170px">
+              <b>Product Name</b>
+            </th>
+            <th nzAlign="center" nzWidth="130px">
+              <b>Sold Count</b>
+            </th>
+
+            <!-- <th nzColumnKey="{{ 'PAYMENT_MODE' }}" nzAlign="center"   nzWidth="60px">
+            <b>Payment Mode</b>
+          </th> -->
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- <tr *ngFor="let data of table1.data">
+            <td *ngFor="let column of columncount">
+              {{ data[column[0]] }}
+            </td>
+          </tr>
+          <tr></tr> -->
+          <tr *ngFor="let data of table11.data">
+            <td style="text-align: left; white-space: pre-line">
+              {{ data["PRODUCT_NAME"] }}
+            </td>
+
+            <td style="text-align: center; white-space: pre-line">
+              {{ data["TOTAL_QUANTITY_SOLD"] }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>
+<!-- //Day Wise Monthly Sale Count -->
+
+<div
+  style="
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin-top: 20px;
+    padding-left: 10px;
+    padding-top: 10px;
+  "
+>
+  <div nz-row nzType="flex">
+    <div
+      nz-col
+      nzSpan="24"
+      nzXs="24"
+      nzSm="24"
+      nzMd="4"
+      nzLg="6"
+      nzXl="20"
+      nzAlign="right"
+      style="display: flex; justify-content: flex-start"
+    >
+      <div class="formname" style="margin-left: 12px">
+        Day Wise Monthly Sale Count
+      </div>
+    </div>
+    <div
+      nz-col
+      nzSpan="24"
+      nzXs="24"
+      nzSm="24"
+      nzMd="4"
+      nzLg="6"
+      nzXl="4"
+      nzAlign="right"
+      style="display: flex; justify-content: flex-end"
+    >
+      <nz-date-picker
+        nzMode="month"
+        [(ngModel)]="date"
+        name="date"
+        [nzDisabledDate]="disabledDate"
+        (ngModelChange)="OnChange($event)"
+        style="margin-right: 10px"
+      ></nz-date-picker>
+    </div>
+  </div>
+  <nz-spin [nzSpinning]="barGraph1Loading">
+    <div id="chart" style="margin: 17px 10px 10px 10px">
+      <apx-chart
+        [series]="chartOptions1.series"
+        [chart]="chartOptions1.chart"
+        [dataLabels]="chartOptions1.dataLabels"
+        [plotOptions]="chartOptions1.plotOptions"
+        [yaxis]="chartOptions1.yaxis"
+        [xaxis]="chartOptions1.xaxis"
+        [legend]="chartOptions1.legend"
+        [colors]="chartOptions1.colors"
+        [grid]="chartOptions1.grid"
+      ></apx-chart>
+    </div>
+  </nz-spin>
+</div>
+
+<!-- Day Wise Monthly Sale Amount -->
+<div
+  style="
+    margin-top: 20px;
+    border: 1px solid grey;
+    border-radius: 5px;
+
+    padding-left: 10px;
+    padding-top: 10px;
+  "
+>
+  <div nz-row nzType="flex">
+    <div
+      nz-col
+      nzSpan="24"
+      nzXs="24"
+      nzSm="24"
+      nzMd="4"
+      nzLg="6"
+      nzXl="20"
+      nzAlign="right"
+      style="display: flex; justify-content: flex-start"
+    >
+      <div style="margin-left: 12px" class="formname">
+        Day Wise Monthly Sale Amount
+      </div>
+    </div>
+    <div
+      nz-col
+      nzSpan="24"
+      nzXs="24"
+      nzSm="24"
+      nzMd="4"
+      nzLg="6"
+      nzXl="4"
+      nzAlign="right"
+      style="display: flex; justify-content: flex-end"
+    >
+      <nz-date-picker
+        nzMode="month"
+        [(ngModel)]="date"
+        name="date1"
+        [nzDisabledDate]="disabledDate"
+        (ngModelChange)="OnChange2($event)"
+        style="margin-right: 10px"
+      ></nz-date-picker>
+    </div>
+  </div>
+  <nz-spin [nzSpinning]="barGraph2Loading">
+    <div id="chart2" style="margin: 17px 10px 10px 10px">
+      <apx-chart
+        [series]="chartOptions2.series"
+        [chart]="chartOptions2.chart"
+        [dataLabels]="chartOptions2.dataLabels"
+        [plotOptions]="chartOptions2.plotOptions"
+        [yaxis]="chartOptions2.yaxis"
+        [xaxis]="chartOptions2.xaxis"
+        [legend]="chartOptions2.legend"
+        [colors]="chartOptions2.colors"
+        [grid]="chartOptions2.grid"
+      ></apx-chart>
+    </div>
+  </nz-spin>
+</div>
+<div>
+  <div
+    nz-row
+    style="
+      border: 1px solid grey;
+      border-radius: 5px;
+      margin-top: 20px;
+      padding-left: 10px;
+      padding-top: 10px;
+    "
+  >
+    <div nz-col nzSpan="24">
+      <div style="margin-left: 12px" class="formname">
+        Today's Order List
+        <span style="margin-left: 708px">
+          <button
+            nz-button
+            [nzSize]="size"
+            nzType="primary"
+            (click)="viewOrders($event)"
+          >
+            All Order List
+          </button></span
+        >
+      </div>
+
+      <div style="margin: 17px 12px 10px 12px">
+        <nz-table
+          class="my-scroll no-wrap1"
+          nzBordered
+          #table3
+          nzShowSizeChanger
+          [nzFrontPagination]="false"
+          [nzData]="Todayorder"
+          [nzTotal]="totalRecords"
+          [nzLoading]="loadingRecords"
+          [nzSize]="'small'"
+          [(nzPageIndex)]="pageIndex"
+          [(nzPageSize)]="pageSize"
+          (nzPageIndexChange)="TodayOrderWithStatus()"
+          (nzPageSizeChange)="TodayOrderWithStatus(true)"
+          (nzQueryParams)="sort($event)"
+          [nzScroll]="{ x: '1000px' }"
+        >
+          <thead>
+            <tr>
+              <!-- <th nzWidth="200px" style="font-weight: bold; text-align: center"  >
+                Order Status
+              </th> -->
+              <th
+                nzWidth="200px"
+                [nzSortFn]="true"
+                style="font-weight: bold; text-align: center"
+              >
+                Customer Name
+              </th>
+              <th
+                nzWidth="150px"
+                [nzSortFn]="true"
+                style="font-weight: bold; text-align: center"
+              >
+                Cart ID
+              </th>
+              <th
+                nzWidth="200px"
+                [nzSortFn]="true"
+                style="font-weight: bold; text-align: center"
+              >
+                Order DateTime
+              </th>
+              <!-- <th 
+                nzWidth="200px" [nzSortFn]="true" style="font-weight: bold; text-align: center"  >
+                Expected Preparing DateTime
+              </th> -->
+
+              <th
+                nzWidth="200px"
+                [nzSortFn]="true"
+                style="font-weight: bold; text-align: center"
+              >
+                Order Total Quantity
+              </th>
+              <!-- <th 
+                nzWidth="230px" [nzSortFn]="true" style="font-weight: bold; text-align: center"  >
+                Country Name
+              </th>
+               nzColumnKey="{{ 'PAYMENT_DATETIME' }}"<th 
+              nzWidth="230px" [nzSortFn]="true" style="font-weight: bold; text-align: center"  >
+                State Name
+              </th>
+               nzColumnKey="{{ 'PAYMENT_DATETIME' }}"<th 
+              nzWidth="200px" [nzSortFn]="true" style="font-weight: bold; text-align: center"  >
+                City Name
+              </th>
+               nzColumnKey="{{ 'PAYMENT_DATETIME' }}"<th 
+              nzWidth="170px" [nzSortFn]="true" style="font-weight: bold; text-align: center"  >
+                Pincode
+              </th> -->
+
+              <th
+                nzWidth="150px"
+                [nzSortFn]="true"
+                style="font-weight: bold; text-align: center"
+              >
+                Total Amount
+              </th>
+              <th
+                nzWidth="150px"
+                [nzSortFn]="true"
+                style="font-weight: bold; text-align: center"
+              >
+                Addon Amount
+              </th>
+              <th
+                nzWidth="150px"
+                [nzSortFn]="true"
+                style="font-weight: bold; text-align: center"
+              >
+                Net Amount
+              </th>
+            </tr>
+          </thead>
+
+          <tbody style="text-align: center">
+            <tr *ngFor="let data of table3.data" style="text-align: center">
+              <!-- <td style="text-align: center">
+                <span *ngIf="data['ORDER_STATUS'] == 'P'"> Pending </span>
+                <span *ngIf="data['ORDER_STATUS'] == 'A'"> Approved </span>
+              </td> -->
+              <td style="text-align: left; white-space: pre-line">
+                {{ data["CUSTOMER_NAME"] }}
+              </td>
+
+              <td style="text-align: center; white-space: pre-line">
+                {{ data["CART_ID"] }}
+              </td>
+              <!-- <td style="text-align: center;white-space: pre-line; ">{{data['ORDER_NUMBER']}}</td> -->
+
+              <td style="text-align: center; white-space: pre-line">
+                {{ data["ORDER_DATETIME"] }}
+              </td>
+              <!-- <td style="text-align: center;white-space: pre-line; ">{{data['ORDER_CONFIRMED_DATETIME']}}</td> -->
+              <!-- <td style="text-align: center; white-space: pre-line">
+                {{ data["EXPECTED_BEING_PREPARE"] }}
+              </td> -->
+
+              <td style="text-align: center; white-space: pre-line">
+                {{ data["ORDER_TOTAL_QTY"] }}
+              </td>
+
+              <!-- <td style="text-align: left; white-space: pre-line">
+                {{ data["COUNTRY_NAME"] }}
+              </td>
+              <td style="text-align: left; white-space: pre-line">
+                {{ data["STATE_NAME"] }}
+              </td>
+              <td style="text-align: left; white-space: pre-line">
+                {{ data["CITY"] }}
+              </td>
+
+              <td style="text-align: center; white-space: pre-line">
+                {{ data["PINCODE"] }}
+              </td> -->
+
+              <td style="text-align: right; white-space: pre-line">
+                {{ data["TOTAL_AMOUNT"] }}
+              </td>
+              <td style="text-align: right; white-space: pre-line">
+                {{ data["ADDON_AMOUNT"] }}
+              </td>
+              <td style="text-align: right; white-space: pre-line">
+                {{ data["NET_AMOUNT"] }}
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div
+    nz-row
+    style="
+      border: 1px solid grey;
+      border-radius: 5px;
+      margin-top: 20px;
+      padding-left: 10px;
+      padding-top: 10px;
+    "
+  >
+    <div nz-col nzSpan="24">
+      <div style="margin-left: 12px" class="formname">
+        Today's Online Payments
+        <span style="margin-left: 592px">
+          <button
+            nz-button
+            [nzSize]="size"
+            nzType="primary"
+            (click)="OnlinePayment($event)"
+          >
+            All Online Payments
+          </button></span
+        >
+      </div>
+
+      <div style="margin: 17px 12px 10px 12px">
+        <nz-table
+          class="my-scroll no-wrap1"
+          nzBordered
+          #transaction
+          nzShowSizeChanger
+          [nzFrontPagination]="false"
+          [nzData]="Onlinepayment"
+          [nzSize]="'small'"
+          [nzLoading]="OnlineLoadingRecords"
+          [nzTotal]="OnlinetotalRecords"
+          [(nzPageIndex)]="OnlinePageIndex"
+          [(nzPageSize)]="OnlinePageSize"
+          (nzPageIndexChange)="onlinepayment()"
+          (nzPageSizeChange)="onlinepayment(true)"
+          (nzQueryParams)="sort1($event)"
+          [nzScroll]="{ x: '900px' }"
+        >
+          <thead>
+            <tr>
+              <th nzAlign="center" [nzSortFn]="true" nzWidth="100px">
+                <b>Payment Date Time</b>
+              </th>
+              <th nzAlign="center" [nzSortFn]="true" nzWidth="130px">
+                <b>Customer Name</b>
+              </th>
+              <th nzAlign="center" [nzSortFn]="true" nzWidth="80px">
+                <b>Paid Amount </b>
+              </th>
+              <!-- <th nzColumnKey="{{ 'PAYMENT_MODE' }}" nzAlign="center"   nzWidth="60px">
+                <b>Payment Mode</b>
+              </th> -->
+            </tr>
+          </thead>
+
+          <tbody style="text-align: center">
+            <tr *ngFor="let data of transaction.data">
+              <td style="text-align: center; white-space: nowrap">
+                {{ data["PAYMENT_DATETIME"] }}
+              </td>
+              <td style="text-align: left; white-space: nowrap">
+                {{ data["CUSTOMER_NAME"] }}
+              </td>
+              <td style="text-align: right; white-space: nowrap">
+                {{ data["PAID_AMOUNT"] }}
+              </td>
+              <!-- <td style="text-align: right; white-space: nowrap">
+                {{ data["PAYMENT_MODE"] }}
+              </td> -->
+              <!-- <td style="text-align:center">
+                <span *ngIf="data.PAYMENT_MODE
+                =='O'"> Online</span>
+    
+    
+              </td> -->
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div
+    nz-row
+    style="
+      border: 1px solid grey;
+      border-radius: 5px;
+      margin-top: 20px;
+      padding-left: 10px;
+      padding-top: 10px;
+    "
+  >
+    <div nz-col nzSpan="24">
+      <div style="margin-left: 12px" class="formname">
+        Today's Cash On Delivery Payments
+        <span style="margin-left: 524px">
+          <button
+            nz-button
+            [nzSize]="size"
+            nzType="primary"
+            (click)="codPayment($event)"
+          >
+            All COD Payments
+          </button></span
+        >
+      </div>
+
+      <div style="margin: 17px 12px 10px 12px">
+        <nz-table
+          class="my-scroll no-wrap1"
+          nzBordered
+          #transaction1
+          nzShowSizeChanger
+          [nzFrontPagination]="false"
+          [nzData]="CashOnDelivery"
+          [nzSize]="'small'"
+          [nzLoading]="codLoadingRecords"
+          [nzTotal]="codtotalRecords"
+          [(nzPageIndex)]="codPageIndex"
+          [(nzPageSize)]="codPageSize"
+          (nzPageIndexChange)="Cashondelivery()"
+          (nzPageSizeChange)="Cashondelivery(true)"
+          (nzQueryParams)="sort2($event)"
+          [nzScroll]="{ x: '900px' }"
+        >
+          <thead>
+            <tr>
+              <th nzAlign="center" [nzSortFn]="true" nzWidth="100px">
+                <b>Payment Date Time</b>
+              </th>
+              <th nzAlign="center" [nzSortFn]="true" nzWidth="130px">
+                <b>Customer Name</b>
+              </th>
+              <th nzAlign="center" [nzSortFn]="true" nzWidth="80px">
+                <b>Paid Amount </b>
+              </th>
+              <!-- <th nzColumnKey="{{ 'PAYMENT_MODE' }}" nzAlign="center"   nzWidth="60px">
+                <b>Payment Mode</b>
+              </th> -->
+            </tr>
+          </thead>
+
+          <tbody style="text-align: center">
+            <tr *ngFor="let data of transaction1.data">
+              <td style="text-align: center; white-space: nowrap">
+                {{ data["PAYMENT_DATETIME"] }}
+              </td>
+              <td style="text-align: left; white-space: nowrap">
+                {{ data["CUSTOMER_NAME"] }}
+              </td>
+              <td style="text-align: right; white-space: nowrap">
+                {{ data["PAID_AMOUNT"] }}
+              </td>
+              <!-- <td style="text-align: right; white-space: nowrap">
+                {{ data["PAYMENT_MODE"] }}
+              </td> -->
+              <!-- <td style="text-align:center">
+                <span *ngIf="data.PAYMENT_MODE
+                =='O'"> Online</span>
+        
+    
+              </td> -->
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </div>
+</div>
