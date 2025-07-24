@@ -8,6 +8,11 @@ import { FormsComponent } from '../CommonForms/Forms/forms/forms.component';
 import { RolesComponent } from '../CommonForms/Roles/roles/roles.component';
 
 import { ListcountryComponent } from './components/CountryMaster/listcountry/listcountry.component';
+import { UnitlistComponent } from './components/unitmaster/unitlist/unitlist.component';
+import { CategorieslistComponent } from './components/categoriesmaster/categorieslist/categorieslist.component';
+import { MasterMenuListComponent } from './components/Master_Menu/master-menu-list/master-menu-list.component';
+import { ProductlistComponent } from './components/productmaster/productlist/productlist.component';
+import { ManageOrdersComponent } from './components/Orders/manage-orders/manage-orders.component';
 
 const routes: Routes = [
   {
@@ -19,31 +24,13 @@ const routes: Routes = [
       // { path: 'forms', component: FormsComponent },
       // { path: 'login', component: LoginComponent },
       { path: 'dashboard', component: DashboardComponent },
-      // { path: 'login', component: LoginComponent },
-      // { path: 'contact', component: ContactlistComponent },
-      // { path: 'about', component: AboutmasterlistComponent },
-      // { path: 'category', component: CategorieslistComponent },
-      // { path: 'blog', component: BloglistComponent },
-      // { path: 'adwebsitebanner', component: AdbannerlistComponent },
-      // { path: 'unitmaster', component: UnitlistComponent },
-      // { path: 'mapbanner', component: MapbannerComponent },
-      // { path: 'cartaddonmaster', component: ListcartaddonmasterComponent },
-      // { path: 'cartaddondetail', component: ListcartaddondetailsComponent },
-      // { path: 'cartmaster', component: ListcartmasterComponent },
-      // { path: 'statemaster', component: ListstateComponent },
-      // { path: 'listcustomer', component: ListCustomerMasterComponent },
-      // { path: 'listaddressmaster', component: ListAddressMasterComponent },
+      { path: 'category_list', component: CategorieslistComponent },
+      { path: 'unit_list', component: UnitlistComponent },
+      { path: 'menu', component: MasterMenuListComponent },
+      { path: 'product_list', component: ProductlistComponent },
 
       { path: 'country_list', component: ListcountryComponent },
-
-      // { path: 'orderdetails', component: OrderComponent },
-
-      // { path: 'BeingPrepared', component: ListBeingPrepareComponent },
-      // { path: 'dispatched', component: ListDeliveredComponent },
-      // { path: 'DeliveryDone', component: ListDeliveryDoneComponent },
-
-      // { path: 'deliveryteam1', component: ListDeliveryInProgressComponent },
-      // { path: 'delivered', component: ListFinalDeliveryComponent },
+      { path: 'orders', component: ManageOrdersComponent },
 
       {
         path: 'user-login-logs-report',

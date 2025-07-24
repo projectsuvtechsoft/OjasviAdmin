@@ -1,0 +1,1220 @@
+<div>
+  <!-- <form nz-form #form2> #websitebannerPage="ngForm" -->
+  <form nz-form #websitebannerPage="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row>
+        <div nz-col nzSpan="13">
+          <div nz-row class="my-box">
+            <div nz-col nzSpan="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzNoColon> Category </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Select Correct Category"
+                >
+                  <nz-select
+                    name="category"
+                    nzAllowClear
+                    nzShowSearch
+                    style="width: 100%"
+                    [(ngModel)]="data.CATEGORY_ID"
+                    nzPlaceHolder=" Select Category"
+                    required
+                  >
+                    <nz-option
+                      *ngFor="let item of category"
+                      [nzLabel]="item.CATEGORY_NAME"
+                      [nzValue]="item.ID"
+                    >
+                    </nz-option>
+                    <!-- <nz-option [nzLabel]=" 'Kilogram' " [nzValue]="'KG'"> </nz-option>             -->
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzNoColon>
+                  Product Name(English)</nz-form-label
+                >
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Product Name(English)"
+                >
+                  <input
+                    nz-input
+                    name="prodname"
+                    [(ngModel)]="data.NAME"
+                    maxlength="128"
+                    (keypress)="alphaOnly($event)"
+                    required
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzNoColon>
+                  Product Name(Marathi)</nz-form-label
+                >
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Product Name(Marathi)"
+                >
+                  <input
+                    nz-input
+                    name="prodnamemr"
+                    [(ngModel)]="data.NAME_MR"
+                    maxlength="128"
+                    required
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzNoColon>
+                  Unique Code
+                </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Unique Code "
+                >
+                  <input
+                    nz-input
+                    name="uniquecode"
+                    (keypress)="numchar($event)"
+                    [(ngModel)]="data.UNIQUE_CODE"
+                    maxlength="8"
+                    required
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <!-- <div nz-row class="my-box">
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label nzRequired nzNoColon> Price 1 </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Price 1"
+                >
+                  <nz-input-group style="width: 100%" nzAddOnAfter="₹">
+                    <input
+                      nz-input
+                      name="price1"
+                      [(ngModel)]="data.PRICE1"
+                      maxlength="10"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      required
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label nzRequired nzNoColon> Quantity 1 </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Quantity 1 "
+                >
+                  <nz-input-group style="width: 100%">
+                    <input
+                      nz-input
+                      name="quantity1"
+                      [(ngModel)]="data.SIZE1"
+                      maxlength="7"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      required
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label nzRequired nzNoColon> Unit 1</nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Select Correct Unit 1"
+                >
+                  <nz-select
+                    name="unit1"
+                    nzAllowClear
+                    nzShowSearch
+                    style="width: 100%"
+                    [(ngModel)]="data.UNIT_ID1"
+                    nzPlaceHolder=" Select Unit 1"
+                    required
+                  >
+                    <nz-option *ngFor="let item of units" [nzLabel]="item.UNIT_NAME" [nzValue]="item.ID"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row class="my-box">
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label  nzNoColon> Price 2 </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Price 2"
+                >
+                  <nz-input-group style="width: 100%" nzAddOnAfter="₹">
+                    <input
+                      nz-input
+                      name="price2"
+                      [(ngModel)]="data.PRICE2"
+                      maxlength="10"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label  nzNoColon> Quantity 2 </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Quantity 2 "
+                >
+                  <nz-input-group style="width: 100%">
+                    <input
+                      nz-input
+                      name="quantity2"
+                      [(ngModel)]="data.SIZE2"
+                      maxlength="7"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label  nzNoColon> Unit 2 </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Select Correct Unit 2 "
+                >
+                  <nz-select
+                    name="unit2"
+                    nzAllowClear
+                    nzShowSearch
+                    style="width: 100%"
+                    [(ngModel)]="data.UNIT_ID2"
+                    nzPlaceHolder=" Select Unit 2"
+                    
+                  >
+                    <nz-option *ngFor="let item of units" [nzLabel]="item.UNIT_NAME" [nzValue]="item.ID"></nz-option>
+
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row class="my-box">
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label  nzNoColon> Price 3 </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Price 3"
+                >
+                  <nz-input-group style="width: 100%" nzAddOnAfter="₹">
+                    <input
+                      nz-input
+                      name="price3"
+                      [(ngModel)]="data.PRICE3"
+                      maxlength="10"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label  nzNoColon> Quantity 3 </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Quantity 3 "
+                >
+                  <nz-input-group style="width: 100%">
+                    <input
+                      nz-input
+                      name="quantity3"
+                      [(ngModel)]="data.SIZE3"
+                      maxlength="7"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label  nzNoColon> Unit 3</nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Select Correct Unit 1"
+                >
+                  <nz-select
+                    name="unit3"
+                    nzAllowClear
+                    nzShowSearch
+                    style="width: 100%"
+                    [(ngModel)]="data.UNIT_ID3"
+                    nzPlaceHolder=" Select Unit 2"
+                    
+                  >
+                    <nz-option *ngFor="let item of units" [nzLabel]="item.UNIT_NAME" [nzValue]="item.ID"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row class="my-box">
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label  nzNoColon> Price 4 </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Price 4"
+                >
+                  <nz-input-group style="width: 100%" nzAddOnAfter="₹">
+                    <input
+                      nz-input
+                      name="price4"
+                      [(ngModel)]="data.PRICE4"
+                      maxlength="10"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label  nzNoColon> Quantity 4 </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Quantity 4 "
+                >
+                  <nz-input-group style="width: 100%">
+                    <input
+                      nz-input
+                      name="quantity4"
+                      [(ngModel)]="data.SIZE4"
+                      maxlength="7"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label  nzNoColon> Unit 4</nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Select Correct Unit 4"
+                >
+                  <nz-select
+                    name="unit4"
+                    nzAllowClear
+                    nzShowSearch
+                    style="width: 100%"
+                    [(ngModel)]="data.UNIT_ID4"
+                    nzPlaceHolder=" Select Unit 4"
+                    
+                  >
+                    <nz-option *ngFor="let item of units" [nzLabel]="item.UNIT_NAME" [nzValue]="item.ID"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div> -->
+
+          <!-- <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzRequired nzNoColon> GST Type </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Select Correct GST Type"
+                >
+                  <nz-select
+                    name="gsttype"
+                    nzAllowClear
+                    nzShowSearch
+                    style="width: 100%"
+                    [(ngModel)]="data.GST_TYPE"
+                    nzPlaceHolder=" GST Type"
+                    required
+                  >
+                    <nz-option [nzLabel]="'Rs'" [nzValue]="'Amount'">
+                    </nz-option>
+                    <nz-option [nzLabel]="'%'" [nzValue]="'Percentage'">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzRequired nzNoColon> CGST </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct CGST "
+                >
+                  <nz-input-group style="width: 100%">
+                    <input
+                      nz-input
+                      name="cgst"
+                      [(ngModel)]="data.CGST"
+                      maxlength="7"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      required
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzRequired nzNoColon> SGST </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct SGST "
+                >
+                  <nz-input-group style="width: 100%">
+                    <input
+                      nz-input
+                      name="sgst"
+                      [(ngModel)]="data.SGST"
+                      maxlength="7"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      (keyup)="calculateIGST()"
+                      required
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzRequired nzNoColon> IGST </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct IGST "
+                >
+                  <nz-input-group style="width: 100%">
+                    <input
+                      nz-input
+                      name="igst"
+                      [(ngModel)]="data.IGST"
+                      maxlength="7"
+                      disabled="true"
+                      (keyup)="onlynumdot($event)"
+                      style="width: 100%"
+                      required
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div> -->
+          <div nz-row class="my-box">
+            <div nz-col nzSpan="8">
+              <nz-form-item>
+                <nz-form-label nzNoColon> Discount Type </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Select Correct Discount Type"
+                >
+                  <nz-select
+                    name="discounttype"
+                    nzAllowClear
+                    nzShowSearch
+                    style="width: 100%"
+                    [(ngModel)]="data.DISCOUNT_TYPE"
+                    nzPlaceHolder=" Select type"
+                  >
+                    <!-- <nz-option *ngFor="let item of groups" [nzLabel]="item.NAME" [nzValue]="item.ID"> -->
+                    <nz-option
+                      [nzLabel]="'In Amount (Rs)'"
+                      [nzValue]="'Amount'"
+                    >
+                    </nz-option>
+                    <nz-option
+                      [nzLabel]="'In Percentage (%)'"
+                      [nzValue]="'Percentage'"
+                    >
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzNoColon> Discount </nz-form-label>
+                <nz-form-control
+                  nzHasFeedback
+                  nzErrorTip=" Please Enter Correct Discount"
+                >
+                  <nz-input-group style="width: 100%">
+                    <input
+                      nz-input
+                      name="discount"
+                      [(ngModel)]="data.DISCOUNT"
+                      maxlength="6"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row class="my-box">
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzNoColon> Status </nz-form-label>
+                <nz-form-control>
+                  <nz-switch
+                    name="isstatus"
+                    [(ngModel)]="data.STATUS"
+                  ></nz-switch>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzNoColon> Is Popular ? </nz-form-label>
+                <nz-form-control>
+                  <nz-switch
+                    name="ispopular"
+                    [(ngModel)]="data.IS_POPULAR"
+                  ></nz-switch>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzNoColon> Is Best Seller ? </nz-form-label>
+                <nz-form-control>
+                  <nz-switch
+                    name="isbestseller"
+                    [(ngModel)]="data.IS_BEST_SELLER"
+                  ></nz-switch>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-label nzNoColon> Is New Arrival ? </nz-form-label>
+                <nz-form-control>
+                  <nz-switch
+                    name="isnewarrival"
+                    [(ngModel)]="data.IS_NEW_ARRIVAL"
+                  ></nz-switch>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div>
+            <div nz-row class="my-box">
+              <div nz-col nzSpan="8">
+                <nz-form-item>
+                  <nz-form-label nzNoColon>
+                    Is Variant Available ?
+                  </nz-form-label>
+                  <nz-form-control>
+                    <nz-switch
+                      (ngModelChange)="changevarient($event)"
+                      name="isvarient"
+                      [(ngModel)]="data.IS_VERIENT_AVAILABLE"
+                    ></nz-switch>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzSpan="16"></div>
+
+              <div
+                nz-col
+                nzSpan="10"
+                *ngIf="data.IS_VERIENT_AVAILABLE == false"
+              >
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon
+                    >In Country Packaging Charges
+                  </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Enter Correct In Country Packaging Charges"
+                  >
+                    <!-- <nz-input-number name="Countryseq"  style="width: 100%;"  [(ngModel)]="data.SEQUENCE_NO" [nzMin]="1"  [nzStep]="1" (keypress)="onlynumdot($event)" required></nz-input-number> -->
+                    <input
+                      nz-input
+                      name="incountry"
+                      style="width: 100%"
+                      [(ngModel)]="data.IN_COUNTRY"
+                      (keypress)="onlynumdot($event)"
+                      maxlength="50"
+                      required
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div
+                nz-col
+                nzSpan="10"
+                *ngIf="data.IS_VERIENT_AVAILABLE == false"
+              >
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>
+                    Out Country Packaging Charges
+                  </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Enter Correct Out Country Packaging Charges "
+                  >
+                    <!-- <nz-input-number name="Countryseq"  style="width: 100%;"  [(ngModel)]="data.SEQUENCE_NO" [nzMin]="1"  [nzStep]="1" (keypress)="onlynumdot($event)" required></nz-input-number> -->
+                    <input
+                      nz-input
+                      name="outcountry"
+                      style="width: 100%"
+                      [(ngModel)]="data.OUT_COUNTRY"
+                      (keypress)="onlynumdot($event)"
+                      maxlength="50"
+                      required
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+
+          <div class="my-box">
+            <div nz-row>
+              <div nz-col nzSpan="8">
+                <nz-form-item>
+                  <nz-form-label nzNoColon> Is Main Stock ? </nz-form-label>
+                  <nz-form-control>
+                    <nz-switch
+                      name="ismaintain"
+                      [(ngModel)]="data.IS_MAINTAIN_STOCK"
+                    ></nz-switch>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzSpan="16"></div>
+
+              <div
+                nz-col
+                nzSpan="8"
+                *ngIf="
+                  data.IS_MAINTAIN_STOCK == false &&
+                  data.IS_VERIENT_AVAILABLE == false
+                "
+              >
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>
+                    Base Size
+                  </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Enter Correct Size "
+                  >
+                    <input
+                      nz-input
+                      name="mapsize"
+                      [(ngModel)]="data.SIZE"
+                      maxlength="7"
+                      (keypress)="onlynumdot($event)"
+                      required
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div
+                nz-col
+                nzSpan="8"
+                *ngIf="
+                  data.IS_MAINTAIN_STOCK == false &&
+                  data.IS_VERIENT_AVAILABLE == false
+                "
+              >
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>
+                    Base Rate
+                  </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Enter Correct Rate "
+                  >
+                    <nz-input-group style="width: 100%" nzAddOnAfter="₹">
+                      <input
+                        nz-input
+                        name="price1"
+                        [(ngModel)]="data.RATE"
+                        maxlength="8"
+                        (keypress)="onlynumdot($event)"
+                        style="width: 100%"
+                        required
+                      />
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div
+                nz-col
+                nzSpan="8"
+                *ngIf="
+                  data.IS_MAINTAIN_STOCK != false &&
+                  data.IS_VERIENT_AVAILABLE != false
+                "
+              >
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Base Unit </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Select Correct Unit "
+                  >
+                    <nz-select
+                      name="unit"
+                      nzAllowClear
+                      nzShowSearch
+                      style="width: 100%"
+                      [(ngModel)]="data.UNIT_ID"
+                      nzPlaceHolder=" Select Unit "
+                      required
+                    >
+                      <nz-option
+                        *ngFor="let item of units"
+                        [nzLabel]="item.UNIT_NAME"
+                        [nzValue]="item.ID"
+                      ></nz-option>
+                      <!-- <nz-option [nzLabel]="'Kilogram'" [nzValue]="'Kilogram'">
+                      </nz-option>
+                      <nz-option [nzLabel]="'Gram'" [nzValue]="'Gram'">
+                      </nz-option>
+                      <nz-option
+                        [nzLabel]="'Milliliter'"
+                        [nzValue]="'Milliliter'"
+                      >
+                      </nz-option>
+                      <nz-option [nzLabel]="'Liter'" [nzValue]="'Liter'">
+                      </nz-option> -->
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div
+                nz-col
+                nzSpan="8"
+                *ngIf="
+                  data.IS_MAINTAIN_STOCK == false &&
+                  data.IS_VERIENT_AVAILABLE == false
+                "
+              >
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Base Unit </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Select Correct Unit "
+                  >
+                    <nz-select
+                      name="unit"
+                      nzAllowClear
+                      nzShowSearch
+                      style="width: 100%"
+                      [(ngModel)]="data.UNIT_ID"
+                      nzPlaceHolder=" Select Unit "
+                      required
+                    >
+                      <nz-option
+                        *ngFor="let item of units"
+                        [nzLabel]="item.UNIT_NAME"
+                        [nzValue]="item.ID"
+                      ></nz-option>
+                      <!-- <nz-option [nzLabel]="'Kilogram'" [nzValue]="'Kilogram'">
+                      </nz-option>
+                      <nz-option [nzLabel]="'Gram'" [nzValue]="'Gram'">
+                      </nz-option>
+                      <nz-option
+                        [nzLabel]="'Milliliter'"
+                        [nzValue]="'Milliliter'"
+                      >
+                      </nz-option>
+                      <nz-option [nzLabel]="'Liter'" [nzValue]="'Liter'">
+                      </nz-option> -->
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div
+                nz-col
+                nzSpan="8"
+                *ngIf="
+                  data.IS_MAINTAIN_STOCK != false &&
+                  data.IS_VERIENT_AVAILABLE != false
+                "
+              >
+                <nz-form-item>
+                  <nz-form-label nzNoColon> Opening Stock </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Enter Correct Opening Stock "
+                  >
+                    <input
+                      nz-input
+                      name="openingstock"
+                      [(ngModel)]="data.OPENING_STOCK"
+                      maxlength="10"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div
+                nz-col
+                nzSpan="8"
+                *ngIf="
+                  data.IS_MAINTAIN_STOCK != false &&
+                  data.IS_VERIENT_AVAILABLE != false
+                "
+              >
+                <nz-form-item>
+                  <nz-form-label nzNoColon> Current Stock </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Enter Correct Current Stock "
+                  >
+                    <input
+                      nz-input
+                      name="currentstock"
+                      [(ngModel)]="data.CURRENT_STOCK"
+                      maxlength="10"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      [disabled]="disabled"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <!-- step 2 : Is Vaient Available Toggel Button = No Is Main Stock Toggle Button = Yes -->
+
+              <div
+                nz-col
+                nzSpan="8"
+                *ngIf="
+                  data.IS_MAINTAIN_STOCK != false &&
+                  data.IS_VERIENT_AVAILABLE == false
+                "
+              >
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>
+                    Base Size
+                  </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Enter Correct Size "
+                  >
+                    <input
+                      nz-input
+                      name="mapsize"
+                      [(ngModel)]="data.SIZE"
+                      maxlength="7"
+                      (keypress)="onlynumdot($event)"
+                      required
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div
+                nz-col
+                nzSpan="8"
+                *ngIf="
+                  data.IS_MAINTAIN_STOCK != false &&
+                  data.IS_VERIENT_AVAILABLE == false
+                "
+              >
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>
+                    Base Rate
+                  </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Enter Correct Rate "
+                  >
+                    <nz-input-group style="width: 100%" nzAddOnAfter="₹">
+                      <input
+                        nz-input
+                        name="price1"
+                        [(ngModel)]="data.RATE"
+                        maxlength="8"
+                        (keypress)="onlynumdot($event)"
+                        style="width: 100%"
+                        required
+                      />
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div
+                nz-col
+                nzSpan="8"
+                *ngIf="
+                  data.IS_MAINTAIN_STOCK != false &&
+                  data.IS_VERIENT_AVAILABLE == false
+                "
+              >
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Base Unit </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Select Correct Unit "
+                  >
+                    <nz-select
+                      name="unit"
+                      nzAllowClear
+                      nzShowSearch
+                      style="width: 100%"
+                      [(ngModel)]="data.UNIT_ID"
+                      nzPlaceHolder=" Select Unit "
+                      required
+                    >
+                      <nz-option
+                        *ngFor="let item of units"
+                        [nzLabel]="item.UNIT_NAME"
+                        [nzValue]="item.ID"
+                      ></nz-option>
+                      <!-- <nz-option [nzLabel]="'Kilogram'" [nzValue]="'Kilogram'">
+                    </nz-option>
+                    <nz-option [nzLabel]="'Gram'" [nzValue]="'Gram'">
+                    </nz-option>
+                    <nz-option
+                      [nzLabel]="'Milliliter'"
+                      [nzValue]="'Milliliter'"
+                    >
+                    </nz-option>
+                    <nz-option [nzLabel]="'Liter'" [nzValue]="'Liter'">
+                    </nz-option> -->
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div
+                nz-col
+                nzSpan="8"
+                *ngIf="
+                  data.IS_MAINTAIN_STOCK != false &&
+                  data.IS_VERIENT_AVAILABLE == false
+                "
+              >
+                <nz-form-item>
+                  <nz-form-label nzNoColon> Opening Stock </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Enter Correct Opening Stock "
+                  >
+                    <input
+                      nz-input
+                      name="openingstock"
+                      [(ngModel)]="data.OPENING_STOCK"
+                      maxlength="10"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div
+                nz-col
+                nzSpan="8"
+                *ngIf="
+                  data.IS_MAINTAIN_STOCK != false &&
+                  data.IS_VERIENT_AVAILABLE == false
+                "
+              >
+                <nz-form-item>
+                  <nz-form-label nzNoColon> Current Stock </nz-form-label>
+                  <nz-form-control
+                    nzHasFeedback
+                    nzErrorTip=" Please Enter Correct Current Stock "
+                  >
+                    <input
+                      nz-input
+                      name="currentstock"
+                      [(ngModel)]="data.CURRENT_STOCK"
+                      maxlength="10"
+                      (keypress)="onlynumdot($event)"
+                      style="width: 100%"
+                      [disabled]="disabled"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <!-- //Packaging Charges -->
+            </div>
+          </div>
+        </div>
+        <div nz-col nzSpan="1"></div>
+        <div nz-col nzSpan="10" style="padding-top: 14px" class="my-box">
+          <div nz-col nzSpan="24">
+            <nz-form-label style="margin-left: 10px" nzRequired nzNoColon>
+              Description(English)
+            </nz-form-label>
+            <nz-form-item>
+              <nz-form-control
+                nzErrorTip=" Please Enter Correct Description(English) "
+              >
+                <textarea
+                  rows="5"
+                  nz-input
+                  [(ngModel)]="data.DESCRIPTION"
+                  maxlength="2000"
+                  name="text"
+                  required
+                ></textarea>
+                <h6 style="color: red" *ngIf="data.DESCRIPTION != undefined">
+                  {{ data.DESCRIPTION.length }}/2000
+                </h6>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col nzSpan="24">
+            <nz-form-label style="margin-left: 10px" nzRequired nzNoColon>
+              Description(Marathi)
+            </nz-form-label>
+            <nz-form-item>
+              <nz-form-control
+                nzErrorTip=" Please Enter Correct Description(Marathi) "
+              >
+                <textarea
+                  rows="5"
+                  nz-input
+                  [(ngModel)]="data.DESCRIPTION_MR"
+                  maxlength="2000"
+                  name="textmr"
+                  required
+                ></textarea>
+                <h6 style="color: red" *ngIf="data.DESCRIPTION_MR != undefined">
+                  {{ data.DESCRIPTION_MR.length }}/2000
+                </h6>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <nz-form-label nzRequired nzNoColon>
+            Add Image (Select Maximum 4 Images)
+          </nz-form-label>
+          <div
+            nz-row
+            [nzGutter]="[5, 5]"
+            style="height: 340px; overflow: hidden; overflow-y: auto"
+          >
+            <div
+              nz-col
+              class="gutter-row"
+              [nzSpan]="12"
+              style="text-align: center; display: table"
+            >
+              <div class="borderA">
+                <i
+                  *ngIf="imagecount <= 3"
+                  nz-icon
+                  nzType="plus-circle"
+                  nzTheme="outline"
+                  style="font-size: 50px; color: #598d68"
+                  (click)="fileInput1.click()"
+                  nz-tooltip
+                  nzTooltipTitle="Add Image"
+                ></i>
+
+                <input
+                  #fileInput1
+                  accept=".png, .jpg, .jpeg"
+                  type="file"
+                  (change)="onFileSelected1($event)"
+                  (click)="fileInput1.value = ''"
+                  style="display: none"
+                />
+              </div>
+            </div>
+
+            <div
+              nz-col
+              class="gutter-row"
+              [nzSpan]="12"
+              style="text-align: center; display: table"
+              *ngFor="let img of multipleImages; let i = index"
+            >
+              <div class="inner-box borderA">
+                <div class="img-wrap">
+                  <span class="close">
+                    <i
+                      *ngIf="data.IMAGES != ''"
+                      nz-icon
+                      style="font-size: 15px; margin-right: 7px"
+                      nzType="eye"
+                      nzTheme="twotone"
+                      [nzTwotoneColor]="'#2700ff'"
+                      (click)="onImageSelected(img.ImgSrc)"
+                    ></i>
+
+                    <i
+                      nz-icon
+                      style="font-size: 15px; margin-right: 7px"
+                      nzType="delete"
+                      nzTheme="twotone"
+                      [nzTwotoneColor]="'#ff0000'"
+                      nz-popconfirm
+                      nzPopconfirmTitle="Are you sure delete this Image?"
+                      (nzOnConfirm)="deleteImage(img, i)"
+                      (nzOnCancel)="cancel()"
+                      nzPopconfirmPlacement="top"
+                    ></i>
+                  </span>
+
+                  <img
+                    [src]="img.ImgSrc"
+                    style="height: 120px; width: 215px; margin-top: -24px"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div nz-col nzSpan="24">
+                    <nz-form-item>
+                      <nz-form-label nzRequired nzNoColon>प्रतिमा </nz-form-label>
+                      <nz-form-control nzHasFeedback nzErrorTip="कृपया योग्य प्रतिमा निवडा.">
+                        <button nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;"(click)="fileInput.click()">प्रतिमा निवडा
+                          <input #fileInput name="image" [(ngModel)]="data.IMG_URL"  type="file" (change)="onFileSelected($event)"
+                            style="display: none;" required />
+                        </button>                   
+                      </nz-form-control> 
+                    </nz-form-item>  
+                    <div nz-col nzSpan="23" *ngIf="fileURL!=null" style="overflow: hidden; padding-left: 11px; font-size: 13px;">
+                      {{fileURL.name}}
+                    </div>
+                  </div>                  
+                  
+                  <div nz-col nzSpan="24" *ngIf="fileURL==null && data.IMG_URL != ''">
+                    <img style="width: 100%; height: 180px;  margin-top: 10px;" src="{{imgurl}}WebsiteBannerImage/{{ data.IMG_URL }}" />
+                    <button (click)="removeImage()" [nzSize]="'default'"  nz-button style="margin-left: 50%; margin-top: 10px; "> 
+                      <nz-badge >
+                        <i style="font-size: 15px; color: red; " [(ngModel)]="data.IMG_URL" nz-icon nzType="delete"  
+                      ></i>   
+                      </nz-badge>
+                    </button>
+                  </div>  -->
+      </div>
+    </nz-spin>
+  </form>
+
+  <div class="footer">
+    <button
+      type="button"
+      nz-button
+      (click)="close()"
+      class="ant-btn"
+      style="margin-right: 8px"
+    >
+      <span> Cancel </span>
+    </button>
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      *ngIf="!data.ID"
+      nz-button
+      nz-dropdown
+      [nzDropdownMenu]="menu"
+      (click)="save(false, websitebannerPage)"
+    >
+      <span> Save & Close</span>
+    </button>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          class="menuc"
+          style="border-radius: 4px; background-color: #40a9ff"
+        >
+          <a style="color: white" (click)="save(true, websitebannerPage)">
+            Save & New</a
+          >
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      nz-button
+      [nzLoading]="isSpinning"
+      *ngIf="data.ID"
+      (click)="save(false, websitebannerPage)"
+    >
+      <span> Update & Close</span>
+    </button>
+  </div>
+</div>

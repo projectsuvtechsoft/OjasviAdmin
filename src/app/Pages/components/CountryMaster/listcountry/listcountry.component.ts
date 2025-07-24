@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { CountryMaster } from 'src/app/Models/CountryMaster';
@@ -37,9 +38,12 @@ export class ListcountryComponent implements OnInit {
 
   constructor(
     private api: ApiServiceService,
-    private message: NzNotificationService
+    private message: NzNotificationService,
+    private router: Router
   ) {}
-
+  back() {
+    this.router.navigate(['/masters/menu']);
+  }
   ngOnInit(): void {
     // this.loadingRecords = false;
     // this.search()

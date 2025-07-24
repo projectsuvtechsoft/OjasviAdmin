@@ -1,0 +1,269 @@
+<div class="formname">
+  <span
+    (click)="back()"
+    nz-icon
+    nzType="arrow-left"
+    nzTheme="outline"
+    style="font-weight: bold; cursor: pointer"
+  ></span
+  >&nbsp;&nbsp;
+  <b>{{ formTitle }}</b>
+</div>
+<div style="font-size: 13px; margin-left: 1.5%">
+  👉 Drag an order to move it to the next step.
+</div>
+
+<div *ngIf="loading" class="loading-container">
+  <div class="spinner"></div>
+  <div>Loading orders...</div>
+</div>
+<div class="board" *ngIf="!loading">
+  <div class="column" *ngFor="let status of statusCategories; let i = index">
+    <div class="column-header">
+      <span class="column-icon" *ngIf="status == 'Pending'">⏳</span>
+      <span class="column-icon" *ngIf="status == 'Preparing'">🛠️</span>
+      <span class="column-icon" *ngIf="status == 'Packaging'">📦</span>
+      <span class="column-icon" *ngIf="status == 'Dispatching'">🚚</span>
+      <span class="column-icon" *ngIf="status == 'Delivered'">✅</span>
+      <span class="column-icon" *ngIf="status == 'Canceled'">🚫</span>
+
+      {{ status }}
+    </div>
+    <div
+      class="card-list"
+      cdkDropList
+      [id]="getDropListId(status)"
+      [cdkDropListData]="orders[status]"
+      [cdkDropListConnectedTo]="dropListIds"
+      (cdkDropListDropped)="drop($event, status)"
+    >
+      <ng-container
+        *ngIf="
+          orders && orders[status] && orders[status].length > 0;
+          else noOrders
+        "
+      >
+        <div class="order-card" *ngFor="let order of orders[status]" cdkDrag>
+          <!-- <span class="order-drag-handle" title="Drag to move">
+            <i class="bi bi-grip-vertical"></i>
+          </span> -->
+          <div nz-row>
+            <div nz-col nzSpan="5">
+              <img
+                [src]="order.product.image"
+                alt=""
+                class="order-product-img"
+              />
+            </div>
+            <div nz-col nzSpan="19" style="padding-left: 2px">
+              <div class="order-card-content">
+                <div class="order-card-header">
+                  <!-- <span class="order-id-icon"><i class="bi bi-hash"></i></span> -->
+                  <span class="order-id-text">{{ order.TITLE }}</span>
+                  <!-- <span class="order-cart-id"
+                ><i class="bi bi-cart"></i> {{ order.cartId }}</span
+              > -->
+                  <button
+                    style="font-size: 10px !important"
+                    class="order-eye-btn"
+                    (click)="openOrderModal(order)"
+                    title="View Details"
+                  >
+                    <i style="font-size: 10px !important" class="bi bi-eye"></i>
+                  </button>
+                </div>
+                <div nz-row>
+                  <div nz-col nzSpan="18">
+                    <div class="order-product-name">
+                      <!-- <i class="bi bi-droplet"></i> -->
+                      {{ order.product.name }}
+                    </div>
+                  </div>
+                  <div nz-col nzSpan="6" style="text-align: end">
+                    <div class="order-product-qty">
+                      <!-- <i class="bi bi-box"></i> -->
+                      Qty: {{ order.product.quantity }}
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="order-product-details">
+                  <div class="order-product-name">
+                    {{ order.product.name }}
+                  </div>
+                  <div class="order-product-qty">
+                    Qty: {{ order.product.quantity }}
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div nz-col nzSpan="16" style="padding-top: 4px">
+              <div class="order-card-customer">
+                <i class="bi bi-person"></i>
+                <span
+                  style="font-size: 10px !important"
+                  *ngIf="order.customerName != null"
+                >
+                  <span
+                    style="font-size: 10px !important"
+                    *ngIf="order.customerName.length >= 16"
+                    nz-popover
+                    [nzPopoverContent]="order.customerName"
+                    nzPopoverPlacement="topLeft"
+                  >
+                    {{
+                      order.customerName == null
+                        ? "-"
+                        : (order.customerName | slice : 0 : 16)
+                    }}{{ order.customerName.length > 16 ? "..." : "" }}
+                  </span>
+                  <span
+                    style="font-size: 10px !important"
+                    *ngIf="order.customerName.length < 16"
+                  >
+                    {{
+                      order.customerName == null
+                        ? "-"
+                        : (order.customerName | slice : 0 : 16)
+                    }}{{ order.customerName.length > 16 ? "..." : "" }}
+                  </span>
+                </span>
+
+                <span *ngIf="order.customerName == null">-</span>
+              </div>
+            </div>
+            <div nz-col nzSpan="8" style="padding-top: 4px; text-align: end">
+              <div class="order-card-total" style="display: inline !important">
+                <!-- <i class="bi bi-currency-dollar"></i> -->
+                <span class="order-total-amount">{{
+                  order.totalAmount | currency : "USD"
+                }}</span>
+              </div>
+            </div>
+            <div nz-col nzSpan="24">
+              <div class="order-card-content">
+                <!-- <div class="order-card-date">
+                  <i class="bi bi-calendar"></i>
+                  <span style="font-size: 10px !important">{{
+                    order.orderDate | date : "MMM d, y, h:mm a"
+                  }}</span>
+                </div> -->
+                <div class="order-card-date">
+                  <i
+                    class="bi bi-truck"
+                    style="color: #5a8f69; margin-right: 4px"
+                  ></i>
+                  <!-- <span
+                    style="font-size: 10px; font-weight: 500; color: #5a8f69"
+                    >Est. Delivery:</span
+                  > -->
+                  <span style="font-size: 10px">{{
+                    order.orderDate | date : "MMM d, y, h:mm a"
+                  }}</span>
+                </div>
+
+                <div class="order-card-address">
+                  <i class="bi bi-geo-alt"></i>
+                  <span *ngIf="order.address != null">
+                    <span
+                      style="font-size: 10px !important"
+                      *ngIf="order.address.length >= 25"
+                      nz-popover
+                      [nzPopoverContent]="order.address"
+                      nzPopoverPlacement="topLeft"
+                    >
+                      {{
+                        order.address == null
+                          ? "-"
+                          : (order.address | slice : 0 : 25)
+                      }}{{ order.address.length > 25 ? "..." : "" }}
+                    </span>
+                    <span
+                      style="font-size: 10px !important"
+                      *ngIf="order.address.length < 25"
+                    >
+                      {{
+                        order.address == null
+                          ? "-"
+                          : (order.address | slice : 0 : 25)
+                      }}{{ order.address.length > 25 ? "..." : "" }}
+                    </span>
+                  </span>
+
+                  <span *ngIf="order.address == null">-</span>
+                  <!-- <span style="font-size: 10px !important">{{
+                    order.address
+                  }}</span> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noOrders>
+        <div class="no-orders">
+          <i class="bi bi-inbox"></i>
+          <div>No orders available</div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for order details -->
+<div class="order-modal-backdrop" *ngIf="showModal">
+  <div class="order-modal">
+    <div class="order-modal-header">
+      <span>Order Details</span>
+      <button
+        class="order-modal-close"
+        (click)="closeOrderModal()"
+        title="Close"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="order-modal-body" *ngIf="selectedOrder">
+      <div class="order-modal-row">
+        <span class="modal-label">Order ID:</span>
+        <span>{{ selectedOrder.TITLE }}</span>
+      </div>
+      <div class="order-modal-row">
+        <span class="modal-label">Cart ID:</span>
+        <span>{{ selectedOrder.cartId }}</span>
+      </div>
+      <div class="order-modal-row">
+        <span class="modal-label">Customer:</span>
+        <span>{{ selectedOrder.customerName }}</span>
+      </div>
+      <div class="order-modal-row">
+        <span class="modal-label">Product:</span>
+        <span>{{ selectedOrder.product.name }}</span>
+      </div>
+      <div class="order-modal-row">
+        <span class="modal-label">Quantity:</span>
+        <span>{{ selectedOrder.product.quantity }}</span>
+      </div>
+      <div class="order-modal-row">
+        <span class="modal-label">Order Date:</span>
+        <span>{{ selectedOrder.orderDate | date : "MMM d, y, h:mm a" }}</span>
+      </div>
+      <div class="order-modal-row">
+        <span class="modal-label">Address:</span>
+        <span>{{ selectedOrder.address }}</span>
+      </div>
+      <div class="order-modal-row">
+        <span class="modal-label">Total Amount:</span>
+        <span class="order-total-amount">{{
+          selectedOrder.totalAmount | currency : "USD"
+        }}</span>
+      </div>
+      <div class="order-modal-row order-modal-img-row">
+        <img
+          [src]="selectedOrder.product.image"
+          alt="Product"
+          class="order-modal-img"
+        />
+      </div>
+    </div>
+  </div>
+</div>

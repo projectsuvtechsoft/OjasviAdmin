@@ -73,6 +73,15 @@ import { AddcountryComponent } from './components/CountryMaster/addcountry/addco
 import { ListcountryComponent } from './components/CountryMaster/listcountry/listcountry.component';
 import { UserloginlogsComponent } from './Reports/userloginlogs/userloginlogs.component';
 import { MainFilterComponent } from './components/main-filter/main-filter.component';
+import { AddunitComponent } from './components/unitmaster/addunit/addunit.component';
+import { UnitlistComponent } from './components/unitmaster/unitlist/unitlist.component';
+import { AddcategoriesComponent } from './components/categoriesmaster/addcategories/addcategories.component';
+import { CategorieslistComponent } from './components/categoriesmaster/categorieslist/categorieslist.component';
+import { AddproductComponent } from './components/productmaster/addproduct/addproduct.component';
+import { AddproductmappingComponent } from './components/productmaster/addproductmapping/addproductmapping.component';
+import { ProductlistComponent } from './components/productmaster/productlist/productlist.component';
+import { ProductmappinglistComponent } from './components/productmaster/productmappinglist/productmappinglist.component';
+import { ManageOrdersComponent } from './components/Orders/manage-orders/manage-orders.component';
 
 @NgModule({
   declarations: [
@@ -80,34 +89,17 @@ import { MainFilterComponent } from './components/main-filter/main-filter.compon
     MasterMenuListComponent,
     MainFilterComponent,
     UserloginlogsComponent,
-    // AddaboutmasterComponent,
-    // AboutmasterlistComponent,
-    // AddadbannerComponent,
-    // AdbannerlistComponent,
-    // ListBeingPrepareComponent,
-    // BloglistComponent,
-    // AddcartaddondetailsComponent,
-    // ListcartaddondetailsComponent,
-    // ListcartaddonmasterComponent,
-    // ListcartmasterComponent,
-    // ContactlistComponent,
-    // AddcontactComponent,
-    // CategorieslistComponent,
-    // AddcategoriesComponent,
+    UnitlistComponent,
+    AddunitComponent,
+    AddproductComponent,
+    AddproductmappingComponent,
+    ProductlistComponent,
+    ProductmappinglistComponent,
+    CategorieslistComponent,
+    AddcategoriesComponent,
     AddcountryComponent,
     ListcountryComponent,
-    // AddCustomerMasterComponent,
-    // AddAddressMasterComponent,
-    // AddCustomerMasterComponent,
-    // ListAddressMasterComponent,
-    // ListDeliveryDoneComponent,
-    // UpdateDeliveryDoneComponent,
-    // ListDeliveryInProgressComponent,
-    // AddDeliveryInProgressComponent,
-    // AddFinalDeliveryComponent,
-    // ListFinalDeliveryComponent,
-    // OrderComponent,
-    // AddOrderComponent,
+    ManageOrdersComponent,
   ],
   imports: [
     // PickerComponent,
@@ -168,6 +160,7 @@ import { MainFilterComponent } from './components/main-filter/main-filter.compon
     NzCommentModule,
     NzRateModule,
     ImageCropperModule,
+    DragDropModule,
   ],
   exports: [
     MastersComponent,
