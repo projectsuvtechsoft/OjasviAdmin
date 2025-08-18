@@ -1,0 +1,169 @@
+<div nz-row nzType="flex" >
+    <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12" >
+       <div class="formname" > <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp;<b> {{formTitle}} </b></div> 
+    </div>
+  
+      <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex;justify-content: flex-end">
+          <form nz-form [nzLayout]="'inline'">
+                           <nz-form-item>
+              <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" name="aboutsearch" (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input placeholder=" Search Record"  />
+              </nz-input-group> 
+              <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" (click)="search(true)" nzSearch><i nz-icon nzType="search"></i></button>
+              </ng-template>
+            </nz-form-item>
+            <nz-form-item>
+                <button nz-button nzType="primary" (click)="add()" *ngIf="datacount >= 1 ? false : true"  nzJustify="end">
+                    <i nz-icon nzType="plus"  ></i>Add New Information
+                  </button>
+            </nz-form-item>
+            <!-- <nz-form-item>
+              <button nz-button nzType="primary" (click)="add1()"   nzJustify="end">
+                  <i nz-icon nzType="plus"  ></i>Add New Information
+                </button>
+          </nz-form-item> -->
+    
+          </form>
+        </div>
+  </div>
+  <br />
+  <div nz-row >
+    <div nz-col nzSpan="24" style="width: 100%;" >
+        <nz-table  
+        nzBordered
+        #aboutMasterTable
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzData]="dataList"
+        [nzLoading]="loadingRecords"
+        [nzSize]="'small'"
+        [nzScroll]="{ x: '900px', y: '350px' }"
+        [nzTotal]="totalRecords"
+        [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize"
+        (nzPageIndexChange)="search()"
+        (nzPageSizeChange)="search(true)"
+        (nzQueryParams)="sort($event)"
+        style="width: 100%;"
+      >
+   
+        <thead>
+          <tr>
+             <th nzWidth="8px" style="text-align: center;"><b> Action </b></th>
+            <th nzColumnKey="{{ 'SEQUENCE_NO' }}" [nzSortFn]="true" nzWidth="15px" style="text-align: center;"><b> Sequence No. </b></th>
+            <th nzColumnKey="{{ 'TITLE' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center;"><b> Title </b></th>
+            <th nzColumnKey="{{ 'TEXT' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center;"><b> Description </b></th>            
+            <!-- <th *ngFor="let column of columns" nzColumnKey="{{column[0]}}" [nzSortFn]="true">{{column[1]}}</th> -->
+            <th nzColumnKey="{{ 'STATUS' }}" [nzSortFn]="true" nzWidth="10px" style="text-align: center;"><b> Status </b></th>
+          </tr>
+        </thead>
+        <tbody> 
+          <tr *ngFor="let data of aboutMasterTable.data" >
+            <td style="text-align: center;">
+     <span
+              nz-icon
+              nzType="edit"
+              nzTheme="outline"
+              style="
+                cursor: pointer;
+                font-size: 15px !important;
+                color: #5a8f69;
+                margin-left: 8px;
+              "
+              nzTooltipTitle="Edit"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              (click)="edit(data)"
+            >
+            </span>            </td>
+            <td style="text-align: center;">{{data['SEQUENCE_NO']}}</td>
+            <td style="text-align: left;">
+            <span *ngIf="data['TITLE'] != null">
+              <span
+                *ngIf="data['TITLE'].length >= 50"
+                [nzPopoverContent]="data['TITLE']"
+                nz-popover
+                nzPopoverPlacement="topLeft"
+              >
+                {{
+                  data["TITLE"] == null
+                    ? "-"
+                    : (data["TITLE"] | slice : 0 : 50)
+                }}{{ data["TITLE"].length > 50 ? "..." : "" }}
+              </span>
+              <span *ngIf="data['TITLE'].length < 50">
+                {{
+                  data["TITLE"] == null
+                    ? "-"
+                    : (data["TITLE"] | slice : 0 : 50)
+                }}{{ data["TITLE"].length > 50 ? "..." : "" }}
+              </span>
+            </span>
+            <span *ngIf="data['TITLE'] == null">-</span>
+            </td>
+            <td style="text-align: left;">
+              <!-- {{data['TEXT']}} -->
+                          <span *ngIf="data['TEXT'] != null">
+              <span
+                *ngIf="data['TEXT'].length >= 60"
+                [nzPopoverContent]="data['TEXT']"
+                nz-popover
+                nzPopoverPlacement="topLeft"
+              >
+                {{
+                  data["TEXT"] == null
+                    ? "-"
+                    : (data["TEXT"] | slice : 0 : 60)
+                }}{{ data["TEXT"].length > 60 ? "..." : "" }}
+              </span>
+              <span *ngIf="data['TEXT'].length < 60">
+                {{
+                  data["TEXT"] == null
+                    ? "-"
+                    : (data["TEXT"] | slice : 0 : 60)
+                }}{{ data["TEXT"].length > 60 ? "..." : "" }}
+              </span>
+            </span>
+            <span *ngIf="data['TEXT'] == null">-</span>
+            </td>
+
+            <!-- <td *ngFor="let column of columns" style="white-space: pre-line;">{{data[column[0]]}}</td> -->
+            <td style="text-align: center;"> 
+              <i nz-icon *ngIf="data['STATUS']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#52c41a'"></i>
+              <i nz-icon *ngIf="!data['STATUS']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+                [nzTwotoneColor]="'#f50'"></i>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      </div>
+  </div>
+  
+  <nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="617"
+  [nzVisible]="drawerVisible" [nzTitle]="drawerTitle" 
+  (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+  <ng-container *nzDrawerContent>
+      <!-- <app-addaboutmaster></app-addaboutmaster> -->
+  <app-addaboutmaster [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData"></app-addaboutmaster>
+  </ng-container>
+  </nz-drawer>
+
+  <!-- <nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="700"
+  [nzVisible]="drawerVisible2" [nzTitle]="drawerTitle" 
+  (nzOnClose)="drawerClose1()" (nzKeyboard)="true">
+  <ng-container *nzDrawerContent>
+      <app-mapbanner></app-mapbanner>
+  </ng-container>
+  </nz-drawer> -->
+    <!-- <app-mapbanner [drawerClose]="closeCallback1" [drawerVisible]="drawerVisible2" [data]="drawerData"></app-mapbanner> -->

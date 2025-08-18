@@ -1,0 +1,648 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname">
+      <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp;{{ formTitle }}
+    </div>
+  </div>
+
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="productsearch"
+            (keyup)="keyup($event)"
+            [(ngModel)]="searchText"
+            nz-input
+            placeholder=" Search Record"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" (click)="search(true)" nzSearch>
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+          <i nz-icon nzType="plus"></i>Add New Product
+        </button>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+<br />
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table
+      nzBordered
+      #produtMasterTable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ x: '3250px', y: '360px' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+    >
+      <thead>
+        <tr>
+          <th nzWidth="10px" nzLeft style="text-align: center">
+            <b> Action</b>
+          </th>
+          <th
+            nzLeft
+            nzWidth="50px"
+            nzLeft
+            style="font-weight: bold; text-align: center"
+          >
+            Mapping
+          </th>
+
+          <th
+            nzColumnKey="{{ 'NAME' }}"
+            [nzSortFn]="true"
+            nzWidth="45px"
+            style="text-align: center"
+          >
+            <b> Product Name</b>
+          </th>
+
+          <th
+            nzColumnKey="{{ 'CATEGORY_NAME' }}"
+            [nzSortFn]="true"
+            nzWidth="30px"
+            style="text-align: center"
+          >
+            <b> Category Name</b>
+          </th>
+          <!-- <th nzColumnKey="{{ 'PRICE1' }}" [nzSortFn]="true" nzWidth="15px" style="text-align: center;"> <b>  Price 1</b></th>
+            <th nzColumnKey="{{ 'SIZE1' }}" [nzSortFn]="true" nzWidth="16px" style="text-align: center;"> <b>  Quantity 1</b></th>
+            <th nzColumnKey="{{ 'UNIT_NAME1' }}" [nzSortFn]="true" nzWidth="13px" style="text-align: center;"> <b>  Unit 1</b></th>  
+            <th nzColumnKey="{{ 'PRICE2' }}" [nzSortFn]="true" nzWidth="15px" style="text-align: center;"> <b>  Price 2</b></th>
+            <th nzColumnKey="{{ 'SIZE2' }}" [nzSortFn]="true" nzWidth="16px" style="text-align: center;"> <b>  Quantity 2</b></th>
+            <th nzColumnKey="{{ 'UNIT_NAME2' }}" [nzSortFn]="true" nzWidth="13px" style="text-align: center;"> <b>  Unit 2</b></th>  
+            <th nzColumnKey="{{ 'PRICE3' }}" [nzSortFn]="true" nzWidth="15px" style="text-align: center;"> <b>  Price 3</b></th>
+            <th nzColumnKey="{{ 'SIZE3' }}" [nzSortFn]="true" nzWidth="16px" style="text-align: center;"> <b>  Quantity 3</b></th>
+            <th nzColumnKey="{{ 'UNIT_NAME3' }}" [nzSortFn]="true" nzWidth="13px" style="text-align: center;"> <b>  Unit 3</b></th> 
+            <th nzColumnKey="{{ 'PRICE4' }}" [nzSortFn]="true" nzWidth="15px" style="text-align: center;"> <b>  Price 4</b></th>
+            <th nzColumnKey="{{ 'SIZE4' }}" [nzSortFn]="true" nzWidth="16px" style="text-align: center;"> <b>  Quantity 4</b></th>
+            <th nzColumnKey="{{ 'UNIT_NAME4' }}" [nzSortFn]="true" nzWidth="13px" style="text-align: center;"> <b>  Unit 4</b></th>                 -->
+          <!-- <th *ngFor="let column of columns" nzColumnKey="{{column[0]}}" [nzSortFn]="true">{{column[1]}}</b></th> -->
+          <!-- <th nzColumnKey="{{ 'CGST' }}" [nzSortFn]="true" nzWidth="13px" style="text-align: center;"> <b>  CGST</b></th>
+            <th nzColumnKey="{{ 'SGST' }}" [nzSortFn]="true" nzWidth="13px" style="text-align: center;"> <b>  SGST</b></th>
+            <th nzColumnKey="{{ 'IGST' }}" [nzSortFn]="true" nzWidth="13px" style="text-align: center;"> <b>  IGST</b></th>
+            <th nzColumnKey="{{ 'GST_TYPE' }}" [nzSortFn]="true" nzWidth="20px" style="text-align: center;"> <b>  GST Type</b></th> -->
+          <th
+            nzColumnKey="{{ 'DISCOUNT_TYPE' }}"
+            [nzSortFn]="true"
+            nzWidth="20px"
+            style="text-align: center"
+          >
+            <b> Discount Type</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'DISCOUNT' }}"
+            [nzSortFn]="true"
+            nzWidth="15px"
+            style="text-align: center"
+          >
+            <b> Discount</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'IN_COUNTRY' }}"
+            [nzSortFn]="true"
+            nzWidth="40px"
+            style="text-align: center"
+          >
+            <b> In Country Packaging Charges </b>
+          </th>
+          <th
+            nzColumnKey="{{ 'OUT_COUNTRY' }}"
+            [nzSortFn]="true"
+            nzWidth="40px"
+            style="text-align: center"
+          >
+            <b> Out Country Packaging Charges</b>
+          </th>
+
+          <th
+            nzColumnKey="{{ 'UNIQUE_CODE' }}"
+            [nzSortFn]="true"
+            nzWidth="20px"
+            style="text-align: center"
+          >
+            <b> Unique Code</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'IS_MAINTAIN_STOCK' }}"
+            [nzSortFn]="true"
+            nzWidth="24px"
+            style="text-align: center"
+          >
+            <b> Is Main Stock ?</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'IS_VERIENT_AVAILABLE' }}"
+            [nzSortFn]="true"
+            nzWidth="24px"
+            style="text-align: center"
+          >
+            <b> Is Varient Available ?</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'SIZE' }}"
+            [nzSortFn]="true"
+            nzWidth="16px"
+            style="text-align: center"
+          >
+            <b> Size</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'UNIT_NAME' }}"
+            [nzSortFn]="true"
+            nzWidth="18px"
+            style="text-align: center"
+          >
+            <b> Unit Name</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'RATE' }}"
+            [nzSortFn]="true"
+            nzWidth="16px"
+            style="text-align: center"
+          >
+            <b> Rate</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'OPENING_STOCK' }}"
+            [nzSortFn]="true"
+            nzWidth="19px"
+            style="text-align: center"
+          >
+            <b> Opening Stock </b>
+          </th>
+          <th
+            nzColumnKey="{{ 'CURRENT_STOCK' }}"
+            [nzSortFn]="true"
+            nzWidth="19px"
+            style="text-align: center"
+          >
+            <b> Current Stock </b>
+          </th>
+          <th
+            nzColumnKey="{{ 'IS_POPULAR' }}"
+            [nzSortFn]="true"
+            nzWidth="18px"
+            style="text-align: center"
+          >
+            <b> Is Popular ?</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'IS_BEST_SELLER' }}"
+            [nzSortFn]="true"
+            nzWidth="21px"
+            style="text-align: center"
+          >
+            <b> Is Best Seller ?</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'IS_NEW_ARRIVAL' }}"
+            [nzSortFn]="true"
+            nzWidth="22px"
+            style="text-align: center"
+          >
+            <b> Is New Arrival ?</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'STATUS' }}"
+            [nzSortFn]="true"
+            nzWidth="13px"
+            style="text-align: center"
+          >
+            <b> Status</b>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of produtMasterTable.data">
+          <td nzLeft style="text-align: center">
+            <span
+              nz-icon
+              nzType="edit"
+              nzTheme="outline"
+              style="
+                cursor: pointer;
+                font-size: 15px !important;
+                color: #5a8f69;
+                margin-left: 8px;
+              "
+              nzTooltipTitle="Edit"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              (click)="edit(data)"
+            >
+            </span>
+          </td>
+
+          <td nzLeft>
+            <nz-space>
+              <a
+                *nzSpaceItem
+                (click)="map(data)"
+                nz-tooltip
+                nzTooltipTitle="Variant Mapping"
+              >
+                <nz-tag *ngIf="data.IS_VERIENT_AVAILABLE == 1" nzColor="cyan">
+                  <span nz-icon nzType="plus"></span>
+                  <span>Variant Mapping</span>
+                </nz-tag>
+              </a>
+              <a
+                *nzSpaceItem
+                (click)="MapIngredients(data)"
+                nz-tooltip
+                nzTooltipTitle="Map Ingredients"
+              >
+                <nz-tag nzColor="success">
+                  <span nz-icon nzType="form"></span>
+                  <span>Ingredient Mapping</span>
+                </nz-tag>
+              </a>
+            </nz-space>
+          </td>
+
+          <td style="white-space: pre-line">{{ data["NAME"] }}</td>
+          <td style="white-space: pre-line">{{ data["CATEGORY_NAME"] }}</td>
+          <!-- <td style="text-align: right;">{{data['PRICE1']}}</td> -->
+          <!-- <td style="white-space: pre-line;">
+              <span *ngIf="data['UNIT'] == 'Kilogram'"> Kilogram </span>
+              <span *ngIf="data['UNIT'] == 'Gram'"> Gram </span>
+              <span *ngIf="data['UNIT'] == 'Milliliter'"> Milliliter </span>
+              <span *ngIf="data['UNIT'] == 'Liter'"> Liter </span>            
+            </td> -->
+          <!-- <td style="text-align: center;">{{data['SIZE1']}}</td>
+            <td >{{data['UNIT_NAME1']}}</td>
+            <td style="text-align: right;">{{data['PRICE2']}}</td>
+            <td style="text-align: center;">{{data['SIZE2']}}</td>
+            <td >{{data['UNIT_NAME2']}}</td>
+            <td style="text-align: right;">{{data['PRICE3']}}</td>
+            <td style="text-align: center;">{{data['SIZE3']}}</td>
+            <td >{{data['UNIT_NAME3']}}</td>
+            <td style="text-align: right;">{{data['PRICE4']}}</td>
+            <td style="text-align: center;">{{data['SIZE4']}}</td>
+            <td >{{data['UNIT_NAME4']}}</td> -->
+          <!-- <td style="text-align: right;">{{data['CGST']}}</td>
+            <td style="text-align: right;">{{data['SGST']}}</td>
+            <td style="text-align: right;">{{data['IGST']}}</td>
+            <td style="white-space: pre-line;">
+              <span *ngIf="data['GST_TYPE'] == 'Amount'"> In Amount </span>
+              <span *ngIf="data['GST_TYPE'] == 'Percentage'"> In Percentage </span>                         
+            </td> -->
+          <!-- <td >{{data['GST_TYPE']}}</td> -->
+          <td style="white-space: pre-line">
+            <span *ngIf="data['DISCOUNT_TYPE'] == 'Amount'"> In Amount </span>
+            <span *ngIf="data['DISCOUNT_TYPE'] == 'Percentage'">
+              In Percentage
+            </span>
+          </td>
+          <!-- <td >{{data['DISCOUNT_TYPE']}}</td> -->
+
+          <td style="text-align: right">{{ data["DISCOUNT"] || "-" }}</td>
+          <td style="text-align: right">{{ data["IN_COUNTRY"] }}</td>
+          <td style="text-align: right">{{ data["OUT_COUNTRY"] }}</td>
+
+          <td>{{ data["UNIQUE_CODE"] }}</td>
+          <td style="text-align: center">
+            <i
+              nz-icon
+              *ngIf="data['IS_MAINTAIN_STOCK']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['IS_MAINTAIN_STOCK']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+          <td style="text-align: center">
+            <i
+              nz-icon
+              *ngIf="data['IS_VERIENT_AVAILABLE']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['IS_VERIENT_AVAILABLE']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+          <td style="text-align: right">{{ data["SIZE"] || "-" }}</td>
+          <td style="text-align: right">{{ data["UNIT_NAME"] }}</td>
+          <td style="text-align: right">{{ data["RATE"] || "-" }}</td>
+          <td style="text-align: right">{{ data["OPENING_STOCK"] }}</td>
+          <td style="text-align: right">{{ data["CURRENT_STOCK"] }}</td>
+          <!-- <td *ngFor="let column of columns" style="white-space: pre-line;">{{data[column[0]]}}</td> -->
+          <td style="text-align: center">
+            <i
+              nz-icon
+              *ngIf="data['IS_POPULAR']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['IS_POPULAR']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+          <td style="text-align: center">
+            <i
+              nz-icon
+              *ngIf="data['IS_BEST_SELLER']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['IS_BEST_SELLER']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+          <!-- <td>
+                <i nz-icon *ngIf="data['STATUS']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#52c41a'"></i>
+                <i nz-icon *ngIf="!data['STATUS']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#f50'"></i>
+              </td> -->
+          <td style="text-align: center">
+            <i
+              nz-icon
+              *ngIf="data['IS_NEW_ARRIVAL']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['IS_NEW_ARRIVAL']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+          <td style="text-align: center">
+            <i
+              nz-icon
+              *ngIf="data['STATUS']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['STATUS']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-drawer
+  [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }"
+  [nzClosable]="true"
+  [nzMask]="true"
+  [nzMaskClosable]="false"
+  [nzWidth]="1200"
+  [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle"
+  (nzOnClose)="drawerClose()"
+  (nzKeyboard)="(true)"
+>
+  <ng-container *nzDrawerContent>
+    <!-- <app-addproduct></app-addproduct> -->
+    <app-addproduct
+      [drawerClose]="closeCallback"
+      [disabled]="disabled"
+      [drawerVisible]="drawerVisible"
+      [data]="drawerData"
+      [multipleImages]="multipleImages"
+      [tags]="tags"
+    ></app-addproduct>
+  </ng-container>
+</nz-drawer>
+
+<nz-drawer
+  [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }"
+  [nzClosable]="true"
+  [nzMask]="true"
+  [nzMaskClosable]="false"
+  [nzWidth]="1090"
+  [nzVisible]="mapdrawerVisible"
+  [nzTitle]="mapdrawerTitle"
+  (nzOnClose)="mapDrawerClose()"
+  (nzKeyboard)="(true)"
+>
+  <ng-container *nzDrawerContent>
+    <!-- <app-productmappinglist></app-productmappinglist> -->
+    <app-productmappinglist
+      [drawerClose2]="mapCloseCallback"
+      [dataList]="mapDataList"
+      [maintain]="Ismaintainstock"
+      [varient]="Isvarientavailable"
+      [productId]="productId"
+    ></app-productmappinglist>
+  </ng-container>
+</nz-drawer>
+
+<div *ngIf="isIngredientMappingvisible">
+  <nz-drawer
+    [nzBodyStyle]="{
+      height: 'calc(100% - 55px)',
+      overflow: 'auto',
+      'padding-bottom': '53px'
+    }"
+    [nzClosable]="true"
+    [nzMask]="true"
+    [nzMaskClosable]="false"
+    [nzWidth]="900"
+    [nzVisible]="isIngredientMappingvisible"
+    [nzTitle]="mapIngredienttitle"
+    (nzOnClose)="closeIngredientsMapping()"
+    (nzKeyboard)="(true)"
+  >
+    <ng-container *nzDrawerContent>
+      <div
+        nz-col
+        nzXs="24"
+        nzSm="24"
+        nzMd="24"
+        nzLg="24"
+        nzXl="24"
+        style="display: flex; justify-content: flex-end"
+      >
+        <form [nzLayout]="'inline'" nz-form>
+          <nz-form-item>
+            <nz-input-group [nzAddOnAfter]="suffixIconButton" nzSearch>
+              <input
+                [(ngModel)]="searchText2"
+                (keyup)="keyup2()"
+                (keydown.enter)="preventDefault($event)"
+                type="text"
+                name="search2"
+                nz-input
+                placeholder="Min 3 chars required."
+              />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+              <button
+                (click)="searchIngredients()"
+                nz-button
+                nzType="primary"
+                nzSearch
+                id="search2"
+              >
+                <i nz-icon nzType="search"></i>
+              </button>
+            </ng-template>
+          </nz-form-item>
+        </form>
+      </div>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <div nz-row>
+          <div nz-col nzSpan="24">
+            <nz-table
+              #promote
+              [nzData]="IngredientsList"
+              [nzLoading]="mapIngredientSpinning"
+              [nzSize]="'small'"
+              [nzScroll]="{ x: '800px', y: '55vh' }"
+              [nzFrontPagination]="false"
+              class="my-scroll no-wrap1"
+              nzBordered
+            >
+              <thead>
+                <tr>
+                  <th
+                    [(nzChecked)]="checked"
+                    [nzIndeterminate]="indeterminate"
+                    (nzCheckedChange)="onAllChecked($event)"
+                    nzLeft
+                    nzWidth="30px"
+                    style="font-weight: bold; text-align: center"
+                  >
+                    Select All
+                  </th>
+                  <th
+                    [nzSortFn]="true"
+                    (nzSortOrderChange)="sortData('NAME', $event)"
+                    nzWidth="70px"
+                  >
+                    Ingredients
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of promote.data; let i = index">
+                  <!-- <td [nzChecked]="setOfCheckedId.has(data.ID)" (nzCheckedChange)="onItemChecked(data, $event)" nzLeft
+                    style="text-align: center"></td> -->
+                  <td
+                    [nzChecked]="setOfCheckedId.has(data.INGREDIENT_ID)"
+                    (nzCheckedChange)="onItemChecked(data, $event)"
+                    nzLeft
+                    style="text-align: center"
+                  ></td>
+
+                  <!-- <h1>{{ data['checked']}}</h1> -->
+                  <td style="white-space: pre-line; text-align: left">
+                    {{ data["NAME"] }}
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+        <!-- </fieldset> -->
+      </div>
+      <div class="footer" style="text-align: right; margin-top: 16px">
+        <button
+          (click)="closeIngredientsMapping()"
+          type="button"
+          nz-button
+          style="margin-right: 8px"
+        >
+          Cancel
+        </button>
+        <button
+          *ngIf="!IngredientMappingData.PRODUCT_ID"
+          [nzLoading]="mapIngredientSpinning"
+          (click)="saveMapIngredients(false)"
+          type="button"
+          class="ant-btn ant-btn-primary"
+          nz-button
+        >
+          Save & Close
+        </button>
+        <button
+          *ngIf="IngredientMappingData.PRODUCT_ID"
+          [nzLoading]="mapIngredientSpinning"
+          (click)="saveMapIngredients(false)"
+          type="button"
+          class="ant-btn ant-btn-primary"
+          nz-button
+        >
+          Update & Close
+        </button>
+      </div>
+      <!-- </div> -->
+    </ng-container>
+  </nz-drawer>
+</div>

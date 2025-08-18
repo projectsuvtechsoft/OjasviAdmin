@@ -1,0 +1,287 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname">
+      <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp;<b> {{ formTitle }} </b>
+    </div>
+  </div>
+
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="webbannersearch"
+            (keyup)="keyup($event)"
+            [(ngModel)]="searchText"
+            nz-input
+            placeholder="Search Record"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" (click)="search(true)" nzSearch>
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+          <i nz-icon nzType="plus"></i> Add New Website Banner
+        </button>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+<br />
+<div nz-row>
+  <div nz-col nzSpan="24" style="width: 100%">
+    <nz-table
+      nzBordered
+      #webSiteTable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ y: '50vh' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+      style="width: 100%"
+    >
+      <thead>
+        <tr>
+          <th nzWidth="30px" style="text-align: center"><b> Action </b></th>
+          <th
+            nzWidth="30px"
+            style="text-align: center"
+            nzColumnKey="{{ 'SEQUENCE_NO' }}"
+            [nzSortFn]="true"
+          >
+            <b> Sequence No.</b>
+          </th>
+          <th
+            nzWidth="70px"
+            style="text-align: center"
+            nzColumnKey="{{ 'NAME' }}"
+            [nzSortFn]="true"
+          >
+            <b> Banner Name </b>
+          </th>
+          <!-- <th nzWidth="70px" style="text-align: center;" nzColumnKey="{{'NAME_MR'}}" [nzSortFn]="true"><b> Banner Name (Marathi) </b></th> -->
+          <th
+            nzWidth="70px"
+            style="text-align: center"
+            nzColumnKey="{{ 'SUB_TITLE' }}"
+            [nzSortFn]="true"
+          >
+            <b> Sub Title </b>
+          </th>
+          <!-- <th nzWidth="70px" style="text-align: center;" nzColumnKey="{{'SUB_TITLE_MR'}}" [nzSortFn]="true"><b> Sub Title (Marathi) </b></th> -->
+          <!-- <th nzWidth="70px" style="text-align: center;" nzColumnKey="{{'SUB_TITLE2'}}" [nzSortFn]="true"><b> Sub Title2 </b></th> -->
+          <!-- <th nzWidth="70px" style="text-align: center;" nzColumnKey="{{'SUB_TITLE2_MR'}}" [nzSortFn]="true"><b> Sub Title2 (Marathi) </b></th> -->
+
+          <!-- <th *ngFor="let column of columns" nzColumnKey="{{column[0]}}" [nzSortFn]="true">{{column[1]}}</th> -->
+          <th nzWidth="30px" style="font-weight: bold; text-align: center">
+            Banner Image
+          </th>
+          <th
+            nzColumnKey="{{ 'STATUS' }}"
+            [nzSortFn]="true"
+            nzWidth="15px"
+            style="text-align: center"
+          >
+            <b> Status </b>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of webSiteTable.data">
+          <td style="text-align: center">
+            <span
+              nz-icon
+              nzType="edit"
+              nzTheme="outline"
+              style="
+                cursor: pointer;
+                font-size: 15px !important;
+                color: #5a8f69;
+                margin-left: 8px;
+              "
+              nzTooltipTitle="Edit"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              (click)="edit(data)"
+            >
+            </span>
+            <!-- <a (click)="edit(data)"> Edit </a> -->
+          </td>
+          <td style="text-align: center">{{ data.SEQUENCE_NO }}</td>
+          <!-- <td style=" white-space: pre-line;" > {{data.NAME}}</td> -->
+          <td
+            align="left"
+            [nzTooltipTitle]="isTextOverflow ? data['NAME'] : null"
+            #tooltipRef="nzTooltip"
+            nz-tooltip
+          >
+            <div
+              #textContainer
+              class="truncate-text"
+              (mouseenter)="checkOverflow(textContainer, tooltipRef)"
+            >
+              {{ data["NAME"] ? data["NAME"] : "-" }}
+            </div>
+          </td>
+          <!-- <td style=" white-space: pre-line;"> {{data.NAME_MR}}</td> -->
+          <!-- <td style=" white-space: pre-line;" > {{data.SUB_TITLE}}</td> -->
+          <td
+            align="left"
+            [nzTooltipTitle]="isTextOverflow ? data['SUB_TITLE'] : null"
+            #tooltipRef1="nzTooltip"
+            nz-tooltip
+          >
+            <div
+              #textContainer1
+              class="truncate-text"
+              (mouseenter)="checkOverflow(textContainer1, tooltipRef1)"
+            >
+              {{ data["SUB_TITLE"] ? data["SUB_TITLE"] : "-" }}
+            </div>
+          </td>
+
+          <!-- <td style=" white-space: pre-line;"> {{data.SUB_TITLE_MR}}</td> -->
+          <!-- <td style=" white-space: pre-line;" > {{data.SUB_TITLE2}}</td> -->
+          <!-- <td style=" white-space: pre-line;"> {{data.SUB_TITLE_MR}}</td> -->
+          <!-- <td *ngFor="let column of columns" style="text-align: center; white-space: pre-line;">{{data[column[0]]}}</td> -->
+          <td nzWidth="150px" align="center">
+            <div>
+              <ng-container
+                *ngIf="data.IMG_URL && data.IMG_URL.trim(); else noPhoto"
+              >
+                <nz-tag
+                  nzColor="#2db7f5"
+                  (click)="viewImage(data.IMG_URL)"
+                  style="cursor: pointer"
+                  nzTooltipTitle="View Banner Image"
+                  nz-tooltip
+                >
+                  <span
+                    nz-icon
+                    nzType="eye"
+                    nzTheme="outline"
+                    style="font-size: 15px"
+                  >
+                  </span
+                  >&nbsp;&nbsp;View</nz-tag
+                >
+              </ng-container>
+              <ng-template #noPhoto>
+                <span>-</span>
+              </ng-template>
+            </div>
+          </td>
+          <td style="text-align: center">
+            <i
+              nz-icon
+              *ngIf="data['STATUS']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['STATUS']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-drawer
+  [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }"
+  [nzClosable]="true"
+  [nzMask]="true"
+  [nzMaskClosable]="false"
+  [nzWidth]="600"
+  [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle"
+  (nzOnClose)="drawerClose()"
+  (nzKeyboard)="(true)"
+>
+  <ng-container *nzDrawerContent>
+    <app-addwebsitebanner
+      [drawerClose]="closeCallback"
+      [color]="drawerData.COLOR_CODE_NAME"
+      [colort1]="drawerData.COLOR_CODE_T1"
+      [colort2]="drawerData.COLOR_CODE_T2"
+      [drawerVisible]="drawerVisible"
+      [data]="drawerData"
+    ></app-addwebsitebanner>
+  </ng-container>
+</nz-drawer>
+
+<nz-modal
+  [nzWidth]="1250"
+  [(nzVisible)]="ImageModalVisible"
+  nzMaskClosable="false"
+  nzClosable="true"
+  [nzContent]="content"
+  [nzTitle]="'View Banner Image'"
+  [nzStyle]="{ top: '20px' }"
+  (nzOnCancel)="ImageModalCancel()"
+  [nzFooter]="ImageModalFooter"
+>
+  <ng-template #content>
+    <nz-spin [nzSpinning]="isSpinning">
+      <div
+        *ngIf="imageshow != undefined && imageshow != null && imageshow != ''"
+        class="ss"
+        style="height: 380px; overflow: auto; text-align: center"
+      >
+        <img
+          [src]="imageshow"
+          alt="Preview"
+          style="
+            height: 350px;
+            width: 1150px;
+            overflow: auto;
+            max-width: 600;
+            max-height: 300;
+          "
+        />
+      </div>
+    </nz-spin>
+  </ng-template>
+  <ng-template #ImageModalFooter>
+    <button nz-button nzType="default" (click)="ImageModalCancel()">
+      Close
+    </button>
+  </ng-template>
+</nz-modal>

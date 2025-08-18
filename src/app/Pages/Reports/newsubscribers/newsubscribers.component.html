@@ -1,0 +1,121 @@
+<div nz-row nzType="flex" style="padding-top: 21px;">
+    <!-- <div style="margin-top: 10px;"> -->
+    <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12" >
+       <div class="formname" > <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp;  <b> {{formTitle}} </b></div>  
+    </div>
+  
+      <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex;justify-content: flex-end">
+         <form nz-form [nzLayout]="'inline'">
+           <nz-form-item>
+        <button nz-button nzTooltipTitle="Excel" nzTooltipPlacement="top" nz-tooltip style="color: white"
+          nzType="primary" (click)="importInExcel()" [nzLoading]="exportLoading">
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button>
+      </nz-form-item>
+          
+            <nz-form-item>
+                <button nz-button [nzType]="isFilterApplied" (click)="showFilter()">
+                  <i nz-icon nzType="filter"></i>
+                </button>
+              </nz-form-item>
+                           <nz-form-item>
+              <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" name="newsubsearch" [(ngModel)]="searchText"  (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input placeholder="Search Records "  />
+              </nz-input-group>
+              <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" (click)="search(true)" nzSearch><i nz-icon nzType="search"></i></button>
+              </ng-template>
+            </nz-form-item>          
+    
+          </form>
+        </div>
+</div>
+<br />
+<div nz-row style="margin-bottom: 14px">
+    <div nz-col nzSpan="24">
+      <div class="filter {{ filterClass }}">
+        <div class="filter-box">
+          <form nz-form>
+            <div nz-row nzGutter="8">
+            <div nz-col nzSpan="8">
+              <nz-form-label><b>  Date </b></nz-form-label>
+              <nz-range-picker
+                name="datefilter"
+                [nzDisabledDate]="disabledDate"
+                (nzOnCalendarChange)="changeDate($event)"
+                nzFormat="dd-MM-yyyy "
+                [(ngModel)]="selectedDate"
+                style="width: 100%"
+              ></nz-range-picker>
+            </div>
+              <div nz-col nzSpan="8">
+                <nz-form-item style="margin-top: 20px; margin-left: 10px; padding-top: 13px;">
+                  <!-- <nz-form-label >Actions</nz-form-label><br /> -->
+                  <button
+                    style="margin-right: 10px"
+                    nz-button
+                    [nzLoading]="isSpinning"
+                    nzType="primary"
+                    (click)="applyFilter()"
+                    nzJustify="end"
+                  >
+                    <i nz-icon nzType="filter"></i>Apply Filter
+                  </button>
+                  <button nz-button nzType="primary" (click)="clearFilter()">
+                    <i nz-icon nzType="filter"></i>Clear Filter
+                  </button>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<div nz-row >
+    <div nz-col nzSpan="24" >
+        <nz-table  
+        nzBordered
+        #assessmentTable
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzData]="dataList"
+        [nzLoading]="loadingRecords"
+        [nzSize]="'small'"
+        [nzScroll]="{ x: '800px', y: '350px' }"
+        [nzTotal]="totalRecords"
+        [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize"
+        (nzPageIndexChange)="search()"
+        (nzPageSizeChange)="search(true)"
+        (nzQueryParams)="sort($event)"
+      >
+   
+        <thead>
+          <tr>
+             <th nzColumnKey="{{ 'EMAIL_ID' }}" [nzSortFn]="true" nzWidth="100px" style="text-align: center;" ><b> Email ID </b></th>
+             <th nzColumnKey="{{ 'DATE' }}" [nzSortFn]="true" nzWidth="30px" style="text-align: center;" ><b> Date </b></th>
+             <!-- <th nzColumnKey="{{ 'DEVICE_ID' }}" [nzSortFn]="true" nzWidth="7px" style="text-align: center;" ><b> Device ID </b></th>              -->
+             <!-- <th *ngFor="let column of columns" nzColumnKey="{{column[0]}}" [nzSortFn]="true">{{column[1]}}</th> -->
+          </tr>        
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of assessmentTable.data" >
+            <td style="white-space: pre-line;">{{data['EMAIL_ID']}}</td>
+            <td style="white-space: pre-line;text-align: center;">{{data['DATE']}}</td>
+            <!-- <td >{{data['DEVICE_ID']}}</td>-->
+            <!-- <td *ngFor="let column of columns">{{data[column[0]]}}</td> -->      
+          </tr>
+        </tbody>
+      </nz-table>
+      </div>
+</div>
+

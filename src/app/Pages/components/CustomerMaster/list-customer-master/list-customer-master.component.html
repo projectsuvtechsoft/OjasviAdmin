@@ -1,0 +1,442 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname">
+    <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp;  <b> {{ formTitle }} </b>
+    </div>
+  </div>
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <!-- <nz-form-item>
+       
+          <button nz-button nzType="primary" (click)="DownloadExcel1()">
+            <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          </button>
+          <button
+            nz-button
+            nzType="primary"
+            hidden="true"
+            id="downloadExcel"
+            [appExport]="dataList2"
+            fileName= 'Cash On Delivery Report'
+          >
+            <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          </button>
+      </nz-form-item> -->
+ 
+      <nz-form-item>
+        <button nz-button [nzType]="isFilterApplied" (click)="showFilter()">
+          <i nz-icon nzType="filter"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item style="width: 74% ;">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="search"
+            [(ngModel)]="searchText"
+            (keyup)="keyup($event)"
+            (keydown.enter)="onKeypressEvent($event)"
+            nz-input
+            placeholder="Search"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button
+            nz-button
+            nzType="primary"
+            id="button"
+            (click)="search(true)"
+            nzSearch
+          >
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+ 
+      <!-- <nz-form-item>
+        <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+            <i nz-icon nzType="plus"></i>Add New Customer
+          </button>
+    </nz-form-item> -->
+    </form>
+  </div>
+</div>
+<br />
+ 
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <div class="filter {{ filterClass }}">
+      <div class="filter-box">
+        <form nz-form>
+          <div nz-row nzGutter="10" style="margin-top: 30px">
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon
+                  ><b>Select Start Date</b></nz-form-label
+                >
+                <nz-date-picker
+                  name="startdate"
+                  style="width: 100%"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="startValue"
+                  nzPlaceHolder="Select Start Date."
+                  [nzDisabledDate]="disabledStartDate2"
+                  (nzOnOpenChange)="moduleStartDateHandle($event)"
+                  (ngModelChange)="startDateChange()"
+                >
+                </nz-date-picker>
+              </nz-form-item>
+            </div>
+ 
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon><b>Select End Date</b></nz-form-label>
+                <nz-date-picker
+                  #EndDatePicker
+                  style="width: 100%"
+                  name="enddate"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="endValue"
+                  [nzDisabledDate]="disabledEndDate2"
+                  nzPlaceHolder="Select End Date."
+                ></nz-date-picker>
+              </nz-form-item>
+            </div>
+ 
+            <div nz-col nzSpan="8">
+              <nz-form-item style="margin-top: 24px">
+                <button
+                  nz-button
+                  [nzLoading]="isSpinning"
+                  nzType="primary"
+                  (click)="applyFilter1()"
+                  nzJustify="end"
+                >
+                  <i nz-icon nzType="filter"></i>Apply Filter
+                </button>
+                <button
+                  nz-button
+                  style="margin-left: 10px"
+                  nzType="primary"
+                  (click)="clearFilter()"
+                >
+                  <i nz-icon nzType="delete"></i>Clear Filter
+                </button>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+ 
+<div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="margin-left: 186px;">
+  <div nz-row nz-row nzGutter="8">
+    <div nz-col nzSpan="6">
+      <button
+        nz-button
+        [nzType]="istodaysdate"
+        style="border: 1px solid #5a8f69; width: 90%;border-radius: 10px;"
+        (click)="todaysdate($event)"
+      >
+        Today's Registered
+      </button>
+    </div>
+    <div nz-col nzSpan="6">
+      <button
+        nz-button
+        [nzType]="islastsevendays"
+        style="border: 1px solid #5a8f69; width: 90%;border-radius: 10px;"
+        (click)="lastsevendays($event)"
+      >
+        Last 7 Days Registered
+      </button>
+    </div>
+ 
+    <div nz-col nzSpan="6">
+      <button
+        nz-button
+        [nzType]="iscurrentmonth"
+        style="border: 1px solid #5a8f69; width: 90%;border-radius: 10px;"
+        (click)="currentmonth($event)"
+      >
+        Current Month Registered
+      </button>
+    </div>
+    <div nz-col nzSpan="4">
+      <button
+        nz-button
+        style="margin-left: 10px"
+        nzType="primary"
+        (click)="clearFilter1()"
+      >
+        <i nz-icon nzType="delete"></i>
+      </button>
+    </div>
+  </div>
+</div>
+<br />
+ 
+<div nz-row>
+  <div nz-col nzSpan="24" style="width: 100%;">
+    <nz-table
+     
+      nzBordered
+      #categoryAddonMasterTable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ x: '1330px', y: '660px' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+      style="width: 100%;"
+    >
+      <thead>
+        <tr>
+          <th nzLeft nzWidth="22px" style="text-align: center">
+            <b> Orders </b>
+          </th>
+          <th nzLeft nzWidth="22px" style="text-align: center"><b>Carts</b></th>
+          <th nzLeft nzWidth="35px" style="text-align: center">
+            <b> Addresses </b>
+          </th>
+          <!-- <th nzWidth="35px" style="text-align: center"><b> Orders </b></th> -->
+ 
+          <!-- <th nzWidth="50px" style="text-align: center">
+            <b> Login As Customer</b>
+          </th> -->
+ 
+          <th
+            nzColumnKey="{{ 'NAME' }}"
+            [nzSortFn]="true"
+            nzWidth="60px"
+            style="text-align: center"
+          >
+            <b> Name </b>
+          </th>
+          <th
+            nzColumnKey="{{ 'EMAIL_ID' }}"
+            [nzSortFn]="true"
+            nzWidth="90px"
+            style="text-align: center"
+          >
+            <b> Email</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'MOBILE_NO' }}"
+            [nzSortFn]="true"
+            nzWidth="50px"
+            style="text-align: center"
+          >
+            <b> Mobile Number</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'REGISTRATION_DATE' }}"
+            [nzSortFn]="true"
+            nzWidth="50px"
+            style="text-align: center"
+          >
+            <b> Registration Date</b>
+          </th>
+ 
+          <!-- <th nzColumnKey="{{ 'PASSWORD' }}" [nzSortFn]="true" nzWidth="40px" style="text-align: center;"><b> Password</b></th> -->
+          <th
+            nzColumnKey="{{ 'STATUS' }}"
+            [nzSortFn]="true"
+            nzWidth="25px"
+            style="text-align: center"
+          >
+            <b> Status</b>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of categoryAddonMasterTable.data">
+          <td nzLeft style="text-align: center">
+            <a (click)="OrdersAll(data)" style="color: #5a8f69;">View </a>
+          </td>
+          <td nzLeft style="text-align: center">
+            <a (click)="open1(data)" style="color: #5a8f69;">View </a>
+          </td>
+ 
+          <!-- <td style="text-align: center;">
+              <a  (click)="open2(data)">View </a>
+            </td> -->
+          <td nzLeft style="text-align: center">
+            <a (click)="map(data)" style="color: #5a8f69;">View </a>
+          </td>
+          <!--
+          <td style="text-align: center">
+            <a (click)="Orders(data)">View </a>
+          </td> -->
+ 
+          <!-- <td style="text-align: center" >
+            <button *ngIf="data.STATUS == true"  nz-button [nzSize]="size"    nz-button nzType="primary"  (click)="Login(data)"  >
+              Login
+            </button>
+          </td> -->
+ 
+          <td style="white-space: pre-line; text-align: left">
+            {{ data["NAME"] }}
+          </td>
+          <td style="white-space: pre-line; text-align: left">
+            {{ data["EMAIL_ID"] || "-"}}
+          </td>
+ 
+          <td style="white-space: pre-line; text-align: center">
+            {{ data["MOBILE_NO"] }}
+          </td>
+          <!-- <td style="white-space: pre-line;text-align: center;" >{{data['PASSWORD']}}</td> -->
+          <td style="white-space: pre-line; text-align: center">
+            {{ data["REGISTRATION_DATE"] }}
+          </td>
+          <td style="text-align: center">
+            <i
+              nz-icon
+              *ngIf="data['STATUS']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['STATUS']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+ 
+ 
+<nz-drawer
+  [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }"
+  [nzClosable]="true"
+  [nzMask]="true"
+  [nzMaskClosable]="false"
+  [nzWidth]="500"
+  [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle"
+  (nzOnClose)="drawerClose()"
+  (nzKeyboard)="(true)"
+>
+  <ng-container *nzDrawerContent>
+    <!-- <app-addcartaddonmaster [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData"></app-addcartaddonmaster> -->
+    <app-add-customer-master
+      [drawerClose]="closeCallback"
+      [drawerVisible]="drawerVisible"
+      [data]="drawerData"
+    ></app-add-customer-master>
+  </ng-container>
+</nz-drawer>
+ 
+<nz-drawer
+  [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }"
+  [nzClosable]="true"
+  [nzMask]="true"
+  [nzMaskClosable]="false"
+  [nzWidth]="1090"
+  [nzVisible]="mapdrawerVisible"
+  [nzTitle]="mapdrawerTitle"
+  (nzOnClose)="mapDrawerClose()"
+  (nzKeyboard)="(true)"
+>
+  <ng-container *nzDrawerContent>
+    <!-- <app-productmappinglist [drawerClose2]="mapCloseCallback"   [dataList]="mapDataList" [maintain]="Ismaintainstock" [varient]="Isvarientavailable" [productId]="productId"></app-productmappinglist> -->
+    <app-list-address-master
+      [drawerClose2]="mapCloseCallback"
+      [dataList]="mapDataList"
+      [custid]="Customer"
+      [customerName]="customerName"
+      [custMobileNo]="custMobileNo"
+    >
+    </app-list-address-master>
+  </ng-container>
+</nz-drawer>
+ 
+<nz-drawer
+  [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }"
+  [nzClosable]="true"
+  [nzMask]="true"
+  [nzMaskClosable]="false"
+  [nzWidth]="1100"
+  [nzVisible]="cartdrawerVisible"
+  [nzTitle]="cartdrawerTitle"
+  (nzOnClose)="cartDrawerClose()"
+  (nzKeyboard)="(true)"
+>
+  <ng-container *nzDrawerContent>
+    <!-- <app-list-address-master [drawerClose2]="cartCloseCallback"   [dataList]="cartDataList"  [custid]="Customer" > </app-list-address-master> -->
+    <app-listcartmaster
+      [drawerClose2]="cartCloseCallback"
+      [dataList]="cartDataList"
+      [custid]="cust"
+    ></app-listcartmaster>
+  </ng-container>
+</nz-drawer>
+ 
+ 
+ 
+<nz-drawer
+  [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }"
+  [nzClosable]="true"
+  [nzMask]="true"
+  [nzMaskClosable]="false"
+  [nzWidth]="1100"
+  [nzVisible]="OrderdrawerVisible"
+  [nzTitle]="OrderdrawerTitle"
+  (nzOnClose)="OrderDrawerClose()"
+  (nzKeyboard)="(true)"
+>
+  <ng-container *nzDrawerContent>
+    <!-- <app-list-address-master [drawerClose2]="cartCloseCallback"   [dataList]="cartDataList"  [custid]="Customer" > </app-list-address-master> -->
+    <app-listordermaster
+      [drawerClose2]="OrderCloseCallback"
+      [dataList]="OrderDataList"
+      [OrderCustomer]="OrderCustomer"
+    ></app-listordermaster>
+  </ng-container>
+</nz-drawer>

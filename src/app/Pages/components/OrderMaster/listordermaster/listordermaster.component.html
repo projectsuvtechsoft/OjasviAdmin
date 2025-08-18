@@ -1,0 +1,318 @@
+<div nz-row nzType="flex" >
+    <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12" >
+       <div class="formname" > <b> {{formTitle}} </b></div> 
+    </div>
+  
+      <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex;justify-content: flex-end">
+          <form nz-form [nzLayout]="'inline'">
+                           <nz-form-item>
+              <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" name="categorysearch" (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input placeholder=" Search Record"  />
+              </nz-input-group> 
+              <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" (click)="search(true)" nzSearch><i nz-icon nzType="search"></i></button>
+              </ng-template>
+            </nz-form-item>
+            <!-- <nz-form-item>
+                <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+                    <i nz-icon nzType="plus"></i>Add New Category
+                  </button>
+            </nz-form-item> -->
+    
+          </form>
+        </div>
+  </div>
+  <br />
+  <!-- <div nz-row >
+    <div nz-col nzSpan="24" >
+        <nz-table  
+        nzBordered
+        #cartmaster
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzData]="dataList"
+        [nzLoading]="loadingRecords"
+        [nzSize]="'small'"
+        [nzScroll]="{ x: '2050px', y: '350px' }"
+        [nzTotal]="totalRecords"
+        [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize"
+        (nzPageIndexChange)="search()"
+        (nzPageSizeChange)="search(true)"
+        (nzQueryParams)="sort($event)"
+      >
+   
+        <thead>
+          <tr  >
+           <th nzColumnKey="{{ 'NAME' }}" [nzSortFn]="true" nzWidth="80px" style="text-align: center;"><b>Customer Name </b></th>            
+
+            <th nzColumnKey="{{ 'ADDON_AMOUNT' }}" [nzSortFn]="true" nzWidth="70px" style="text-align: center;"><b> Addon Amount </b></th>            
+            <th nzColumnKey="{{ 'NET_AMOUNT' }}" [nzSortFn]="true" nzWidth="70px" style="text-align: center;"><b>  Net Amount</b></th>
+            <th nzColumnKey="{{ 'SAVED_AMOUNT' }}" [nzSortFn]="true" nzWidth="70px" style="text-align: center;"><b> Saved Amount </b></th>
+            <th nzColumnKey="{{ 'TOTAL_ITEMS' }}" [nzSortFn]="true" nzWidth="60px" style="text-align: center;"><b> Total Items </b></th> 
+            <th nzColumnKey="{{ 'ORDER_TOTAL_QTY' }}" [nzSortFn]="true" nzWidth="90px" style="text-align: center;"><b> Order Total Quantity </b></th>    
+            <th nzColumnKey="{{ 'TOTAL_PRICE' }}" [nzSortFn]="true" nzWidth="70px" style="text-align: center;"><b> Total Price </b></th>
+       
+           
+            <th nzColumnKey="{{ 'CREATED_DATETIME' }}" [nzSortFn]="true" nzWidth="100px" style="text-align: center;"><b> Created Datetime </b></th>
+            <th nzColumnKey="{{ 'CREATED_MODIFIED_DATE' }}" [nzSortFn]="true" nzWidth="100px" style="text-align: center;"><b> Created Modified Date </b></th>  
+
+            <th nzColumnKey="{{ 'LAST_UPDATED_DATETIME' }}" [nzSortFn]="true" nzWidth="100px" style="text-align: center;"><b> Last Updated Datetime </b></th>  
+            <th nzColumnKey="{{ 'STATUS' }}" [nzSortFn]="true" nzWidth="60px" style="text-align: center;"><b> Status </b></th>          
+
+       </tr>
+        </thead>
+        <tbody> 
+          <tr *ngFor="let data of cartmaster.data" >
+            <td style="white-space: pre-line; text-align: left;">{{data['NAME']}}</td> 
+
+            <td style="white-space: pre-line; text-align: right;">{{data['ADDON_AMOUNT']}}</td> 
+            <td style="white-space: pre-line; text-align: right;">{{data['NET_AMOUNT']}}</td>
+            <td style="white-space: pre-line; text-align: right;" >{{data['SAVED_AMOUNT']}}</td>
+            <td style="white-space: pre-line;text-align: center;" >{{data['TOTAL_ITEMS']}}</td>
+            <td style="white-space: pre-line;text-align: center;">{{data['ORDER_TOTAL_QTY']}}</td> 
+            <td style="white-space: pre-line; text-align: right;" >{{data['TOTAL_PRICE']}}</td>
+
+            
+            <td style="white-space: pre-line;text-align: center;" >{{data['CREATED_DATETIME']}}</td>
+            <td style="white-space: pre-line;text-align: center;" >{{data['CREATED_MODIFIED_DATE']}}</td>
+            <td style="white-space: pre-line;text-align: center;" >{{data['LAST_UPDATED_DATETIME']}}</td>
+            <td style="text-align:center">
+              <span *ngIf="data.STATUS=='C'"> Created</span>
+              <span *ngIf="data.STATUS=='P'"> Payment Done</span>
+              <span *ngIf="data.STATUS=='D'"> Discarded</span>
+              <span *ngIf="data.STATUS=='R'"> Cancel Order</span>
+
+            </td>
+            
+          </tr>
+        </tbody>
+      </nz-table>
+      </div>
+  </div> -->
+<nz-spin [nzSpinning]="loadingRecords">
+  <div nz-row *ngIf="totalRecords > 0" style="max-height:60vh;overflow-y: auto;overflow-x:hidden;" #scrollContainer>
+    <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8" *ngFor="let data of dataList;let i = index">
+      <div style="padding: 5px">
+        <div class="card">
+          <div class="card-header">
+            <div class="parent">
+              <div class="child-start">
+                <div>
+                  <div nz-row>
+                    <div nz-col [nzSpan]="12" class="category-name" style="padding: -1px 5px 0px 9px">
+                      <span [nzTooltipTitle]="isTextOverflow ? data['NAME'] : null " #tooltipRef1cut="nzTooltip"
+                        nz-tooltip #textContainercustn class="truncate-text">{{ data.NAME }}</span>&nbsp;
+                    </div>
+
+                    <div nz-col [nzSpan]="12" style="text-align: end;margin-top: -6px;">
+
+                      <nz-tag *ngIf="dataList != undefined && (data['ORDER_STATUS'] == 'A' || data['ORDER_STATUS'] == 'P')" class="tag"
+                        style="margin: -17px !important;" [nzColor]="'cyan'">Order Pending</nz-tag>
+                      <nz-tag *ngIf="dataList != undefined && (data['ORDER_STATUS'] == 'SP' || data['ORDER_STATUS'] == 'PD')" class="tag"
+                        style="margin: -17px !important;" [nzColor]="'blue'">Order Packaging</nz-tag>
+                        <nz-tag *ngIf="dataList != undefined && (data['ORDER_STATUS'] == 'D' || data['ORDER_STATUS'] == 'DD')" class="tag"
+                        style="margin: -17px !important;" [nzColor]="'green'">Order Dispatched</nz-tag>
+                      <nz-tag *ngIf="dataList != undefined && data['ORDER_STATUS'] == 'OD'" nzColor="error" class="tag"
+                        style="margin: -17px !important;" [nzColor]="'volcano'">Order Delivered</nz-tag>
+                      <nz-tag *ngIf="dataList != undefined && data['ORDER_STATUS'] == 'OC'" nzColor="error" class="tag"
+                        style="margin: -17px !important;" [nzColor]="'red'">Cancel Order</nz-tag>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="info">
+              <div nz-row>
+                <div nz-col nzSpan="24">
+                  <div class="details" style="height: 80px; padding-left: 0px">
+                    <div nz-row nzGutter="8" style="margin-top: 5px" *ngIf="dataList != undefined">
+
+                      <div nz-col nzSpan="12"
+                        style="font-size: 11px !important; font-weight: 500; display: flex; align-items: center;">
+                        <span style=" white-space: nowrap; font-size: 11px !important;">Net Amount :</span>
+                        <span style="font-size: 11px !important; margin-left: 4px" [nzTooltipTitle]="
+                            isTextOverflow ? data['NET_AMOUNT'] : null
+                          " #tooltipRef1cut2="nzTooltip" nz-tooltip #textContainercustn2 class="truncate-text">{{
+                          data.NET_AMOUNT }}</span>
+                      </div>
+
+                      <div nz-col nzSpan="12"
+                        style="font-size: 11px !important; font-weight: 500; display: flex; align-items: center;">
+                        <span style=" white-space: nowrap; font-size: 11px !important;">Total Items :</span>
+                        <span style="font-size: 11px !important; margin-left: 4px" [nzTooltipTitle]="
+                            isTextOverflow ? data['TOTAL_ITEMS'] : null
+                          " #tooltipRef1cut2="nzTooltip" nz-tooltip #textContainercustn2 class="truncate-text">{{
+                          data.TOTAL_ITEMS }}</span>
+                      </div>
+
+                      <div nz-col nzSpan="12"
+                        style="font-size: 11px !important; font-weight: 500; display: flex; align-items: center;">
+                        <span style=" white-space: nowrap; font-size: 11px !important;">Order Total Quantity :</span>
+                        <span style="font-size: 11px !important; margin-left: 4px" [nzTooltipTitle]="
+                            isTextOverflow ? data['ORDER_TOTAL_QTY'] : null
+                          " #tooltipRef1cut2="nzTooltip" nz-tooltip #textContainercustn2 class="truncate-text">{{
+                          data.ORDER_TOTAL_QTY }}</span>
+                      </div>
+
+                      <div nz-col nzSpan="12"
+                        style="font-size: 11px !important; font-weight: 500; display: flex; align-items: center;">
+                        <span style=" white-space: nowrap; font-size: 11px !important;">Total Price :</span>
+                        <span style="font-size: 11px !important; margin-left: 4px" [nzTooltipTitle]="
+                            isTextOverflow ? data['TOTAL_PRICE'] : null
+                          " #tooltipRef1cut2="nzTooltip" nz-tooltip #textContainercustn2 class="truncate-text">{{
+                          data.TOTAL_PRICE }}</span>
+                      </div>
+
+                      <div nz-col nzSpan="12" *ngIf="data['CREATED_DATETIME']"
+                        style="font-size: 11px !important; font-weight: 500; display: flex; align-items: center;">
+                        <span style=" white-space: nowrap; font-size: 11px !important;">Created Datetime :</span>
+                      
+                             <span style="font-size: 11px !important; margin-left: 4px" *ngIf="data['CREATED_DATETIME'].length >= 8" nz-popover [nzPopoverContent]="data['CREATED_DATETIME']"
+                        nzPopoverPlacement="topLeft" >
+                        {{ data["CREATED_DATETIME"] == null ? "-" : (data["CREATED_DATETIME"] | slice : 0 : 4)}}{{ data["CREATED_DATETIME"].length > 4 ? "..." : "" }}
+                      </span>
+                      <span *ngIf="data['CREATED_DATETIME'].length < 8">
+                        {{
+                        data["CREATED_DATETIME"] == null ? "-" : (data["CREATED_DATETIME"] | slice : 0 : 6)
+                        }}
+                        {{ data["CREATED_DATETIME"].length > 5 ? "..." : "" }}
+                      </span>
+                      </div>
+
+                      <div nz-col nzSpan="12"
+                        style="font-size: 11px !important; font-weight: 500; display: flex; align-items: center;">
+                        <span style=" white-space: nowrap; font-size: 11px !important;">Created Modified Date :</span>
+                        
+                          <span style="font-size: 11px !important; margin-left: 4px" *ngIf="data['CREATED_MODIFIED_DATE'].length >= 10" nz-popover [nzPopoverContent]="data['CREATED_MODIFIED_DATE']"
+                        nzPopoverPlacement="topLeft" >
+                        {{ data["CREATED_MODIFIED_DATE"] == null ? "-" : (data["CREATED_MODIFIED_DATE"] | slice : 0 : 3)}}{{ data["CREATED_MODIFIED_DATE"].length > 10 ? "..." : "" }}
+                      </span>
+                      <span *ngIf="data['CREATED_MODIFIED_DATE'].length < 10">
+                        {{
+                        data["CREATED_MODIFIED_DATE"] == null ? "-" : (data["CREATED_MODIFIED_DATE"] | slice : 0 : 3)
+                        }}
+                        {{ data["CREATED_MODIFIED_DATE"].length > 9 ? "..." : "" }}
+                      </span>
+                      </div>
+
+                      <div nz-col nzSpan="12" *ngIf="data['LAST_UPDATED_DATETIME']"
+                        style="font-size: 11px !important; font-weight: 500; display: flex; align-items: center;">
+                        <span style=" white-space: nowrap; font-size: 11px !important;">Last Updated Datetime :</span>
+                        
+                               <span style="font-size: 11px !important; margin-left: 4px" *ngIf="data['LAST_UPDATED_DATETIME'].length >= 10" nz-popover [nzPopoverContent]="data['LAST_UPDATED_DATETIME']"
+                        nzPopoverPlacement="topLeft" >
+                        {{ data["LAST_UPDATED_DATETIME"] == null ? "-" : (data["LAST_UPDATED_DATETIME"] | slice : 0 : 2)}}{{ data["LAST_UPDATED_DATETIME"].length > 10 ? "..." : "" }}
+                      </span>
+                      <span *ngIf="data['LAST_UPDATED_DATETIME'].length < 10">
+                        {{
+                        data["LAST_UPDATED_DATETIME"] == null ? "-" : (data["LAST_UPDATED_DATETIME"] | slice : 0 : 2)
+                        }}
+                        {{ data["LAST_UPDATED_DATETIME"].length > 9 ? "..." : "" }}
+                      </span>
+                      </div>
+                        <div nz-col nzSpan="12"
+                        style="font-size: 11px !important; font-weight: 500; display: flex; align-items: center;">
+                        <span style=" white-space: nowrap; font-size: 11px !important;">Payment Mode :</span>
+                        <span style="font-size: 11px !important; margin-left: 4px" [nzTooltipTitle]="
+                            isTextOverflow ? data['PAYMENT_MODE'] : null
+                          " #tooltipRef1cut2="nzTooltip" nz-tooltip #textContainercustn2 class="truncate-text">
+                          <span style="font-size: 11px !important; margin-left: 4px"  *ngIf="data.PAYMENT_MODE=='O'"> Online</span>
+            <span style="font-size: 11px !important; margin-left: 4px"  *ngIf="data.PAYMENT_MODE=='C'"> Cash On Delivery</span>
+                         
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer" style="padding: 3px">
+            <div nz-row>
+              <div nz-col nzSpan="10" ></div>
+              <div nz-col nzSpan="4" >
+                <button class="btn helpdoc" style="width: 100%; font-size: 11px !important" (click)="openProjectDetails(data)">
+                  <span nz-icon nzType="eye" nzTheme="outline"></span>&nbsp;
+                  View
+                </button>
+              </div>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <div *ngIf="dataList.length == 0" style="margin-top: 13%;">
+                  <nz-empty [nzNotFoundContent]="null"  ></nz-empty>
+    </div>
+</nz-spin>
+
+
+<nz-modal 
+  [(nzVisible)]="showmodal" 
+  nzTitle="Cart Items" 
+  (nzOnCancel)="handleProjectCancel()" 
+  [nzFooter]="null"
+  [nzBodyStyle]="{ 'max-height': '90vh', 'overflow-y': 'auto', 'padding-right': '24px' }"
+>
+  <ng-container *nzModalContent>
+    <div *ngFor="let data of cartitemDataList">
+      <div class="box">
+        <div nz-row>
+          <div nz-col nzSpan="18" class="field"><strong>Product Name:</strong>
+             <span *ngIf="data['PRODUCT_NAME'] != null">
+              <span
+                *ngIf="data['PRODUCT_NAME'].length >= 30"
+                [nzPopoverContent]="data['PRODUCT_NAME']"
+                nz-popover
+                nzPopoverPlacement="topLeft"
+              >
+                {{
+                  data["PRODUCT_NAME"] == null
+                    ? "-"
+                    : (data["PRODUCT_NAME"] | slice : 0 : 25)
+                }}{{ data["PRODUCT_NAME"].length > 30 ? "..." : "" }}
+              </span>
+              <span *ngIf="data['PRODUCT_NAME'].length < 30">
+                {{
+                  data["PRODUCT_NAME"] == null
+                    ? "-"
+                    : (data["PRODUCT_NAME"] | slice : 0 : 25)
+                }}{{ data["PRODUCT_NAME"].length > 30 ? "..." : "" }}
+              </span>
+            </span>
+            <span *ngIf="data['PRODUCT_NAME'] == null">-</span>
+          </div>
+          <div nz-col [nzSpan]="6" style="text-align: end;" class="field">
+            <nz-tag *ngIf="data['CART_STATUS'] == 'P'" 
+                [nzColor]="'green'">Payment Done</nz-tag>
+            <nz-tag *ngIf="data['CART_STATUS'] == 'D'" 
+              [nzColor]="'volcano'">Discarded</nz-tag>
+            <nz-tag *ngIf="data['CART_STATUS'] == 'R'" 
+              [nzColor]="'red'">Cancel Order</nz-tag>
+              <nz-tag *ngIf="data['CART_STATUS'] == 'L'"
+              [nzColor]="'gold'">Later</nz-tag>
+          </div>
+        </div>
+
+        <div nz-row>
+          <div nz-col nzSpan="12" class="field"><strong>Quantity:</strong> {{data.QUANTITY || "-"}}</div>
+          <div nz-col nzSpan="12" class="field"><strong>Product Size:</strong> {{data.PRODUCT_SIZE || "-"}}</div>
+          <div nz-col nzSpan="12" class="field"><strong>Product Unit Name:</strong> {{data.PRODUCT_UNIT_NAME|| "-"}}</div>
+          <div nz-col nzSpan="12" class="field"><strong>Product Rate:</strong> {{data.PRODUCT_RATE || "-"}}</div>
+          <div nz-col nzSpan="12" class="field"><strong>Varient Size:</strong> {{data.VERIENT_SIZE || "-"}}</div>
+          <div nz-col nzSpan="12" class="field"><strong>Varient Unit Name:</strong> {{data.VERIENT_UNIT_NAME || "-"}}</div>
+          <div nz-col nzSpan="12" class="field"><strong>Varient Rate:</strong> {{data.VERIENT_RATE || "-"}}</div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="cartitemDataList.length == 0">
+                  <nz-empty [nzNotFoundContent]="null"  ></nz-empty>
+
+    </div>
+  </ng-container>
+</nz-modal>

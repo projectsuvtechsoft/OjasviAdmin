@@ -1,0 +1,256 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname">
+      <b> {{ formTitle }} </b>
+    </div>
+  </div>
+
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="postsearch"
+            (keyup)="keyup($event)"
+            [(ngModel)]="searchText"
+            nz-input
+            placeholder="Search Record"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" (click)="search(true)" nzSearch>
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+      <!-- <nz-form-item>
+                <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+                    <i nz-icon nzType="plus"></i>Add New City </button> 
+            </nz-form-item> -->
+    </form>
+  </div>
+</div>
+
+<br />
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table
+    
+      nzBordered
+      #datatable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ x: '1100px', y: '920px' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+    >
+      <thead>
+        <tr>
+          <th
+            nzLeft
+            nzWidth="110px"
+            style="font-weight: bold; text-align: center"
+          >
+            Action
+          </th>
+          <!-- <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Order Status
+          </th> -->
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Customer Name
+          </th>
+          <th
+            nzWidth="150px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Cart ID
+          </th>
+          <!-- <th nzWidth="200px" style="font-weight: bold; text-align: center;"  [nzSortFn]="true">Order Number</th> -->
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Order DateTime
+          </th>
+          <!-- <th nzWidth="290px" style="font-weight: bold; text-align: center;" [nzSortFn]="true" >Expected Prepare Dispatch DateTime</th> -->
+
+          <!-- <th nzWidth="230px" style="font-weight: bold; text-align: center;" [nzSortFn]="true" >Order Confirmed DateTime</th> -->
+          <th
+            nzWidth="280px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Actual Dispatch DateTime
+          </th>
+          <!-- <th nzWidth="280px" style="font-weight: bold; text-align: center;" [nzSortFn]="true" >Expected Dispatch DateTime</th> -->
+
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Order Total Quantity
+          </th>
+          <th
+            nzWidth="230px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Country Name
+          </th>
+          <th
+            nzWidth="230px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            State Name
+          </th>
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            City Name
+          </th>
+          <th
+            nzWidth="170px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Pincode
+          </th>
+
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Total Amount
+          </th>
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Addon Amount
+          </th>
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Net Amount
+          </th>
+        </tr>
+      </thead>
+      <tbody style="text-align: center">
+        <tr *ngFor="let data of datatable.data" style="text-align: center">
+          <td nzLeft>
+            <a (click)="edit(data)" style="color: #5a8f69">View</a>
+          </td>
+          <!-- <td style="text-align: center">
+            <span *ngIf="data['ORDER_STATUS'] == 'DD'"> Dispatch Done </span>
+          </td> -->
+          <td style="text-align: left; white-space: pre-line">
+            {{ data["CUSTOMER_NAME"] }}
+          </td>
+
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["CART_ID"] }}
+          </td>
+          <!-- <td style="text-align: center;white-space: pre-line; ">{{data['ORDER_NUMBER']}}</td> -->
+
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["ORDER_DATETIME"] }}
+          </td>
+          <!-- <td style="text-align: center;white-space: pre-line; ">{{data['ORDER_CONFIRMED_DATETIME']}}</td> -->
+          <!-- <td style="text-align: center;white-space: pre-line; ">{{data['EXPECTED_PREPARE_DISPATCH_DATETIME']}}</td> -->
+
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["ACTUAL_DISPATCH_DATETIME"] }}
+          </td>
+          <!-- <td style="text-align: center;white-space: pre-line; ">{{data['EXPECTED_DISPATCH_DATETIME']}}</td> -->
+
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["ORDER_TOTAL_QTY"] }}
+          </td>
+
+          <td style="text-align: left; white-space: pre-line">
+            {{ data["COUNTRY_NAME"] }}
+          </td>
+          <td style="text-align: left; white-space: pre-line">
+            {{ data["STATE_NAME"] }}
+          </td>
+          <td style="text-align: left; white-space: pre-line">
+            {{ data["CITY"] }}
+          </td>
+
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["PINCODE"] }}
+          </td>
+
+          <td style="text-align: right; white-space: pre-line">
+            {{ data["TOTAL_AMOUNT"] }}
+          </td>
+          <td style="text-align: right; white-space: pre-line">
+            {{ data["ADDON_AMOUNT"] }}
+          </td>
+          <td style="text-align: right; white-space: pre-line">
+            {{ data["NET_AMOUNT"] }}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+
+  <nz-drawer
+    [nzBodyStyle]="{
+      height: 'calc(100% - 55px)',
+      overflow: 'auto',
+      'padding-bottom': '53px'
+    }"
+    [nzClosable]="true"
+    [nzMask]="true"
+    [nzMaskClosable]="false"
+    [nzWidth]="1100"
+    [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitle"
+    (nzOnClose)="drawerClose()"
+    (nzKeyboard)="(true)"
+  >
+    <ng-container *nzDrawerContent>
+      <app-despatched-order-view
+        [drawerClose]="closeCallback"
+        [drawerVisible]="drawerVisible"
+        [data]="drawerData"
+        [OrdersID]="OrdersID"
+      ></app-despatched-order-view>
+    </ng-container>
+  </nz-drawer>
+</div>

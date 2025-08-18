@@ -1,0 +1,153 @@
+<div>
+    <!-- <form nz-form #form30> -->
+      <form nz-form #websitebannerPage="ngForm">
+      <nz-spin [nzSpinning]="isSpinning">
+        <div nz-row >          
+          
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon>Title </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Title" >
+                    <input nz-input name="abouttitle" placeholder="Enter Title" [(ngModel)]="data.TITLE" maxlength="128" required />
+                  </nz-form-control>
+                  <h6 style="color: red;font-size: 10px;" *ngIf="data.TITLE!=undefined">{{data.TITLE.length}}/128</h6> 
+                </nz-form-item>
+              </div>                          
+             
+              <!-- <div nz-col nzSpan="12">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon> Title (Marathi)</nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip="Please Enter Correct Title (Marathi)" >
+                    <input nz-input name="abouttitlemr" [(ngModel)]="data.TITLE_MR" maxlength="128" required />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>    -->
+
+              <div nz-col nzSpan="24">
+                <nz-form-label nzRequired style="margin-left: 10px;" nzNoColon>  Description</nz-form-label>
+                <nz-form-item>
+                    <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Description">
+                        <textarea rows="5" name="text" nz-input [(ngModel)]="data.TEXT" placeholder="Enter Description" maxlength="2000"  required></textarea>
+                          <h6 style="color: red;font-size: 10px;" *ngIf="data.TEXT!=undefined">{{data.TEXT.length}}/2000</h6> 
+                    </nz-form-control>
+                </nz-form-item>
+
+            </div>
+
+            <!-- <div nz-col nzSpan="24">
+                <nz-form-label nzRequired style="margin-left: 10px;"  nzNoColon>  Description (Marathi) </nz-form-label>
+                <nz-form-item>
+                    <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Description (Marathi)">
+                        <textarea rows="5" nz-input name="textmr" [(ngModel)]="data.TEXT_MR" maxlength="2000"  required></textarea>
+                          <h6 style="color: red" *ngIf="data.TEXT_MR!=undefined">{{data.TEXT_MR.length}}/2000</h6> 
+                    </nz-form-control>
+                </nz-form-item>
+
+            </div> -->
+
+              <div nz-col nzSpan="6" >
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon> Sequence No. </nz-form-label>
+                  <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Sequence Number" >
+                    <!-- <nz-input-number style="width: 100%" name="aboutseqno" [(ngModel)]="data.SEQUENCE_NO" [nzMin]="1" [nzStep]="1" required></nz-input-number> -->
+                    <input nz-input name="aboutseq"  style="width: 100%;" placeholder="Enter Sequence No." [(ngModel)]="data.SEQUENCE_NO"  (keypress)="omit($event)" maxlength="5" required/>
+                  </nz-form-control>
+                </nz-form-item> 
+              </div> 
+
+              <div nz-col nzSpan="8" > 
+                <nz-form-item>
+                  <nz-form-label nzNoColon> status</nz-form-label>
+                  <nz-form-control>
+                      <nz-switch name="is_active" [(ngModel)]="data.STATUS" ></nz-switch>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              
+              <div nz-col nzSpan="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired nzNoColon> Image <span
+                  *ngIf="(data.IMG_URL && data.IMG_URL != ' ') || fileURL"
+                  nz-popconfirm
+                  nzPopconfirmTitle="Are you sure you want to delete?"
+                  nzPopconfirmPlacement="top"
+                  (nzOnConfirm)="removeImage()"
+                  (nzOnCancel)="deleteCancel()"
+                  style="cursor: pointer; color: red; margin-left: 10px"
+                >
+                  <span
+                    nz-icon
+                    nzType="delete"
+                    nzTheme="twotone"
+                    [nzTwotoneColor]="'#FF0000'"
+                    nz-tooltip
+                    nzTooltipTitle="Delete"
+                  ></span> </span> </nz-form-label>
+                  <nz-form-control  nzHasFeedback nzErrorTip=" Please Select Image">
+                    <button  *ngIf="!fileURL && (!data.IMG_URL || data.IMG_URL.trim() === '')"  nz-button style="height: 28px; padding: 0px 7px; font-size: 12px;" (click)="fileInput.click()"> Select Image 
+                      <input #fileInput  name="aboutimage" type="file" (change)="onFileSelected($event)"
+                        style="display: none;" required />
+                    </button>                    
+                  </nz-form-control>
+                </nz-form-item>
+                <!-- <div nz-col nzSpan="23" *ngIf="fileURL!=null"  style="overflow: hidden;font-size: 13px;margin-top: -32px;padding-left: 11px;color: #40a9ff;">
+                  {{fileURL.name}}
+                </div> -->
+                   <div nz-col nzSpan="23" *ngIf="fileURL!=null && fileURL != ''" style="overflow: hidden;font-size: 13px;margin-top: -32px;padding-left: 11px;color: #107dd5;">
+                     
+                      <img
+                      nz-image
+                      [nzSrc]="imagePreviews"
+                    
+                      style="width: 338px;height: 150px;border: 1px solid #ccc;padding: 2px;"
+                    />
+                    </div>
+              </div>
+              <div nz-col nzSpan="24" *ngIf="fileURL==null && data.IMG_URL != ''"> 
+                <img style="width: 338px;height: 150px; margin-top: -41px; margin-left: 10px;" alt="Image" src="{{imgurl}}aboutusImage/{{ data.IMG_URL }}" />
+                <!-- <button (click)="removeImage()" [nzSize]="'default'"  nz-button style="margin-left: 20px; "> 
+                  <nz-badge >
+                    <i style="font-size: 15px; color: red;"  nz-icon nzType="delete" 
+                  ></i>  
+                  </nz-badge>
+                </button> -->
+              </div> 
+            </div>
+          </nz-spin>
+        </form>
+      </div>
+  
+    <div class="footer">
+      <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px" >
+        <span> Cancel </span>
+      </button>
+      <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID"  nz-button
+        nz-dropdown
+        [nzDropdownMenu]="menu"
+        (click)="save(false,websitebannerPage)"
+      >
+        <span> Save & Close</span>
+      </button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li
+            nz-menu-item
+            class="menuc"
+            style="border-radius: 4px; background-color: #40a9ff"
+          >
+            <a style="color: white" (click)="save(true,websitebannerPage)"> Save & New</a>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+      <button
+        type="button"
+        class="ant-btn ant-btn-primary"
+        nz-button
+        [nzLoading]="isSpinning"
+        *ngIf="data.ID"
+        (click)="save(false,websitebannerPage)"
+      >
+        <span> Update & Close</span>
+      </button>
+    </div>
+  

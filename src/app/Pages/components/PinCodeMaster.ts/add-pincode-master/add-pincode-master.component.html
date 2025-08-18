@@ -1,0 +1,98 @@
+<div>
+    <form nz-form #websitebannerPage="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row >
+              
+                <div nz-col nzSpan="24">
+                    <nz-form-item>
+                      <nz-form-label nzRequired nzNoColon> Zipcode </nz-form-label>
+                      <nz-form-control
+                        nzHasFeedback
+                        nzErrorTip=" Please Enter Valid Zipcode"
+                      >
+                        <nz-input-group style="width: 100%" >
+                          <input
+                            nz-input
+                            name="pincode"
+                            [(ngModel)]="data.PINCODE"
+                            maxlength="5"
+                            [pattern]="pincode"
+                            (keypress)="omit($event)"
+                            style="width: 100%"
+                            required
+                          />
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+      
+
+                <div nz-col nzSpan="24">
+                    <nz-form-item>
+                      <nz-form-label nzRequired nzNoColon> Shipping Charges </nz-form-label>
+                      <nz-form-control
+                        nzHasFeedback
+                        nzErrorTip=" Please Enter Valid Shipping Charges"
+                      >
+                        <nz-input-group style="width: 100%" nzAddOnAfter="$">
+                          <input
+                            nz-input
+                            name="shippingcharges"
+                            [(ngModel)]="data.SHIPPING_CHARGES"
+                            maxlength="10"
+                            (keypress)="onlynumdot($event)"
+                            style="width: 100%"
+                            required
+                          />
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+      
+                <div nz-col nzSpan="8" >
+                  <nz-form-item>
+                    <nz-form-label nzNoColon> Status </nz-form-label>
+                    <nz-form-control>
+                        <nz-switch name="unitstatus" [(ngModel)]="data.STATUS"></nz-switch>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </nz-spin>
+          </form>
+
+  <div class="footer">
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px" >
+      <span> Cancel </span>
+    </button>
+    <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID"  nz-button
+      nz-dropdown
+      [nzDropdownMenu]="menu"
+      (click)="save(false,websitebannerPage)"
+       [nzLoading]="isSpinning"
+    >
+      <span> Save & Close</span>
+    </button>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          class="menuc"
+          style="border-radius: 4px; background-color: #40a9ff"
+        >
+          <a style="color: white" (click)="save(true,websitebannerPage)"> Save & New</a>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      nz-button
+      [nzLoading]="isSpinning"
+      *ngIf="data.ID"
+      (click)="save(false,websitebannerPage)"
+    >
+      <span> Update & Close</span>
+    </button>
+  </div>
+</div>

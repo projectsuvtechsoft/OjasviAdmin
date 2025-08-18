@@ -1,0 +1,221 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname"> <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp; 
+      <b> {{ formTitle }} </b>
+    </div>
+  </div>
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+       <nz-form-item>
+        <button nz-button nzTooltipTitle="Excel" nzTooltipPlacement="top" nz-tooltip style="color: white"
+          nzType="primary" (click)="importInExcel()" [nzLoading]="exportLoading">
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item>
+        <button
+          nz-button
+          [nzType]="isFilterApplied"
+          
+          (click)="showFilter()"
+        >
+          <i nz-icon nzType="filter"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="search"
+            [(ngModel)]="searchText"
+            (keyup)="keyup($event)"
+            (keydown.enter)="onKeypressEvent($event)"
+            nz-input
+            placeholder="Search"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button
+            nz-button
+            nzType="primary"
+            id="button"
+            (click)="search(true)"
+            nzSearch
+          >
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+<br />
+
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <div class="filter {{ filterClass }}">
+      <div class="filter-box">
+        <form nz-form>
+          <div nz-row nzGutter="8">
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon
+                  ><b> Start Date</b></nz-form-label
+                >
+                <nz-date-picker
+                  name="startdate"
+                  style="width: 100%"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="startValue"
+                  nzPlaceHolder="Select Start Date."
+                  [nzDisabledDate]="disabledStartDate2"
+                  (ngModelChange)="startDateChange()"
+                >
+                </nz-date-picker>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon><b> End Date</b></nz-form-label>
+                <nz-date-picker
+                  #EndDatePicker
+                  style="width: 100%"
+                  name="enddate"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="endValue"
+                  nzPlaceHolder="Select End Date."
+                  [nzDisabledDate]="disabledEndDate2"
+                ></nz-date-picker>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-label nzNoColon></nz-form-label>
+              <nz-form-item style="margin-left: 10px">
+                <button
+                  style="margin-right: 10px"
+                  nz-button
+                  
+                  nzType="primary"
+                  (click)="applyFilter()"
+                  nzJustify="end"
+                >
+                  <i nz-icon nzType="filter"></i>Apply filter
+                </button>
+                <button nz-button nzType="primary" (click)="clearFilter()">
+                  <i nz-icon nzType="delete"></i>Clear Filter
+                </button>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br />
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table
+      
+      nzBordered
+      #datatable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ x: '800px', y: '920px' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+    >
+      <thead>
+        <tr>
+          <th
+            nzWidth="130px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Mobile No
+          </th>
+
+          <th
+            nzWidth="170px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Requested DateTime
+          </th>
+
+          <th
+            nzWidth="100px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+          OTP
+            
+          </th>
+          <!-- <th nzWidth="200px" style="font-weight: bold; text-align: center;"  [nzSortFn]="true">Order Number</th> -->
+          <th
+            nzWidth="170px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+          Verified DateTime
+          </th>
+          <th
+            nzWidth="100px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+           Status
+          </th>
+        </tr>
+      </thead>
+      <tbody style="text-align: center">
+        <tr *ngFor="let data of datatable.data" style="text-align: center">
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["MOBILE_NO"] ||"-" }}
+          </td>
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["REQUESTED_DATETIME"] ||"-"}}
+          </td>
+
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["OTP"] ||"-"}}
+          </td>
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["MOBILE_VERIFICATION_DATETIME"] ||"-"}}
+          </td>
+          <!-- <td style="text-align: center;white-space: pre-line; ">{{data['ORDER_NUMBER']}}</td> -->
+          <td style="text-align: center">
+            <span *ngIf="data['STATUS'] == 1"> Verified </span>
+            <span *ngIf="data['STATUS'] == 0"> Not Verified </span>
+             <span *ngIf="data['STATUS'] == null">- </span>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

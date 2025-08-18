@@ -1,0 +1,111 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname"> <b> {{formTitle}} </b></div>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex;justify-content: flex-end">
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input type="text" name="aboutsearch" (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input
+            placeholder="Search Record" />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" (click)="search(true)" nzSearch><i nz-icon nzType="search"></i></button>
+        </ng-template>
+      </nz-form-item>
+      <!-- <nz-form-item>
+        <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+          <i nz-icon nzType="plus"></i>Add New Address
+        </button>
+      </nz-form-item> -->
+
+    </form>
+  </div>
+</div>
+<br />
+<div nz-row>
+  <div nz-col nzSpan="24" style="width: 100%;">
+    <nz-table nzBordered #unitMasterTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="dataList"
+      [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="{ x: '2000px', y: '360px' }" [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)" style="width: 100%;">
+
+      <thead>
+        <tr>
+          <th nzLeft nzWidth="15px" style="text-align: center;"><b> Action </b></th>
+          <!-- <th nzColumnKey="{{ 'NAME' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center;"><b> Customer Name </b></th>
+          <th nzColumnKey="{{ 'MOBILE_NO' }}" [nzSortFn]="true" nzWidth="35px" style="text-align: center;"><b> Mobile Number </b></th>             -->
+          <th nzColumnKey="{{ 'ADDRESS' }}" [nzSortFn]="true" nzWidth="60px" style="text-align: center;"><b> Address</b></th>
+          <th nzColumnKey="{{ 'COUNTRY_NAME' }}" [nzSortFn]="true" nzWidth="30px" style="text-align: center;"><b>Country</b></th>
+          <th nzColumnKey="{{ 'STATE_NAME' }}" [nzSortFn]="true" nzWidth="30px" style="text-align: center;"><b> State</b></th>
+          <th nzColumnKey="{{ 'CITY' }}" [nzSortFn]="true" nzWidth="30px" style="text-align: center;"><b> City </b></th>
+          <th nzColumnKey="{{ 'PINCODE' }}" [nzSortFn]="true" nzWidth="22px" style="text-align: center;"><b> Pincode</b></th>
+          <th nzColumnKey="{{ 'LANDMARK' }}" [nzSortFn]="true" nzWidth="30px" style="text-align: center;"><b> Landmark</b></th>
+          <th nzColumnKey="{{ 'LOCALITY' }}" [nzSortFn]="true" nzWidth="30px" style="text-align: center;"><b> Area</b></th>
+          <th nzColumnKey="{{ 'ADDRESS_TYPE' }}" [nzSortFn]="true" nzWidth="25px" style="text-align: center;"><b>Address Type </b></th>
+          <th nzColumnKey="{{ 'IS_DEFUALT_ADDRESS' }}" nzWidth="29px" style="text-align: center;"><b> Mark Default Address </b></th>
+
+          <!-- <th nzColumnKey="{{ 'ORDER_STATUS_ID' }}" [nzSortFn]="true" nzWidth="40px" style="text-align: center;"><b> Order Status Id </b></th>
+          <th nzColumnKey="{{ 'IS_AVILABLE_AT_PINCODE' }}" [nzSortFn]="true" nzWidth="50px" style="text-align: center;"><b> Is Available At Pincode </b></th> -->
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of unitMasterTable.data">
+          <td nzLeft style="text-align: center;">
+            <span nz-icon nzType="edit" nzTheme="outline" style="
+                cursor: pointer;
+                font-size: 15px !important;
+                color: #5a8f69;
+                margin-left: 8px;
+              " nzTooltipTitle="Edit" nzTooltipPlacement="top" nz-tooltip (click)="edit(data)">
+            </span>
+          </td>
+          <!-- <td style=" white-space: pre-line ;text-align: left;">{{data['NAME']}}</td>
+          <td style=" white-space: pre-line ;text-align: center;">{{data['MOBILE_NO']}}</td>  -->
+          <td style="white-space: pre-line; text-align: left;">{{data['ADDRESS']}}</td>
+          <td style="white-space: pre-line; text-align: left;">{{data['COUNTRY_NAME']}}</td>
+          <td style=" white-space: pre-line ;text-align: left;">{{data['STATE_NAME']}}</td>
+          <td style=" white-space: pre-line ;text-align: left;">{{data['CITY']}}</td>
+          <td style="white-space: pre-line; text-align: center;">{{data['PINCODE']}}</td>
+          <td style=" white-space: pre-line ;text-align: left;">{{data['LANDMARK'] || "-"}}</td>
+          <td style=" white-space: pre-line ;text-align: left;">{{data['LOCALITY']|| "-"}}</td>
+          <td style="text-align:left">
+            <span *ngIf="data.ADDRESS_TYPE=='R'"> Residential</span>
+            <span *ngIf="data.ADDRESS_TYPE=='O'"> Office</span>
+          </td>
+
+
+
+
+          <!--           
+          <td style="text-align: center;"> 
+            <span nz-icon *ngIf="data['IS_DEFUALT_ADDRESS']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"></span>
+            <span nz-icon *ngIf="!data['IS_DEFUALT_ADDRESS']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"></span>
+          </td> -->
+          <td style="text-align: center;"> <nz-switch name="is_allowed" [(ngModel)]="data.IS_DEFUALT_ADDRESS"
+              (ngModelChange)="update(data)"></nz-switch> </td>
+
+
+
+
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="700" [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="true">
+  <ng-container *nzDrawerContent>
+    <!-- <app-addunit></app-addunit> -->
+    <!-- <app-addunit [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData"></app-addunit> -->
+    <app-add-address-master [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData"
+      [CustomerId]="custid" [customerName]="customerName" [custMobileNo]="custMobileNo"></app-add-address-master>
+  </ng-container>
+</nz-drawer>

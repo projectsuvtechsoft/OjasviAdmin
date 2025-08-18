@@ -1,0 +1,310 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname">
+      <b> {{ formTitle }} </b>
+    </div>
+  </div>
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <!-- <button nz-button [nzLoading]="isSpinning" nzType="primary" [appExport]="dataList2" (click)="DownloadExcel()" fileName= 'Product Summary Report'>
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button> -->
+        <!-- <button nz-button nzType="primary" (click)="DownloadExcel()">
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button> -->
+        <!-- <button
+          nz-button
+          nzType="primary"
+          hidden="true"
+          id="downloadExcel"
+          [appExport]="dataList"
+          fileName= 'Product Summary Report'
+        >
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button> -->
+      </nz-form-item>
+      <!-- <nz-form-item>
+      <button nz-button  [nzLoading]="loadingRecords" (click)="showFilter()">
+        <i nz-icon nzType="filter"></i>
+      </button>
+    </nz-form-item> -->
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="search"
+            [(ngModel)]="searchText"
+            (keyup)="keyup($event)"
+            (keydown.enter)="onKeypressEvent($event)"
+            nz-input
+            placeholder="Search"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button
+            nz-button
+            nzType="primary"
+            id="button"
+            (click)="search(true)"
+            nzSearch
+          >
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+<br />
+
+<div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+  <div nz-row nz-row nzGutter="8">
+    <div nz-col nzSpan="4">
+      <button
+        nz-button
+        [nzType]="istodaysdate"
+        style="border: 1px solid #5a8f69; width: 90%"
+        (click)="todaysdate($event)"
+      >
+        Today's
+      </button>
+    </div>
+    <div nz-col nzSpan="4">
+      <button
+        nz-button
+        [nzType]="islastsevendays"
+        style="border: 1px solid #5a8f69; width: 90%"
+        (click)="lastsevendays($event)"
+      >
+        Last 7 Days
+      </button>
+    </div>
+
+    <div nz-col nzSpan="4">
+      <button
+        nz-button
+        [nzType]="iscurrentmonth"
+        style="border: 1px solid #5a8f69; width: 90%"
+        (click)="currentmonth($event)"
+      >
+        Current Month
+      </button>
+    </div>
+    <div nz-col nzSpan="4">
+      <button
+        nz-button
+        style="margin-left: 10px"
+        nzType="primary"
+        (click)="clearFilter()"
+      >
+        <i nz-icon nzType="filter"></i>Clear Filter
+      </button>
+    </div>
+  </div>
+</div>
+
+<br />
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table
+      nzBordered
+      #datatable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ x: '1100px', y: '920px' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+    >
+      <thead>
+        <tr>
+          <th
+            nzWidth="110px"
+            nzLeft
+            style="font-weight: bold; text-align: center"
+          >
+            Action
+          </th>
+          <!-- <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Order Status
+          </th> -->
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Customer Name
+          </th>
+
+          <th
+            nzWidth="150px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Cart ID
+          </th>
+
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Order DateTime
+          </th>
+          <!-- <th nzWidth="200px" style="font-weight: bold; text-align: center;"  [nzSortFn]="true">Order Number</th> -->
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Order Total Quantity
+          </th>
+          <th
+            nzWidth="230px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Country Name
+          </th>
+          <th
+            nzWidth="230px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            State Name
+          </th>
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            City Name
+          </th>
+          <th
+            nzWidth="160px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Pincode
+          </th>
+
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Total Amount
+          </th>
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Addon Amount
+          </th>
+          <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Net Amount
+          </th>
+        </tr>
+      </thead>
+      <tbody style="text-align: center">
+        <tr *ngFor="let data of datatable.data" style="text-align: center">
+          <td nzLeft>
+            <a (click)="edit(data)" style="color: #5a8f69">View </a>
+          </td>
+          <!-- <td style="text-align: center">
+            <span *ngIf="data['ORDER_STATUS'] == 'P'"> Pending </span>
+          </td> -->
+          <td style="text-align: left; white-space: pre-line">
+            {{ data["CUSTOMER_NAME"] }}
+          </td>
+
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["CART_ID"] }}
+          </td>
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["ORDER_DATETIME"] }}
+          </td>
+          <!-- <td style="text-align: center;white-space: pre-line; ">{{data['ORDER_NUMBER']}}</td> -->
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["ORDER_TOTAL_QTY"] }}
+          </td>
+
+          <td style="text-align: left; white-space: pre-line">
+            {{ data["COUNTRY_NAME"] }}
+          </td>
+          <td style="text-align: left; white-space: pre-line">
+            {{ data["STATE_NAME"] }}
+          </td>
+          <td style="text-align: left; white-space: pre-line">
+            {{ data["CITY"] }}
+          </td>
+
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["PINCODE"] }}
+          </td>
+
+          <td style="text-align: right; white-space: pre-line">
+            {{ data["TOTAL_AMOUNT"] }}
+          </td>
+          <td style="text-align: right; white-space: pre-line">
+            {{ data["ADDON_AMOUNT"] }}
+          </td>
+          <td style="text-align: right; white-space: pre-line">
+            {{ data["NET_AMOUNT"] }}
+          </td>
+          <!-- <td style="text-align: center;white-space: pre-line; ">{{data['ORDER_STATUS']}}</td> -->
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+
+  <nz-drawer
+    *ngIf="drawerVisible"
+    [nzBodyStyle]="{
+      height: 'calc(100% - 55px)',
+      overflow: 'auto',
+      'padding-bottom': '53px'
+    }"
+    [nzClosable]="true"
+    [nzMask]="true"
+    [nzMaskClosable]="false"
+    [nzWidth]="1100"
+    [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitle"
+    (nzOnClose)="drawerClose()"
+    (nzKeyboard)="(true)"
+  >
+    <ng-container *nzDrawerContent>
+      <app-add-orders
+        [drawerClose]="closeCallback"
+        [drawerVisible]="drawerVisible"
+        [data]="drawerData"
+        [OrdersID]="OrdersID"
+      ></app-add-orders>
+    </ng-container>
+  </nz-drawer>
+</div>

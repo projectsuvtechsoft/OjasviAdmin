@@ -1,0 +1,27 @@
+ <div [ngClass]="'inner-content'">
+        <div class="body">
+        <div class="inner-body">
+          <div style="text-align: center;">
+            <span style="font-size: 40px !important; font-weight: bold"
+              >Welcome</span
+            >
+            <br />
+            <span
+              style="
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 25px !important;
+                font-weight: bold;
+              "
+            >
+              {{ decreptedUserName | uppercase }}
+            </span>
+            <br />
+            <span style="font-size: 12px !important">
+              <span nz-icon nzType="mail" nzTheme="twotone"></span>
+              {{ decryptedEmail }}
+            </span>
+          </div>
+        </div>
+        </div>
+        
+      </div>

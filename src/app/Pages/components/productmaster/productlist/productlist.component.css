@@ -1,0 +1,33 @@
+.custom-card {
+  font-size: 13px;
+  padding: 8px;
+}
+
+.product-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header-row,
+.meta-row,
+.flag-row,
+.stock-row,
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.flag-row i {
+  font-size: 16px;
+  margin-right: 6px;
+}
+
+.footer-row {
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 4px;
+}

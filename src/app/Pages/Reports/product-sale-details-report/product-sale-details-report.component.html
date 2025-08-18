@@ -1,0 +1,193 @@
+
+<div nz-row nzType="flex">
+    <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+      <div class="formname"> <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp;  <b> {{Title}} </b></div>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex;justify-content: flex-end">
+      <form nz-form [nzLayout]="'inline'">
+        <!-- <nz-form-item>
+        
+          <button nz-button nzType="primary" (click)="DownloadExcel1()">
+            <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          </button>
+          <button
+            nz-button
+            nzType="primary"
+            hidden="true"
+            id="downloadExcel"
+            [appExport]="dataList2"
+            fileName= 'Product Sale Details Report'
+          >
+            <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          </button>
+        </nz-form-item> -->
+       <nz-form-item>
+        <button nz-button nzTooltipTitle="Excel" nzTooltipPlacement="top" nz-tooltip style="color: white"
+          nzType="primary" (click)="importInExcel()" [nzLoading]="exportLoading">
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button>
+      </nz-form-item>
+        <nz-form-item>
+          <button nz-button [nzType]="isFilterApplied"  (click)="showFilter()">
+            <i nz-icon nzType="filter"></i>
+          </button>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+            <input type="text" name="search" [(ngModel)]="searchText" (keyup)="keyup($event)" (keydown.enter)="onKeypressEvent($event)" nz-input
+              placeholder="Search" />
+          </nz-input-group>
+          <ng-template #suffixIconButton>
+            <button nz-button nzType="primary" id="button" (click)="search(true)" nzSearch><i nz-icon nzType="search"></i></button>
+          </ng-template>
+        </nz-form-item>
+      </form>
+    </div>
+  </div>
+  <br />
+
+
+
+  <div nz-row>
+    <div nz-col nzSpan="24">
+      <div class="filter {{ filterClass }}">
+        <div class="filter-box">
+          <form nz-form>
+            <div nz-row nzGutter="8">
+  
+              <div nz-col nzSpan="5">
+                <nz-form-item>
+                  <nz-form-label nzNoColon><b> Start Date</b></nz-form-label>
+                  <nz-date-picker name="startdate" style="width: 100%;" nzFormat="dd-MM-yyyy " 
+                  [nzDisabledDate]="disabledStartDate2"    [(ngModel)]="startValue"
+                    nzPlaceHolder="Select Start Date." (nzOnOpenChange)="moduleStartDateHandle($event)"
+                    (ngModelChange)="startDateChange()">
+                  </nz-date-picker>
+                </nz-form-item>
+              </div>
+  
+              <div nz-col nzSpan="5">
+                <nz-form-item>
+                  <nz-form-label nzNoColon><b> End Date</b></nz-form-label>
+                  <nz-date-picker #EndDatePicker style="width: 100%;" name="enddate" nzFormat="dd-MM-yyyy "
+                    [(ngModel)]="endValue" [nzDisabledDate]="disabledEndDate2"
+                    nzPlaceHolder="Select End Date."></nz-date-picker>
+                </nz-form-item>
+              </div>
+
+  
+              <div nz-col nzSpan="5">
+                <nz-form-item>
+                  <nz-form-control>
+                    <nz-form-label nzNoColon><b>Product Name</b></nz-form-label>
+                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Product Name" name="type"
+                      [(ngModel)]="type">
+                      <nz-option *ngFor="let data of dataList1" [nzLabel]="data.NAME
+                      " [nzValue]="data.ID"></nz-option>
+                      <!-- <nz-option nzValue="D" nzLabel="डेबिट"></nz-option> -->
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+  
+  
+  
+  
+  
+  
+              <div nz-col nzSpan="8">
+                <nz-form-label nzNoColon></nz-form-label>
+                <nz-form-item style=" margin-left: 10px">
+                  <button style="margin-right: 10px" nz-button nzType="primary"
+                    (click)="applyFilter()" nzJustify="end">
+                    <i nz-icon nzType="filter"></i>Apply filter
+                  </button>
+                  <button nz-button nzType="primary" (click)="clearFilter()">
+                    <i nz-icon nzType="delete"></i>Clear Filter
+                  </button>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <br>
+
+  <div nz-row id="excel-table">
+    <div nz-col nzSpan="24" style="width: 100%;">
+      <nz-table  nzBordered #Contra nzShowSizeChanger [nzFrontPagination]="false"
+        [nzData]="dataList" [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="{ x: '1300px', y: '710px' }"
+        [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()"
+        (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)">
+        <thead>
+          <tr>
+            <th nzColumnKey="{{ 'ORDER_DATETIME' }}" nzAlign="center" nzWidth="200px" [nzSortFn]="true"><b>Order Date Time</b></th>
+            <th nzColumnKey="{{ 'CUSTOMER_NAME' }}" nzAlign="center" nzWidth="200px" [nzSortFn]="true"><b>Customer Name</b></th>
+
+            <th nzColumnKey="{{ 'PRODUCT_NAME' }}" nzAlign="center" nzWidth="200px" [nzSortFn]="true"><b>Product Name</b></th>
+            <th nzColumnKey="{{ 'ORDER_NUMBER' }}" nzAlign="center" nzWidth="250px" [nzSortFn]="true"><b>Order Number</b></th>
+            <th nzColumnKey="{{ 'SIZE' }}" nzAlign="center" nzWidth="100px" [nzSortFn]="true"><b>Size</b></th>
+            <th nzColumnKey="{{ 'UNIT_NAME' }}" nzAlign="center" nzWidth="100px" [nzSortFn]="true"><b>Unit Name</b></th>
+
+           
+            <th nzColumnKey="{{ 'QUANTITY'}}" nzAlign="center" [nzSortFn]="true" nzWidth="100px"><b>Quantity</b></th>
+            <th nzColumnKey="{{ 'PRICE'}}" nzAlign="center" [nzSortFn]="true" nzWidth="100px"><b>Amount</b></th>
+
+        </tr>
+        </thead>
+
+      
+        <tbody>
+          <tr *ngFor="let data of Contra.data">
+            <td style="text-align:center;white-space: pre-line;">{{data['ORDER_DATETIME'] || "-"}}</td> 
+            <td style="text-align:left;white-space: pre-line;">{{data['CUSTOMER_NAME'] || "-"}}</td> 
+
+            <td style="text-align:left;white-space: pre-line;">
+              <!-- {{data['PRODUCT_NAME'] || "-"}} -->
+               <span *ngIf="data['PRODUCT_NAME'] != null">
+              <span
+                *ngIf="data['PRODUCT_NAME'].length >= 30"
+                [nzPopoverContent]="data['PRODUCT_NAME']"
+                nz-popover
+                nzPopoverPlacement="topLeft"
+              >
+                {{
+                  data["PRODUCT_NAME"] == null
+                    ? "-"
+                    : (data["PRODUCT_NAME"] | slice : 0 : 25)
+                }}{{ data["PRODUCT_NAME"].length > 30 ? "..." : "" }}
+              </span>
+              <span *ngIf="data['PRODUCT_NAME'].length < 30">
+                {{
+                  data["PRODUCT_NAME"] == null
+                    ? "-"
+                    : (data["PRODUCT_NAME"] | slice : 0 : 25)
+                }}{{ data["PRODUCT_NAME"].length > 30 ? "..." : "" }}
+              </span>
+            </span>
+            <span *ngIf="data['PRODUCT_NAME'] == null">-</span>
+            </td>
+            <td style="text-align:center;white-space: pre-line;">{{data['ORDER_NUMBER'] || "-"}}</td>
+        
+            <td style="text-align:right;white-space: pre-line;">{{data['SIZE'] || "-"}}</td> 
+            <td style="text-align:right;white-space: pre-line;">{{data['UNIT_NAME'] || "-"}}</td> 
+           
+          <td style="text-align:center;white-space: pre-line;">{{data['QUANTITY'] || "-"}}</td> 
+          <td style="text-align:right;white-space: pre-line;">{{data['PRICE'] || "-"}}</td> 
+             
+        
+        </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>

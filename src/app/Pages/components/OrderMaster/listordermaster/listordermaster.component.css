@@ -1,0 +1,108 @@
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin: 15px 0px 0px 0px;
+  padding: 0px;
+}
+
+.card-header {
+  /* display: flex; */
+  justify-content: space-between;
+  align-items:center;
+  margin-bottom: 0px;
+  background-color: white!important;
+  border-radius: 8px 8px 0px 0px!important;
+  height: 28px;
+  border-bottom: 1px solid #b0aeae;
+}
+.category-name {
+  font-weight: bold;
+  color: #333;
+}
+.card-body {
+/* display: flex;
+justify-content: space-between; */
+align-items: flex-start; /* Align items at the start */
+gap: 20px;
+padding: 5px;
+}
+.details {
+flex: 1; /* Take up remaining space */
+}
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; /* Adjust as needed */
+  display: inline-block;
+}
+
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    /* Adjust as needed */
+    display: inline-block;
+}
+.tag {
+font-size: 12px;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 0px 6px 0px 9px;
+    position: relative;
+    display: inline-block;
+}
+.btn {
+  padding: 5px 2px !important;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn.helpdoc {
+  background-color: #5a8f69;
+
+  color: white;
+}
+
+.box {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 15px 0 0;
+  padding: 8px 10px; /* reduced from 0px for visual clarity */
+}
+
+.field {
+  padding: 3px 6px;
+  font-size: 12px;
+}
+
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #c4bbbb;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}

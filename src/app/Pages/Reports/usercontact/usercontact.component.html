@@ -1,0 +1,169 @@
+<div nz-row nzType="flex" style="padding-top: 21px;">
+    <!-- <div style="margin-top: 10px;"> -->
+    <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12" >
+       <div class="formname" > <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp;  <b> {{formTitle}} </b></div>  
+    </div>
+  
+      <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex;justify-content: flex-end">
+          <form nz-form [nzLayout]="'inline'">
+           <nz-form-item>
+        <button nz-button nzTooltipTitle="Excel" nzTooltipPlacement="top" nz-tooltip style="color: white"
+          nzType="primary" (click)="importInExcel()" [nzLoading]="exportLoading">
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button>
+      </nz-form-item>
+                           <nz-form-item>
+              <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" name="assessmentsearch" [(ngModel)]="searchText"  (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input placeholder="Search Records "  />
+              </nz-input-group>
+              <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" (click)="search(true)" nzSearch><i nz-icon nzType="search"></i></button>
+              </ng-template>
+            </nz-form-item>          
+    
+          </form>
+        </div>
+</div>
+<br />
+<div nz-row style="margin-bottom: 14px">
+    <div nz-col nzSpan="24">
+      <div class="filter {{ filterClass }}">
+        <div class="filter-box">
+          <form nz-form>
+            <div nz-row nzGutter="8">
+              <!-- <div nz-col nzSpan="5">
+                <nz-form-item>
+                     <nz-form-label nzNoColon > Select Group Name </nz-form-label>
+                     <nz-form-control  >
+                       <nz-select nzShowSearch nzAllowClear nzPlaceHolder=" Select Group "
+                       name="group"  [(ngModel)]="groupname" >
+                       <nz-option *ngFor="let role of assessment " [nzValue]="role.MOCK_GROUP_NAME" [nzLabel]="role.MOCK_GROUP_NAME">
+                       </nz-option>
+                     </nz-select>
+                     </nz-form-control>                      
+                </nz-form-item>
+              </div> -->
+              <div nz-col nzSpan="8">
+                <nz-form-item style="margin-top: 20px; margin-left: 10px; padding-top: 13px;">
+                  <!-- <nz-form-label >Actions</nz-form-label><br /> -->
+                  <button
+                    style="margin-right: 10px"
+                    nz-button
+                    [nzLoading]="isSpinning"
+                    nzType="primary"
+                    (click)="applyFilter()"
+                    nzJustify="end"
+                  >
+                    <i nz-icon nzType="filter"></i>Apply Filter
+                  </button>
+                  <button nz-button nzType="primary" (click)="clearFilter()">
+                    <i nz-icon nzType="filter"></i>Clear Filter
+                  </button>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<div nz-row >
+    <div nz-col nzSpan="24" >
+        <nz-table  
+        nzBordered
+        #assessmentTable
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzData]="dataList"
+        [nzLoading]="loadingRecords"
+        [nzSize]="'small'"
+        [nzScroll]="{ x: '1000px', y: '380px' }"
+        [nzTotal]="totalRecords"
+        [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize"
+        (nzPageIndexChange)="search()"
+        (nzPageSizeChange)="search(true)"
+        (nzQueryParams)="sort($event)"
+      >
+   
+        <thead>
+          <tr>      
+             <th nzColumnKey="{{ 'NAME' }}" [nzSortFn]="true" nzWidth="5px"><b> Name </b></th>
+             <th nzColumnKey="{{ 'MOBILE_NO' }}" [nzSortFn]="true" nzWidth="2.5px"><b> Mobile No. </b></th>
+             <th nzColumnKey="{{ 'EMAIL_ID' }}" [nzSortFn]="true" nzWidth="5px"><b> Email ID </b></th>             
+             <th nzColumnKey="{{ 'SUBJECT' }}" [nzSortFn]="true" nzWidth="5px"><b> Subject </b></th>             
+             <th nzColumnKey="{{ 'MESSAGE' }}" [nzSortFn]="true" nzWidth="5px"><b> Message </b></th>             
+             <!-- <th *ngFor="let column of columns" nzColumnKey="{{column[0]}}" [nzSortFn]="true">{{column[1]}}</th> -->
+          </tr>        
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of assessmentTable.data" >
+            <td style="white-space: pre-line;">{{data['NAME']}}</td>
+            <td >{{data['MOBILE_NO']}}</td>
+            <td style="white-space: pre-line;" >{{data['EMAIL_ID']}}</td>      
+            <td style="white-space: pre-line;" >
+              <!-- {{data['SUBJECT']}} -->
+
+               <span *ngIf="data['SUBJECT'] != null">
+              <span
+                *ngIf="data['SUBJECT'].length >= 25"
+                [nzPopoverContent]="data['SUBJECT']"
+                nz-popover
+                nzPopoverPlacement="topLeft"
+              >
+                {{
+                  data["SUBJECT"] == null
+                    ? "-"
+                    : (data["SUBJECT"] | slice : 0 : 25)
+                }}{{ data["SUBJECT"].length > 25 ? "..." : "" }}
+              </span>
+              <span *ngIf="data['SUBJECT'].length < 25">
+                {{
+                  data["SUBJECT"] == null
+                    ? "-"
+                    : (data["SUBJECT"] | slice : 0 : 25)
+                }}{{ data["SUBJECT"].length > 25 ? "..." : "" }}
+              </span>
+            </span>
+            <span *ngIf="data['SUBJECT'] == null">-</span>
+            </td> 
+            <td style="white-space: pre-line;" >
+              <!-- {{data['MESSAGE']}} -->
+               <span *ngIf="data['MESSAGE'] != null">
+              <span
+                *ngIf="data['MESSAGE'].length >= 25"
+                [nzPopoverContent]="data['MESSAGE']"
+                nz-popover
+                nzPopoverPlacement="topLeft"
+              >
+                {{
+                  data["MESSAGE"] == null
+                    ? "-"
+                    : (data["MESSAGE"] | slice : 0 : 25)
+                }}{{ data["MESSAGE"].length > 25 ? "..." : "" }}
+              </span>
+              <span *ngIf="data['MESSAGE'].length < 25">
+                {{
+                  data["MESSAGE"] == null
+                    ? "-"
+                    : (data["MESSAGE"] | slice : 0 : 25)
+                }}{{ data["MESSAGE"].length > 25 ? "..." : "" }}
+              </span>
+            </span>
+            <span *ngIf="data['MESSAGE'] == null">-</span>
+            </td>            
+             <!-- <td *ngFor="let column of columns">{{data[column[0]]}}</td> -->      
+          </tr>
+        </tbody>
+      </nz-table>
+      </div>
+</div>
+

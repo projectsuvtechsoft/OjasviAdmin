@@ -1,0 +1,328 @@
+<div>
+  <!-- <form nz-form #form10> -->
+  <form nz-form #websitebannerPage="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row>
+        <div nz-col nzSpan="10" class="my-box" style>
+          <h6 style="color: goldenrod">Order Details</h6>
+
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <div>Order Number</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="11">
+              <span>{{ data["ORDER_NUMBER"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <div>Order DateTime</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="11">
+              <span>{{ data["ORDER_DATETIME"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <div>Total Amount</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="11">
+              <span>{{ data["TOTAL_AMOUNT"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <div>Addon Amount</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="11">
+              <span>{{ data["ADDON_AMOUNT"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <div>Net amount</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="11">
+              <span>{{ data["NET_AMOUNT"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <div>Order Status</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="11">
+              <!-- <span>{{data['ORDER_STATUS']}}</span> -->
+              <span *ngIf="data['ORDER_STATUS'] == 'A'"> Accepted </span>
+              <span *ngIf="data['ORDER_STATUS'] == 'PD'"> Packaging Done </span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <div style="margin-right: 2px">
+                Actual Package Preparing Datetime
+              </div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="10">
+              <span>{{ data["ACTUAL_PREPARE_PACKAGING_DATETIME"] }}</span>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <div>Expected Delivery DateTime</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="11">
+              <span>{{ data["EXPECTED_DELIVERY_DATETIME"] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col nzSpan="1"></div>
+        <!-- end -->
+
+        <!-- div for customer address details -->
+
+        <div nz-col nzSpan="13" class="my-box" style="width: 70%">
+          <h6 style="color: goldenrod">Delivery Details</h6>
+
+          <div nz-row>
+            <div nz-col nzSpan="10">
+              <div>Customer Name</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="12">
+              <span>{{ data["CUSTOMER_NAME"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="10">
+              <div>Customer Email ID</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="12">
+              <span>{{ data["EMAIL_ID"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="10">
+              <div>Customer Mobile Number</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="12">
+              <span>{{ data["MOBILE_NO"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="10">
+              <div>Customer Address</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="12">
+              <span>{{ data["ADDRESS"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="10">
+              <div>Customer City</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="12">
+              <span>{{ data["CITY"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="10">
+              <div>Pin Code</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="12">
+              <span>{{ data["PINCODE"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="10">
+              <div>Country</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="12">
+              <span>{{ data["COUNTRY_NAME"] }}</span>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="10">
+              <div>State</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="12">
+              <span>{{ data["STATE_NAME"] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div nz-col nzSpan="24" class="my-box">
+          <h6 style="color: goldenrod">Product Details</h6>
+
+          <nz-table
+            nzBordered
+            #donationMasterTable
+            nzShowSizeChanger
+            [nzFrontPagination]="false"
+            [nzData]="detailslist"
+            [nzLoading]="loaddata"
+            [nzSize]="'small'"
+          >
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Product Size</th>
+                <th>Product Unit Name</th>
+                <th>Varient Size</th>
+                <th>Varient Unit Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of detailslist" style="text-align: center">
+                <td>{{ data.PRODUCT_NAME }}</td>
+                <td>{{ data.PRODUCT_SIZE }}</td>
+                <td>{{ data.PRODUCT_UNIT_NAME }}</td>
+                <td>{{ data.VERIENT_SIZE }}</td>
+                <td>{{ data.VERIENT_UNIT_NAME }}</td>
+                <td>{{ data.QUANTITY }}</td>
+                <td>{{ data.PRICE }}</td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+
+      <div nz-col nzSpan="24" class="my-box">
+        <div nz-col nzSpan="6" style="margin-top: 20px">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon
+              >Expected Dispatch Date</nz-form-label
+            >
+
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip="Please Select Expected Dispatch Date"
+            >
+              <nz-date-picker
+                style="width: 100%"
+                nzPlaceHolder=" Select Expected Dispatch Date."
+                name="expectededdate"
+                [(ngModel)]="data.EXPECTED_DISPATCH_DATETIME"
+                [nzFormat]="dateFormat"
+                [nzDisabledDate]="disabledStartDate2"
+                required
+              ></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </nz-spin>
+  </form>
+
+  <div class="footer">
+    <button
+      type="button"
+      nz-button
+      (click)="close()"
+      class="ant-btn"
+      style="margin-right: 8px"
+    >
+      <span> Cancel </span>
+    </button>
+
+    <!-- <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning" *ngIf="data.ID"
+        (click)="save(false,websitebannerPage)">
+        <span>Dispatch Done</span>
+      </button> -->
+
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      nz-button
+      (click)="save(false, websitebannerPage)"
+    >
+      <span> Ready To Dispatch</span>
+    </button>
+    <!-- <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          class="menuc"
+          style="border-radius: 4px; background-color: #40a9ff"
+        >
+          <a style="color: white" (click)="Inprogress(true, websitebannerPage)">
+            Delivery In Progress</a
+          >
+        </li>
+      </ul>
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          class="menuc"
+          style="border-radius: 4px; background-color: #40a9ff"
+        >
+          <a style="color: white" (click)="delivered(true, websitebannerPage)"
+            >Ordered Delivered</a
+          >
+        </li>
+      </ul>
+    </nz-dropdown-menu> -->
+  </div>
+</div>

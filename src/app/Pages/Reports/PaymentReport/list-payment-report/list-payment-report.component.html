@@ -1,0 +1,241 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname"> <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp; 
+      <b> {{ Title }} </b>
+    </div>
+  </div>
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <button nz-button nzTooltipTitle="Excel" nzTooltipPlacement="top" nz-tooltip style="color: white"
+          nzType="primary" (click)="importInExcel()" [nzLoading]="exportLoading">
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item>
+        <button
+          nz-button
+          [nzType]="isFilterApplied"
+          (click)="showFilter()"
+        >
+          <i nz-icon nzType="filter"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="search"
+            [(ngModel)]="searchText"
+            (keyup)="keyup($event)"
+            (keydown.enter)="onKeypressEvent($event)"
+            nz-input
+            placeholder="Search"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button
+            nz-button
+            nzType="primary"
+            id="button"
+            (click)="search(true)"
+            nzSearch
+          >
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+    </form>
+  </div>
+  <!-- <nz-form-item>
+        <nz-form-label nzNoColon style="font-weight:bold">Opening Balance : {{openingbalance}}</nz-form-label>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzNoColon style="font-weight:bold">Closing Balance : {{closingbalance}}</nz-form-label>
+    </nz-form-item> -->
+</div>
+<br />
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <div class="filter {{ filterClass }}">
+      <div class="filter-box">
+        <form nz-form>
+          <div nz-row nzGutter="10" >
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon
+                  ><b> Start Date</b></nz-form-label
+                >
+                <nz-date-picker
+                  name="startdate"
+                  style="width: 100%"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="startValue"
+                  nzPlaceHolder="Select Start Date."
+                  [nzDisabledDate]="disabledStartDate2"
+                  (nzOnOpenChange)="moduleStartDateHandle($event)"
+                  (ngModelChange)="startDateChange()"
+                >
+                </nz-date-picker>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon><b> End Date</b></nz-form-label>
+                <nz-date-picker
+                  #EndDatePicker
+                  style="width: 100%"
+                  name="enddate"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="endValue"
+                  [nzDisabledDate]="disabledEndDate2"
+                  nzPlaceHolder="Select End Date."
+                ></nz-date-picker>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="6">
+              <nz-form-item>
+                <nz-form-control>
+                  <nz-form-label nzNoColon
+                    ><b> Customer Name</b></nz-form-label
+                  >
+                  <nz-select
+                    nzShowSearch
+                    nzAllowClear
+                    nzPlaceHolder="Select Customer Name"
+                    name="type"
+                    [(ngModel)]="type"
+                  >
+                    <nz-option
+                      *ngFor="let data of dataList1"
+                      [nzLabel]="data.NAME"
+                      [nzValue]="data.ID"
+                    ></nz-option>
+                    <!-- <nz-option nzValue="D" nzLabel="डेबिट"></nz-option> -->
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzSpan="8">
+              <nz-form-item style="margin-top: 24px">
+                <button
+                  nz-button
+                  
+                  nzType="primary"
+                  (click)="applyFilter()"
+                  nzJustify="end"
+                >
+                  <i nz-icon nzType="filter"></i>Apply Filter
+                </button>
+                <button
+                  nz-button
+                  style="margin-left: 10px"
+                  nzType="primary"
+                  (click)="clearFilter()"
+                >
+                  <i nz-icon nzType="delete"></i>Clear Filter
+                </button>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div nz-row id="excel-table">
+  <div nz-col nzSpan="24">
+    <nz-table
+    
+      nzBordered
+      #transaction
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+       [nzScroll]="{ x: '800px', y: '920px' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+    >
+      <thead>
+        <tr>
+          <th
+            nzColumnKey="{{ 'PAYMENT_DATETIME' }}"
+            nzAlign="center"
+            [nzSortFn]="true"
+            nzWidth="70px"
+          >
+            <b>Payment Date Time</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'CUSTOMER_NAME' }}"
+            nzAlign="center"
+            [nzSortFn]="true"
+            nzWidth="180px"
+          >
+            <b>Customer Name</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'PAID_AMOUNT' }}"
+            nzAlign="center"
+            [nzSortFn]="true"
+            nzWidth="60px"
+          >
+            <b>Paid Amount </b>
+          </th>
+          <!-- <th
+            nzColumnKey="{{ 'PAYMENT_MODE' }}"
+            nzAlign="center"
+            [nzSortFn]="true"
+            nzWidth="60px"
+          >
+            <b>Payment Mode</b>
+          </th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of transaction.data">
+          <td style="text-align: center; white-space: nowrap">
+            {{ data["PAYMENT_DATETIME"] }}
+          </td>
+          <td style="text-align: left; white-space: nowrap">
+            {{ data["CUSTOMER_NAME"] }}
+          </td>
+          <td style="text-align: right; white-space: nowrap">
+            {{ data["PAID_AMOUNT"] }}
+          </td>
+          
+          <!-- <td style="text-align:center">
+            <span *ngIf="data.PAYMENT_MODE
+            =='O'"> Online</span>
+    
+
+          </td> -->
+        </tr>
+        
+      </tbody>
+    </nz-table>
+  </div>
+</div>

@@ -1,0 +1,390 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname">
+       <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp; 
+      <b> {{ Title }} </b>
+    </div>
+  </div>
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <!-- <nz-form-item>
+
+
+          <button nz-button nzType="primary" (click)="DownloadExcel1()">
+            <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          </button>
+          <button
+            nz-button
+            nzType="primary"
+            hidden="true"
+            id="downloadExcel"
+            [appExport]="dataList2"
+            fileName= 'Customer Orders Details Report'
+          >
+            <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          </button>
+      </nz-form-item> -->
+      
+      <nz-form-item>
+        <button nz-button nzTooltipTitle="Excel" nzTooltipPlacement="top" nz-tooltip style="color: white"
+          nzType="primary" (click)="importInExcel()" [nzLoading]="exportLoading">
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button [nzType]="isFilterApplied"  (click)="showFilter()">
+          <i nz-icon nzType="filter"></i>
+        </button>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="search"
+            [(ngModel)]="searchText"
+            (keyup)="keyup($event)"
+            (keydown.enter)="onKeypressEvent($event)"
+            nz-input
+            placeholder="Search"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button
+            nz-button
+            nzType="primary"
+            id="button"
+            (click)="search(true)"
+            nzSearch
+          >
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+<br />
+
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <div class="filter {{ filterClass }}">
+      <div class="filter-box">
+        <form nz-form>
+          <div nz-row nzGutter="8">
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon
+                  ><b> Start Date</b></nz-form-label
+                >
+                <nz-date-picker
+                  name="startdate"
+                  style="width: 100%"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="startValue"
+                  nzPlaceHolder="Select Start Date."
+                  [nzDisabledDate]="disabledStartDate2"
+                  (nzOnOpenChange)="moduleStartDateHandle($event)"
+                  (ngModelChange)="startDateChange()"
+                >
+                </nz-date-picker>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-label nzNoColon><b> End Date</b></nz-form-label>
+                <nz-date-picker
+                  #EndDatePicker
+                  style="width: 100%"
+                  name="enddate"
+                  nzFormat="dd-MM-yyyy "
+                  [(ngModel)]="endValue"
+                  [nzDisabledDate]="disabledEndDate2"
+                  nzPlaceHolder="Select End Date."
+                ></nz-date-picker>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="5">
+              <nz-form-item>
+                <nz-form-control>
+                  <nz-form-label nzNoColon
+                    ><b> Order Status</b></nz-form-label
+                  >
+                  <nz-select
+                    nzShowSearch
+                    nzAllowClear
+                    nzPlaceHolder="Select Order Status"
+                    name="type"
+                    [(ngModel)]="type"
+                  >
+                    <!-- <nz-option
+                      *ngFor="let data of dataList1"
+                      [nzLabel]="data.NAME"
+                      [nzValue]="data.ID"
+                    ></nz-option> -->
+
+                    <nz-option nzValue="A" nzLabel="Accept"></nz-option>
+                    <nz-option nzValue="R" nzLabel="Reject"></nz-option>
+                    <nz-option nzValue="P" nzLabel="Pending"></nz-option>
+                    <nz-option nzValue="BP" nzLabel="Preparing"></nz-option>
+                    <nz-option nzValue="DD" nzLabel="Dispatch Done"></nz-option>
+                    <nz-option nzValue="D" nzLabel="Ready To Dispatch"></nz-option>
+                    <nz-option nzValue="SP" nzLabel="Packaging"></nz-option>
+                    <nz-option nzValue="OP" nzLabel="Order Prepared"></nz-option>
+                    <nz-option nzValue="PD" nzLabel="Packaging Done"></nz-option>
+                  
+                    <!-- <nz-option nzValue="D" nzLabel="डेबिट"></nz-option> -->
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-label nzNoColon></nz-form-label>
+              <nz-form-item style="margin-left: 10px">
+                <button
+                  style="margin-right: 10px"
+                  nz-button
+                 
+                  nzType="primary"
+                  (click)="applyFilter()"
+                  nzJustify="end"
+                >
+                  <i nz-icon nzType="filter"></i>Apply filter
+                </button>
+                <button nz-button nzType="primary" (click)="clearFilter()">
+                  <i nz-icon nzType="filter"></i>Clear Filter
+                </button>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br />
+
+<div nz-row id="excel-table">
+  <div nz-col nzSpan="24">
+    <nz-table
+      
+      nzBordered
+      #Contra
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ x: '2000px', y: '780px' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+    >
+      <thead>
+        <tr>
+
+          <th
+            
+            nzAlign="center"
+            nzWidth="70px"
+            nzLeft
+          >
+            <b>Log</b>
+          </th>
+
+          <th
+            nzColumnKey="{{ 'ORDER_DATETIME' }}"
+            nzAlign="center"
+            nzWidth="170px"
+            [nzSortFn]="true"
+          >
+            <b>Order Date Time</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'CUSTOMER_NAME' }}"
+            nzAlign="center"
+            nzWidth="200px"
+            [nzSortFn]="true"
+          >
+            <b>Customer Name</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'ORDER_NUMBER' }}"
+            nzAlign="center"
+            nzWidth="250px"
+            [nzSortFn]="true"
+          >
+            <b>Order Number</b>
+          </th>
+          
+
+          <th
+            nzColumnKey="{{ 'TOTAL_ITEMS' }}"
+            nzAlign="center"
+            [nzSortFn]="true"
+            nzWidth="150px"
+          >
+            <b>Total Products</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'ADDRESS' }}"
+            nzAlign="center"
+            [nzSortFn]="true"
+            nzWidth="400px"
+          >
+            <b>Delivery Address</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'PINCODE' }}"
+            nzAlign="center"
+            [nzSortFn]="true"
+            nzWidth="150px"
+          >
+            <b>Delivery Pincode</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'TOTAL_PRICE' }}"
+            nzAlign="center"
+            [nzSortFn]="true"
+            nzWidth="150px"
+          >
+            <b>Order Amount</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'DELIVERY_CHARGES' }}"
+            nzAlign="center"
+            [nzSortFn]="true"
+            nzWidth="150px"
+          >
+            <b>Delivery Charges</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'NET_AMOUNT' }}"
+            nzAlign="center"
+            [nzSortFn]="true"
+            nzWidth="150px"
+          >
+            <b>Total Amount</b>
+          </th>
+          <th
+            nzColumnKey="{{ 'STATUS' }}"
+            nzAlign="center"
+            [nzSortFn]="true"
+            nzWidth="150px"
+          >
+            <b>Order Status</b>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let data of Contra.data">
+          <td nzLeft style="text-align: center;">
+            <span style="color: #5a8f69;" nz-icon nzType="eye" nzTheme="outline" (click)="open1(data)"></span>
+            <!-- <a >Log </a> -->
+          </td>
+          <td  style="text-align: center;white-space: pre-line;">{{ data["ORDER_DATETIME"] }}</td>
+
+          <td style="text-align: left;white-space: pre-line;">
+            <!-- {{ data["CUSTOMER_NAME"] }} -->
+             <span *ngIf="data['CUSTOMER_NAME'] != null">
+              <span
+                *ngIf="data['CUSTOMER_NAME'].length >= 25"
+                [nzPopoverContent]="data['CUSTOMER_NAME']"
+                nz-popover
+                nzPopoverPlacement="topLeft"
+              >
+                {{
+                  data["CUSTOMER_NAME"] == null
+                    ? "-"
+                    : (data["CUSTOMER_NAME"] | slice : 0 : 22)
+                }}{{ data["CUSTOMER_NAME"].length > 25 ? "..." : "" }}
+              </span>
+              <span *ngIf="data['CUSTOMER_NAME'].length < 25">
+                {{
+                  data["CUSTOMER_NAME"] == null
+                    ? "-"
+                    : (data["CUSTOMER_NAME"] | slice : 0 : 22)
+                }}{{ data["CUSTOMER_NAME"].length > 25 ? "..." : "" }}
+              </span>
+            </span>
+            <span *ngIf="data['CUSTOMER_NAME'] == null">-</span>
+          </td>
+          <td style="text-align: center;white-space: pre-line;">{{ data["ORDER_NUMBER"] }}</td>
+          <td style="text-align: center;white-space: pre-line;">{{ data["TOTAL_ITEMS"] }}</td>
+          <td style="text-align: left;white-space: pre-line;">{{ data["ADDRESS"] }}</td>
+          <td style="text-align: center;white-space: pre-line;">{{ data["PINCODE"] }}</td>
+          <td style="text-align: right;white-space: pre-line;">{{ data["TOTAL_PRICE"] }}</td>
+          <td style="text-align: right;white-space: pre-line;">{{ data["DELIVERY_CHARGES"] }}</td>
+          <td style="text-align: right;white-space: pre-line;">{{ data["NET_AMOUNT"] }}</td>
+          <!-- <td style="text-align: center">{{ data["PAYMENT_MODE"] }}</td> -->
+          <!-- <td style="text-align: center; white-space: pre-line">
+            <span *ngIf="data['PAYMENT_MODE'] == 'O'">Online</span>
+            <span *ngIf="data['PAYMENT_MODE'] == 'C'">Cash On Delivery</span>
+          </td> -->
+          <td style="text-align: center; white-space: pre-line">
+            <span *ngIf="data['STATUS'] == 'P'">Pending</span>
+            <span *ngIf="data['STATUS'] == 'R'">Reject</span>
+            <span *ngIf="data['STATUS'] == 'BP'">Preparing</span>
+            <span *ngIf="data['STATUS'] == 'A'">Accept</span> 
+            <span *ngIf="data['STATUS'] == 'DD'">Dispatch Done</span>
+            <span *ngIf="data['STATUS'] == 'D'">Ready To Dispatch</span>
+            <span *ngIf="data['STATUS'] == 'SP'">Packaging</span>
+            <span *ngIf="data['STATUS'] == 'OP'">Order Prepared</span>
+            <span *ngIf="data['STATUS'] == 'SP'">Packaging</span>
+            <span *ngIf="data['STATUS'] == 'PD'">Packaging Done</span>
+
+          </td>
+          <!-- <td style="text-align:center">{{data['TOTAL_QUANTITY']}}</td>  -->
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+<nz-drawer [nzClosable]="true" [nzVisible]="visible" nzPlacement="right" nzTitle="Order Status"
+  (nzOnClose)="close1()" [nzWidth]="800">
+  <ng-container *nzDrawerContent>
+    <nz-table class="my-scroll no-wrap1" nzBordered #donationMasterTable nzShowSizeChanger [nzFrontPagination]="false"
+    [nzData]="detailsList" [nzLoading]="dataload" [nzSize]="'small'">
+    <thead>
+      <tr>
+        <th nzAlign="center"><b>Actual Date</b></th>
+        <th nzAlign="center"><b>From Stage</b></th>
+        <th nzAlign="center"><b>To Stage</b> </th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of detailsList" style="text-align: center;">
+        <td style="text-align: center;"> {{data.ACTUAL_DATE}}</td>
+        <td style="text-align: left;">{{data.FROM_STAGE}}</td>
+
+        <td style="text-align: left;">{{data.TO_STAGE}}</td>
+        
+        
+      </tr>
+    </tbody>
+  </nz-table>
+  </ng-container>
+</nz-drawer>
