@@ -124,7 +124,7 @@ isFocused: string = '';
     this.isOk = false;
     this.message.error('Please Enter State Name', '');
   } 
-  else if (!this.data.SHORT_CODE?.trim()) {
+  else if (!this.data.SHORT_CODE?.trim() || this.data.SHORT_CODE == undefined) {
     this.isOk = false;
     this.message.error('Please Enter Short Code', '');
   } 

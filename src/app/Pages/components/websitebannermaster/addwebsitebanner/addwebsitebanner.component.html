@@ -193,7 +193,8 @@
       <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID"  nz-button
         nz-dropdown
         [nzDropdownMenu]="menu"
-        (click)="save(false,websitebannerPage)"
+         [nzLoading]="isSpinning"
+        (click)="isSpinning = true;save(false,websitebannerPage)"
       >
         <span> Save & Close </span>
       </button>
@@ -204,7 +205,7 @@
             class="menuc"
             style="border-radius: 4px; background-color: #40a9ff"
           >
-            <a style="color: white" (click)="save(true,websitebannerPage)"> Save & New </a>
+            <a style="color: white" (click)="isSpinning = true;save(true,websitebannerPage)"> Save & New </a>
           </li>
         </ul>
       </nz-dropdown-menu>
