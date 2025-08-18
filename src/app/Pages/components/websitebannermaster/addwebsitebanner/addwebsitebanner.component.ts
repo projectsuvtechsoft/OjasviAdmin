@@ -201,7 +201,44 @@ omit(event:any) {
       //  this.isSpinning=false;
     //   this.data.COLOR_CODE=this.color
       this.isSpinning = true;
- 
+ this.api.getAllwebsiteBanner(0, 0, '', 'desc', '').subscribe(
+    (allData: any) => {
+      const banner = allData?.data || [];
+
+      const nameExists = banner.some(
+        (s: any) =>
+          s.NAME.trim().toLowerCase() === this.data.NAME.trim().toLowerCase() &&
+          s.ID !== this.data.ID
+      );
+
+     const subtitle = banner.some(
+        (s: any) =>
+          s.SUB_TITLE.trim().toLowerCase() === this.data.SUB_TITLE.trim().toLowerCase() &&
+          s.ID !== this.data.ID
+      );
+
+      const sequenceExists = banner.some(
+        (s: any) =>
+          Number(s.SEQUENCE_NO) === Number(this.data.SEQUENCE_NO) &&
+          s.ID !== this.data.ID
+      );
+
+      if (nameExists) {
+        this.message.error('Banner name already exists', '');
+        this.isSpinning = false;
+        return;
+      }
+    if (subtitle) {
+        this.message.error('Sub Title  already exists', '');
+        this.isSpinning = false;
+        return;
+      }
+      if (sequenceExists) {
+        this.message.error('Sequence number already exists', '');
+        this.isSpinning = false;
+        return;
+      }
+
       {
         if (this.fileURL != null) {
           var number = Math.floor(100000 + Math.random() * 900000);
@@ -305,7 +342,8 @@ omit(event:any) {
                   this.color=""
                   this.colort2=""
                   this.colort1=""
-                  this.data = new WebsiteBannerMaster();
+                this.resetDrawer(websitebannerPage);
+                this.data = new WebsiteBannerMaster();
                 }
                 this.isSpinning = false;
               } else {
@@ -316,6 +354,12 @@ omit(event:any) {
           }
         }
       }
+         },
+    () => {
+      this.message.error('Something went wrong, please try again later', '');
+      this.isSpinning = false;
+    }
+  );
     }
 
     //  else
