@@ -183,7 +183,7 @@
 <br />
 
 <div nz-row id="excel-table">
-  <div nz-col nzSpan="24">
+  <div nz-col nzSpan="24" style="width:100%">
     <nz-table
       
       nzBordered
@@ -193,13 +193,15 @@
       [nzData]="dataList"
       [nzLoading]="loadingRecords"
       [nzSize]="'small'"
-      [nzScroll]="{ x: '2000px', y: '780px' }"
+      [nzScroll]="dataList.length > 10 ? 
+      { x: '2000px', y: '410px'} : { x: '2000px' }"  
       [nzTotal]="totalRecords"
       [(nzPageIndex)]="pageIndex"
       [(nzPageSize)]="pageSize"
       (nzPageIndexChange)="search()"
       (nzPageSizeChange)="search(true)"
       (nzQueryParams)="sort($event)"
+      style="width:100"
     >
       <thead>
         <tr>

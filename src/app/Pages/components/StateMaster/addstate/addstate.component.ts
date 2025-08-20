@@ -107,7 +107,7 @@ isFocused: string = '';
  
  save(addNew: boolean, websitebannerPage: NgForm): void {
   this.isOk = true;
-
+ this.isSpinning = false;
   if (
     (this.data.NAME?.trim() == '' || !this.data.NAME) &&
     (this.data.SHORT_CODE?.trim() == '' || !this.data.SHORT_CODE) &&

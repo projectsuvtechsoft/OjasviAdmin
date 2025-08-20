@@ -23,7 +23,7 @@ export class ListCustomerMasterComponent implements OnInit {
     private notify: NzNotificationService,
     private router: Router
   ) {}
-
+tableheight:any;
   date3: any;
   date4: any;
   current = new Date();
@@ -39,6 +39,11 @@ export class ListCustomerMasterComponent implements OnInit {
     );
     this.date4 = this.datePipe.transform(new Date(), 'yyyy-MM-dd 23:59:59');
   }
+
+
+
+
+
   size: NzButtonSize = 'small';
   formTitle = 'Manage Customer';
   loadingRecords = true;

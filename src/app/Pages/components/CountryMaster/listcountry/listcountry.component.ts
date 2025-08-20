@@ -47,8 +47,15 @@ export class ListcountryComponent implements OnInit {
   ngOnInit(): void {
     // this.loadingRecords = false;
     // this.search()
+   
   }
 
+
+
+
+  getZoomLevel(): number {
+    return Math.round(window.devicePixelRatio * 100); // 100 = 100%, 125 = 125%, etc.
+  }
   keyup(event: any) {
     this.search();
   }
