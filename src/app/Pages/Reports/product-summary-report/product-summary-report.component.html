@@ -124,7 +124,7 @@
   <div nz-row id="excel-table">
     <div nz-col nzSpan="24">
       <nz-table  nzBordered #Contra nzShowSizeChanger [nzFrontPagination]="false"
-        [nzData]="dataList" [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="{ x: '1400px', y: '610px' }"
+        [nzData]="dataList" [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="{ x: '1400px', y: '410px' }"
         [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()"
         (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)">
         <thead>

@@ -59,7 +59,9 @@
       [nzData]="dataList"
       [nzLoading]="loadingRecords"
       [nzSize]="'small'"
-      [nzScroll]="{ y: '55vh' }"
+      [nzScroll]="dataList.length > 10 ? { x: '1330px', y: '64vh' } : { x: '1330px' }"
+
+      [nzScroll]="{ y: '64vh' }"
       [nzTotal]="totalRecords"
       [(nzPageIndex)]="pageIndex"
       [(nzPageSize)]="pageSize"

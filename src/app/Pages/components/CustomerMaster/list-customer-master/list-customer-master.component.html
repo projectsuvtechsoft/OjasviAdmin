@@ -195,9 +195,8 @@
 <br />
  
 <div nz-row>
-  <div nz-col nzSpan="24" style="width: 100%;">
+  <!-- <div nz-col nzSpan="24" style="width: 100%;" class="toggle-wrapper">
     <nz-table
-     
       nzBordered
       #categoryAddonMasterTable
       nzShowSizeChanger
@@ -205,14 +204,33 @@
       [nzData]="dataList"
       [nzLoading]="loadingRecords"
       [nzSize]="'small'"
-      [nzScroll]="{ x: '1330px', y: '660px' }"
+      [nzScroll]="{ x: '1330px', y: '450px'}"
       [nzTotal]="totalRecords"
       [(nzPageIndex)]="pageIndex"
       [(nzPageSize)]="pageSize"
       (nzPageIndexChange)="search()"
       (nzPageSizeChange)="search(true)"
       (nzQueryParams)="sort($event)"
-      style="width: 100%;"
+    > -->
+
+      <div nz-col nzSpan="24">
+    <nz-table
+      nzBordered
+    #categoryAddonMasterTable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="dataList.length > 10 ? 
+      { x: '1330px', y: '410px'} : { x: '1330px' }"      
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+     
     >
       <thead>
         <tr>
@@ -273,7 +291,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody >
         <tr *ngFor="let data of categoryAddonMasterTable.data">
           <td nzLeft style="text-align: center">
             <a (click)="OrdersAll(data)" style="color: #5a8f69;">View </a>

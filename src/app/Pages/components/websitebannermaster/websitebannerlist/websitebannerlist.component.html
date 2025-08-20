@@ -49,7 +49,7 @@
 </div>
 <br />
 <div nz-row>
-  <div nz-col nzSpan="24" style="width: 100%">
+  <div nz-col nzSpan="24" >
     <nz-table
       nzBordered
       #webSiteTable
@@ -58,14 +58,14 @@
       [nzData]="dataList"
       [nzLoading]="loadingRecords"
       [nzSize]="'small'"
-      [nzScroll]="{ y: '50vh' }"
+      [nzScroll]="{ y: '64vh' }"
       [nzTotal]="totalRecords"
       [(nzPageIndex)]="pageIndex"
       [(nzPageSize)]="pageSize"
       (nzPageIndexChange)="search()"
       (nzPageSizeChange)="search(true)"
       (nzQueryParams)="sort($event)"
-      style="width: 100%"
+      
     >
       <thead>
         <tr>

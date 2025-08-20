@@ -123,8 +123,10 @@
       [nzData]="dataList"
       [nzLoading]="loadingRecords"
       [nzSize]="'small'"
-      [nzScroll]="{ x: '1100px', y: '920px' }"
+      [nzScroll]="dataList.length > 10 ? 
+      { x: '1100px', y: '410px'} : { x: '1100px' }"  
       [nzTotal]="totalRecords"
+     [nzTotal]="totalRecords"
       [(nzPageIndex)]="pageIndex"
       [(nzPageSize)]="pageSize"
       (nzPageIndexChange)="search()"

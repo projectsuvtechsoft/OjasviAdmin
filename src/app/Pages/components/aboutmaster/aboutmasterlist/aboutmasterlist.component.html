@@ -45,7 +45,7 @@
         [nzData]="dataList"
         [nzLoading]="loadingRecords"
         [nzSize]="'small'"
-        [nzScroll]="{ x: '900px', y: '350px' }"
+        [nzScroll]="{ x: '900px', y: '410px' }"
         [nzTotal]="totalRecords"
         [(nzPageIndex)]="pageIndex"
         [(nzPageSize)]="pageSize"
@@ -53,6 +53,7 @@
         (nzPageSizeChange)="search(true)"
         (nzQueryParams)="sort($event)"
         style="width: 100%;"
+       
       >
    
         <thead>

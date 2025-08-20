@@ -20,7 +20,7 @@ export class AboutmasterlistComponent implements OnInit {
   drawerData: AboutMaster = new AboutMaster();
   formTitle = "Manage About Us ";
   @Input()
-   dataList:any[] = [];
+  dataList: any[] = [];
   // dataList = [];
   loadingRecords = true;
   totalRecords = 1;
@@ -31,20 +31,22 @@ export class AboutmasterlistComponent implements OnInit {
   searchText: string = "";
   filterQuery: string = "";
   isFilterApplied: string = "default";
-  columns: string[][] = [ ["SEQUENCE_NO"," sequence Number"], ["TITLE"," Title"], ["TEXT"," Description"]];
+  columns: string[][] = [["SEQUENCE_NO", " sequence Number"], ["TITLE", " Title"], ["TEXT", " Description"]];
   @Input()
-  drawerClose2!: Function;  
-  imgurl= appkeys.retriveimgUrl;
-  datacount:any
-  constructor(private api: ApiServiceService, private message: NzNotificationService,private router:Router) { }
+  drawerClose2!: Function;
+  imgurl = appkeys.retriveimgUrl;
+  datacount: any
+  constructor(private api: ApiServiceService, private message: NzNotificationService, private router: Router) { }
 
   ngOnInit(): void {
-  // this.loadingRecords = false; 
-  this.search()
-
+    // this.loadingRecords = false; 
+    this.search()
+   
   }
 
-  keyup(event:any) {
+
+
+  keyup(event: any) {
     this.search();
   }
   back() {
@@ -74,24 +76,24 @@ export class AboutmasterlistComponent implements OnInit {
       console.log("likeQuery" + likeQuery);
     }
     this.api.getAboutMaster(this.pageIndex, this.pageSize, this.sortKey, sort, likeQuery).subscribe(data => {
-      if(data['code'] == 200){
+      if (data['code'] == 200) {
         this.totalRecords = data['count'];
         this.datacount = data['count'];
         this.dataList = data['data'];
         console.log(this.dataList)
-        for (var i=0;i<this.dataList.length;i++){
-        console.log(this.imgurl+'aboutusImage/'+this.dataList[i]['IMG_URL'])
+        for (var i = 0; i < this.dataList.length; i++) {
+          console.log(this.imgurl + 'aboutusImage/' + this.dataList[i]['IMG_URL'])
         }
-      this.loadingRecords = false;
+        this.loadingRecords = false;
         // if(this.totalRecords==0){
         //   data.SEQUENCE_NO=1;
         // }else{
         //   data.SEQUENCE_NO= this.dataList[this.dataList.length-1]['SEQUENCE_NO']+1
         // }
-      } else{
-        this.message.error("Something Went Wrong","")
+      } else {
+        this.message.error("Something Went Wrong", "")
         this.loadingRecords = false;
-      }   
+      }
     }, err => {
       console.log(err);
     });
@@ -103,16 +105,15 @@ export class AboutmasterlistComponent implements OnInit {
   }
 
   add(): void {
-    this.drawerTitle = " Add New Information"; 
+    this.drawerTitle = " Add New Information";
     this.drawerData = new AboutMaster();
-    this.api.getAboutMaster(1,1,'SEQUENCE_NO','desc','').subscribe (data =>{
-      if (data['count']==0){
-        this.drawerData.SEQUENCE_NO=1;
-      }else
-      {
-        this.drawerData.SEQUENCE_NO=data['data'][0]['SEQUENCE_NO']+1;
+    this.api.getAboutMaster(1, 1, 'SEQUENCE_NO', 'desc', '').subscribe(data => {
+      if (data['count'] == 0) {
+        this.drawerData.SEQUENCE_NO = 1;
+      } else {
+        this.drawerData.SEQUENCE_NO = data['data'][0]['SEQUENCE_NO'] + 1;
       }
-    },err=>{
+    }, err => {
       console.log(err);
     })
     this.drawerVisible = true;
@@ -126,27 +127,27 @@ export class AboutmasterlistComponent implements OnInit {
     this.search();
     this.drawerVisible = false;
   }
-sort(params: NzTableQueryParams): void {
-    const { pageSize, pageIndex, sort} = params;
+  sort(params: NzTableQueryParams): void {
+    const { pageSize, pageIndex, sort } = params;
     const currentSort = sort.find(item => item.value !== null);
-    const sortField = (currentSort && currentSort.key) || 'id'; 
+    const sortField = (currentSort && currentSort.key) || 'id';
     // const sortOrder = (currentSort && currentSort.value) || 'asc';
     const sortOrder = (currentSort && currentSort.value) || 'desc';
 
     console.log(currentSort)
 
-    console.log("sortOrder :"+sortOrder)
+    console.log("sortOrder :" + sortOrder)
     this.pageIndex = pageIndex;
     this.pageSize = pageSize;
 
-    if(this.pageSize != pageSize) {
+    if (this.pageSize != pageSize) {
       this.pageIndex = 1;
       this.pageSize = pageSize;
-    }    
-    
-    if( this.sortKey != sortField) {
+    }
+
+    if (this.sortKey != sortField) {
       this.pageIndex = 1;
-      this.pageSize =pageSize;
+      this.pageSize = pageSize;
     }
 
     this.sortKey = sortField;
