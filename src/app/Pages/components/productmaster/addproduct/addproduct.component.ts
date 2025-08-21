@@ -511,7 +511,7 @@ export class AddproductComponent implements OnInit {
             this.message.info('Unique code already exists.', '');
             this.isSpinning = false;
           } else if (successCode.code == '402') {
-            this.message.info('Product Name already exists.', '');
+            this.message.info('Product Name with same category is already exists', '');
             this.isSpinning = false;
           } else {
             this.message.error(' Failed To Update Information...', '');
@@ -549,7 +549,7 @@ export class AddproductComponent implements OnInit {
               this.message.info('Unique code already exists.', '');
               this.isSpinning = false;
             } else if (successCode.code == '402') {
-              this.message.info('Product Name already exists.', '');
+              this.message.info('Product Name with same category is already exists.', '');
               this.isSpinning = false;
             } else {
               this.message.error(' Failed To Save Information...', '');
