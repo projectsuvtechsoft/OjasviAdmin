@@ -780,7 +780,7 @@ export class AddcategoriesComponent implements OnInit {
             );
     
             if (nameExists) {
-              this.message.error('Name already exists', '');
+              this.message.error('Category Name already exists', '');
               this.isSpinning = false;
               return;
             }
