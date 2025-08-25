@@ -90,6 +90,11 @@
     >
       <thead>
         <tr>
+                  <th nzWidth="10px" nzLeft style="text-align: center">
+  <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
+    Select All
+  </label>
+</th>
           <th nzWidth="8px" style="text-align: center"><b> Action </b></th>
           <th
             nzColumnKey="{{ 'SEQUENCE_NO' }}"
@@ -125,12 +130,21 @@
             nzWidth="15px"
             style="text-align: center"
           >
-            <b> Status </b>
+            <b> Status </b><ng-container *ngIf="toggleVisible">
+  <div (click)="$event.stopPropagation()">
+    <nz-switch [(ngModel)]="headerToggles.STATUS"
+               (ngModelChange)="bulkUpdate('STATUS', $event)">
+    </nz-switch>
+  </div>
+</ng-container>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of unitMasterTable.data">
+                <td nzLeft style="text-align: center">
+               <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
+             </td>
           <td style="text-align: center">
             <span
               nz-icon

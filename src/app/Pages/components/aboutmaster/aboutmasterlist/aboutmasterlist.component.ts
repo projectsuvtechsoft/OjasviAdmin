@@ -80,6 +80,8 @@ export class AboutmasterlistComponent implements OnInit {
         this.totalRecords = data['count'];
         this.datacount = data['count'];
         this.dataList = data['data'];
+        this.dataList.forEach(item => item.checked = this.selectedIds.has(item.ID));
+             this.updateSelectedRows();
         console.log(this.dataList)
         for (var i = 0; i < this.dataList.length; i++) {
           console.log(this.imgurl + 'aboutusImage/' + this.dataList[i]['IMG_URL'])
@@ -167,5 +169,105 @@ export class AboutmasterlistComponent implements OnInit {
     this.search();
     this.drawerVisible2 = false;
   }
+//bulk operation
+allChecked = false;
+selectedIds = new Set<number>(); 
+selectedRows: any[] = [];        
+headerToggles: any = {
+   STATUS: false
+};
+chekedproduct(){
+   this.api.getAboutMaster(1, this.totalRecords, this.sortKey, 'desc', '')
+      .subscribe(res => {
+        if (res['code'] === 200) {
+          res.data.forEach(item => {
+            this.selectedIds.add(item.ID);
+          });
+
+          // Also mark current page checkboxes as checked
+          this.dataList.forEach(item => item.checked = true);
+          this.updateSelectedRows();
+        }
+      });
 }
+checkAll(checked: boolean) {
+  if (checked) {
+  this.chekedproduct()
+  } else {
+    this.selectedIds.clear();
+    this.dataList.forEach(item => item.checked = false);
+    this.updateSelectedRows();
+  }
+}
+
+
+onRowChecked(row: any) {
+  if (row.checked) {
+    this.selectedIds.add(row.ID);
+  } else {
+    this.selectedIds.delete(row.ID);
+  }
+
+  this.updateSelectedRows();
+}
+
+toggleVisible: boolean = false; 
+
+updateSelectedRows() {
+  // rows on current page
+  this.selectedRows = this.dataList.filter(item => this.selectedIds.has(item.ID));
+
+  // toggle visible if any row selected (even across pages)
+  this.toggleVisible = this.selectedIds.size > 0;
+
+  // recalc header toggle values based on selectedRows
+  Object.keys(this.headerToggles).forEach(field => {
+    if (this.selectedRows.length) {
+      this.headerToggles[field] = this.selectedRows.every(r => !!r[field]);
+    } else {
+      this.headerToggles[field] = false;
+    }
+  });
+}
+
+
+
+
+bulkUpdate(fieldName: string, value: any) {
+          this.loadingRecords = true;
+  if (this.selectedIds.size === 0) return;
+
+  const payload = {
+    DATA: Array.from(this.selectedIds).map(id => {
+      const obj: any = { ID: id };
+      obj[fieldName] = value; 
+      return obj;
+    })
+  };
+
+   
+  this.api.aboutBulkUpdate(payload).subscribe( (res: any)  => {
+       if (res.code == 200) {
+      this.dataList.forEach(item => {
+        if (this.selectedIds.has(item.ID)) {
+          (item as any)[fieldName] = value;
+        }
+      });
+      this.updateSelectedRows();  
+          this.loadingRecords = false;
+
+    }
+    else{
+      this.message.error('Bulk update failed', '');
+          this.loadingRecords = false;
+
+    }
+    },
+    (err) => {
+      console.error("Bulk update failed", err);
+    }
+  );
+}
+}
+
 

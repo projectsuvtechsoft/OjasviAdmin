@@ -205,15 +205,20 @@ omit(event:any) {
     (allData: any) => {
       const banner = allData?.data || [];
 
-      const nameExists = banner.some(
+      const nameExists =
+      this.data.NAME?.trim() &&
+      banner.some(
         (s: any) =>
-          s.NAME.trim().toLowerCase() === this.data.NAME.trim().toLowerCase() &&
+          s.NAME?.trim().toLowerCase() === this.data.NAME.trim().toLowerCase() &&
           s.ID !== this.data.ID
       );
 
-     const subtitle = banner.some(
+    // Check only if SUB_TITLE is not empty
+    const subtitleExists =
+      this.data.SUB_TITLE?.trim() &&
+      banner.some(
         (s: any) =>
-          s.SUB_TITLE.trim().toLowerCase() === this.data.SUB_TITLE.trim().toLowerCase() &&
+          s.SUB_TITLE?.trim().toLowerCase() === this.data.SUB_TITLE.trim().toLowerCase() &&
           s.ID !== this.data.ID
       );
 
@@ -228,7 +233,7 @@ omit(event:any) {
         this.isSpinning = false;
         return;
       }
-    if (subtitle) {
+    if (subtitleExists) {
         this.message.error('Sub Title  already exists', '');
         this.isSpinning = false;
         return;

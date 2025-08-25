@@ -77,6 +77,8 @@ export class ListingredientsComponent {
       this.totalRecords = data['count'];
       this.dataList = data['data'];
       console.log(this.dataList)
+      this.dataList.forEach(item => item.checked = this.selectedIds.has(item.ID));
+      this.updateSelectedRows();
       for (var i=0;i<this.dataList.length;i++){
       console.log(this.imgurl+'ingredientLogo/'+this.dataList[i]['IMG_URL'])
       }
@@ -150,6 +152,107 @@ sort(params: NzTableQueryParams): void {
     this.search();
   }
 
+//bulk operation
+allChecked = false;
+selectedIds = new Set<number>(); 
+selectedRows: any[] = [];        
+headerToggles: any = {
+   STATUS: false,
+   IS_PRIMARY: false
+};
+chekedproduct(){
+   this.api.getAllIngredientMaster(1, this.totalRecords, this.sortKey, 'desc', '')
+      .subscribe(res => {
+        if (res['code'] === 200) {
+          res.data.forEach(item => {
+            this.selectedIds.add(item.ID);
+          });
+
+          // Also mark current page checkboxes as checked
+          this.dataList.forEach(item => item.checked = true);
+          this.updateSelectedRows();
+        }
+      });
 }
+checkAll(checked: boolean) {
+  if (checked) {
+  this.chekedproduct()
+  } else {
+    this.selectedIds.clear();
+    this.dataList.forEach(item => item.checked = false);
+    this.updateSelectedRows();
+  }
+}
+
+
+onRowChecked(row: any) {
+  if (row.checked) {
+    this.selectedIds.add(row.ID);
+  } else {
+    this.selectedIds.delete(row.ID);
+  }
+
+  this.updateSelectedRows();
+}
+
+toggleVisible: boolean = false; 
+
+updateSelectedRows() {
+  // rows on current page
+  this.selectedRows = this.dataList.filter(item => this.selectedIds.has(item.ID));
+
+  // toggle visible if any row selected (even across pages)
+  this.toggleVisible = this.selectedIds.size > 0;
+
+  // recalc header toggle values based on selectedRows
+  Object.keys(this.headerToggles).forEach(field => {
+    if (this.selectedRows.length) {
+      this.headerToggles[field] = this.selectedRows.every(r => !!r[field]);
+    } else {
+      this.headerToggles[field] = false;
+    }
+  });
+}
+
+
+
+
+bulkUpdate(fieldName: string, value: any) {
+          this.loadingRecords = true;
+  if (this.selectedIds.size === 0) return;
+
+  const payload = {
+    DATA: Array.from(this.selectedIds).map(id => {
+      const obj: any = { ID: id };
+      obj[fieldName] = value; 
+      return obj;
+    })
+  };
+
+   
+  this.api.ingredientBulkUpdate(payload).subscribe( (res: any)  => {
+       if (res.code == 200) {
+      this.dataList.forEach(item => {
+        if (this.selectedIds.has(item.ID)) {
+          (item as any)[fieldName] = value;
+        }
+      });
+      this.updateSelectedRows();  
+          this.loadingRecords = false;
+
+    }
+    else{
+      this.message.error('Bulk update failed', '');
+          this.loadingRecords = false;
+
+    }
+    },
+    (err) => {
+      console.error("Bulk update failed", err);
+    }
+  );
+}
+}
+
 
 

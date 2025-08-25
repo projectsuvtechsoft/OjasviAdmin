@@ -58,16 +58,30 @@
    
         <thead>
           <tr>
+             <th nzWidth="16px" nzLeft style="text-align: center">
+  <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
+    Select All
+  </label>
+</th>
              <th nzWidth="8px" style="text-align: center;"><b> Action </b></th>
             <th nzColumnKey="{{ 'SEQUENCE_NO' }}" [nzSortFn]="true" nzWidth="15px" style="text-align: center;"><b> Sequence No. </b></th>
             <th nzColumnKey="{{ 'TITLE' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center;"><b> Title </b></th>
             <th nzColumnKey="{{ 'TEXT' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center;"><b> Description </b></th>            
             <!-- <th *ngFor="let column of columns" nzColumnKey="{{column[0]}}" [nzSortFn]="true">{{column[1]}}</th> -->
-            <th nzColumnKey="{{ 'STATUS' }}" [nzSortFn]="true" nzWidth="10px" style="text-align: center;"><b> Status </b></th>
+            <th nzColumnKey="{{ 'STATUS' }}" [nzSortFn]="true" nzWidth="10px" style="text-align: center;"><b> Status </b><ng-container *ngIf="toggleVisible">
+  <div (click)="$event.stopPropagation()">
+    <nz-switch [(ngModel)]="headerToggles.STATUS"
+               (ngModelChange)="bulkUpdate('STATUS', $event)">
+    </nz-switch>
+  </div>
+</ng-container></th>
           </tr>
         </thead>
         <tbody> 
           <tr *ngFor="let data of aboutMasterTable.data" >
+            <td nzLeft style="text-align: center">
+               <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
+             </td>
             <td style="text-align: center;">
      <span
               nz-icon

@@ -11017,4 +11017,129 @@ export class ApiServiceService {
       this.options
     );
   }
+
+deleteBulkRecords(ids: number[]): Observable<any> {
+  return this.httpClient.post('/api/products/delete', { ids: ids });
+}
+  productBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+   
+    return this.httpClient.put<any>(
+      this.url + 'products/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+ unitBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+   
+    return this.httpClient.put<any>(
+      this.url + 'unit/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  categoryBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+   
+    return this.httpClient.put<any>(
+      this.url + 'category/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  countryBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+   
+    return this.httpClient.put<any>(
+      this.url + 'country/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  ingredientBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+   
+    return this.httpClient.put<any>(
+      this.url + 'ingredients/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  stateBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+   
+    return this.httpClient.put<any>(
+      this.url + 'state/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  pincodeBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+   
+    return this.httpClient.put<any>(
+      this.url + 'pincodeShippingCharges/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  customerBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+   
+    return this.httpClient.put<any>(
+      this.url + 'customer/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  packaginBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+   
+    return this.httpClient.put<any>(
+      this.url + 'packagingCharges/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+    websiteBannerBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+   
+    return this.httpClient.put<any>(
+      this.url + 'websiteBanner/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+      aboutBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+   
+    return this.httpClient.put<any>(
+      this.url + 'Aboutus/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
 }
