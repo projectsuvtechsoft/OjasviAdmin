@@ -44,11 +44,14 @@
           <i nz-icon nzType="plus"></i>Add New Product
         </button>
       </nz-form-item>
+       
     </form>
   </div>
 </div>
 <br />
 <div nz-row>
+
+
   <div nz-col nzSpan="24">
     <nz-table
       nzBordered
@@ -59,7 +62,7 @@
       [nzLoading]="loadingRecords"
       [nzSize]="'small'"
       [nzScroll]="dataList.length > 10 ? 
-      { x: '3250px', y: '410px'} : { x: '3250px' }"      
+      { x: '3270px', y: '410px'} : { x: '3270px' }"      
       [nzTotal]="totalRecords"
       [nzTotal]="totalRecords"
       [(nzPageIndex)]="pageIndex"
@@ -70,12 +73,19 @@
     >
       <thead>
         <tr>
+   <th nzWidth="20px" nzLeft style="text-align: center">
+  <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
+    Select All
+  </label>
+</th>
+
+
           <th nzWidth="10px" nzLeft style="text-align: center">
             <b> Action</b>
           </th>
           <th
             nzLeft
-            nzWidth="50px"
+            nzWidth="55px"
             nzLeft
             style="font-weight: bold; text-align: center"
           >
@@ -157,21 +167,40 @@
           >
             <b> Unique Code</b>
           </th>
-          <th
+          <!-- <th
             nzColumnKey="{{ 'IS_MAINTAIN_STOCK' }}"
             [nzSortFn]="true"
             nzWidth="24px"
             style="text-align: center"
           >
             <b> Is Main Stock ?</b>
-          </th>
+          </th> -->
+<th nzColumnKey="{{'IS_MAINTAIN_STOCK'}}"  [nzSortFn]="true" nzWidth="24px" style="text-align: center">
+  <b> Is Main Stock ? </b>
+   <ng-container *ngIf="toggleVisible">
+  <div (click)="$event.stopPropagation()">
+    <nz-switch [(ngModel)]="headerToggles.IS_MAINTAIN_STOCK"
+               (ngModelChange)="bulkUpdate('IS_MAINTAIN_STOCK', $event)">
+    </nz-switch>
+  </div>
+</ng-container>
+</th>
+
+
           <th
             nzColumnKey="{{ 'IS_VERIENT_AVAILABLE' }}"
             [nzSortFn]="true"
             nzWidth="24px"
             style="text-align: center"
           >
-            <b> Is Varient Available ?</b>
+            <b> Is Varient Available ?</b><br>
+             <ng-container *ngIf="toggleVisible">
+  <div (click)="$event.stopPropagation()">
+    <nz-switch [(ngModel)]="headerToggles.IS_VERIENT_AVAILABLE"
+               (ngModelChange)="bulkUpdate('IS_VERIENT_AVAILABLE', $event)">
+    </nz-switch>
+  </div>
+</ng-container>
           </th>
           <th
             nzColumnKey="{{ 'SIZE' }}"
@@ -220,6 +249,14 @@
             style="text-align: center"
           >
             <b> Is Popular ?</b>
+     <ng-container *ngIf="toggleVisible">
+  <div (click)="$event.stopPropagation()">
+    <nz-switch [(ngModel)]="headerToggles.IS_POPULAR"
+               (ngModelChange)="bulkUpdate('IS_POPULAR', $event)">
+    </nz-switch>
+  </div>
+</ng-container>
+
           </th>
           <th
             nzColumnKey="{{ 'IS_BEST_SELLER' }}"
@@ -228,6 +265,13 @@
             style="text-align: center"
           >
             <b> Is Best Seller ?</b>
+                  <ng-container *ngIf="toggleVisible">
+  <div (click)="$event.stopPropagation()">
+    <nz-switch [(ngModel)]="headerToggles.IS_BEST_SELLER"
+               (ngModelChange)="bulkUpdate('IS_BEST_SELLER', $event)">
+    </nz-switch>
+  </div>
+</ng-container>
           </th>
           <th
             nzColumnKey="{{ 'IS_NEW_ARRIVAL' }}"
@@ -236,6 +280,13 @@
             style="text-align: center"
           >
             <b> Is New Arrival ?</b>
+             <ng-container *ngIf="toggleVisible">
+  <div (click)="$event.stopPropagation()">
+    <nz-switch [(ngModel)]="headerToggles.IS_NEW_ARRIVAL"
+               (ngModelChange)="bulkUpdate('IS_NEW_ARRIVAL', $event)">
+    </nz-switch>
+  </div>
+</ng-container>
           </th>
           <th
             nzColumnKey="{{ 'STATUS' }}"
@@ -244,11 +295,23 @@
             style="text-align: center"
           >
             <b> Status</b>
+            <ng-container *ngIf="toggleVisible">
+  <div (click)="$event.stopPropagation()">
+    <nz-switch [(ngModel)]="headerToggles.STATUS"
+               (ngModelChange)="bulkUpdate('STATUS', $event)">
+    </nz-switch>
+  </div>
+</ng-container>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of produtMasterTable.data">
+ <td nzLeft style="text-align: center">
+  <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
+</td>
+
+
           <td nzLeft style="text-align: center">
             <span
               nz-icon
@@ -336,22 +399,9 @@
           <td style="text-align: right">{{ data["OUT_COUNTRY"] }}</td>
 
           <td>{{ data["UNIQUE_CODE"] }}</td>
-          <td style="text-align: center">
-            <i
-              nz-icon
-              *ngIf="data['IS_MAINTAIN_STOCK']"
-              [nzType]="'check-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#52c41a'"
-            ></i>
-            <i
-              nz-icon
-              *ngIf="!data['IS_MAINTAIN_STOCK']"
-              [nzType]="'close-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#f50'"
-            ></i>
-          </td>
+    <td style="text-align: center"> <i nz-icon *ngIf="data['IS_MAINTAIN_STOCK']" [nzType]="'check-circle'"
+        [nzTheme]="'twotone'" [nzTwotoneColor]="'#52c41a'"></i> <i nz-icon *ngIf="!data['IS_MAINTAIN_STOCK']"
+        [nzType]="'close-circle'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#f50'"></i> </td>
           <td style="text-align: center">
             <i
               nz-icon

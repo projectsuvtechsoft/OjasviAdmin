@@ -119,7 +119,9 @@ export class ProductlistComponent implements OnInit {
           this.totalRecords = data['count'];
           this.dataList = data['data'];
           console.log(this.dataList);
+       this.dataList.forEach(item => item.checked = this.selectedIds.has(item.ID));
 
+    this.updateSelectedRows();
           for (var i = 0; i < this.dataList.length; i++) {
             console.log(
               this.imgurl + 'productImages/' + this.dataList[i]['PHOTO_URL']
@@ -626,4 +628,142 @@ tags
     this.IngredientMappingData = new ProjectIngredientsMapping();
     this.searchText2 = '';
   }
+
+
+//bulk operation
+allChecked = false;
+selectedIds = new Set<number>(); 
+selectedRows: any[] = [];        
+headerToggles: any = {
+  IS_MAINTAIN_STOCK: false,
+  IS_VERIENT_AVAILABLE: false,
+  IS_POPULAR: false,
+  IS_BEST_SELLER: false,
+  IS_NEW_ARRIVAL: false,
+  STATUS: false
+};
+chekedproduct(){
+   this.api.getAllProductMaster(1, this.totalRecords, this.sortKey, 'desc', '')
+      .subscribe(res => {
+        if (res['code'] === 200) {
+          res.data.forEach(item => {
+            this.selectedIds.add(item.ID);
+          });
+
+          // Also mark current page checkboxes as checked
+          this.dataList.forEach(item => item.checked = true);
+          this.updateSelectedRows();
+        }
+      });
+}
+checkAll(checked: boolean) {
+  if (checked) {
+  this.chekedproduct()
+  } else {
+    this.selectedIds.clear();
+    this.dataList.forEach(item => item.checked = false);
+    this.updateSelectedRows();
+  }
+}
+
+
+onRowChecked(row: any) {
+  if (row.checked) {
+    this.selectedIds.add(row.ID);
+  } else {
+    this.selectedIds.delete(row.ID);
+  }
+
+  this.updateSelectedRows();
+}
+
+toggleVisible: boolean = false; 
+
+updateSelectedRows() {
+  // rows on current page
+  this.selectedRows = this.dataList.filter(item => this.selectedIds.has(item.ID));
+
+  // toggle visible if any row selected (even across pages)
+  this.toggleVisible = this.selectedIds.size > 0;
+
+  // recalc header toggle values based on selectedRows
+  Object.keys(this.headerToggles).forEach(field => {
+    if (this.selectedRows.length) {
+      this.headerToggles[field] = this.selectedRows.every(r => !!r[field]);
+    } else {
+      this.headerToggles[field] = false;
+    }
+  });
+}
+
+
+
+
+bulkUpdate(fieldName: string, value: any) {
+          this.loadingRecords = true;
+  if (this.selectedIds.size === 0) return;
+
+  const payload = {
+    PRODUCTS_DATA: Array.from(this.selectedIds).map(id => {
+      const obj: any = { ID: id };
+      obj[fieldName] = value; 
+      return obj;
+    })
+  };
+
+   
+  this.api.productBulkUpdate(payload).subscribe( (res: any)  => {
+       if (res.code == 200) {
+      this.dataList.forEach(item => {
+        if (this.selectedIds.has(item.ID)) {
+          (item as any)[fieldName] = value;
+        }
+      });
+      this.updateSelectedRows();  
+          this.loadingRecords = false;
+
+    }
+    else{
+      this.message.error('Bulk update failed', '');
+          this.loadingRecords = false;
+
+    }
+    },
+    (err) => {
+      console.error("Bulk update failed", err);
+    }
+  );
+}
+
+
+
+
+
+// ✅ Bulk delete functionality
+bulkDelete() {
+  if (this.selectedIds.size === 0) return;
+
+  // Convert Set to array for API
+  const ids = Array.from(this.selectedIds);
+
+  this.api.deleteBulkRecords(ids).subscribe({
+    next: () => {
+      // Remove deleted items from current page
+      this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
+
+      // Clear selection
+      this.selectedIds.clear();
+      this.selectedRows = [];
+      this.allChecked = false;
+      this.toggleVisible = false; // hide header toggle after delete
+    },
+    error: (err) => {
+      console.error("Bulk delete failed", err);
+    }
+  });
+}
+
+
+
+
 }

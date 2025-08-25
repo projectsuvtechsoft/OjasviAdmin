@@ -223,7 +223,7 @@
       [nzLoading]="loadingRecords"
       [nzSize]="'small'"
       [nzScroll]="dataList.length > 10 ? 
-      { x: '1330px', y: '410px'} : { x: '1330px' }"      
+      { x: '1340px', y: '410px'} : { x: '1340px' }"      
       [nzTotal]="totalRecords"
       [(nzPageIndex)]="pageIndex"
       [(nzPageSize)]="pageSize"
@@ -234,6 +234,11 @@
     >
       <thead>
         <tr>
+           <th nzWidth="35px" nzLeft style="text-align: center">
+  <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
+    Select All
+  </label>
+</th>
           <th nzLeft nzWidth="22px" style="text-align: center">
             <b> Orders </b>
           </th>
@@ -287,12 +292,21 @@
             nzWidth="25px"
             style="text-align: center"
           >
-            <b> Status</b>
+            <b> Status</b><ng-container *ngIf="toggleVisible">
+  <div (click)="$event.stopPropagation()">
+    <nz-switch [(ngModel)]="headerToggles.STATUS"
+               (ngModelChange)="bulkUpdate('STATUS', $event)">
+    </nz-switch>
+  </div>
+</ng-container>
           </th>
         </tr>
       </thead>
       <tbody >
         <tr *ngFor="let data of categoryAddonMasterTable.data">
+           <td nzLeft style="text-align: center">
+               <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
+             </td>
           <td nzLeft style="text-align: center">
             <a (click)="OrdersAll(data)" style="color: #5a8f69;">View </a>
           </td>

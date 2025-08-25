@@ -6,9 +6,9 @@ export const url = {
   // link: 'https://pn5m5nf6-8090.inc1.devtunnels.ms/', // ngrok ujef
   // link: 'http://192.168.29.211:9878/',// ngrok pooja
   // link: 'https://p8rhkmb7-9878.inc1.devtunnels.ms/',// ngrok bahubali
-  link: 'https://ojasviadmin.uvtechsoft.com:9090/', // live
+  // link: 'https://ojasviadmin.uvtechsoft.com:9090/', // live
 
-  // link: 'https://a4fe85f12d63.ngrok-free.app/',// ngrok darshan
+  link: 'https://7596bc2e22a2.ngrok-free.app/',// ngrok
 };
 export const appkeys = {
   gmUrl: 'http://gm.tecpool.in:8079/',
