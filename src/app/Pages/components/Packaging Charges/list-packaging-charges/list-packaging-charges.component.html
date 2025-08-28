@@ -45,7 +45,7 @@
           <i nz-icon nzType="plus"></i>Add New Charges
         </button>
       </nz-form-item>
-        <nz-form-item>
+      <nz-form-item>
         <button
           nz-button
           nzType="default"
@@ -68,7 +68,6 @@
 <div nz-row>
   <div nz-col nzSpan="24" style="width: 100%">
     <nz-table
-      
       nzBordered
       #unitMasterTable
       nzShowSizeChanger
@@ -87,11 +86,15 @@
     >
       <thead>
         <tr>
-                 <th nzWidth="15px" nzLeft style="text-align: center">
-  <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
-    Select All
-  </label>
-</th>
+          <th nzWidth="15px" nzLeft style="text-align: center">
+            <label
+              nz-checkbox
+              [(ngModel)]="allChecked"
+              (ngModelChange)="checkAll($event)"
+            >
+              Select All
+            </label>
+          </th>
           <th nzWidth="8px" style="text-align: center"><b> Action </b></th>
           <th
             nzColumnKey="{{ 'WEIGHT' }}"
@@ -124,13 +127,16 @@
             nzWidth="15px"
             style="text-align: center"
           >
-            <b> Status</b><ng-container *ngIf="toggleVisible">
-  <div (click)="$event.stopPropagation()">
-    <nz-switch [(ngModel)]="headerToggles.STATUS"
-               (ngModelChange)="bulkUpdate('STATUS', $event)">
-    </nz-switch>
-  </div>
-</ng-container>
+            <b> Status</b
+            ><ng-container *ngIf="toggleVisible">
+              <div (click)="$event.stopPropagation()">
+                <nz-switch
+                  [(ngModel)]="headerToggles.STATUS"
+                  (ngModelChange)="bulkUpdate('STATUS', $event)"
+                >
+                </nz-switch>
+              </div>
+            </ng-container>
           </th>
           <!-- <th nzColumnKey="{{ 'STATE_NAME_MR' }}" [nzSortFn]="true" nzWidth="42px" style="text-align: center;"> <b> State Name(Marathi) </b></th> -->
           <!-- <th nzColumnKey="{{ 'TITLE_MR' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center;">  Title (Marathi) </th>             -->
@@ -139,9 +145,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of unitMasterTable.data">
-              <td nzLeft style="text-align: center">
-  <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
-</td>
+          <td nzLeft style="text-align: center">
+            <label
+              nz-checkbox
+              [(ngModel)]="data.checked"
+              (ngModelChange)="onRowChecked(data)"
+            ></label>
+          </td>
           <td style="text-align: center">
             <span
               nz-icon
@@ -158,7 +168,7 @@
               (click)="edit(data)"
             >
             </span>
-             <span
+            <span
               nz-icon
               nzType="delete"
               nzTheme="outline"
@@ -180,8 +190,12 @@
             </span>
           </td>
           <td style="text-align: center">{{ data["WEIGHT"] }}</td>
-          <td style="white-space: pre-line;text-align: center">{{ data["IN_COUNTRY"] }}</td>
-          <td style="white-space: pre-line;text-align: center">{{ data["OUT_COUNTRY"] }}</td>
+          <td style="white-space: pre-line; text-align: center">
+            {{ data["IN_COUNTRY"] }}
+          </td>
+          <td style="white-space: pre-line; text-align: center">
+            {{ data["OUT_COUNTRY"] }}
+          </td>
           <td style="text-align: center">
             <i
               nz-icon

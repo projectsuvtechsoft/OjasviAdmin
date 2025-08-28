@@ -276,10 +276,78 @@ bulkUpdate(fieldName: string, value: any) {
     }
   );
 }
-  bulkDelete(){
+ bulkDelete() {
+    if (this.selectedIds.size === 0) return;
+    this.loadingRecords = true;
+    const payload = {
+      // data: [{
+      IDS: [...this.selectedIds].join(','),
+      // }]
+    };
+    // console.log(payload,'bulkpayload');
 
+    this.api.aboutDeleteBulk(payload).subscribe(
+      (res: any) => {
+        if (res.code == 200) {
+          // Remove deleted items from current page
+          // this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
+          this.message.success('Successfully deleted information.', '');
+          this.search();
+          this.loadingRecords = false;
+          // Clear selection
+          this.selectedIds.clear();
+          this.selectedRows = [];
+          this.allChecked = false;
+        } else if (res.code == '400') {
+          this.message.info(res.message, '');
+          this.loadingRecords = false;
+        } else {
+          this.message.error('deletion failed', '');
+          this.loadingRecords = false;
+        }
+      },
+      (err) => {
+        console.error('Bulk update failed', err);
+      }
+    );
   }
-  deleteSingledata(data) {}
+  deleteSingledata(data) {
+    this.loadingRecords = true;
+    const payload = {
+      // data: [
+      //   {
+      IDS: '' + data.ID,
+      // NAME: data.NAME, // include NAME from dataList
+      //   },
+      // ],
+    };
+    // console.log(payload,'singlepayload');
+
+    this.api.aboutDeleteBulk(payload).subscribe(
+      (res: any) => {
+        if (res.code == 200) {
+          // Remove deleted items from current page
+          // this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
+          this.message.success('Successfully deleted information.', '');
+          this.search();
+          this.loadingRecords = false;
+          // Clear selection
+          this.selectedIds.clear();
+          this.selectedRows = [];
+          this.allChecked = false;
+        } else if (res.code == '400') {
+          this.message.info(res.message, '');
+          this.loadingRecords = false;
+        } else {
+          this.message.error('deletion failed', '');
+          this.loadingRecords = false;
+        }
+      },
+      (err) => {
+        console.error('Bulk update failed', err);
+      }
+    );
+  }
 }
 
 

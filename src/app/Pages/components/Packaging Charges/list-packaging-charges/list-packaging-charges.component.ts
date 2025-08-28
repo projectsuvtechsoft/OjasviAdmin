@@ -84,8 +84,10 @@ export class ListPackagingChargesComponent implements OnInit {
             this.totalRecords = data['count'];
             this.dataList = data['data'];
             this.loadingRecords = false;
-            this.dataList.forEach(item => item.checked = this.selectedIds.has(item.ID));
-      this.updateSelectedRows();
+            this.dataList.forEach(
+              (item) => (item.checked = this.selectedIds.has(item.ID))
+            );
+            this.updateSelectedRows();
             // if(this.totalRecords==0){
             //   data.SEQUENCE_NO=1;
             // }
@@ -129,7 +131,7 @@ export class ListPackagingChargesComponent implements OnInit {
     this.search();
     this.drawerVisible = false;
   }
-    back() {
+  back() {
     this.router.navigate(['/masters/menu']);
   }
   sort(params: NzTableQueryParams): void {
@@ -158,114 +160,179 @@ export class ListPackagingChargesComponent implements OnInit {
   }
 
   //bulk operation
-allChecked = false;
-selectedIds = new Set<number>(); 
-selectedRows: any[] = [];        
-headerToggles: any = {
-   STATUS: false
-};
-chekedproduct(){
-   this.api.getAllPackagingMaster(1, this.totalRecords, this.sortKey, 'desc', '')
-      .subscribe(res => {
+  allChecked = false;
+  selectedIds = new Set<number>();
+  selectedRows: any[] = [];
+  headerToggles: any = {
+    STATUS: false,
+  };
+  chekedproduct() {
+    this.api
+      .getAllPackagingMaster(1, this.totalRecords, this.sortKey, 'desc', '')
+      .subscribe((res) => {
         if (res['code'] === 200) {
-          res.data.forEach(item => {
+          res.data.forEach((item) => {
             this.selectedIds.add(item.ID);
           });
 
           // Also mark current page checkboxes as checked
-          this.dataList.forEach(item => item.checked = true);
+          this.dataList.forEach((item) => (item.checked = true));
           this.updateSelectedRows();
         }
       });
-}
-checkAll(checked: boolean) {
-  if (checked) {
-  this.chekedproduct()
-  } else {
-    this.selectedIds.clear();
-    this.dataList.forEach(item => item.checked = false);
+  }
+  checkAll(checked: boolean) {
+    if (checked) {
+      this.chekedproduct();
+    } else {
+      this.selectedIds.clear();
+      this.dataList.forEach((item) => (item.checked = false));
+      this.updateSelectedRows();
+    }
+  }
+
+  onRowChecked(row: any) {
+    if (row.checked) {
+      this.selectedIds.add(row.ID);
+    } else {
+      this.selectedIds.delete(row.ID);
+    }
+
     this.updateSelectedRows();
   }
-}
 
+  toggleVisible: boolean = false;
 
-onRowChecked(row: any) {
-  if (row.checked) {
-    this.selectedIds.add(row.ID);
-  } else {
-    this.selectedIds.delete(row.ID);
+  updateSelectedRows() {
+    // rows on current page
+    this.selectedRows = this.dataList.filter((item) =>
+      this.selectedIds.has(item.ID)
+    );
+
+    // toggle visible if any row selected (even across pages)
+    this.toggleVisible = this.selectedIds.size > 0;
+
+    // recalc header toggle values based on selectedRows
+    Object.keys(this.headerToggles).forEach((field) => {
+      if (this.selectedRows.length) {
+        this.headerToggles[field] = this.selectedRows.every((r) => !!r[field]);
+      } else {
+        this.headerToggles[field] = false;
+      }
+    });
   }
 
-  this.updateSelectedRows();
-}
+  bulkUpdate(fieldName: string, value: any) {
+    this.loadingRecords = true;
+    if (this.selectedIds.size === 0) return;
 
-toggleVisible: boolean = false; 
+    const payload = {
+      DATA: Array.from(this.selectedIds).map((id) => {
+        const obj: any = { ID: id };
+        obj[fieldName] = value;
+        return obj;
+      }),
+    };
 
-updateSelectedRows() {
-  // rows on current page
-  this.selectedRows = this.dataList.filter(item => this.selectedIds.has(item.ID));
-
-  // toggle visible if any row selected (even across pages)
-  this.toggleVisible = this.selectedIds.size > 0;
-
-  // recalc header toggle values based on selectedRows
-  Object.keys(this.headerToggles).forEach(field => {
-    if (this.selectedRows.length) {
-      this.headerToggles[field] = this.selectedRows.every(r => !!r[field]);
-    } else {
-      this.headerToggles[field] = false;
-    }
-  });
-}
-
-
-
-
-bulkUpdate(fieldName: string, value: any) {
-          this.loadingRecords = true;
-  if (this.selectedIds.size === 0) return;
-
-  const payload = {
-    DATA: Array.from(this.selectedIds).map(id => {
-      const obj: any = { ID: id };
-      obj[fieldName] = value; 
-      return obj;
-    })
-  };
-
-   
-  this.api.packaginBulkUpdate(payload).subscribe( (res: any)  => {
+    this.api.packaginBulkUpdate(payload).subscribe(
+      (res: any) => {
         if (res.code == 200) {
-  this.dataList.forEach(item => {
-    if (this.selectedIds.has(item.ID)) {
-      (item as any)[fieldName] = value;
-    }
-    item.checked = false;
-  });
+          this.dataList.forEach((item) => {
+            if (this.selectedIds.has(item.ID)) {
+              (item as any)[fieldName] = value;
+            }
+            item.checked = false;
+          });
 
-  this.updateSelectedRows();  
-  this.loadingRecords = false;
-
-  this.toggleVisible=false
-  this.selectedRows = [];
-  this.selectedIds.clear();
-  this.allChecked = false;
-
-  this.message.success('Bulk update successful', '');
-}
-    else{
-      this.message.error('Bulk update failed', '');
+          this.updateSelectedRows();
           this.loadingRecords = false;
 
-    }
-    },
-    (err) => {
-      console.error("Bulk update failed", err);
-    }
-  );
-}
-  bulkDelete(){
+          this.toggleVisible = false;
+          this.selectedRows = [];
+          this.selectedIds.clear();
+          this.allChecked = false;
 
+          this.message.success('Bulk update successful', '');
+        } else {
+          this.message.error('Bulk update failed', '');
+          this.loadingRecords = false;
+        }
+      },
+      (err) => {
+        console.error('Bulk update failed', err);
+      }
+    );
   }
-  deleteSingledata(data) {}
+  bulkDelete() {
+    if (this.selectedIds.size === 0) return;
+    this.loadingRecords = true;
+    const payload = {
+      // data: [{
+      IDS: [...this.selectedIds].join(','),
+      // }]
+    };
+    // console.log(payload,'bulkpayload');
+
+    this.api.chargesDeleteBulk(payload).subscribe(
+      (res: any) => {
+        if (res.code == 200) {
+          // Remove deleted items from current page
+          // this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
+          this.message.success('Successfully deleted information.', '');
+          this.search();
+          this.loadingRecords = false;
+          // Clear selection
+          this.selectedIds.clear();
+          this.selectedRows = [];
+          this.allChecked = false;
+        } else if (res.code == '400') {
+          this.message.info(res.message, '');
+          this.loadingRecords = false;
+        } else {
+          this.message.error('deletion failed', '');
+          this.loadingRecords = false;
+        }
+      },
+      (err) => {
+        console.error('Bulk update failed', err);
+      }
+    );
+  }
+  deleteSingledata(data) {
+    this.loadingRecords = true;
+    const payload = {
+      // data: [
+      //   {
+      IDS: '' + data.ID,
+      // NAME: data.NAME, // include NAME from dataList
+      //   },
+      // ],
+    };
+    // console.log(payload,'singlepayload');
+
+    this.api.chargesDeleteBulk(payload).subscribe(
+      (res: any) => {
+        if (res.code == 200) {
+          // Remove deleted items from current page
+          // this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
+          this.message.success('Successfully deleted information.', '');
+          this.search();
+          this.loadingRecords = false;
+          // Clear selection
+          this.selectedIds.clear();
+          this.selectedRows = [];
+          this.allChecked = false;
+        } else if (res.code == '400') {
+          this.message.info(res.message, '');
+          this.loadingRecords = false;
+        } else {
+          this.message.error('deletion failed', '');
+          this.loadingRecords = false;
+        }
+      },
+      (err) => {
+        console.error('Bulk update failed', err);
+      }
+    );
+  }
 }
