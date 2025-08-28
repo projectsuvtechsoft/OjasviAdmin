@@ -11212,4 +11212,71 @@ deleteBulkRecords(ids: number[]): Observable<any> {
       this.options
     );
   }
+  stateDeleteBulk(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'state/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
+
+ countryDeleteBulk(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'country/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
+websiteDeleteBulk(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'websiteBanner/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
+aboutDeleteBulk(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'Aboutus/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
+zipcodeDeleteBulk(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'pincodeShippingCharges/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
+chargesDeleteBulk(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'packagingCharges/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
 }

@@ -404,7 +404,8 @@ bulkDelete() {
           item => !this.selectedIds.has(item.ID)
         );
 
-        this.message.success('successfully deleted data.', '');
+        this.message.success('Successfully deleted data.', '');
+        this.loadingRecords = false;
 
         // Clear selection
         this.selectedIds.clear();
@@ -413,15 +414,17 @@ bulkDelete() {
       } 
       else if (res.code == '400') {
         this.message.info(res.message, '');
+              this.loadingRecords = false;
+
       } 
       else {
-        this.message.error('Failed to delete data', '');
+        this.message.error('Failed to delete data.', '');
       }
 
       this.loadingRecords = false;
     },
     (err) => {
-      console.error("Failed to delete data", err);
+      console.error("Failed to delete data.", err);
       this.loadingRecords = false;
     }
   );
@@ -446,19 +449,20 @@ bulkDelete() {
         this.selectedIds.delete(row.ID);
         this.selectedRows = [];
         this.allChecked = false;
-        this.loadingRecords = false;
 
-        this.message.success('successfully deleted data.', '');
+        this.message.success('Successfully deleted data.', '');
+                this.loadingRecords = false;
+
       } else if (res.code === 400) {
         this.message.info(res.message, '');
         this.loadingRecords = false;
       } else {
-        this.message.error('Failed to delete data', '');
+        this.message.error('Failed to delete data.', '');
         this.loadingRecords = false;
       }
     },
     (err) => {
-      console.error("Failed to delete data", err);
+      console.error("Failed to delete data.", err);
       this.loadingRecords = false;
     }
   );

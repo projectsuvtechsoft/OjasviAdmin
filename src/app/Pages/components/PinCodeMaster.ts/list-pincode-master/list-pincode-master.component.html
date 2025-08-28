@@ -45,7 +45,7 @@
           <i nz-icon nzType="plus"></i>Add New Zipcode
         </button>
       </nz-form-item>
-        <nz-form-item>
+      <nz-form-item>
         <button
           nz-button
           nzType="default"
@@ -68,7 +68,6 @@
 <div nz-row>
   <div nz-col nzSpan="24" style="width: 100%">
     <nz-table
-     
       nzBordered
       #pincodemaster
       nzShowSizeChanger
@@ -83,15 +82,19 @@
       (nzPageIndexChange)="search()"
       (nzPageSizeChange)="search(true)"
       (nzQueryParams)="sort($event)"
-        style="width: 100%"
+      style="width: 100%"
     >
       <thead>
         <tr>
-                  <th nzWidth="13px" nzLeft style="text-align: center">
-  <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
-    Select All
-  </label>
-</th>
+          <th nzWidth="13px" nzLeft style="text-align: center">
+            <label
+              nz-checkbox
+              [(ngModel)]="allChecked"
+              (ngModelChange)="checkAll($event)"
+            >
+              Select All
+            </label>
+          </th>
           <th nzWidth="10px" style="text-align: center"><b> Action </b></th>
           <th
             nzColumnKey="{{ 'PINCODE' }}"
@@ -115,21 +118,28 @@
             nzWidth="15px"
             style="text-align: center"
           >
-            <b> Status </b><ng-container *ngIf="toggleVisible">
-  <div (click)="$event.stopPropagation()">
-    <nz-switch [(ngModel)]="headerToggles.STATUS"
-               (ngModelChange)="bulkUpdate('STATUS', $event)">
-    </nz-switch>
-  </div>
-</ng-container>
+            <b> Status </b
+            ><ng-container *ngIf="toggleVisible">
+              <div (click)="$event.stopPropagation()">
+                <nz-switch
+                  [(ngModel)]="headerToggles.STATUS"
+                  (ngModelChange)="bulkUpdate('STATUS', $event)"
+                >
+                </nz-switch>
+              </div>
+            </ng-container>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of pincodemaster.data">
-           <td nzLeft style="text-align: center">
-  <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
-</td>
+          <td nzLeft style="text-align: center">
+            <label
+              nz-checkbox
+              [(ngModel)]="data.checked"
+              (ngModelChange)="onRowChecked(data)"
+            ></label>
+          </td>
           <td style="text-align: center">
             <span
               nz-icon
@@ -146,7 +156,7 @@
               (click)="edit(data)"
             >
             </span>
-             <span
+            <span
               nz-icon
               nzType="delete"
               nzTheme="outline"
@@ -167,8 +177,12 @@
             >
             </span>
           </td>
-          <td style="text-align: center ;white-space: pre-line">{{ data["PINCODE"] }}</td>
-          <td style="text-align: center ; white-space: pre-line">{{ data["SHIPPING_CHARGES"] }}</td>
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["PINCODE"] }}
+          </td>
+          <td style="text-align: center; white-space: pre-line">
+            {{ data["SHIPPING_CHARGES"] }}
+          </td>
           <td style="text-align: center">
             <i
               nz-icon

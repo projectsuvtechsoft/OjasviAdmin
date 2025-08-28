@@ -100,14 +100,7 @@
           >
             <b> Sequence No. </b>
           </th>
-          <th
-            nzColumnKey="{{ 'COUNTRY_NAME' }}"
-            [nzSortFn]="true"
-            nzWidth="32px"
-            style="text-align: center"
-          >
-            <b> Country Name </b>
-          </th>
+        
 
           <th
             nzColumnKey="{{ 'NAME' }}"
@@ -116,6 +109,14 @@
             style="text-align: center"
           >
             <b> State Name </b>
+          </th>
+            <th
+            nzColumnKey="{{ 'COUNTRY_NAME' }}"
+            [nzSortFn]="true"
+            nzWidth="32px"
+            style="text-align: center"
+          >
+            <b> Country Name </b>
           </th>
           <th
             nzColumnKey="{{ 'SHORT_CODE' }}"
@@ -188,9 +189,10 @@
             </span>
           </td>
           <td style="text-align: center">{{ data["SEQUENCE_NO"] }}</td>
-          <td style="white-space: pre-line">{{ data["COUNTRY_NAME"] }}</td>
 
           <td style="white-space: pre-line">{{ data["NAME"] }}</td>
+                    <td style="white-space: pre-line">{{ data["COUNTRY_NAME"] }}</td>
+
           <td style="white-space: pre-line">{{ data["SHORT_CODE"] }}</td>
 
           <!-- <td style="white-space: pre-line;">{{data['STATE_NAME_MR']}}</td> -->

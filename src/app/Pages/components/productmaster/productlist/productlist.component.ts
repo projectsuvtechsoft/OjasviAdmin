@@ -774,7 +774,7 @@ const payload = {
        if (res.code == 200) {
       // Remove deleted items from current page
       this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
-      this.message.success('Successfully deleted information.', '');
+      this.message.success('Successfully deleted data.', '');
               this.loadingRecords = false;
 
       // Clear selection
@@ -787,13 +787,13 @@ const payload = {
               this.loadingRecords = false;
             }
     else{
-      this.message.error('Failed to delete data', '');
+      this.message.error('Failed to delete data.', '');
           this.loadingRecords = false;
 
     }
     },
     (err) => {
-      console.error("Failed to delete data", err);
+      console.error("Failed to delete data.", err);
     }
   );
 }
@@ -823,19 +823,19 @@ deleteSingleRecord(row: ProductMaster) {
         this.allChecked = false;
   this.loadingRecords=false
 
-        this.message.success('Record deleted successfully.', '');
+        this.message.success('Successfully deleted data.', '');
       } else if (res.code === 400) {
         this.message.info(res.message, '');
                       this.loadingRecords = false;
 
       } else {
-        this.message.error('Failed to delete data', '');
+        this.message.error('Failed to delete data.', '');
                       this.loadingRecords = false;
 
       }
      },
     (err) => {
-      console.error("Failed to delete data", err);
+      console.error("Failed to delete data.", err);
     }
   )}
 
