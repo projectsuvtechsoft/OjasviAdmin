@@ -320,6 +320,7 @@ bulkUpdate(fieldName: string, value: any) {
 
 // delete functionality
 bulkDelete() {
+  this.loadingRecords=true
   if (this.selectedIds.size === 0) return;
 
   const ids = Array.from(this.selectedIds);
@@ -368,35 +369,43 @@ const payload = {
 }
 
 
-deleteRecord(id: number) {
-  const payload = { IDS: [id] };
+deleteSingleRecord(row: CategoryMaster) {
+    this.loadingRecords=true
 
-  this.api.categoryDelete(payload as any).subscribe((res: any)  => {
-       if (res.code == 200) {
-      this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
-      this.message.success('Bulk delete sucess', '');
+  const drawerData = Object.assign({}, row);
+  const payload = {
+    data: [
+      {
+        ID: drawerData.ID,
+        NAME: drawerData.CATEGORY_NAME
+      }
+    ]
+  };
 
-      this.selectedIds.clear();
-      this.selectedRows = [];
-      this.allChecked = false;
-       }
-       else if (res.code == '400') {
-              this.message.info('This Cateory Name Alredy in use', '');
-              this.loadingRecords = false;
-            }
-    else{
-      this.message.error('Bulk update failed', '');
-          this.loadingRecords = false;
+  console.log("Deleting:", payload); 
 
-    }
-    },
+  this.api.unitDelete(payload).subscribe((res: any)  => {
+ 
+      if (res.code === 200) {
+        this.dataList = this.dataList.filter(item => item.ID !== row.ID);
+        this.selectedIds.delete(row.ID);
+        this.selectedRows = [];
+        this.allChecked = false;
+  this.loadingRecords=false
+
+        this.message.success('Record deleted successfully.', '');
+      } else if (res.code === 400) {
+        this.message.info(res.message, '');
+                      this.loadingRecords = false;
+
+      } else {
+        this.message.error('Delete failed', '');
+                      this.loadingRecords = false;
+
+      }
+     },
     (err) => {
       console.error("Bulk update failed", err);
     }
-  );
+  )}
 }
-
-
-
-}
-

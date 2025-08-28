@@ -96,7 +96,7 @@ changeDate(value: any) {
       this.totalRecords = data['count'];
       this.dataList = data['data'];
       this.loadingRecords = false;
-                    this.dataList.forEach(item => item.checked = this.selectedIds.has(item.ID));
+this.dataList.forEach(item => item.checked = this.selectedIds.has(item.ID));
 this.updateSelectedRows();
       }else{
         this.message.error("Something Went Wrong","")
@@ -452,7 +452,7 @@ headerToggles: any = {
    STATUS: false
 };
 chekedproduct(){
-   this.api.getAllIngredientMaster(1, this.totalRecords, this.sortKey, 'desc', '')
+   this.api.getAllNewSubscriberReport(1, this.totalRecords, this.sortKey, 'desc', '')
       .subscribe(res => {
         if (res['code'] === 200) {
           res.data.forEach(item => {
@@ -494,37 +494,82 @@ this.updateSelectedRows();
 }
 
 bulkDelete() {
+  this.loadingRecords = true;
+
   if (this.selectedIds.size === 0) return;
 
-  // Convert Set to array for API
-  const ids = Array.from(this.selectedIds);
+  // Convert selectedIds set -> array -> comma separated string
+  const payload = {
+    IDS: Array.from(this.selectedIds).join(',')  
+  };
 
-  this.api.deleteBulkRecords(ids).subscribe({
-    next: () => {
-      // Remove deleted items from current page
-      this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
+  this.api.newsreportDelete(payload).subscribe(
+    (res: any) => {
+      if (res.code == 200) {
+        // Remove deleted items from current page
+        this.dataList = this.dataList.filter(
+          item => !this.selectedIds.has(item.ID)
+        );
 
-      // Clear selection
-      this.selectedIds.clear();
-      this.selectedRows = [];
-      this.allChecked = false;
+        this.message.success('successfully deleted data.', '');
+
+        // Clear selection
+        this.selectedIds.clear();
+        this.selectedRows = [];
+        this.allChecked = false;
+      } 
+      else if (res.code == '400') {
+        this.message.info(res.message, '');
+      } 
+      else {
+        this.message.error('Delete operation failed', '');
+      }
+
+      this.loadingRecords = false;
     },
-    error: (err) => {
+    (err) => {
       console.error("Bulk delete failed", err);
+      this.loadingRecords = false;
     }
-  });
+  );
 }
-deleteRecord(id: number) {
-  this.api.deleteBulkRecords([id]).subscribe({
-    next: () => {
-      this.dataList = this.dataList.filter(item => item.ID !== id);
-      this.selectedRows = [];
-      this.allChecked = false;
+
+  
+  
+ deleteSingleRecord(row: NewSubscriberReport) {
+  this.loadingRecords = true;
+
+  const payload = {
+    IDS: row.ID.toString()   // single record ID in string format
+  };
+
+  console.log("Deleting:", payload);
+
+  this.api.newsreportDelete(payload).subscribe(
+    (res: any) => {
+      if (res.code === 200) {
+        // Remove record from list
+        this.dataList = this.dataList.filter(item => item.ID !== row.ID);
+        this.selectedIds.delete(row.ID);
+        this.selectedRows = [];
+        this.allChecked = false;
+        this.loadingRecords = false;
+
+        this.message.success('successfully deleted data.', '');
+      } else if (res.code === 400) {
+        this.message.info(res.message, '');
+        this.loadingRecords = false;
+      } else {
+        this.message.error('Delete operation failed', '');
+        this.loadingRecords = false;
+      }
     },
-    error: (err) => {
-      console.error("Delete failed", err);
+    (err) => {
+      console.error("Delete operation failed", err);
+      this.loadingRecords = false;
     }
-  });
+  );
 }
+
 }
 
