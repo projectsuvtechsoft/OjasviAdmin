@@ -11032,6 +11032,17 @@ deleteBulkRecords(ids: number[]): Observable<any> {
       this.options
     );
   }
+   productDelete(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'category/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
  unitBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
@@ -11043,6 +11054,18 @@ deleteBulkRecords(ids: number[]): Observable<any> {
       this.options
     );
   }
+
+     unitDelete(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'category/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
   categoryBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
@@ -11054,6 +11077,18 @@ deleteBulkRecords(ids: number[]): Observable<any> {
       this.options
     );
   }
+ categoryDelete(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'category/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
+
   countryBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
