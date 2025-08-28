@@ -243,6 +243,7 @@ export class ListcountryComponent implements OnInit {
       }),
     };
 
+<<<<<<< HEAD
     this.api.countryBulkUpdate(payload).subscribe(
       (res: any) => {
         if (res.code == 200) {
@@ -268,4 +269,69 @@ export class ListcountryComponent implements OnInit {
 
   }
   deleteSingledata(data) {}
+=======
+updateSelectedRows() {
+  // rows on current page
+  this.selectedRows = this.dataList.filter(item => this.selectedIds.has(item.ID));
+
+  // toggle visible if any row selected (even across pages)
+  this.toggleVisible = this.selectedIds.size > 0;
+
+  // recalc header toggle values based on selectedRows
+  Object.keys(this.headerToggles).forEach(field => {
+    if (this.selectedRows.length) {
+      this.headerToggles[field] = this.selectedRows.every(r => !!r[field]);
+    } else {
+      this.headerToggles[field] = false;
+    }
+  });
+}
+
+
+
+
+bulkUpdate(fieldName: string, value: any) {
+          this.loadingRecords = true;
+  if (this.selectedIds.size === 0) return;
+
+  const payload = {
+    DATA: Array.from(this.selectedIds).map(id => {
+      const obj: any = { ID: id };
+      obj[fieldName] = value; 
+      return obj;
+    })
+  };
+
+   
+  this.api.countryBulkUpdate(payload).subscribe( (res: any)  => {
+         if (res.code == 200) {
+  this.dataList.forEach(item => {
+    if (this.selectedIds.has(item.ID)) {
+      (item as any)[fieldName] = value;
+    }
+    item.checked = false;
+  });
+
+  this.updateSelectedRows();  
+  this.loadingRecords = false;
+
+  this.toggleVisible=false
+  this.selectedRows = [];
+  this.selectedIds.clear();
+  this.allChecked = false;
+
+  this.message.success('Bulk update successful', '');
+}
+    else{
+      this.message.error('Bulk update failed', '');
+          this.loadingRecords = false;
+
+    }
+    },
+    (err) => {
+      console.error("Bulk update failed", err);
+    }
+  );
+}
+>>>>>>> 37cf5eed2b8cb9bcea7bed6de57947ca37405189
 }
