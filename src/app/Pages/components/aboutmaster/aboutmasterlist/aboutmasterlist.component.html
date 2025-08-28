@@ -30,7 +30,22 @@
                   <i nz-icon nzType="plus"  ></i>Add New Information
                 </button>
           </nz-form-item> -->
-    
+      <nz-form-item>
+        <button
+          nz-button
+          nzType="default"
+          nz-popconfirm
+          nzPopconfirmTitle="Are you sure you want to delete selected records?"
+          nzPopconfirmPlacement="top"
+          (nzOnConfirm)="bulkDelete()"
+          nzOkText="Yes"
+          nzCancelText="No"
+          [disabled]="selectedRows.length === 0 || selectedRows.length < 2"
+          style="color: rgb(23, 99, 34); margin-left: 10px"
+        >
+          <i nz-icon nzType="delete"></i>
+        </button>
+      </nz-form-item>
           </form>
         </div>
   </div>
@@ -91,14 +106,35 @@
                 cursor: pointer;
                 font-size: 15px !important;
                 color: #5a8f69;
-                margin-left: 8px;
+
               "
               nzTooltipTitle="Edit"
               nzTooltipPlacement="top"
               nz-tooltip
               (click)="edit(data)"
             >
-            </span>            </td>
+            </span>   
+             <span
+              nz-icon
+              nzType="delete"
+              nzTheme="outline"
+              style="
+                cursor: pointer;
+                font-size: 15px !important;
+                color: #5a8f69;
+                margin-left: 10px;
+              "
+              nzTooltipTitle="Delete"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              nz-popconfirm
+              nzPopconfirmTitle="Are you sure to delete this record?"
+              (nzOnConfirm)="deleteSingledata(data)"
+              nzOkText="Yes"
+              nzCancelText="No"
+            >
+            </span>
+                   </td>
             <td style="text-align: center;">{{data['SEQUENCE_NO']}}</td>
             <td style="text-align: left;">
             <span *ngIf="data['TITLE'] != null">

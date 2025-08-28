@@ -47,11 +47,7 @@ export class ListcountryComponent implements OnInit {
   ngOnInit(): void {
     // this.loadingRecords = false;
     // this.search()
-   
   }
-
-
-
 
   getZoomLevel(): number {
     return Math.round(window.devicePixelRatio * 100); // 100 = 100%, 125 = 125%, etc.
@@ -99,8 +95,10 @@ export class ListcountryComponent implements OnInit {
             // if(this.totalRecords==0){
             //   data.SEQUENCE_NO=1;
             // }
-             this.dataList.forEach(item => item.checked = this.selectedIds.has(item.ID));
-             this.updateSelectedRows();
+            this.dataList.forEach(
+              (item) => (item.checked = this.selectedIds.has(item.ID))
+            );
+            this.updateSelectedRows();
           } else {
             this.message.error('Something Went Wrong', '');
             this.loadingRecords = false;
@@ -170,103 +168,104 @@ export class ListcountryComponent implements OnInit {
     this.sortValue = sortOrder;
     this.search();
   }
-//bulk operation
-allChecked = false;
-selectedIds = new Set<number>(); 
-selectedRows: any[] = [];        
-headerToggles: any = {
-   STATUS: false
-};
-chekedproduct(){
-   this.api.getAllCountryMaster(1, this.totalRecords, this.sortKey, 'desc', '')
-      .subscribe(res => {
+  //bulk operation
+  allChecked = false;
+  selectedIds = new Set<number>();
+  selectedRows: any[] = [];
+  headerToggles: any = {
+    STATUS: false,
+  };
+  chekedproduct() {
+    this.api
+      .getAllCountryMaster(1, this.totalRecords, this.sortKey, 'desc', '')
+      .subscribe((res) => {
         if (res['code'] === 200) {
-          res.data.forEach(item => {
+          res.data.forEach((item) => {
             this.selectedIds.add(item.ID);
           });
 
           // Also mark current page checkboxes as checked
-          this.dataList.forEach(item => item.checked = true);
+          this.dataList.forEach((item) => (item.checked = true));
           this.updateSelectedRows();
         }
       });
-}
-checkAll(checked: boolean) {
-  if (checked) {
-  this.chekedproduct()
-  } else {
-    this.selectedIds.clear();
-    this.dataList.forEach(item => item.checked = false);
+  }
+  checkAll(checked: boolean) {
+    if (checked) {
+      this.chekedproduct();
+    } else {
+      this.selectedIds.clear();
+      this.dataList.forEach((item) => (item.checked = false));
+      this.updateSelectedRows();
+    }
+  }
+
+  onRowChecked(row: any) {
+    if (row.checked) {
+      this.selectedIds.add(row.ID);
+    } else {
+      this.selectedIds.delete(row.ID);
+    }
+
     this.updateSelectedRows();
   }
-}
 
+  toggleVisible: boolean = false;
 
-onRowChecked(row: any) {
-  if (row.checked) {
-    this.selectedIds.add(row.ID);
-  } else {
-    this.selectedIds.delete(row.ID);
+  updateSelectedRows() {
+    // rows on current page
+    this.selectedRows = this.dataList.filter((item) =>
+      this.selectedIds.has(item.ID)
+    );
+
+    // toggle visible if any row selected (even across pages)
+    this.toggleVisible = this.selectedIds.size > 0;
+
+    // recalc header toggle values based on selectedRows
+    Object.keys(this.headerToggles).forEach((field) => {
+      if (this.selectedRows.length) {
+        this.headerToggles[field] = this.selectedRows.every((r) => !!r[field]);
+      } else {
+        this.headerToggles[field] = false;
+      }
+    });
   }
 
-  this.updateSelectedRows();
-}
+  bulkUpdate(fieldName: string, value: any) {
+    this.loadingRecords = true;
+    if (this.selectedIds.size === 0) return;
 
-toggleVisible: boolean = false; 
+    const payload = {
+      DATA: Array.from(this.selectedIds).map((id) => {
+        const obj: any = { ID: id };
+        obj[fieldName] = value;
+        return obj;
+      }),
+    };
 
-updateSelectedRows() {
-  // rows on current page
-  this.selectedRows = this.dataList.filter(item => this.selectedIds.has(item.ID));
-
-  // toggle visible if any row selected (even across pages)
-  this.toggleVisible = this.selectedIds.size > 0;
-
-  // recalc header toggle values based on selectedRows
-  Object.keys(this.headerToggles).forEach(field => {
-    if (this.selectedRows.length) {
-      this.headerToggles[field] = this.selectedRows.every(r => !!r[field]);
-    } else {
-      this.headerToggles[field] = false;
-    }
-  });
-}
-
-
-
-
-bulkUpdate(fieldName: string, value: any) {
-          this.loadingRecords = true;
-  if (this.selectedIds.size === 0) return;
-
-  const payload = {
-    DATA: Array.from(this.selectedIds).map(id => {
-      const obj: any = { ID: id };
-      obj[fieldName] = value; 
-      return obj;
-    })
-  };
-
-   
-  this.api.countryBulkUpdate(payload).subscribe( (res: any)  => {
-       if (res.code == 200) {
-      this.dataList.forEach(item => {
-        if (this.selectedIds.has(item.ID)) {
-          (item as any)[fieldName] = value;
+    this.api.countryBulkUpdate(payload).subscribe(
+      (res: any) => {
+        if (res.code == 200) {
+          this.dataList.forEach((item) => {
+            if (this.selectedIds.has(item.ID)) {
+              (item as any)[fieldName] = value;
+            }
+          });
+          this.updateSelectedRows();
+          this.loadingRecords = false;
+        } else {
+          this.message.error('Bulk update failed', '');
+          this.loadingRecords = false;
         }
-      });
-      this.updateSelectedRows();  
-          this.loadingRecords = false;
+      },
+      (err) => {
+        console.error('Bulk update failed', err);
+      }
+    );
+  }
+ 
+  bulkDelete(){
 
-    }
-    else{
-      this.message.error('Bulk update failed', '');
-          this.loadingRecords = false;
-
-    }
-    },
-    (err) => {
-      console.error("Bulk update failed", err);
-    }
-  );
-}
+  }
+  deleteSingledata(data) {}
 }

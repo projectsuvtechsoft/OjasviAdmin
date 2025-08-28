@@ -8,7 +8,7 @@ export const url = {
   // link: 'https://p8rhkmb7-9878.inc1.devtunnels.ms/',// ngrok bahubali
   // link: 'https://ojasviadmin.uvtechsoft.com:9090/', // live
 
-  link: 'https://7596bc2e22a2.ngrok-free.app/',// ngrok
+  link: 'https://692d718d5fbb.ngrok-free.app/',// ngrok
 };
 export const appkeys = {
   gmUrl: 'http://gm.tecpool.in:8079/',

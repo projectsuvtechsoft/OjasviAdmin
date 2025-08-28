@@ -287,6 +287,9 @@ bulkUpdate(fieldName: string, value: any) {
     }
   );
 }
+  bulkDelete(){
 
+  }
+  deleteSingledata(data) {}
 
 }

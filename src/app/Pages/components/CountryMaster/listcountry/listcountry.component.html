@@ -65,6 +65,22 @@
           <i nz-icon nzType="plus"></i>Add New Country
         </button>
       </nz-form-item>
+      <nz-form-item>
+        <button
+          nz-button
+          nzType="default"
+          nz-popconfirm
+          nzPopconfirmTitle="Are you sure you want to delete selected records?"
+          nzPopconfirmPlacement="top"
+          (nzOnConfirm)="bulkDelete()"
+          nzOkText="Yes"
+          nzCancelText="No"
+          [disabled]="selectedRows.length === 0 || selectedRows.length < 2"
+          style="color: rgb(23, 99, 34); margin-left: 10px"
+        >
+          <i nz-icon nzType="delete"></i>
+        </button>
+      </nz-form-item>
     </form>
   </div>
 </div>
@@ -79,7 +95,7 @@
       [nzData]="dataList"
       [nzLoading]="loadingRecords"
       [nzSize]="'small'"
-      [nzScroll]="{ y: '64vh'}"
+      [nzScroll]="{ y: '64vh' }"
       [nzTotal]="totalRecords"
       [(nzPageIndex)]="pageIndex"
       [(nzPageSize)]="pageSize"
@@ -90,11 +106,15 @@
     >
       <thead>
         <tr>
-                  <th nzWidth="10px" nzLeft style="text-align: center">
-  <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
-    Select All
-  </label>
-</th>
+          <th nzWidth="10px" nzLeft style="text-align: center">
+            <label
+              nz-checkbox
+              [(ngModel)]="allChecked"
+              (ngModelChange)="checkAll($event)"
+            >
+              Select All
+            </label>
+          </th>
           <th nzWidth="8px" style="text-align: center"><b> Action </b></th>
           <th
             nzColumnKey="{{ 'SEQUENCE_NO' }}"
@@ -130,21 +150,28 @@
             nzWidth="15px"
             style="text-align: center"
           >
-            <b> Status </b><ng-container *ngIf="toggleVisible">
-  <div (click)="$event.stopPropagation()">
-    <nz-switch [(ngModel)]="headerToggles.STATUS"
-               (ngModelChange)="bulkUpdate('STATUS', $event)">
-    </nz-switch>
-  </div>
-</ng-container>
+            <b> Status </b
+            ><ng-container *ngIf="toggleVisible">
+              <div (click)="$event.stopPropagation()">
+                <nz-switch
+                  [(ngModel)]="headerToggles.STATUS"
+                  (ngModelChange)="bulkUpdate('STATUS', $event)"
+                >
+                </nz-switch>
+              </div>
+            </ng-container>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of unitMasterTable.data">
-                <td nzLeft style="text-align: center">
-               <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
-             </td>
+          <td nzLeft style="text-align: center">
+            <label
+              nz-checkbox
+              [(ngModel)]="data.checked"
+              (ngModelChange)="onRowChecked(data)"
+            ></label>
+          </td>
           <td style="text-align: center">
             <span
               nz-icon
@@ -154,12 +181,31 @@
                 cursor: pointer;
                 font-size: 15px !important;
                 color: #5a8f69;
-                margin-left: 8px;
               "
               nzTooltipTitle="Edit"
               nzTooltipPlacement="top"
               nz-tooltip
               (click)="edit(data)"
+            >
+            </span>
+            <span
+              nz-icon
+              nzType="delete"
+              nzTheme="outline"
+              style="
+                cursor: pointer;
+                font-size: 15px !important;
+                color: #5a8f69;
+                margin-left: 10px;
+              "
+              nzTooltipTitle="Delete"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              nz-popconfirm
+              nzPopconfirmTitle="Are you sure to delete this record?"
+              (nzOnConfirm)="deleteSingledata(data)"
+              nzOkText="Yes"
+              nzCancelText="No"
             >
             </span>
           </td>
