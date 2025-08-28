@@ -266,16 +266,24 @@ bulkUpdate(fieldName: string, value: any) {
 
    
   this.api.stateBulkUpdate(payload).subscribe( (res: any)  => {
-       if (res.code == 200) {
-      this.dataList.forEach(item => {
-        if (this.selectedIds.has(item.ID)) {
-          (item as any)[fieldName] = value;
-        }
-      });
-      this.updateSelectedRows();  
-          this.loadingRecords = false;
-
+         if (res.code == 200) {
+  this.dataList.forEach(item => {
+    if (this.selectedIds.has(item.ID)) {
+      (item as any)[fieldName] = value;
     }
+    item.checked = false;
+  });
+
+  this.updateSelectedRows();  
+  this.loadingRecords = false;
+
+  this.toggleVisible=false
+  this.selectedRows = [];
+  this.selectedIds.clear();
+  this.allChecked = false;
+
+  this.message.success('Bulk update successful', '');
+}
     else{
       this.message.error('Bulk update failed', '');
           this.loadingRecords = false;

@@ -231,16 +231,24 @@ bulkUpdate(fieldName: string, value: any) {
 
    
   this.api.ingredientBulkUpdate(payload).subscribe( (res: any)  => {
-       if (res.code == 200) {
-      this.dataList.forEach(item => {
-        if (this.selectedIds.has(item.ID)) {
-          (item as any)[fieldName] = value;
-        }
-      });
-      this.updateSelectedRows();  
-          this.loadingRecords = false;
-
+      if (res.code == 200) {
+  this.dataList.forEach(item => {
+    if (this.selectedIds.has(item.ID)) {
+      (item as any)[fieldName] = value;
     }
+    item.checked = false;
+  });
+
+  this.updateSelectedRows();  
+  this.loadingRecords = false;
+
+  this.toggleVisible=false
+  this.selectedRows = [];
+  this.selectedIds.clear();
+  this.allChecked = false;
+
+  this.message.success('Bulk update successful', '');
+}
     else{
       this.message.error('Bulk update failed', '');
           this.loadingRecords = false;
@@ -251,6 +259,41 @@ bulkUpdate(fieldName: string, value: any) {
       console.error("Bulk update failed", err);
     }
   );
+}
+
+bulkDelete() {
+  if (this.selectedIds.size === 0) return;
+
+  // Convert Set to array for API
+  const ids = Array.from(this.selectedIds);
+
+  this.api.deleteBulkRecords(ids).subscribe({
+    next: () => {
+      // Remove deleted items from current page
+      this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
+
+      // Clear selection
+      this.selectedIds.clear();
+      this.selectedRows = [];
+      this.allChecked = false;
+      this.toggleVisible = false; // hide header toggle after delete
+    },
+    error: (err) => {
+      console.error("Bulk delete failed", err);
+    }
+  });
+}
+deleteRecord(id: number) {
+  this.api.deleteBulkRecords([id]).subscribe({
+    next: () => {
+      this.dataList = this.dataList.filter(item => item.ID !== id);
+      this.selectedRows = [];
+      this.allChecked = false;
+    },
+    error: (err) => {
+      console.error("Delete failed", err);
+    }
+  });
 }
 }
 

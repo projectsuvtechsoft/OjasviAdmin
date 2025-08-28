@@ -284,16 +284,24 @@ bulkUpdate(fieldName: string, value: any) {
 
    
   this.api.unitBulkUpdate(payload).subscribe( (res: any)  => {
-       if (res.code == 200) {
-      this.dataList.forEach(item => {
-        if (this.selectedIds.has(item.ID)) {
-          (item as any)[fieldName] = value;
-        }
-      });
-      this.updateSelectedRows();  
-          this.loadingRecords = false;
-
+           if (res.code == 200) {
+  this.dataList.forEach(item => {
+    if (this.selectedIds.has(item.ID)) {
+      (item as any)[fieldName] = value;
     }
+    item.checked = false;
+  });
+
+  this.updateSelectedRows();  
+  this.loadingRecords = false;
+
+  this.toggleVisible=false
+  this.selectedRows = [];
+  this.selectedIds.clear();
+  this.allChecked = false;
+
+  this.message.success('Bulk update successful', '');
+}
     else{
       this.message.error('Bulk update failed', '');
           this.loadingRecords = false;
@@ -307,28 +315,70 @@ bulkUpdate(fieldName: string, value: any) {
 }
 
 
-// ✅ Bulk delete functionality
+// delete functionality
 bulkDelete() {
   if (this.selectedIds.size === 0) return;
 
-  // Convert Set to array for API
   const ids = Array.from(this.selectedIds);
 
-  this.api.deleteBulkRecords(ids).subscribe({
-    next: () => {
+  const payload = {
+    IDS: ids
+  };
+
+  
+  this.api.productDelete(payload).subscribe((res: any)  => {
+       if (res.code == 200) {
       // Remove deleted items from current page
       this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
+      this.message.success('Successfully deleted information.', '');
 
       // Clear selection
       this.selectedIds.clear();
       this.selectedRows = [];
       this.allChecked = false;
-      this.toggleVisible = false; // hide header toggle after delete
-    },
-    error: (err) => {
-      console.error("Bulk delete failed", err);
+       }
+       else if (res.code == '400') {
+              this.message.info(res.message, '');
+              this.loadingRecords = false;
+            }
+    else{
+      this.message.error('delete updation failed', '');
+          this.loadingRecords = false;
+
     }
-  });
+    },
+    (err) => {
+      console.error("Bulk update failed", err);
+    }
+  );
 }
 
+
+deleteRecord(id: number) {
+  const payload = { IDS: [id] };
+
+  this.api.unitDelete(payload as any).subscribe((res: any)  => {
+       if (res.code == 200) {
+      this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
+      this.message.success('Bulk delete sucess', '');
+
+      this.selectedIds.clear();
+      this.selectedRows = [];
+      this.allChecked = false;
+       }
+       else if (res.code == '400') {
+              this.message.info('This Cateory Name Alredy in use', '');
+              this.loadingRecords = false;
+            }
+    else{
+      this.message.error('Bulk update failed', '');
+          this.loadingRecords = false;
+
+    }
+    },
+    (err) => {
+      console.error("Bulk update failed", err);
+    }
+  );
+}
 }
