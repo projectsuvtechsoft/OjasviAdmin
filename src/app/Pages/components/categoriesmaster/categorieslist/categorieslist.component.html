@@ -159,11 +159,10 @@
             >
             </span>
             <span
-  *ngIf="selectedRows.length === 1 && selectedRows[0].ID === data.ID"
   nz-popconfirm
   nzPopconfirmTitle="Are you sure you want to delete this record?"
   nzPopconfirmPlacement="top"
-  (nzOnConfirm)="bulkDelete()"
+  (nzOnConfirm)="deleteSingleRecord(data)"
   style="cursor: pointer; font-size: 15px !important;color: #5a8f69; margin-left: 8px;"
   nzTooltipTitle="Delete"
   nzTooltipPlacement="top"

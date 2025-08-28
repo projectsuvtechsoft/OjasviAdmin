@@ -11036,7 +11036,7 @@ deleteBulkRecords(ids: number[]): Observable<any> {
   this.getheader();
 
   return this.httpClient.delete<any>(
-    this.url + 'category/bulkDelete',
+    this.url + 'products/bulkDelete',
     {
       headers: this.httpHeaders, 
       body: role                      
@@ -11059,7 +11059,31 @@ deleteBulkRecords(ids: number[]): Observable<any> {
   this.getheader();
 
   return this.httpClient.delete<any>(
-    this.url + 'category/bulkDelete',
+    this.url + 'unit/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
+
+     usercontactDelete(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'userContact/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
+
+     newsreportDelete(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'newsSubscribers/bulkDelete',
     {
       headers: this.httpHeaders, 
       body: role                      
@@ -11111,6 +11135,17 @@ deleteBulkRecords(ids: number[]): Observable<any> {
       this.options
     );
   }
+   ingredientDelete(role: any): Observable<any> {
+  this.getheader();
+
+  return this.httpClient.delete<any>(
+    this.url + 'ingredients/bulkDelete',
+    {
+      headers: this.httpHeaders, 
+      body: role                      
+    }
+  );
+}
   stateBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();

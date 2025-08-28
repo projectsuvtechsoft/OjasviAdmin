@@ -187,7 +187,7 @@
         nzType="primary"
         (click)="clearFilter1()"
       >
-        <i nz-icon nzType="delete"></i>
+        <i nz-icon nzType="delete"></i> Clear Filter
       </button>
     </div>
   </div>
@@ -234,11 +234,11 @@
     >
       <thead>
         <tr>
-           <th nzWidth="35px" nzLeft style="text-align: center">
+           <!-- <th nzWidth="35px" nzLeft style="text-align: center">
   <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
     Select All
   </label>
-</th>
+</th> -->
           <th nzLeft nzWidth="22px" style="text-align: center">
             <b> Orders </b>
           </th>
@@ -304,9 +304,9 @@
       </thead>
       <tbody >
         <tr *ngFor="let data of categoryAddonMasterTable.data">
-           <td nzLeft style="text-align: center">
+           <!-- <td nzLeft style="text-align: center">
                <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
-             </td>
+             </td> -->
           <td nzLeft style="text-align: center">
             <a (click)="OrdersAll(data)" style="color: #5a8f69;">View </a>
           </td>
