@@ -512,6 +512,7 @@ bulkDelete() {
         );
 
         this.message.success('Successfully deleted data.', '');
+          this.search();
   this.loadingRecords=false
 
         // Clear selection
@@ -557,6 +558,7 @@ bulkDelete() {
         this.allChecked = false;
 
         this.message.success('Successfully deleted data.', '');
+          this.search();
           this.loadingRecords=false
 
       } else if (res.code === 400) {

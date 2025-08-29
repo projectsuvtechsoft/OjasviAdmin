@@ -344,6 +344,7 @@ const payload = {
       // Remove deleted items from current page
       this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
       this.message.success('Successfully deleted data.', '');
+        this.search();
               this.loadingRecords = false;
 
       // Clear selection
@@ -393,6 +394,7 @@ deleteSingleRecord(row: UnitMaster) {
   this.loadingRecords=false
 
         this.message.success('Successfully deleted data.', '');
+          this.search();
                       this.loadingRecords = false;
 
       } else if (res.code === 400) {
