@@ -271,7 +271,7 @@ export class ListPackagingChargesComponent implements OnInit {
       IDS: [...this.selectedIds].join(','),
       // }]
     };
-    // console.log(payload,'bulkpayload');
+    console.log(payload,'bulkpayload');
 
     this.api.chargesDeleteBulk(payload).subscribe(
       (res: any) => {

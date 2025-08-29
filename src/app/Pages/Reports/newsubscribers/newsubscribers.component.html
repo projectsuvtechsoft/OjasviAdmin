@@ -41,7 +41,7 @@
   nzPopconfirmTitle="Are you sure you want to delete selected records?"
   nzPopconfirmPlacement="top"
   (nzOnConfirm)="bulkDelete()"
-  [disabled]="selectedIds.size < 2"
+          [disabled]="selectedRows.length === 0 || selectedRows.length < 2"
   style="color: rgb(23, 99, 34); margin-left: 10px;"
 >
   <i nz-icon nzType="delete"></i>

@@ -155,7 +155,8 @@ sort(params: NzTableQueryParams): void {
 //bulk operation
 allChecked = false;
 selectedIds = new Set<number>(); 
-selectedRows: any[] = [];        
+selectedRows: any[] = [];      
+selectedRecords  : any[] = [];  
 headerToggles: any = {
    STATUS: false,
    IS_PRIMARY: false
@@ -269,11 +270,11 @@ bulkDelete() {
 
 const payload = {
   data: this.dataList
-    .filter(item => this.selectedIds.has(item.ID)) // only selected rows
+    .filter(item => this.selectedIds.has(item.ID)) 
     .map(item => {
       const obj: any = {
         ID: item.ID,
-        NAME: item.NAME   // include NAME from dataList
+        NAME: item.NAME  
       };
     // also attach fieldName dynamically
       return obj;
@@ -288,6 +289,7 @@ const payload = {
       // Remove deleted items from current page
       this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
       this.message.success('Successfully deleted data.', '');
+        this.search();
   this.loadingRecords=false
 
       // Clear selection
@@ -333,6 +335,7 @@ deleteSingleRecord(row: IngredientMaster) {
         this.allChecked = false;
 
         this.message.success('Successfully deleted data.', '');
+          this.search();
           this.loadingRecords=false
 
       } else if (res.code === 400) {
