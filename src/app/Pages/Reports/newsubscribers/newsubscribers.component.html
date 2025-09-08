@@ -41,7 +41,7 @@
   nzPopconfirmTitle="Are you sure you want to delete selected records?"
   nzPopconfirmPlacement="top"
   (nzOnConfirm)="bulkDelete()"
-  [disabled]="selectedRows.length < 2"
+          [disabled]="selectedRows.length === 0 || selectedRows.length < 2"
   style="color: rgb(23, 99, 34); margin-left: 10px;"
 >
   <i nz-icon nzType="delete"></i>
@@ -134,13 +134,12 @@
 </td>
           <td style="text-align: center">
            
-            <span
-  *ngIf="selectedRows.length === 1 && selectedRows[0].ID === data.ID"
+           <span
   nz-popconfirm
   nzPopconfirmTitle="Are you sure you want to delete this record?"
   nzPopconfirmPlacement="top"
-  (nzOnConfirm)="deleteRecord(data.ID)"
-  style="cursor: pointer; font-size: 15px !important; color: red; margin-left: 8px;"
+ (nzOnConfirm)="deleteSingleRecord(data)"
+  style="cursor: pointer; font-size: 15px !important; color: #5a8f69; margin-left: 8px;"
   nzTooltipTitle="Delete"
   nzTooltipPlacement="top"
   nz-tooltip>

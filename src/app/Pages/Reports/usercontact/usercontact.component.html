@@ -27,7 +27,21 @@
                 <button nz-button nzType="primary" (click)="search(true)" nzSearch><i nz-icon nzType="search"></i></button>
               </ng-template>
             </nz-form-item>          
-    
+      <nz-form-item>
+<button
+  nz-button
+  nzType="default"
+  nz-popconfirm
+  nzPopconfirmTitle="Are you sure you want to delete selected records?"
+  nzPopconfirmPlacement="top"
+  (nzOnConfirm)="bulkDelete()"
+   [disabled]="selectedRows.length === 0 || selectedRows.length < 2"
+  style="color: rgb(23, 99, 34); margin-left: 10px;"
+>
+  <i nz-icon nzType="delete"></i>
+</button>
+
+</nz-form-item>
           </form>
         </div>
 </div>
@@ -95,7 +109,12 @@
       >
    
         <thead>
-          <tr>      
+          <tr>  
+            <th nzWidth="3px" nzLeft style="text-align: center">
+  <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
+    Select All
+  </label>
+</th>             <th nzWidth="2px" style="text-align: center;" ><b> Action </b></th>    
              <th nzColumnKey="{{ 'NAME' }}" [nzSortFn]="true" nzWidth="5px"><b> Name </b></th>
              <th nzColumnKey="{{ 'MOBILE_NO' }}" [nzSortFn]="true" nzWidth="2.5px"><b> Mobile No. </b></th>
              <th nzColumnKey="{{ 'EMAIL_ID' }}" [nzSortFn]="true" nzWidth="5px"><b> Email ID </b></th>             
@@ -106,6 +125,23 @@
         </thead>
         <tbody>
           <tr *ngFor="let data of assessmentTable.data" >
+                     <td nzLeft style="text-align: center">
+  <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
+</td>
+             <td style="text-align: center">
+           
+           <span
+  nz-popconfirm
+  nzPopconfirmTitle="Are you sure you want to delete this record?"
+  nzPopconfirmPlacement="top"
+ (nzOnConfirm)="deleteSingleRecord(data)"
+  style="cursor: pointer; font-size: 15px !important; color: #5a8f69; margin-left: 8px;"
+  nzTooltipTitle="Delete"
+  nzTooltipPlacement="top"
+  nz-tooltip>
+  <i nz-icon nzType="delete"></i>
+</span>
+          </td>
             <td style="white-space: pre-line;">{{data['NAME']}}</td>
             <td >{{data['MOBILE_NO']}}</td>
             <td style="white-space: pre-line;" >{{data['EMAIL_ID']}}</td>      

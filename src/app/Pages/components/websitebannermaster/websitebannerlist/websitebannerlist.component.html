@@ -44,7 +44,7 @@
           <i nz-icon nzType="plus"></i> Add New Website Banner
         </button>
       </nz-form-item>
-        <nz-form-item>
+      <nz-form-item>
         <button
           nz-button
           nzType="default"
@@ -65,7 +65,7 @@
 </div>
 <br />
 <div nz-row>
-  <div nz-col nzSpan="24" >
+  <div nz-col nzSpan="24">
     <nz-table
       nzBordered
       #webSiteTable
@@ -81,15 +81,18 @@
       (nzPageIndexChange)="search()"
       (nzPageSizeChange)="search(true)"
       (nzQueryParams)="sort($event)"
-      
     >
       <thead>
         <tr>
-                <th nzWidth="26px" nzLeft style="text-align: center">
-  <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
-    Select All
-  </label>
-</th>
+          <th nzWidth="26px" nzLeft style="text-align: center">
+            <label
+              nz-checkbox
+              [(ngModel)]="allChecked"
+              (ngModelChange)="checkAll($event)"
+            >
+              Select All
+            </label>
+          </th>
           <th nzWidth="22px" style="text-align: center"><b> Action </b></th>
           <th
             nzWidth="30px"
@@ -130,21 +133,28 @@
             nzWidth="19px"
             style="text-align: center"
           >
-            <b> Status </b><ng-container *ngIf="toggleVisible">
-  <div (click)="$event.stopPropagation()">
-    <nz-switch [(ngModel)]="headerToggles.STATUS"
-               (ngModelChange)="bulkUpdate('STATUS', $event)">
-    </nz-switch>
-  </div>
-</ng-container>
+            <b> Status </b
+            ><ng-container *ngIf="toggleVisible">
+              <div (click)="$event.stopPropagation()">
+                <nz-switch
+                  [(ngModel)]="headerToggles.STATUS"
+                  (ngModelChange)="bulkUpdate('STATUS', $event)"
+                >
+                </nz-switch>
+              </div>
+            </ng-container>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of webSiteTable.data">
-         <td nzLeft style="text-align: center">
-  <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
-</td>
+          <td nzLeft style="text-align: center">
+            <label
+              nz-checkbox
+              [(ngModel)]="data.checked"
+              (ngModelChange)="onRowChecked(data)"
+            ></label>
+          </td>
           <td style="text-align: center">
             <span
               nz-icon
@@ -154,7 +164,6 @@
                 cursor: pointer;
                 font-size: 15px !important;
                 color: #5a8f69;
-               
               "
               nzTooltipTitle="Edit"
               nzTooltipPlacement="top"
@@ -162,7 +171,7 @@
               (click)="edit(data)"
             >
             </span>
-             <span
+            <span
               nz-icon
               nzType="delete"
               nzTheme="outline"
@@ -229,7 +238,7 @@
                 <nz-tag
                   nzColor="#2db7f5"
                   (click)="viewImage(data.IMG_URL)"
-                  style="cursor: pointer"
+                  style="cursor: pointer; background-color: rgb(90 143 105)"
                   nzTooltipTitle="View Banner Image"
                   nz-tooltip
                 >

@@ -1,37 +1,17 @@
 <div nz-row nzType="flex">
   <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
     <div class="formname">
-      <span
-        (click)="back()"
-        nz-icon
-        nzType="arrow-left"
-        nzTheme="outline"
-        style="font-weight: bold; cursor: pointer"
-      ></span
-      >&nbsp;&nbsp;{{ formTitle }}
+      <span (click)="back()" nz-icon nzType="arrow-left" nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"></span>&nbsp;&nbsp;{{ formTitle }}
     </div>
   </div>
 
-  <div
-    nz-col
-    nzXs="24"
-    nzSm="24"
-    nzMd="4"
-    nzLg="6"
-    nzXl="12"
-    style="display: flex; justify-content: flex-end"
-  >
+  <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex; justify-content: flex-end">
     <form nz-form [nzLayout]="'inline'">
       <nz-form-item>
         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-          <input
-            type="text"
-            name="aboutsearch"
-            (keyup)="keyup($event)"
-            [(ngModel)]="searchText"
-            nz-input
-            placeholder=" Search Record"
-          />
+          <input type="text" name="aboutsearch" (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input
+            placeholder=" Search Record" />
         </nz-input-group>
         <ng-template #suffixIconButton>
           <button nz-button nzType="primary" (click)="search(true)" nzSearch>
@@ -45,119 +25,70 @@
         </button>
       </nz-form-item>
       <nz-form-item>
-<button
-  nz-button
-  nzType="default"
-  nz-popconfirm
-  nzPopconfirmTitle="Are you sure you want to delete selected records?"
-  nzPopconfirmPlacement="top"
-  (nzOnConfirm)="bulkDelete()"
-  [disabled]="selectedRows.length < 2"
-  style="color: rgb(23, 99, 34); margin-left: 10px;"
->
-  <i nz-icon nzType="delete"></i>
-</button>
+        <button nz-button nzType="default" nz-popconfirm
+          nzPopconfirmTitle="Are you sure you want to delete selected records?" nzPopconfirmPlacement="top"
+          (nzOnConfirm)="bulkDelete()" [disabled]="selectedRows.length < 2"
+          style="color: rgb(23, 99, 34); margin-left: 10px;">
+          <i nz-icon nzType="delete"></i>
+        </button>
 
-</nz-form-item>
+      </nz-form-item>
     </form>
   </div>
 </div>
 <br />
 <div nz-row>
   <div nz-col nzSpan="24">
-    <nz-table
-      nzBordered
-      #unitMasterTable
-      nzShowSizeChanger
-      [nzFrontPagination]="false"
-      [nzData]="dataList"
-      [nzLoading]="loadingRecords"
-      [nzSize]="'small'"
-      [nzScroll]="{ y: '64vh' }"
-      [nzTotal]="totalRecords"
-      [(nzPageIndex)]="pageIndex"
-      [(nzPageSize)]="pageSize"
-      (nzPageIndexChange)="search()"
-      (nzPageSizeChange)="search(true)"
-      (nzQueryParams)="sort($event)"
-    >
+    <nz-table nzBordered #unitMasterTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="dataList"
+      [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="{ y: '64vh' }" [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)">
       <thead>
         <tr>
-   <th nzWidth="8px" nzLeft style="text-align: center">
-  <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
-    Select All
-  </label>
-</th>
+          <th nzWidth="8px" nzLeft style="text-align: center">
+            <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
+              Select All
+            </label>
+          </th>
           <th nzWidth="8px" style="text-align: center"><b> Action </b></th>
-          <th
-            nzColumnKey="{{ 'SEQUENCE_NO' }}"
-            [nzSortFn]="true"
-            nzWidth="11px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'SEQUENCE_NO' }}" [nzSortFn]="true" nzWidth="11px" style="text-align: center">
             <b> Seq. No. </b>
           </th>
-          <th
-            nzColumnKey="{{ 'UNIT_NAME' }}"
-            [nzSortFn]="true"
-            nzWidth="42px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'UNIT_NAME' }}" [nzSortFn]="true" nzWidth="42px" style="text-align: center">
             <b> Unit Name</b>
           </th>
 
           <!-- <th nzColumnKey="{{ 'TITLE_MR' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center;">  Title (Marathi) </th>             -->
           <!-- <th *ngFor="let column of columns" nzColumnKey="{{column[0]}}" [nzSortFn]="true">{{column[1]}}</th> -->
-          <th
-            nzColumnKey="{{ 'STATUS' }}"
-            [nzSortFn]="true"
-            nzWidth="10px"
-            style="text-align: center"
-          >
-            <b> Status </b>  <ng-container *ngIf="toggleVisible">
-  <div (click)="$event.stopPropagation()">
-    <nz-switch [(ngModel)]="headerToggles.STATUS"
-               (ngModelChange)="bulkUpdate('STATUS', $event)">
-    </nz-switch>
-  </div>
-</ng-container>
+          <th nzColumnKey="{{ 'STATUS' }}" [nzSortFn]="true" nzWidth="10px" style="text-align: center">
+            <b> Status </b> <ng-container *ngIf="toggleVisible">
+              <div (click)="$event.stopPropagation()">
+                <nz-switch [(ngModel)]="headerToggles.STATUS" (ngModelChange)="bulkUpdate('STATUS', $event)">
+                </nz-switch>
+              </div>
+            </ng-container>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of unitMasterTable.data">
-   <td nzLeft style="text-align: center">
-  <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
-</td>
+          <td nzLeft style="text-align: center">
+            <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
+          </td>
           <td style="text-align: center">
-            <span
-              nz-icon
-              nzType="edit"
-              nzTheme="outline"
-              style="
+            <span nz-icon nzType="edit" nzTheme="outline" style="
                 cursor: pointer;
                 font-size: 15px !important;
                 color: #5a8f69;
                 margin-left: 8px;
-              "
-              nzTooltipTitle="Edit"
-              nzTooltipPlacement="top"
-              nz-tooltip
-              (click)="edit(data)"
-            >
+              " nzTooltipTitle="Edit" nzTooltipPlacement="top" nz-tooltip (click)="edit(data)">
             </span>
-            <span
-  *ngIf="selectedRows.length === 1 && selectedRows[0].ID === data.ID"
-  nz-popconfirm
-  nzPopconfirmTitle="Are you sure you want to delete this record?"
-  nzPopconfirmPlacement="top"
-  (nzOnConfirm)="bulkDelete()"
-  style="cursor: pointer; font-size: 15px !important; color: #5a8f69; margin-left: 8px;"
-  nzTooltipTitle="Delete"
-  nzTooltipPlacement="top"
-  nz-tooltip>
-  <i nz-icon nzType="delete"></i>
-</span>
+            <span nz-popconfirm nzPopconfirmTitle="Are you sure you want to delete this record?"
+              nzPopconfirmPlacement="top" (nzOnConfirm)="deleteSingleRecord(data)"
+              style="cursor: pointer; font-size: 15px !important; color: #5a8f69; margin-left: 8px;"
+              nzTooltipTitle="Delete" nzTooltipPlacement="top" nz-tooltip>
+              <i nz-icon nzType="delete"></i>
+            </span>
           </td>
           <td style="text-align: center">{{ data["SEQUENCE_NO"] }}</td>
           <td style="white-space: pre-line">{{ data["UNIT_NAME"] }}</td>
@@ -165,20 +96,10 @@
 
           <!-- <td *ngFor="let column of columns" style="white-space: pre-line;">{{data[column[0]]}}</td> -->
           <td style="text-align: center">
-            <i
-              nz-icon
-              *ngIf="data['STATUS']"
-              [nzType]="'check-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#52c41a'"
-            ></i>
-            <i
-              nz-icon
-              *ngIf="!data['STATUS']"
-              [nzType]="'close-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#f50'"
-            ></i>
+            <i nz-icon *ngIf="data['STATUS']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"></i>
+            <i nz-icon *ngIf="!data['STATUS']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"></i>
           </td>
         </tr>
       </tbody>
@@ -186,27 +107,14 @@
   </div>
 </div>
 
-<nz-drawer
-  [nzBodyStyle]="{
+<nz-drawer [nzBodyStyle]="{
     height: 'calc(100% - 55px)',
     overflow: 'auto',
     'padding-bottom': '53px'
-  }"
-  [nzClosable]="true"
-  [nzMask]="true"
-  [nzMaskClosable]="false"
-  [nzWidth]="370"
-  [nzVisible]="drawerVisible"
-  [nzTitle]="drawerTitle"
-  (nzOnClose)="drawerClose()"
-  (nzKeyboard)="(true)"
->
+  }" [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="370" [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="(true)">
   <ng-container *nzDrawerContent>
     <!-- <app-addunit></app-addunit> -->
-    <app-addunit
-      [drawerClose]="closeCallback"
-      [drawerVisible]="drawerVisible"
-      [data]="drawerData"
-    ></app-addunit>
+    <app-addunit [drawerClose]="closeCallback" [drawerVisible]="drawerVisible" [data]="drawerData"></app-addunit>
   </ng-container>
 </nz-drawer>

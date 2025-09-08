@@ -5,26 +5,12 @@
     </div>
   </div>
 
-  <div
-    nz-col
-    nzXs="24"
-    nzSm="24"
-    nzMd="4"
-    nzLg="6"
-    nzXl="12"
-    style="display: flex; justify-content: flex-end"
-  >
+  <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex; justify-content: flex-end">
     <form nz-form [nzLayout]="'inline'">
       <nz-form-item>
         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-          <input
-            type="text"
-            name="productsearch"
-            (keyup)="keyup($event)"
-            [(ngModel)]="searchText"
-            nz-input
-            placeholder=" Search Record"
-          />
+          <input type="text" name="productsearch" (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input
+            placeholder=" Search Record" />
         </nz-input-group>
         <ng-template #suffixIconButton>
           <button nz-button nzType="primary" (click)="search(true)" nzSearch>
@@ -43,113 +29,83 @@
 <br />
 <div nz-row>
   <div nz-col nzSpan="24">
-    <nz-table
-      nzBordered
-      #produtMappingTable
-      [nzFrontPagination]="false"
-      [nzData]="dataList"
-      [nzLoading]="loadingRecords"
-      [nzSize]="'small'"
-      [nzScroll]="{ x: '1750px', y: '350px' }"
-      [nzTotal]="totalRecords"
-      [(nzPageIndex)]="pageIndex"
-      [(nzPageSize)]="pageSize"
-      (nzPageIndexChange)="search()"
-      (nzPageSizeChange)="search(true)"
-      (nzQueryParams)="sort($event)"
-    >
+    <nz-table nzBordered #produtMappingTable [nzFrontPagination]="false" [nzData]="dataList"
+      [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="{ x: '1750px', y: '350px' }" [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)">
       <thead>
         <tr>
           <th nzWidth="20px" style="text-align: center"><b> Action</b></th>
-          <th
-            nzColumnKey="{{ 'SIZE' }}"
-            [nzSortFn]="true"
-            nzWidth="30px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'SIZE' }}" [nzSortFn]="true" nzWidth="30px" style="text-align: center">
             <b> Size </b>
           </th>
-          <th
-            nzColumnKey="{{ 'UNIT_ID' }}"
-            [nzSortFn]="true"
-            nzWidth="30px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'UNIT_ID' }}" [nzSortFn]="true" nzWidth="30px" style="text-align: center">
             <b> Unit Name </b>
           </th>
-          <th
-            nzColumnKey="{{ 'RATE' }}"
-            [nzSortFn]="true"
-            nzWidth="30px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'RATE' }}" [nzSortFn]="true" nzWidth="30px" style="text-align: center">
             <b> Rate </b>
           </th>
 
-          <th
-            nzColumnKey="{{ 'IN_COUNTRY' }}"
-            [nzSortFn]="true"
-            nzWidth="60px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'IN_COUNTRY' }}" [nzSortFn]="true" nzWidth="60px" style="text-align: center">
             <b> In Country Packaging Charges </b>
           </th>
 
-          <th
-            nzColumnKey="{{ 'OUT_COUNTRY' }}"
-            [nzSortFn]="true"
-            nzWidth="60px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'OUT_COUNTRY' }}" [nzSortFn]="true" nzWidth="60px" style="text-align: center">
             <b> Out Country Packaging Charges</b>
           </th>
 
-          <th
-            nzColumnKey="{{ 'IS_MAINTAIN_STOCK' }}"
-            [nzSortFn]="true"
-            nzWidth="42px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'IS_MAINTAIN_STOCK' }}" [nzSortFn]="true" nzWidth="42px" style="text-align: center">
             <b> Is Main Stock ?</b>
           </th>
-          <th
-            nzColumnKey="{{ 'OPENING_STOCK' }}"
-            [nzSortFn]="true"
-            nzWidth="35px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'OPENING_STOCK' }}" [nzSortFn]="true" nzWidth="35px" style="text-align: center">
             <b> Opening Stock</b>
           </th>
-          <th
-            nzColumnKey="{{ 'CURRENT_STOCK' }}"
-            [nzSortFn]="true"
-            nzWidth="35px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'CURRENT_STOCK' }}" [nzSortFn]="true" nzWidth="35px" style="text-align: center">
             <b> Current Stock </b>
           </th>
-          <th
-            nzColumnKey="{{ 'RATIO_WITH_MAIN_STOCK' }}"
-            [nzSortFn]="true"
-            nzWidth="47px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'RATIO_WITH_MAIN_STOCK' }}" [nzSortFn]="true" nzWidth="47px" style="text-align: center">
             <b> Ratio With Main Stock </b>
           </th>
-          <th
-            nzColumnKey="{{ 'STATUS' }}"
-            [nzSortFn]="true"
-            nzWidth="20px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'STATUS' }}" [nzSortFn]="true" nzWidth="20px" style="text-align: center">
             <b> Status </b>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of produtMappingTable.data">
-          <td style="text-align: center">
-            <a (click)="edit(data)">Edit</a>
+          <td style="text-align: center;">
+               <span
+              nz-icon
+              nzType="edit"
+              nzTheme="outline"
+              style="
+                cursor: pointer;
+                font-size: 15px !important;
+                color: #5a8f69;
+              "
+              nzTooltipTitle="Edit"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              (click)="edit(data)"
+            >
+            </span>
+                <span
+              nz-popconfirm
+              nzPopconfirmTitle="Are you sure you want to delete this record?"
+              nzPopconfirmPlacement="top"
+              (nzOnConfirm)="deleteSingleRecord(data)"
+              style="
+                cursor: pointer;
+                font-size: 15px !important;
+                color: #5a8f69;
+                margin-left: 8px;
+              "
+              nzTooltipTitle="Delete"
+              nzTooltipPlacement="top"
+              nz-tooltip
+            >
+              <i nz-icon nzType="delete"></i>
+            </span>
           </td>
           <td style="white-space: pre-line; text-align: right">
             {{ data["SIZE"] }}
@@ -163,20 +119,10 @@
           <td style="text-align: right">{{ data["IN_COUNTRY"] }}</td>
           <td style="text-align: right">{{ data["OUT_COUNTRY"] }}</td>
           <td style="text-align: center">
-            <i
-              nz-icon
-              *ngIf="data['IS_MAINTAIN_STOCK']"
-              [nzType]="'check-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#52c41a'"
-            ></i>
-            <i
-              nz-icon
-              *ngIf="!data['IS_MAINTAIN_STOCK']"
-              [nzType]="'close-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#f50'"
-            ></i>
+            <i nz-icon *ngIf="data['IS_MAINTAIN_STOCK']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"></i>
+            <i nz-icon *ngIf="!data['IS_MAINTAIN_STOCK']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"></i>
           </td>
           <td style="white-space: pre-line; text-align: right">
             {{ data["OPENING_STOCK"] }}
@@ -188,20 +134,10 @@
             {{ data["RATIO_WITH_MAIN_STOCK"] }}
           </td>
           <td style="text-align: center">
-            <i
-              nz-icon
-              *ngIf="data['STATUS']"
-              [nzType]="'check-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#52c41a'"
-            ></i>
-            <i
-              nz-icon
-              *ngIf="!data['STATUS']"
-              [nzType]="'close-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#f50'"
-            ></i>
+            <i nz-icon *ngIf="data['STATUS']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"></i>
+            <i nz-icon *ngIf="!data['STATUS']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"></i>
           </td>
           <!-- <td *ngFor="let column of columns" style="white-space: pre-line;">{{data[column[0]]}}</td> -->
         </tr>
@@ -210,31 +146,15 @@
   </div>
 </div>
 
-<nz-drawer
-  [nzBodyStyle]="{
+<nz-drawer [nzBodyStyle]="{
     height: 'calc(100% - 55px)',
     overflow: 'auto',
     'padding-bottom': '53px'
-  }"
-  [nzClosable]="true"
-  [nzMask]="true"
-  [nzMaskClosable]="false"
-  [nzWidth]="600"
-  [nzVisible]="drawerVisible"
-  [nzTitle]="drawerTitle"
-  (nzOnClose)="drawerClose()"
-  (nzKeyboard)="(true)"
->
+  }" [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="600" [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="(true)">
   <ng-container *nzDrawerContent>
     <!-- <app-addproductmapping></app-addproductmapping> -->
-    <app-addproductmapping
-      [drawerClose]="closeCallback"
-      [disabled]="disabled"
-      [drawerVisible]="drawerVisible"
-      [data]="drawerData"
-      [productId]="productId"
-      [maintain]="maintain"
-      [varient]="varient"
-    ></app-addproductmapping>
+    <app-addproductmapping [drawerClose]="closeCallback" [disabled]="disabled" [drawerVisible]="drawerVisible"
+      [data]="drawerData" [productId]="productId" [maintain]="maintain" [varient]="varient"></app-addproductmapping>
   </ng-container>
 </nz-drawer>

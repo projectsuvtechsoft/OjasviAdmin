@@ -105,8 +105,8 @@ export class ApiServiceService {
   getheader() {
     this.httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       deviceid: this.cookie.get('deviceId'),
       supportkey: this.cookie.get('supportKey'),
       Token: this.cookie.get('token'),
@@ -429,8 +429,8 @@ export class ApiServiceService {
   onuploadheader() {
     this.httpHeaders1 = new HttpHeaders({
       Accept: 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       supportkey: this.cookie.get('supportKey'),
       Token: this.cookie.get('token'),
     });
@@ -3137,8 +3137,8 @@ export class ApiServiceService {
   // onImageUpload(userId: any, folderName: any, selectedFile: any, filename: any): Observable<any> {
   //   this.httpHeaders1 = new HttpHeaders({
   //     Accept: 'application/json',
-  //     'apikey': 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-  //     'applicationkey': 'awlcQRwoZxAJQm7b',
+  //     'apikey': 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+  //     'applicationkey': '26lLNSmaKlcFziHH',
   //     Token: this.cookie.get('token'),
   //     supportkey: this.cookie.get('supportKey'),
   //     WP_CLIENT_ID: userId
@@ -3157,8 +3157,8 @@ export class ApiServiceService {
   // onUpload1(userId: any, folderName: any, selectedFile: any, filename: any) {
   //   this.httpHeaders1 = new HttpHeaders({
   //     Accept: 'application/json',
-  //     'apikey': 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-  //     'applicationkey': 'awlcQRwoZxAJQm7b',
+  //     'apikey': 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+  //     'applicationkey': '26lLNSmaKlcFziHH',
   //     Token: this.cookie.get('token'),
   //     supportkey: this.cookie.get('supportKey'),
   //     WP_CLIENT_ID: userId
@@ -3182,8 +3182,8 @@ export class ApiServiceService {
   // ): Observable<any> {
   //   this.httpHeaders1 = new HttpHeaders({
   //     Accept: 'application/json',
-  //     'apikey': 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-  //     'applicationkey': 'awlcQRwoZxAJQm7b',
+  //     'apikey': 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+  //     'applicationkey': '26lLNSmaKlcFziHH',
   //     Token: this.cookie.get('token'),
   //     supportkey: this.cookie.get('supportKey'),
   //     WP_CLIENT_ID: userId
@@ -4745,7 +4745,6 @@ export class ApiServiceService {
     );
   }
 
-
   updateOrdersDetails(user: any): Observable<any> {
     user.CLIENT_ID = this.clientId;
     return this.httpClient.post<any>(
@@ -4893,8 +4892,8 @@ export class ApiServiceService {
   ): Observable<any> {
     this.httpHeaders1 = new HttpHeaders({
       Accept: 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       Token: this.cookie.get('token'),
       supportkey: this.cookie.get('supportKey'),
       WP_CLIENT_ID: userId,
@@ -4916,8 +4915,8 @@ export class ApiServiceService {
   onUpload1(userId: any, folderName: any, selectedFile: any, filename: any) {
     this.httpHeaders1 = new HttpHeaders({
       Accept: 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       Token: this.cookie.get('token'),
       supportkey: this.cookie.get('supportKey'),
       WP_CLIENT_ID: userId,
@@ -4942,8 +4941,8 @@ export class ApiServiceService {
   onUploadFiles(userId, file): Observable<any> {
     this.httpHeaders1 = new HttpHeaders({
       Accept: 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       Token: this.cookie.get('token'),
       supportkey: this.cookie.get('supportKey'),
       WP_CLIENT_ID: userId,
@@ -6641,8 +6640,8 @@ export class ApiServiceService {
   ): Observable<any> {
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       deviceid: this.cookie.get('deviceId') || '',
       supportkey: this.cookie.get('supportKey') || '',
       Token: this.cookie.get('token') || '',
@@ -6669,8 +6668,8 @@ export class ApiServiceService {
   ): Observable<any> {
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       deviceid: this.cookie.get('deviceId') || '',
       supportkey: this.cookie.get('supportKey') || '',
       Token: this.cookie.get('token') || '',
@@ -6731,8 +6730,8 @@ export class ApiServiceService {
     this.httpHeaders = new HttpHeaders({
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       deviceid: this.cookie.get('deviceId'),
       supportkey: this.cookie.get('supportKey'),
       Token: this.cookie.get('token'),
@@ -6770,8 +6769,8 @@ export class ApiServiceService {
     this.httpHeaders = new HttpHeaders({
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       deviceid: this.cookie.get('deviceId'),
       supportkey: this.cookie.get('supportKey'),
       Token: this.cookie.get('token'),
@@ -7573,8 +7572,8 @@ export class ApiServiceService {
   ): Observable<any> {
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       deviceid: this.cookie.get('deviceId') || '',
       supportkey: this.cookie.get('supportKey') || '',
       Token: this.cookie.get('token') || '',
@@ -7856,8 +7855,8 @@ export class ApiServiceService {
   ): Observable<any> {
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       deviceid: this.cookie.get('deviceId') || '',
       supportkey: this.cookie.get('supportKey') || '',
       Token: this.cookie.get('token') || '',
@@ -8142,8 +8141,8 @@ export class ApiServiceService {
   ): Observable<any> {
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       deviceid: this.cookie.get('deviceId') || '',
       supportkey: this.cookie.get('supportKey') || '',
       Token: this.cookie.get('token') || '',
@@ -8178,8 +8177,8 @@ export class ApiServiceService {
   ): Observable<any> {
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
       deviceid: this.cookie.get('deviceId') || '',
       supportkey: this.cookie.get('supportKey') || '',
       Token: this.cookie.get('token') || '',
@@ -9638,6 +9637,49 @@ export class ApiServiceService {
     );
   }
 
+  updateFAQ(role: any): Observable<any> {
+    this.getheader();
+
+    return this.httpClient.put<any>(
+      this.url + 'productFaqMapping/update/',
+      JSON.stringify(role),
+      this.options
+    );
+  } //cartAddon/master/update
+
+  createFAQ(role: any): Observable<any> {
+    role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+    return this.httpClient.post<any>(
+      this.url + 'productFaqMapping/create/',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  getAllFAQs(
+    pageIndex: number,
+    pageSize: number,
+    sortKey: string,
+    sortValue: string,
+    filter: string
+  ): Observable<any> {
+    var data = {
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+      sortKey: sortKey,
+      sortValue: sortValue,
+      filter: filter,
+    };
+    this.getheader();
+
+    return this.httpClient.post<any>(
+      this.url + 'productFaqMapping/get/',
+      JSON.stringify(data),
+      this.options
+    );
+  }
+
   getstagewisestats(
     pageIndex: number,
     pageSize: number,
@@ -11018,36 +11060,31 @@ export class ApiServiceService {
     );
   }
 
-deleteBulkRecords(ids: number[]): Observable<any> {
-  return this.httpClient.post('/api/products/delete', { ids: ids });
-}
+  deleteBulkRecords(ids: number[]): Observable<any> {
+    return this.httpClient.post('/api/products/delete', { ids: ids });
+  }
   productBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
-   
     return this.httpClient.put<any>(
       this.url + 'products/updateBooleanValues',
       JSON.stringify(role),
       this.options
     );
   }
-   productDelete(role: any): Observable<any> {
-  this.getheader();
+  productDelete(role: any): Observable<any> {
+    this.getheader();
 
-  return this.httpClient.delete<any>(
-    this.url + 'category/bulkDelete',
-    {
-      headers: this.httpHeaders, 
-      body: role                      
-    }
-  );
-}
- unitBulkUpdate(role: any): Observable<any> {
+    return this.httpClient.delete<any>(this.url + 'products/bulkDelete', {
+      headers: this.httpHeaders,
+      body: role,
+    });
+  }
+  unitBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
-   
     return this.httpClient.put<any>(
       this.url + 'unit/updateBooleanValues',
       JSON.stringify(role),
@@ -11055,45 +11092,58 @@ deleteBulkRecords(ids: number[]): Observable<any> {
     );
   }
 
-     unitDelete(role: any): Observable<any> {
-  this.getheader();
+  unitDelete(role: any): Observable<any> {
+    this.getheader();
 
-  return this.httpClient.delete<any>(
-    this.url + 'category/bulkDelete',
-    {
-      headers: this.httpHeaders, 
-      body: role                      
-    }
-  );
-}
+    return this.httpClient.delete<any>(this.url + 'unit/bulkDelete', {
+      headers: this.httpHeaders,
+      body: role,
+    });
+  }
+
+  usercontactDelete(role: any): Observable<any> {
+    this.getheader();
+
+    return this.httpClient.delete<any>(this.url + 'userContact/bulkDelete', {
+      headers: this.httpHeaders,
+      body: role,
+    });
+  }
+
+  newsreportDelete(role: any): Observable<any> {
+    this.getheader();
+
+    return this.httpClient.delete<any>(
+      this.url + 'newsSubscribers/bulkDelete',
+      {
+        headers: this.httpHeaders,
+        body: role,
+      }
+    );
+  }
   categoryBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
-   
     return this.httpClient.put<any>(
       this.url + 'category/updateBooleanValues',
       JSON.stringify(role),
       this.options
     );
   }
- categoryDelete(role: any): Observable<any> {
-  this.getheader();
+  categoryDelete(role: any): Observable<any> {
+    this.getheader();
 
-  return this.httpClient.delete<any>(
-    this.url + 'category/bulkDelete',
-    {
-      headers: this.httpHeaders, 
-      body: role                      
-    }
-  );
-}
+    return this.httpClient.delete<any>(this.url + 'category/bulkDelete', {
+      headers: this.httpHeaders,
+      body: role,
+    });
+  }
 
   countryBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
-   
     return this.httpClient.put<any>(
       this.url + 'country/updateBooleanValues',
       JSON.stringify(role),
@@ -11104,18 +11154,24 @@ deleteBulkRecords(ids: number[]): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
-   
     return this.httpClient.put<any>(
       this.url + 'ingredients/updateBooleanValues',
       JSON.stringify(role),
       this.options
     );
   }
+  ingredientDelete(role: any): Observable<any> {
+    this.getheader();
+
+    return this.httpClient.delete<any>(this.url + 'ingredients/bulkDelete', {
+      headers: this.httpHeaders,
+      body: role,
+    });
+  }
   stateBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
-   
     return this.httpClient.put<any>(
       this.url + 'state/updateBooleanValues',
       JSON.stringify(role),
@@ -11126,7 +11182,6 @@ deleteBulkRecords(ids: number[]): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
-   
     return this.httpClient.put<any>(
       this.url + 'pincodeShippingCharges/updateBooleanValues',
       JSON.stringify(role),
@@ -11137,7 +11192,6 @@ deleteBulkRecords(ids: number[]): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
-   
     return this.httpClient.put<any>(
       this.url + 'customer/updateBooleanValues',
       JSON.stringify(role),
@@ -11148,29 +11202,26 @@ deleteBulkRecords(ids: number[]): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
-   
     return this.httpClient.put<any>(
       this.url + 'packagingCharges/updateBooleanValues',
       JSON.stringify(role),
       this.options
     );
   }
-    websiteBannerBulkUpdate(role: any): Observable<any> {
+  websiteBannerBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
-   
     return this.httpClient.put<any>(
       this.url + 'websiteBanner/updateBooleanValues',
       JSON.stringify(role),
       this.options
     );
   }
-      aboutBulkUpdate(role: any): Observable<any> {
+  aboutBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
-   
     return this.httpClient.put<any>(
       this.url + 'Aboutus/updateBooleanValues',
       JSON.stringify(role),
@@ -11178,70 +11229,72 @@ deleteBulkRecords(ids: number[]): Observable<any> {
     );
   }
   stateDeleteBulk(role: any): Observable<any> {
-  this.getheader();
+    this.getheader();
 
-  return this.httpClient.delete<any>(
-    this.url + 'state/bulkDelete',
-    {
-      headers: this.httpHeaders, 
-      body: role                      
-    }
-  );
-}
+    return this.httpClient.delete<any>(this.url + 'state/bulkDelete', {
+      headers: this.httpHeaders,
+      body: role,
+    });
+  }
 
- countryDeleteBulk(role: any): Observable<any> {
-  this.getheader();
+  countryDeleteBulk(role: any): Observable<any> {
+    this.getheader();
 
-  return this.httpClient.delete<any>(
-    this.url + 'country/bulkDelete',
-    {
-      headers: this.httpHeaders, 
-      body: role                      
-    }
-  );
-}
-websiteDeleteBulk(role: any): Observable<any> {
-  this.getheader();
+    return this.httpClient.delete<any>(this.url + 'country/bulkDelete', {
+      headers: this.httpHeaders,
+      body: role,
+    });
+  }
+  websiteDeleteBulk(role: any): Observable<any> {
+    this.getheader();
 
-  return this.httpClient.delete<any>(
-    this.url + 'websiteBanner/bulkDelete',
-    {
-      headers: this.httpHeaders, 
-      body: role                      
-    }
-  );
-}
-aboutDeleteBulk(role: any): Observable<any> {
-  this.getheader();
+    return this.httpClient.delete<any>(this.url + 'websiteBanner/bulkDelete', {
+      headers: this.httpHeaders,
+      body: role,
+    });
+  }
+  aboutDeleteBulk(role: any): Observable<any> {
+    this.getheader();
 
-  return this.httpClient.delete<any>(
-    this.url + 'Aboutus/bulkDelete',
-    {
-      headers: this.httpHeaders, 
-      body: role                      
-    }
-  );
-}
-zipcodeDeleteBulk(role: any): Observable<any> {
-  this.getheader();
+    return this.httpClient.delete<any>(this.url + 'Aboutus/bulkDelete', {
+      headers: this.httpHeaders,
+      body: role,
+    });
+  }
+  zipcodeDeleteBulk(role: any): Observable<any> {
+    this.getheader();
 
-  return this.httpClient.delete<any>(
-    this.url + 'pincodeShippingCharges/bulkDelete',
-    {
-      headers: this.httpHeaders, 
-      body: role                      
-    }
-  );
-}
-chargesDeleteBulk(role: any): Observable<any> {
-  this.getheader();
+    return this.httpClient.delete<any>(
+      this.url + 'pincodeShippingCharges/bulkDelete',
+      {
+        headers: this.httpHeaders,
+        body: role,
+      }
+    );
+  }
+  chargesDeleteBulk(role: any): Observable<any> {
+    this.getheader();
 
-  return this.httpClient.delete<any>(
-    this.url + 'packagingCharges/bulkDelete',
-    {
-      headers: this.httpHeaders, 
-      body: role                      
-    }
-  );
-}
+    return this.httpClient.delete<any>(
+      this.url + 'packagingCharges/bulkDelete',
+      {
+        headers: this.httpHeaders,
+        body: role,
+      }
+    );
+  }
+   productMappingDelete(role: any): Observable<any> {
+    this.getheader();
+
+    return this.httpClient.post<any>(this.url + 'productVarientMapping/delete',JSON.stringify(role), {
+      headers: this.httpHeaders,
+    });
+  }
+   FaqMappingDelete(role: any): Observable<any> {
+    this.getheader();
+
+    return this.httpClient.post<any>(this.url + 'productFaqMapping/delete',JSON.stringify(role), {
+      headers: this.httpHeaders,
+    });
+  }
 }

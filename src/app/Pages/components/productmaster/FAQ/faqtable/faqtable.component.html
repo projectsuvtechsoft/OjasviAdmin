@@ -1,14 +1,7 @@
 <div nz-row nzType="flex">
   <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
     <div class="formname">
-      <span
-        (click)="back()"
-        nz-icon
-        nzType="arrow-left"
-        nzTheme="outline"
-        style="font-weight: bold; cursor: pointer"
-      ></span
-      >&nbsp;&nbsp;<b> {{ formTitle }} </b>
+      <b> {{ formTitle }} </b>
     </div>
   </div>
 
@@ -40,11 +33,25 @@
         </ng-template>
       </nz-form-item>
       <nz-form-item>
-        <button nz-button nzType="primary" (click)="add()" nzJustify="end">
-          <i nz-icon nzType="plus"></i>Add New State
+        <!-- <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+          <i nz-icon nzType="plus"></i>Add New FAQ
+        </button> -->
+        <!-- <nz-tooltip
+          [nzTooltipTitle]="dataList.length >= 5 ? `Can't add more than 5 FAQ's` : null"
+        > -->
+        <button
+          nz-button
+          nzType="primary"
+          (click)="add()"
+          [disabled]="dataList.length >= 5"
+        >
+          <i nz-icon nzType="plus"></i>
+          Add New FAQ
         </button>
+
+        <!-- </nz-tooltip> -->
       </nz-form-item>
-      <nz-form-item>
+      <!-- <nz-form-item>
         <button
           nz-button
           nzType="default"
@@ -59,8 +66,24 @@
         >
           <i nz-icon nzType="delete"></i>
         </button>
-      </nz-form-item>
+      </nz-form-item> -->
     </form>
+  </div>
+  <!-- Message when more than 5 -->
+  <div
+    nz-col
+    nzSpan="24"
+    style="
+      display: flex;
+      justify-content: flex-end;
+      text-align: end;
+      color: red;
+      font-size: 11px;
+    "
+    *ngIf="dataList.length >= 5"
+    class="text-red-500 text-sm block mt-1"
+  >
+    Can't add more than 5 FAQ's
   </div>
 </div>
 <br />
@@ -86,53 +109,25 @@
     >
       <thead>
         <tr>
-          <th nzWidth="13px" nzLeft style="text-align: center">
-            <label
-              nz-checkbox
-              [(ngModel)]="allChecked"
-              (ngModelChange)="checkAll($event)"
-            >
-              Select All
-            </label>
-          </th>
           <th nzWidth="9px" style="text-align: center"><b> Action </b></th>
-          <th
-            nzColumnKey="{{ 'SEQUENCE_NO' }}"
-            [nzSortFn]="true"
-            nzWidth="15px"
-            style="text-align: center"
-          >
-            <b> Sequence No. </b>
-          </th>
 
           <th
-            nzColumnKey="{{ 'NAME' }}"
+            nzColumnKey="{{ 'QUESTION' }}"
             [nzSortFn]="true"
             nzWidth="32px"
             style="text-align: center"
           >
-            <b> State Name </b>
+            <b>Question</b>
           </th>
           <th
-            nzColumnKey="{{ 'COUNTRY_NAME' }}"
+            nzColumnKey="{{ 'ANSWER' }}"
             [nzSortFn]="true"
             nzWidth="32px"
             style="text-align: center"
           >
-            <b> Country Name </b>
-          </th>
-          <th
-            nzColumnKey="{{ 'SHORT_CODE' }}"
-            [nzSortFn]="true"
-            nzWidth="20px"
-            style="text-align: center"
-          >
-            <b> Short Code </b>
+            <b>Answer </b>
           </th>
 
-          <!-- <th nzColumnKey="{{ 'STATE_NAME_MR' }}" [nzSortFn]="true" nzWidth="42px" style="text-align: center;"> <b> State Name(Marathi) </b></th> -->
-          <!-- <th nzColumnKey="{{ 'TITLE_MR' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center;">  Title (Marathi) </th>             -->
-          <!-- <th *ngFor="let column of columns" nzColumnKey="{{column[0]}}" [nzSortFn]="true">{{column[1]}}</th> -->
           <th
             nzColumnKey="{{ 'STATUS' }}"
             [nzSortFn]="true"
@@ -140,27 +135,11 @@
             style="text-align: center"
           >
             <b> Status </b>
-            <ng-container *ngIf="toggleVisible">
-              <div (click)="$event.stopPropagation()">
-                <nz-switch
-                  [(ngModel)]="headerToggles.STATUS"
-                  (ngModelChange)="bulkUpdate('STATUS', $event)"
-                >
-                </nz-switch>
-              </div>
-            </ng-container>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of unitMasterTable.data">
-          <td nzLeft style="text-align: center">
-            <label
-              nz-checkbox
-              [(ngModel)]="data.checked"
-              (ngModelChange)="onRowChecked(data)"
-            ></label>
-          </td>
           <td style="text-align: center">
             <span
               nz-icon
@@ -177,38 +156,28 @@
               (click)="edit(data)"
             >
             </span>
-            <span
-              nz-icon
-              nzType="delete"
-              nzTheme="outline"
+              <span
+              nz-popconfirm
+              nzPopconfirmTitle="Are you sure you want to delete this record?"
+              nzPopconfirmPlacement="top"
+              (nzOnConfirm)="deleteSingleRecord(data)"
               style="
                 cursor: pointer;
                 font-size: 15px !important;
                 color: #5a8f69;
-                margin-left: 10px;
+                margin-left: 8px;
               "
               nzTooltipTitle="Delete"
               nzTooltipPlacement="top"
               nz-tooltip
-              nz-popconfirm
-              nzPopconfirmTitle="Are you sure to delete this record?"
-              (nzOnConfirm)="deleteSingledata(data)"
-              nzOkText="Yes"
-              nzCancelText="No"
             >
+              <i nz-icon nzType="delete"></i>
             </span>
           </td>
-          <td style="text-align: center">{{ data["SEQUENCE_NO"] }}</td>
 
-          <td style="white-space: pre-line">{{ data["NAME"] }}</td>
-          <td style="white-space: pre-line">{{ data["COUNTRY_NAME"] }}</td>
+          <td style="white-space: pre-line">{{ data["QUESTION"] }}</td>
+          <td style="white-space: pre-line">{{ data["ANSWER"] }}</td>
 
-          <td style="white-space: pre-line">{{ data["SHORT_CODE"] }}</td>
-
-          <!-- <td style="white-space: pre-line;">{{data['STATE_NAME_MR']}}</td> -->
-          <!-- <td style="white-space: pre-line;">{{data['TITLE_MR']}}</td> -->
-
-          <!-- <td *ngFor="let column of columns" style="white-space: pre-line;">{{data[column[0]]}}</td> -->
           <td style="text-align: center">
             <i
               nz-icon
@@ -231,27 +200,42 @@
   </div>
 </div>
 
-<nz-drawer
-  [nzBodyStyle]="{
-    height: 'calc(100% - 55px)',
-    overflow: 'auto',
-    'padding-bottom': '53px'
-  }"
-  [nzClosable]="true"
-  [nzMask]="true"
-  [nzMaskClosable]="false"
-  [nzWidth]="500"
-  [nzVisible]="drawerVisible"
-  [nzTitle]="drawerTitle"
-  (nzOnClose)="drawerClose()"
-  (nzKeyboard)="(true)"
->
-  <ng-container *nzDrawerContent>
-    <!-- <app-addunit></app-addunit> -->
-    <app-addstate
-      [drawerClose]="closeCallback"
-      [drawerVisible]="drawerVisible"
-      [data]="drawerData"
-    ></app-addstate>
-  </ng-container>
-</nz-drawer>
+<div *ngIf="drawerVisible">
+  <nz-drawer
+    [nzBodyStyle]="{
+      height: 'calc(100% - 55px)',
+      overflow: 'auto',
+      'padding-bottom': '53px'
+    }"
+    [nzClosable]="true"
+    [nzMask]="true"
+    [nzMaskClosable]="false"
+    [nzWidth]="500"
+    [nzVisible]="drawerVisible"
+    [nzTitle]="drawerTitle"
+    (nzOnClose)="drawerClose()"
+    (nzKeyboard)="(true)"
+  >
+    <ng-container *nzDrawerContent>
+      <!-- <app-addunit></app-addunit> -->
+      <app-faqadd
+        [drawerClose]="closeCallback"
+        [drawerVisible]="drawerVisible"
+        [data]="drawerData"
+        [productId]="productId"
+      ></app-faqadd>
+    </ng-container>
+  </nz-drawer>
+</div>
+
+<div class="footer">
+  <button
+    type="button"
+    nz-button
+    (click)="close()"
+    class="ant-btn"
+    style="margin-right: 8px"
+  >
+    <span> Cancel </span>
+  </button>
+</div>

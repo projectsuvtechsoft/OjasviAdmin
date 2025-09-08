@@ -16,14 +16,18 @@ import { ApiServiceService } from 'src/app/Service/api-service.service';
 export class ProductlistComponent implements OnInit {
   drawerVisible!: boolean;
   mapdrawerVisible!: boolean;
-
+  benefitdrawerVisible!: boolean;
+  mapFAQdrawerVisible!: boolean;
   drawerTitle!: string;
   mapdrawerTitle!: string;
+  benefitdrawerTitle!: string;
+  mapFAQdrawerTitle!: string;
   drawerData: ProductMaster = new ProductMaster();
   formTitle = ' Manage Products ';
   @Input()
   dataList: any[] = [];
   mapDataList: any[] = [];
+  BenefitDatalist: any[] = [];
   imgurl = appkeys.retriveimgUrl;
 
   // dataList = [];
@@ -119,9 +123,11 @@ export class ProductlistComponent implements OnInit {
           this.totalRecords = data['count'];
           this.dataList = data['data'];
           console.log(this.dataList);
-       this.dataList.forEach(item => item.checked = this.selectedIds.has(item.ID));
+          this.dataList.forEach(
+            (item) => (item.checked = this.selectedIds.has(item.ID))
+          );
 
-    this.updateSelectedRows();
+          this.updateSelectedRows();
           for (var i = 0; i < this.dataList.length; i++) {
             console.log(
               this.imgurl + 'productImages/' + this.dataList[i]['PHOTO_URL']
@@ -167,14 +173,14 @@ export class ProductlistComponent implements OnInit {
     //   console.log(err);
     // }
     // );
-    this.tags = [];        
+    this.tags = [];
     this.multipleImages = [];
 
     this.drawerVisible = true;
   }
   disabled: boolean = false;
 
-tags
+  tags;
   edit(data: ProductMaster): void {
     console.log(this.disabled);
 
@@ -194,8 +200,10 @@ tags
     this.drawerData.SIZE4 = data['SIZE4'];
     this.drawerData.UNIT_ID4 = data['UNIT_ID4'];
     this.tags = data.BENIFITS
-    ? data.BENIFITS.split(',').map(tag => tag.trim()).filter(tag => tag)
-    : [];
+      ? data.BENIFITS.split(',')
+          .map((tag) => tag.trim())
+          .filter((tag) => tag)
+      : [];
     // this.api.getAllImages(this.pageIndex, this.pageSize, this.sortKey, '', ' AND PRODUCT_ID=' + data.ID).subscribe(data => {
     //   this.loadingRecords = false;
     //   this.totalRecords = data['count'];
@@ -285,7 +293,7 @@ tags
   productId: any;
   Ismaintainstock: any;
   Isvarientavailable: any;
-
+  FAQDataList: any = [];
   map(data: any): void {
     this.productId = data.ID;
     this.mapdrawerTitle = ' Product Variant Mapping';
@@ -310,19 +318,59 @@ tags
         }
       });
   }
+
+  mapBenefits(data: any): void {
+    this.benefitdrawerTitle = 'Benefits Mapping';
+    this.benefitdrawerVisible = true;
+  }
+
+  mapFAQ(data: any): void {
+    this.productId = data.ID;
+    this.mapFAQdrawerTitle = ' Product FAQ Mapping';
+    // this.drawerData = Object.assign({}, data);
+    console.log('productlist ' + data);
+    this.Ismaintainstock = data.IS_MAINTAIN_STOCK;
+    console.log(this.Ismaintainstock);
+    this.Isvarientavailable = data.IS_VERIENT_AVAILABLE;
+    console.log(this.Isvarientavailable);
+
+    this.api
+      .getAllProductVarient(0, 0, 'id', '', ' AND PRODUCT_ID = ' + data.ID)
+      .subscribe((data) => {
+        if (data['code'] == 200) {
+          // this.totalRecords = data['count'];
+          this.FAQDataList = data['data'];
+          this.mapFAQdrawerVisible = true;
+        } else {
+          // this.message.error("Something Went Wrong","");
+          this.loadingRecords = false;
+          this.mapFAQdrawerVisible = true;
+        }
+      });
+  }
+
   mapDrawerClose(): void {
     this.search();
     this.mapdrawerVisible = false;
+  }
+  benefitsDrawerClose(): void {
+    this.search();
+    this.benefitdrawerVisible = false;
   }
   get mapCloseCallback() {
     return this.mapDrawerClose.bind(this);
   }
 
-
-
+  mapFAQDrawerClose(): void {
+    this.search();
+    this.mapFAQdrawerVisible = false;
+  }
+  get mapFAQCloseCallback() {
+    return this.mapFAQDrawerClose.bind(this);
+  }
 
   isIngredientMappingvisible = false;
- IngredientMappingData = new ProjectIngredientsMapping();
+  IngredientMappingData = new ProjectIngredientsMapping();
   mapIngredienttitle = 'Map Ingredients';
   // mapProceduretitle = 'Map Procedure';
   mapIngredientSpinning = false;
@@ -358,55 +406,55 @@ tags
   }
 
   mappedIDs = new Set<number>();
- onAllChecked(value: boolean): void {
-  this.mappedIDs.clear();
-  this.setOfCheckedId.clear();
-  this.selectedItems = [];
-  this.datatoSendIngredient = [];
+  onAllChecked(value: boolean): void {
+    this.mappedIDs.clear();
+    this.setOfCheckedId.clear();
+    this.selectedItems = [];
+    this.datatoSendIngredient = [];
 
-  // Collect already mapped IDs to preserve them later
-  if (this.datatoSendIngredient.length > 0) {
-    this.datatoSendIngredient.forEach((data) => {
-      this.mappedIDs.add(data.INGREDIENT_ID);
-    });
-  }
-
-  this.checked = value;
-  this.indeterminate = false;
-
-  this.IngredientsList.forEach((data) => {
-    if (typeof data === 'object') {
-      // Update visual checkbox state
-      data.checked = value;
-
-      // Create ingredient payload
-      const ingredientPayload = {
-        INGREDIENT_ID: data.INGREDIENT_ID,
-        STATUS: value ? 1 : 0,
-      };
-
-      // Only include if selected
-      if (value) {
-        this.setOfCheckedId.add(data.INGREDIENT_ID);
-        this.selectedItems.push(data);
-        this.datatoSendIngredient.push(ingredientPayload);
-      }
+    // Collect already mapped IDs to preserve them later
+    if (this.datatoSendIngredient.length > 0) {
+      this.datatoSendIngredient.forEach((data) => {
+        this.mappedIDs.add(data.INGREDIENT_ID);
+      });
     }
-  });
 
-  // Reapply mapped IDs for edit flow (preserve existing DB IDs)
-  if (this.mappedIDs.size > 0 && this.datatoSendIngredient.length > 0) {
-    const mappedIDsArray = Array.from(this.mappedIDs);
-    this.datatoSendIngredient.forEach((data, index) => {
-      if (mappedIDsArray[index] !== undefined) {
-        data.INGREDIENT_ID = mappedIDsArray[index];
+    this.checked = value;
+    this.indeterminate = false;
+
+    this.IngredientsList.forEach((data) => {
+      if (typeof data === 'object') {
+        // Update visual checkbox state
+        data.checked = value;
+
+        // Create ingredient payload
+        const ingredientPayload = {
+          INGREDIENT_ID: data.INGREDIENT_ID,
+          STATUS: value ? 1 : 0,
+        };
+
+        // Only include if selected
+        if (value) {
+          this.setOfCheckedId.add(data.INGREDIENT_ID);
+          this.selectedItems.push(data);
+          this.datatoSendIngredient.push(ingredientPayload);
+        }
       }
     });
-  }
 
-  localStorage.setItem('editData', JSON.stringify(this.selectedItems));
-  this.updateTotalRecords();
-}
+    // Reapply mapped IDs for edit flow (preserve existing DB IDs)
+    if (this.mappedIDs.size > 0 && this.datatoSendIngredient.length > 0) {
+      const mappedIDsArray = Array.from(this.mappedIDs);
+      this.datatoSendIngredient.forEach((data, index) => {
+        if (mappedIDsArray[index] !== undefined) {
+          data.INGREDIENT_ID = mappedIDsArray[index];
+        }
+      });
+    }
+
+    localStorage.setItem('editData', JSON.stringify(this.selectedItems));
+    this.updateTotalRecords();
+  }
 
   keyup2() {
     if (this.searchText2.trim().length >= 3 || this.searchText2.length === 0) {
@@ -466,8 +514,6 @@ tags
       }
     }
 
-  
-
     // Update other states or UI elements
     this.updateCheckedSet(item.INGREDIENT_ID, checked);
     this.updateTotalRecords();
@@ -508,66 +554,64 @@ tags
     this.datatoSendIngredient = [];
     this.selectedItems = [];
     this.api
-      .getProductMappedIngredientsList(0, 0, 'id', 'desc', '',filter2)
+      .getProductMappedIngredientsList(0, 0, 'id', 'desc', '', filter2)
       .subscribe(
         (data) => {
-          console.log(data)
+          console.log(data);
           if (data.code === 200) {
-
             this.IngredientsList = data.data || [];
             this.OriginalList = [...this.IngredientsList];
             // let Id
             this.mapIngredientSpinning = false;
-            this.api.getProductMappedIngredientsList(0, 0, 'id', 'desc', ' ',filter2).subscribe(
-              (res) => {
-                console.log(res)
-                if (res.code === 200) {
-              
-                  const compareData = res.data || [];
-                  if (compareData.length > 0) {
+            this.api
+              .getProductMappedIngredientsList(0, 0, 'id', 'desc', ' ', filter2)
+              .subscribe(
+                (res) => {
+                  console.log(res);
+                  if (res.code === 200) {
+                    const compareData = res.data || [];
+                    if (compareData.length > 0) {
+                      this.IngredientsList.forEach((Ingredients) => {
+                        const matchedData = compareData.find(
+                          (mapped) =>
+                            mapped.INGREDIENT_ID === Ingredients.INGREDIENT_ID
+                        );
+                        if (matchedData && matchedData.STATUS === 1) {
+                          this.setOfCheckedId.add(matchedData.INGREDIENT_ID);
+                          Ingredients.checked = true;
+                          Ingredients.STATUS = 1;
+                          this.datatoSendIngredient.push({
+                            INGREDIENT_ID: matchedData.INGREDIENT_ID,
+                            STATUS: 1,
+                          });
+                          this.selectedItems.push({
+                            INGREDIENT_ID: matchedData.INGREDIENT_ID,
+                            STATUS: 1,
+                          });
+                        } else {
+                          Ingredients.checked = false;
+                          Ingredients.STATUS = 0;
+                        }
+                      });
+                    }
 
-                    this.IngredientsList.forEach((Ingredients) => {
-                      const matchedData = compareData.find(
-                        (mapped) => mapped.INGREDIENT_ID === Ingredients.INGREDIENT_ID
-                      );
-                    if (matchedData && matchedData.STATUS === 1) {
-  this.setOfCheckedId.add(matchedData.INGREDIENT_ID);
-  Ingredients.checked = true;
-  Ingredients.STATUS = 1;
-  this.datatoSendIngredient.push({
-    INGREDIENT_ID: matchedData.INGREDIENT_ID,
-    STATUS: 1,
-  });
-  this.selectedItems.push({
-    INGREDIENT_ID: matchedData.INGREDIENT_ID,
-    STATUS: 1,
-  });
-} else {
-  Ingredients.checked = false;
-  Ingredients.STATUS = 0;
-}
-
-                    });
+                    const totalItems = this.IngredientsList.length;
+                    const selectedItems = this.setOfCheckedId.size;
+                    this.checked = selectedItems === totalItems;
+                    this.indeterminate =
+                      selectedItems > 0 && selectedItems < totalItems;
                   }
-                  
-                  const totalItems = this.IngredientsList.length;
-                  const selectedItems = this.setOfCheckedId.size;
-                  this.checked = selectedItems === totalItems;
-                  this.indeterminate =
-                    selectedItems > 0 && selectedItems < totalItems;
+                },
+                () => {
+                  this.mapIngredientSpinning = false;
+                  this.message.error(
+                    'Failed to fetch mapped Ingredients list',
+                    ''
+                  );
                 }
-              },
-              () => {
-                this.mapIngredientSpinning = false;
-                this.message.error('Failed to fetch mapped Ingredients list', '');
-              }
-            );
+              );
             this.mapIngredientSpinning = false;
-
-          }
-
-          
-           else {
+          } else {
             this.IngredientsList = [];
             this.OriginalList = [];
             this.mapIngredientSpinning = false;
@@ -578,10 +622,7 @@ tags
           this.message.error('Something went wrong', '');
           this.mapIngredientSpinning = false;
         }
-      
-      
       );
-
   }
   preventDefault(event) {
     document.getElementById('search')?.focus();
@@ -593,13 +634,12 @@ tags
       this.message.error('Please Select Mapping Data', '');
       this.mapIngredientSpinning = false;
     } else {
-      let data = 
-      {
+      let data = {
         CLIENT_ID: 1,
         PRODUCT_ID: this.IngredientMappingData.PRODUCT_ID,
         data: this.datatoSendIngredient,
       };
-    
+
       //console.log(data);
 
       // this.validateData(data);
@@ -622,195 +662,208 @@ tags
     }
   }
 
-  
   closeIngredientsMapping() {
     this.isIngredientMappingvisible = false;
     this.IngredientMappingData = new ProjectIngredientsMapping();
     this.searchText2 = '';
   }
 
-
-//bulk operation
-allChecked = false;
-selectedIds = new Set<number>(); 
-selectedRows: any[] = [];        
-headerToggles: any = {
-  IS_MAINTAIN_STOCK: false,
-  IS_VERIENT_AVAILABLE: false,
-  IS_POPULAR: false,
-  IS_BEST_SELLER: false,
-  IS_NEW_ARRIVAL: false,
-  STATUS: false
-};
-chekedproduct(){
-   this.api.getAllProductMaster(1, this.totalRecords, this.sortKey, 'desc', '')
-      .subscribe(res => {
+  //bulk operation
+  allChecked = false;
+  selectedIds = new Set<number>();
+  selectedRows: any[] = [];
+  headerToggles: any = {
+    IS_MAINTAIN_STOCK: false,
+    IS_VERIENT_AVAILABLE: false,
+    IS_POPULAR: false,
+    IS_BEST_SELLER: false,
+    IS_NEW_ARRIVAL: false,
+    STATUS: false,
+  };
+  chekedproduct() {
+    this.api
+      .getAllProductMaster(1, this.totalRecords, this.sortKey, 'desc', '')
+      .subscribe((res) => {
         if (res['code'] === 200) {
-          res.data.forEach(item => {
+          res.data.forEach((item) => {
             this.selectedIds.add(item.ID);
           });
 
           // Also mark current page checkboxes as checked
-          this.dataList.forEach(item => item.checked = true);
+          this.dataList.forEach((item) => (item.checked = true));
           this.updateSelectedRows();
         }
       });
-}
-checkAll(checked: boolean) {
-  if (checked) {
-  this.chekedproduct()
-  } else {
-    this.selectedIds.clear();
-    this.dataList.forEach(item => item.checked = false);
+  }
+  checkAll(checked: boolean) {
+    if (checked) {
+      this.chekedproduct();
+    } else {
+      this.selectedIds.clear();
+      this.dataList.forEach((item) => (item.checked = false));
+      this.updateSelectedRows();
+    }
+  }
+
+  onRowChecked(row: any) {
+    if (row.checked) {
+      this.selectedIds.add(row.ID);
+    } else {
+      this.selectedIds.delete(row.ID);
+    }
+
     this.updateSelectedRows();
   }
-}
 
+  toggleVisible: boolean = false;
 
-onRowChecked(row: any) {
-  if (row.checked) {
-    this.selectedIds.add(row.ID);
-  } else {
-    this.selectedIds.delete(row.ID);
+  updateSelectedRows() {
+    // rows on current page
+    this.selectedRows = this.dataList.filter((item) =>
+      this.selectedIds.has(item.ID)
+    );
+
+    // toggle visible if any row selected (even across pages)
+    this.toggleVisible = this.selectedIds.size > 0;
+
+    // recalc header toggle values based on selectedRows
+    Object.keys(this.headerToggles).forEach((field) => {
+      if (this.selectedRows.length) {
+        this.headerToggles[field] = this.selectedRows.every((r) => !!r[field]);
+      } else {
+        this.headerToggles[field] = false;
+      }
+    });
   }
 
-  this.updateSelectedRows();
-}
+  bulkUpdate(fieldName: string, value: any) {
+    this.loadingRecords = true;
+    if (this.selectedIds.size === 0) return;
 
-toggleVisible: boolean = false; 
+    const payload = {
+      PRODUCTS_DATA: Array.from(this.selectedIds).map((id) => {
+        const obj: any = { ID: id };
+        obj[fieldName] = value;
+        return obj;
+      }),
+    };
 
-updateSelectedRows() {
-  // rows on current page
-  this.selectedRows = this.dataList.filter(item => this.selectedIds.has(item.ID));
-
-  // toggle visible if any row selected (even across pages)
-  this.toggleVisible = this.selectedIds.size > 0;
-
-  // recalc header toggle values based on selectedRows
-  Object.keys(this.headerToggles).forEach(field => {
-    if (this.selectedRows.length) {
-      this.headerToggles[field] = this.selectedRows.every(r => !!r[field]);
-    } else {
-      this.headerToggles[field] = false;
-    }
-  });
-}
-
-
-
-
-bulkUpdate(fieldName: string, value: any) {
-          this.loadingRecords = true;
-  if (this.selectedIds.size === 0) return;
-
-  const payload = {
-    PRODUCTS_DATA: Array.from(this.selectedIds).map(id => {
-      const obj: any = { ID: id };
-      obj[fieldName] = value; 
-      return obj;
-    })
-  };
-
-   
-  this.api.productBulkUpdate(payload).subscribe( (res: any)  => {
-         if (res.code == 200) {
-  this.dataList.forEach(item => {
-    if (this.selectedIds.has(item.ID)) {
-      (item as any)[fieldName] = value;
-    }
-    item.checked = false;
-  });
-
-  this.updateSelectedRows();  
-  this.loadingRecords = false;
-
-  this.toggleVisible=false
-  this.selectedRows = [];
-  this.selectedIds.clear();
-  this.allChecked = false;
-
-  this.message.success('Bulk update successful', '');
-}
-    else{
-      this.message.error('Bulk update failed', '');
-          this.loadingRecords = false;
-
-    }
-    },
-    (err) => {
-      console.error("Bulk update failed", err);
-    }
-  );
-}
-
-
-
-
-
-bulkDelete() {
-  if (this.selectedIds.size === 0) return;
-
-  const ids = Array.from(this.selectedIds);
-
-  const payload = {
-    IDS: ids
-  };
-
-  
-  this.api.productDelete(payload).subscribe((res: any)  => {
-       if (res.code == 200) {
-      // Remove deleted items from current page
-      this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
-      this.message.success('Successfully deleted information.', '');
-
-      // Clear selection
-      this.selectedIds.clear();
-      this.selectedRows = [];
-      this.allChecked = false;
-       }
-       else if (res.code == '400') {
-              this.message.info(res.message, '');
-              this.loadingRecords = false;
+    this.api.productBulkUpdate(payload).subscribe(
+      (res: any) => {
+        if (res.code == 200) {
+          this.dataList.forEach((item) => {
+            if (this.selectedIds.has(item.ID)) {
+              (item as any)[fieldName] = value;
             }
-    else{
-      this.message.error('delete updation failed', '');
+            item.checked = false;
+          });
+
+          this.updateSelectedRows();
           this.loadingRecords = false;
 
-    }
-    },
-    (err) => {
-      console.error("Bulk update failed", err);
-    }
-  );
-}
+          this.toggleVisible = false;
+          this.selectedRows = [];
+          this.selectedIds.clear();
+          this.allChecked = false;
 
+          this.message.success('Bulk update successful', '');
+        } else {
+          this.message.error('Bulk update failed', '');
+          this.loadingRecords = false;
+        }
+      },
+      (err) => {
+        console.error('Bulk update failed', err);
+      }
+    );
+  }
 
-deleteRecord(id: number) {
-  const payload = { IDS: [id] };
+  bulkDelete() {
+    this.loadingRecords = true;
 
-  this.api.categoryDelete(payload as any).subscribe((res: any)  => {
-       if (res.code == 200) {
-      this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
-      this.message.success('Bulk delete sucess', '');
+    if (this.selectedIds.size === 0) return;
 
-      this.selectedIds.clear();
-      this.selectedRows = [];
-      this.allChecked = false;
-       }
-       else if (res.code == '400') {
-              this.message.info('This Cateory Name Alredy in use', '');
-              this.loadingRecords = false;
-            }
-    else{
-      this.message.error('Bulk update failed', '');
+    const ids = Array.from(this.selectedIds);
+
+    const payload = {
+      data: this.dataList
+        .filter((item) => this.selectedIds.has(item.ID)) // only selected rows
+        .map((item) => {
+          const obj: any = {
+            ID: item.ID,
+            NAME: item.NAME, // include NAME from dataList
+          };
+          // also attach fieldName dynamically
+          return obj;
+        }),
+    };
+
+    this.api.productDelete(payload).subscribe(
+      (res: any) => {
+        if (res.code == 200) {
+          // Remove deleted items from current page
+          this.dataList = this.dataList.filter(
+            (item) => !this.selectedIds.has(item.ID)
+          );
+          this.message.success('Successfully deleted data.', '');
+          this.search();
           this.loadingRecords = false;
 
-    }
-    },
-    (err) => {
-      console.error("Bulk update failed", err);
-    }
-  );
-}
+          // Clear selection
+          this.selectedIds.clear();
+          this.selectedRows = [];
+          this.allChecked = false;
+        } else if (res.code == '400') {
+          this.message.info(res.message, '');
+          this.loadingRecords = false;
+        } else {
+          this.message.error('Failed to delete data.', '');
+          this.loadingRecords = false;
+        }
+      },
+      (err) => {
+        console.error('Failed to delete data.', err);
+      }
+    );
+  }
 
+  deleteSingleRecord(row: ProductMaster) {
+    this.loadingRecords = true;
+
+    const drawerData = Object.assign({}, row);
+    const payload = {
+      data: [
+        {
+          ID: drawerData.ID,
+          NAME: drawerData.NAME,
+        },
+      ],
+    };
+
+    console.log('Deleting:', payload);
+
+    this.api.productDelete(payload).subscribe(
+      (res: any) => {
+        if (res.code === 200) {
+          this.dataList = this.dataList.filter((item) => item.ID !== row.ID);
+          this.selectedIds.delete(row.ID);
+          this.selectedRows = [];
+          this.allChecked = false;
+          this.loadingRecords = false;
+
+          this.message.success('Successfully deleted data.', '');
+          this.search();
+        } else if (res.code === 400) {
+          this.message.info(res.message, '');
+          this.loadingRecords = false;
+        } else {
+          this.message.error('Failed to delete data.', '');
+          this.loadingRecords = false;
+        }
+      },
+      (err) => {
+        console.error('Failed to delete data.', err);
+      }
+    );
+  }
 }

@@ -125,6 +125,9 @@ import { DespatchingOrdersviewComponent } from './components/Orders/manage-order
 import { DespatchedOrderComponent } from './components/Orders/manage-orders/Despatched orders/despatched-order/despatched-order.component';
 import { DespatchedOrderViewComponent } from './components/Orders/manage-orders/Despatched orders/despatched-order-view/despatched-order-view.component';
 import { DeliveredOrdersComponent } from './components/Orders/manage-orders/Delivered Orders/delivered-orders/delivered-orders.component';
+import { FAQtableComponent } from './components/productmaster/FAQ/faqtable/faqtable.component';
+import { FAQAddComponent } from './components/productmaster/FAQ/faqadd/faqadd.component';
+import { BenefitsmappingComponent } from './components/productmaster/benefitsmapping/benefitsmapping.component';
 
 
 @NgModule({
@@ -187,6 +190,9 @@ import { DeliveredOrdersComponent } from './components/Orders/manage-orders/Deli
     DespatchedOrderComponent,
     DespatchedOrderViewComponent,
     DeliveredOrdersComponent,
+    FAQtableComponent,
+    FAQAddComponent,
+    BenefitsmappingComponent,
   ],
   imports: [
     // PickerComponent,

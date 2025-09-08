@@ -77,6 +77,8 @@ export class UsercontactComponent implements OnInit {
       this.totalRecords = data['count'];
       this.dataList = data['data'];
       this.loadingRecords = false;
+      this.dataList.forEach(item => item.checked = this.selectedIds.has(item.ID));
+      this.updateSelectedRows();
       // if(this.totalRecords==0){
       //   data.SEQUENCE_NO=1;
       // }else{
@@ -335,5 +337,138 @@ sort(params: NzTableQueryParams): void {
       this.message.error("There is a No Data", "");
     }
   }
+
+    allChecked = false;
+  selectedIds = new Set<number>(); 
+  selectedRows: any[] = [];        
+  headerToggles: any = {
+     STATUS: false
+  };
+  chekedproduct(){
+     this.api.getAllUserContactReport(1, this.totalRecords, this.sortKey, 'desc', '')
+        .subscribe(res => {
+          if (res['code'] === 200) {
+            res.data.forEach(item => {
+              this.selectedIds.add(item.ID);
+            });
+  
+            // Also mark current page checkboxes as checked
+            this.dataList.forEach(item => item.checked = true);
+            this.updateSelectedRows();
+          }
+        });
+  }
+  updateSelectedRows() {
+    // rows on current page
+    this.selectedRows = this.dataList.filter(item => this.selectedIds.has(item.ID));
+  
+  
+  }
+  
+  checkAll(checked: boolean) {
+    if (checked) {
+    this.chekedproduct()
+    } else {
+      this.selectedIds.clear();
+      this.dataList.forEach(item => item.checked = false);
+     this.updateSelectedRows();
+    }
+  }
+  
+  
+  onRowChecked(row: any) {
+    if (row.checked) {
+      this.selectedIds.add(row.ID);
+    } else {
+      this.selectedIds.delete(row.ID);
+    }
+  this.updateSelectedRows();
+    
+  }
+  
+bulkDelete() {
+  this.loadingRecords = true;
+
+  if (this.selectedIds.size === 0) return;
+
+  // Convert selectedIds set -> array -> comma separated string
+  const payload = {
+    IDS: Array.from(this.selectedIds).join(',')  // "1,2,3"
+  };
+
+  this.api.usercontactDelete(payload).subscribe(
+    (res: any) => {
+      if (res.code == 200) {
+        // Remove deleted items from current page
+        this.dataList = this.dataList.filter(
+          item => !this.selectedIds.has(item.ID)
+        );
+
+        this.message.success('Successfully deleted data.', '');
+          this.search();
+        this.loadingRecords = false;
+
+        // Clear selection
+        this.selectedIds.clear();
+        this.selectedRows = [];
+        this.allChecked = false;
+      } 
+      else if (res.code == '400') {
+        this.message.info(res.message, '');
+              this.loadingRecords = false;
+
+      } 
+      else {
+        this.message.error('Failed to delete data.', '');
+      }
+
+      this.loadingRecords = false;
+    },
+    (err) => {
+      console.error("Failed to delete data.", err);
+      this.loadingRecords = false;
+    }
+  );
+}
+
+  
+  
+ deleteSingleRecord(row: UserContactReport) {
+  this.loadingRecords = true;
+
+  const payload = {
+    IDS: row.ID.toString()   // single record ID in string format
+  };
+
+  console.log("Deleting:", payload);
+
+  this.api.usercontactDelete(payload).subscribe(
+    (res: any) => {
+      if (res.code === 200) {
+        // Remove record from list
+        this.dataList = this.dataList.filter(item => item.ID !== row.ID);
+        this.selectedIds.delete(row.ID);
+        this.selectedRows = [];
+        this.allChecked = false;
+
+        this.message.success('Successfully deleted data.', '');
+          this.search();
+                this.loadingRecords = false;
+
+      } else if (res.code === 400) {
+        this.message.info(res.message, '');
+        this.loadingRecords = false;
+      } else {
+        this.message.error('Failed to delete data.', '');
+        this.loadingRecords = false;
+      }
+    },
+    (err) => {
+      console.error("Failed to delete data.", err);
+      this.loadingRecords = false;
+    }
+  );
+}
+
 }
 

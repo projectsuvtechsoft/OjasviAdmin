@@ -155,7 +155,8 @@ sort(params: NzTableQueryParams): void {
 //bulk operation
 allChecked = false;
 selectedIds = new Set<number>(); 
-selectedRows: any[] = [];        
+selectedRows: any[] = [];      
+selectedRecords  : any[] = [];  
 headerToggles: any = {
    STATUS: false,
    IS_PRIMARY: false
@@ -262,39 +263,98 @@ bulkUpdate(fieldName: string, value: any) {
 }
 
 bulkDelete() {
+  this.loadingRecords = true;
   if (this.selectedIds.size === 0) return;
 
-  // Convert Set to array for API
   const ids = Array.from(this.selectedIds);
 
-  this.api.deleteBulkRecords(ids).subscribe({
-    next: () => {
+const payload = {
+  data: this.dataList
+    .filter(item => this.selectedIds.has(item.ID)) 
+    .map(item => {
+      const obj: any = {
+        ID: item.ID,
+        NAME: item.NAME  
+      };
+    // also attach fieldName dynamically
+      return obj;
+    })
+};
+
+
+
+  
+  this.api.ingredientDelete(payload).subscribe((res: any)  => {
+       if (res.code == 200) {
       // Remove deleted items from current page
       this.dataList = this.dataList.filter(item => !this.selectedIds.has(item.ID));
+      this.message.success('Successfully deleted data.', '');
+        this.search();
+  this.loadingRecords=false
 
       // Clear selection
       this.selectedIds.clear();
       this.selectedRows = [];
       this.allChecked = false;
-      this.toggleVisible = false; // hide header toggle after delete
-    },
-    error: (err) => {
-      console.error("Bulk delete failed", err);
+       }
+       else if (res.code == '400') {
+              this.message.info(res.message, '');
+              this.loadingRecords = false;
+            }
+    else{
+      this.message.error('Failed to delete data.', '');
+          this.loadingRecords = false;
+
     }
-  });
-}
-deleteRecord(id: number) {
-  this.api.deleteBulkRecords([id]).subscribe({
-    next: () => {
-      this.dataList = this.dataList.filter(item => item.ID !== id);
-      this.selectedRows = [];
-      this.allChecked = false;
     },
-    error: (err) => {
-      console.error("Delete failed", err);
+    (err) => {
+      console.error("Failed to delete data.", err);
     }
-  });
+  );
 }
+deleteSingleRecord(row: IngredientMaster) {
+  this.loadingRecords = true;
+  const drawerData = Object.assign({}, row);
+  const payload = {
+    data: [
+      {
+        ID: drawerData.ID,
+        NAME: drawerData.NAME
+      }
+    ]
+  };
+
+  console.log("Deleting:", payload); // 👀 check if it logs on confirm
+
+  this.api.ingredientDelete(payload).subscribe((res: any)  => {
+ 
+      if (res.code === 200) {
+        this.dataList = this.dataList.filter(item => item.ID !== row.ID);
+        this.selectedIds.delete(row.ID);
+        this.selectedRows = [];
+        this.allChecked = false;
+
+        this.message.success('Successfully deleted data.', '');
+          this.search();
+          this.loadingRecords=false
+
+      } else if (res.code === 400) {
+        this.message.info(res.message, '');
+                      this.loadingRecords = false;
+
+      } else {
+        this.message.error('Failed to delete data.', '');
+                      this.loadingRecords = false;
+
+      }
+     },
+    (err) => {
+      console.error("Failed to delete data.", err);
+    }
+  )}
+
+
+
 }
 
 

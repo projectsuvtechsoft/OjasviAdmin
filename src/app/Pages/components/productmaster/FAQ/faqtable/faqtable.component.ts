@@ -1,36 +1,31 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { ProductMapping } from 'src/app/Models/productmapping';
-import { ProductMaster } from 'src/app/Models/productmaster';
+import { FAQMasterData } from 'src/app/Models/FAQ_DATA';
 import { ApiServiceService } from 'src/app/Service/api-service.service';
 
 @Component({
-  selector: 'app-productmappinglist',
-  templateUrl: './productmappinglist.component.html',
-  styleUrls: ['./productmappinglist.component.css'],
+  selector: 'app-faqtable',
+  templateUrl: './faqtable.component.html',
+  styleUrls: ['./faqtable.component.css'],
 })
-export class ProductmappinglistComponent implements OnInit {
-  drawerVisible!: boolean;
-  drawerTitle!: string;
-  drawerData: ProductMapping = new ProductMapping();
-  formTitle = ' Manage Product Variants ';
+export class FAQtableComponent {
   @Input()
-  dataList: any[] = [];
+  drawerClose2!: Function;
+  @Input()
+  dataList: any;
+  @Input()
+  drawerVisible2: boolean = false;
 
   @Input()
   productId: any;
 
-  @Input()
-  maintain: any;
+  drawerVisible!: boolean;
+  drawerTitle!: string;
+  drawerData: FAQMasterData = new FAQMasterData();
+  formTitle = "Manage FAQ's";
 
-  @Input()
-  varient: any;
-
-  @Input()
-  data: ProductMaster = new ProductMaster();
-  @Input()
-  drawerClose2!: Function;
   // dataList = [];
   loadingRecords = true;
   totalRecords = 1;
@@ -42,25 +37,17 @@ export class ProductmappinglistComponent implements OnInit {
   filterQuery: string = '';
   isFilterApplied: string = 'default';
   columns: string[][] = [
-    ['SIZE', ' Size '],
-    ['UNIT_NAME', ' Unit Name '],
-    ['RATE', ' Rate '],
-    ['OPENING_STOCK', ' Opening Stock '],
-    ['CURRENT_STOCK', ' Current Stock '],
-    ['OUT_COUNTRY', ' OUT_COUNTRY '],
-    ['IN_COUNTRY', ' IN_COUNTRY '],
-    ['RATIO_WITH_MAIN_STOCK', ' Ratio With Main Stock '],
+    ['ANSWER', ' ANSWER '],
+    ['QUESTION', ' QUESTION '],
   ];
 
   constructor(
     private api: ApiServiceService,
-    private message: NzNotificationService
+    private message: NzNotificationService,
+    private router: Router
   ) {}
 
-  ngOnInit(): void {
-    // console.log(this.maintain)
-    // console.log(this.varient)
-  }
+  ngOnInit(): void {}
 
   keyup(event: any) {
     this.search();
@@ -80,71 +67,57 @@ export class ProductmappinglistComponent implements OnInit {
       sort = '';
     }
     var likeQuery = '';
-    console.log('search text:' + this.searchText);
     if (this.searchText != '') {
       likeQuery = ' AND(';
       this.columns.forEach((column) => {
         likeQuery += ' ' + column[0] + " like '%" + this.searchText + "%' OR";
       });
-      likeQuery = likeQuery.substring(0, likeQuery.length - 2) + ')';
-
-      console.log('likeQuery' + likeQuery);
-    }
-    var filter = '';
-    if (this.searchText != '') {
-      filter = likeQuery + this.filterQuery;
-    } else {
-      filter = this.filterQuery;
+      likeQuery = likeQuery.substring(0, likeQuery.length - 2) + ")";
     }
     this.api
-      .getAllProductVarient(
+      .getAllFAQs(
         this.pageIndex,
         this.pageSize,
         this.sortKey,
         sort,
-        ' AND PRODUCT_ID = ' + this.productId + filter
+        likeQuery + ' AND PRODUCT_ID = ' + this.productId
       )
-      .subscribe((data) => {
-        if (data['code'] == 200) {
-          this.totalRecords = data['count'];
-          this.dataList = data['data'];
-          this.loadingRecords = false;
-          //   if (this.totalRecords == 0) {
-          //     data.SEQ_NO = 1;
-          //   } else {
-          //     data.SEQ_NO = this.dataList[this.dataList.length - 1]['SEQ_NO'] + 1;
-          //   }
-          // },
-          // (err) => {
-          //   console.log(err);
-        } else {
-          // this.message.error("Something Went Wrong","");
-          this.loadingRecords = false;
+      .subscribe(
+        (data) => {
+          if (data['code'] == 200) {
+            this.totalRecords = data['count'];
+            this.dataList = data['data'];
+            this.loadingRecords = false;
+            this.dataList.forEach(
+              (item) => (item.checked = this.selectedIds.has(item.ID))
+            );
+          } else {
+            this.message.error('Something Went Wrong', '');
+            this.loadingRecords = false;
+          }
+        },
+        (err) => {
+          console.log(err);
         }
-      });
+      );
   }
 
-  //Drawer Methods
   get closeCallback() {
     return this.drawerClose.bind(this);
   }
-
+  back() {
+    this.router.navigate(['/masters/menu']);
+  }
   add(): void {
-    this.disabled = true;
-    this.drawerTitle = ' Add New Varient ';
-    this.productId = this.productId;
-    this.varient = this.varient;
-    this.maintain = this.maintain;
-    this.drawerData = new ProductMapping();
-
-    // this.api.getAllProductMapped(1, 1, '', 'desc', '').subscribe(
+    this.drawerTitle = ' Add New FAQ ';
+    this.drawerData = new FAQMasterData();
+    // this.api.getAllFAQMasterData(1, 1, 'SEQUENCE_NO', 'desc', '').subscribe(
     //   (data) => {
-    // if (data['count']==0){
-    //   this.drawerData.SEQ_NO=1;
-    // }else
-    // {
-    //   this.drawerData.SEQ_NO=data['data'][0]['SEQ_NO']+1;
-    // }
+    //     if (data['count'] == 0) {
+    //       this.drawerData.SEQUENCE_NO = 1;
+    //     } else {
+    //       this.drawerData.SEQUENCE_NO = data['data'][0]['SEQUENCE_NO'] + 1;
+    //     }
     //   },
     //   (err) => {
     //     console.log(err);
@@ -153,26 +126,13 @@ export class ProductmappinglistComponent implements OnInit {
 
     this.drawerVisible = true;
   }
-  disabled: boolean = false;
-  edit(data: ProductMapping): void {
-    this.disabled = true;
-    console.log('mapp disable' + this.disabled);
 
-    this.drawerTitle = ' Update Product Varient';
+  edit(data: FAQMasterData): void {
+    this.drawerTitle = ' Update FAQ Information';
     this.drawerData = Object.assign({}, data);
-
-    //   }
-    //   if(this.totalRecords==0){
-    //     data.SEQ_NO=1;
-    //   }else{
-    //     data.SEQ_NO= this.dataList[this.dataList.length-1]['SEQ_NO']+1
-    //   }
-    // }, err => {
-    //   console.log(err);
-    // });
+    // this.drawerData.COUNTRY_ID = data['COUNTRY_ID'];
     this.drawerVisible = true;
   }
-
   drawerClose(): void {
     this.search();
     this.drawerVisible = false;
@@ -181,10 +141,9 @@ export class ProductmappinglistComponent implements OnInit {
     const { pageSize, pageIndex, sort } = params;
     const currentSort = sort.find((item) => item.value !== null);
     const sortField = (currentSort && currentSort.key) || 'id';
+    // const sortOrder = (currentSort && currentSort.value) || 'asc';
     const sortOrder = (currentSort && currentSort.value) || 'desc';
-    console.log(currentSort);
 
-    console.log('sortOrder :' + sortOrder);
     this.pageIndex = pageIndex;
     this.pageSize = pageSize;
 
@@ -202,6 +161,19 @@ export class ProductmappinglistComponent implements OnInit {
     this.sortValue = sortOrder;
     this.search();
   }
+
+  //bulk operation
+  allChecked = false;
+  selectedIds = new Set<number>();
+  selectedRows: any[] = [];
+  headerToggles: any = {
+    STATUS: false,
+  };
+
+  toggleVisible: boolean = false;
+  close(): void {
+    this.drawerClose2();
+  }
    deleteSingleRecord(row: any) {
     this.loadingRecords = true;
 
@@ -214,7 +186,7 @@ export class ProductmappinglistComponent implements OnInit {
 
     // console.log('Deleting:', payload);
 
-    this.api.productMappingDelete(payload).subscribe(
+    this.api.FaqMappingDelete(payload).subscribe(
       (res: any) => {
         if (res.code === 200) {
           // this.dataList = this.dataList.filter((item) => item.ID !== row.ID);

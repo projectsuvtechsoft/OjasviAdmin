@@ -1,0 +1,120 @@
+<div nz-row nzType="flex">
+    <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+        <div class="formname">
+            <b> {{ formTitle }} </b>
+        </div>
+    </div>
+</div>
+<div>
+    <form nz-form #websitebannerPage="ngForm">
+        <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row nzGutter="10">
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzNoColon>Benefit Name</nz-form-label>
+                        <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Benefit Name">
+                            <!-- [(ngModel)]="data.OPENING_STOCK" -->
+                            <!-- (keypress)="onlynumdot($event)" -->
+                            <input nz-input name="benefitname" placeholder="Enter Benefit Name" style="width: 100%" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <!-- [(ngModel)]="data.TEXT" -->
+                        <!-- maxlength="2000" -->
+                        <nz-form-label nzNoColon>Benefit Description</nz-form-label>
+                        <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Benefit Description">
+                            <textarea rows="1" name="text" nz-input placeholder="Enter Benefit Description"
+                                required></textarea>
+                            <!-- <h6 style="color: red;font-size: 10px;" *ngIf="data.TEXT!=undefined">{{data.TEXT.length}}/2000</h6>  -->
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="8" style="margin:auto">
+                    <button type="button" class="ant-btn ant-btn-primary" nz-button nz-dropdown [nzDropdownMenu]="menu"
+                        (click)="add(false, websitebannerPage)">
+                        <span> Add </span>
+                    </button>
+                </div>
+            </div>
+
+
+        </nz-spin>
+
+
+    </form>
+    <hr>
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <nz-table nzBordered #unitMasterTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="dataList1"
+                [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="{ y: '64vh' }" [nzTotal]="totalRecords"
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()"
+                (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)">
+                <thead>
+                    <tr>
+                        
+                        <th nzWidth="8px" style="text-align: center"><b> Action </b></th>
+                        <th nzColumnKey="{{ 'SEQUENCE_NO' }}" [nzSortFn]="true" nzWidth="11px"
+                            style="text-align: center">
+                            <b> Seq. No. </b>
+                        </th>
+                        <th nzColumnKey="{{ 'UNIT_NAME' }}" [nzSortFn]="true" nzWidth="42px" style="text-align: center">
+                            <b> Unit Name</b>
+                        </th>
+
+                        <!-- <th nzColumnKey="{{ 'TITLE_MR' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center;">  Title (Marathi) </th>             -->
+                        <!-- <th *ngFor="let column of columns" nzColumnKey="{{column[0]}}" [nzSortFn]="true">{{column[1]}}</th> -->
+                    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of unitMasterTable.data">
+                      
+                        <td style="text-align: center">
+                            <span nz-icon nzType="edit" nzTheme="outline" style="
+                cursor: pointer;
+                font-size: 15px !important;
+                color: #5a8f69;
+                margin-left: 8px;
+              " nzTooltipTitle="Edit" nzTooltipPlacement="top" nz-tooltip (click)="edit(data)">
+                            </span>
+                            
+                        </td>
+                        <td style="text-align: center">{{ data["SEQUENCE_NO"] }}</td>
+                        <td style="white-space: pre-line">{{ data["UNIT_NAME"] }}</td>
+                        <!-- <td style="white-space: pre-line;">{{data['TITLE_MR']}}</td> -->
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="footer">
+        <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px">
+            <span> Cancel </span>
+        </button>
+        <!-- *ngIf="!data.ID" -->
+        <button type="button" class="ant-btn ant-btn-primary" nz-button nz-dropdown [nzDropdownMenu]="menu"
+            (click)="save(false, websitebannerPage)">
+            <span> Save & Close</span>
+        </button>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+                <li nz-menu-item class="menuc" style="border-radius: 4px; background-color: #40a9ff">
+                    <a style="color: white" (click)="save(true, websitebannerPage)">
+                        Save & New</a>
+                </li>
+            </ul>
+        </nz-dropdown-menu>
+        <!-- *ngIf="data.ID" -->
+        <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning"
+            (click)="save(false, websitebannerPage)">
+            <span> Update & Close</span>
+        </button>
+    </div>
+</div>
