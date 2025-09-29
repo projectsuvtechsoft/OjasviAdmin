@@ -9,6 +9,7 @@
                       <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Banner Name" >
                         <input nz-input name="aptebanner" [pattern]="namepatt" [(ngModel)]="data.NAME"  (keypress)="numchar($event)" placeholder="Enter Banner Name"  maxlength="32"/>
                       </nz-form-control>
+                      <span style="font-size: 10px !important; color: red">{{data.NAME?.length}}/32</span>
                     </nz-form-item>
                   </div> 
 
@@ -37,8 +38,9 @@
                     <nz-form-item>
                       <nz-form-label  nzNoColon> Sub Title</nz-form-label>
                       <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Sub Title" >
-                        <input nz-input name="aptesubtitle" maxlength="50" [pattern]="namepatt" [(ngModel)]="data.SUB_TITLE" placeholder="Enter Sub Title" (keypress)="numchar($event)"  />
+                        <input nz-input name="asubtitle" maxlength="256" [pattern]="namepatt" [(ngModel)]="data.SUB_TITLE" placeholder="Enter Sub Title" (keypress)="numchar($event)"  />
                       </nz-form-control>
+                      <span style="font-size: 10px !important; color: red">{{data.SUB_TITLE?.length}}/256</span>
                     </nz-form-item>
                   </div> 
 
