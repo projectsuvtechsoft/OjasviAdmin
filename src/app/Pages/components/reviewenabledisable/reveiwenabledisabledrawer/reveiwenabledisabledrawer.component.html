@@ -1,0 +1,113 @@
+<div>
+  <form nz-form #websitebannerPage="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row [nzGutter]="16">
+        <!-- Customer Name -->
+        <div nz-col nzSpan="12">
+          <div class="info-card">
+            <label class="info-label">Customer Name</label>
+            <div class="info-value">{{ data["CUSTOMER_NAME"] || "-" }}</div>
+          </div>
+        </div>
+
+        <!-- Ratings -->
+        <div nz-col nzSpan="12">
+          <div class="info-card">
+            <label class="info-label">Ratings</label>
+            <div class="info-value">
+              <nz-rate
+                name="rating"
+                [ngModel]="data.RATINGS"
+                [nzDisabled]="true"
+                nzAllowHalf
+              ></nz-rate>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review -->
+        <div nz-col nzSpan="24">
+          <div class="info-card large-review-card">
+            <label class="info-label">Review</label>
+            <div
+              class="info-value review-box"
+              nz-tooltip
+              [nzTooltipTitle]="data.REVIEW"
+            >
+              {{ data.REVIEW || "-" }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Status Toggle -->
+        <div nz-col nzSpan="12">
+          <div class="info-card">
+            <label class="info-label">Status</label>
+            <div class="info-value">
+              <nz-switch name="status" [(ngModel)]="data.STATUS"></nz-switch>
+              <span
+                [ngStyle]="{
+                  color: data.STATUS ? '#52c41a' : '#f5222d',
+                  'margin-left.px': 10
+                }"
+              >
+                {{ data.STATUS ? "Enabled" : "Disabled" }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nz-spin>
+  </form>
+
+  <div class="footer">
+    <button
+      type="button"
+      nz-button
+      (click)="close()"
+      class="ant-btn"
+      style="margin-right: 8px"
+    >
+      <span> Cancel </span>
+    </button>
+
+    <!-- <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      *ngIf="!data.ID"
+      nz-button
+      nz-dropdown
+      [nzDropdownMenu]="menu"
+      [nzLoading]="isSpinning"
+      (click)="isSpinning = true; save(false, websitebannerPage)"
+    >
+      <span> Save & Close</span>
+    </button> -->
+    <!-- <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          class="menuc"
+          style="border-radius: 4px; background-color: #40a9ff"
+        >
+          <a
+            style="color: white"
+            (click)="isSpinning = true; save(true, websitebannerPage)"
+          >
+            Save & New</a
+          >
+        </li>
+      </ul>
+    </nz-dropdown-menu> -->
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      nz-button
+      [nzLoading]="isSpinning"
+      *ngIf="data.ID"
+      (click)="save(false, websitebannerPage)"
+    >
+      <span> Update & Close</span>
+    </button>
+  </div>
+</div>

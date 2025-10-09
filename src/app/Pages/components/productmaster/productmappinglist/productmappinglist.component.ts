@@ -47,8 +47,8 @@ export class ProductmappinglistComponent implements OnInit {
     ['RATE', ' Rate '],
     ['OPENING_STOCK', ' Opening Stock '],
     ['CURRENT_STOCK', ' Current Stock '],
-    ['OUT_COUNTRY', ' OUT_COUNTRY '],
-    ['IN_COUNTRY', ' IN_COUNTRY '],
+    // ['OUT_COUNTRY', ' OUT_COUNTRY '],
+    // ['IN_COUNTRY', ' IN_COUNTRY '],
     ['RATIO_WITH_MAIN_STOCK', ' Ratio With Main Stock '],
   ];
 

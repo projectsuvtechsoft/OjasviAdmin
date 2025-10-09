@@ -37,6 +37,8 @@ import { DespatchingOrdersviewComponent } from './components/Orders/manage-order
 import { DespatchingOrdersComponent } from './components/Orders/manage-orders/Dispatching orders/despatching-orders/despatching-orders.component';
 import { DespatchedOrderComponent } from './components/Orders/manage-orders/Despatched orders/despatched-order/despatched-order.component';
 import { DeliveredOrdersComponent } from './components/Orders/manage-orders/Delivered Orders/delivered-orders/delivered-orders.component';
+import { ShippingandhandlingComponent } from './components/shippingandhandling/shippingandhandling.component';
+import { ReviewenabledisableComponent } from './components/reviewenabledisable/reviewenabledisable.component';
 const routes: Routes = [
   {
     path: '',
@@ -88,6 +90,8 @@ const routes: Routes = [
       { path: 'dispatching_orders', component: DespatchingOrdersComponent },
       { path: 'dispatched_orders', component: DespatchedOrderComponent },
       { path: 'delivered_orders', component: DeliveredOrdersComponent },
+      { path: 'shippingandhandling', component:ShippingandhandlingComponent },
+      { path: 'enabledisablereviews', component: ReviewenabledisableComponent},
     ],
   },
 ];

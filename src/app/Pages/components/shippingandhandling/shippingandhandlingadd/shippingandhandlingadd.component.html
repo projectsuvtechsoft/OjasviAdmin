@@ -1,0 +1,91 @@
+<div>
+    <form nz-form #websitebannerPage="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+            <div nz-row >
+
+
+                <div nz-col nzSpan="12">
+                  <nz-form-item>
+                    <nz-form-label nzRequired nzNoColon>Charges Type</nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Charges Type" >
+                      <!-- <nz-input-number name="Countryseq"  style="width: 100%;"  [(ngModel)]="data.SEQUENCE_NO" [nzMin]="1"  [nzStep]="1" (keypress)="omit($event)" required></nz-input-number> -->
+                      <input nz-input name="chargename"  style="width: 100%;"  [(ngModel)]="data.KEY1" maxlength="50" required/>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                
+                <div nz-col nzSpan="12">
+                    <nz-form-item>
+                      <nz-form-label nzRequired nzNoColon> In Country Charges</nz-form-label>
+                      <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct In Country Charges" >
+                        <!-- <nz-input-number name="Countryseq"  style="width: 100%;"  [(ngModel)]="data.SEQUENCE_NO" [nzMin]="1"  [nzStep]="1" (keypress)="onlynumdot($event)" required></nz-input-number> -->
+                         <nz-input-group nzAddOnAfter="$">
+                        <input nz-input name="incountry"  style="width: 100%;"  [(ngModel)]="data.VALUE_1"  (keypress)="onlynumdot($event)" maxlength="50" required/>
+
+                         </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  
+                <div nz-col nzSpan="12">
+                    <nz-form-item>
+                      <nz-form-label nzRequired nzNoColon> Out Country </nz-form-label>
+                      <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Out Country Charges " >
+                        <!-- <nz-input-number name="Countryseq"  style="width: 100%;"  [(ngModel)]="data.SEQUENCE_NO" [nzMin]="1"  [nzStep]="1" (keypress)="onlynumdot($event)" required></nz-input-number> -->
+                         <nz-input-group nzAddOnAfter="$">
+                        <input nz-input name="outcountry"  style="width: 100%;"  [(ngModel)]="data.VALUE_2"  (keypress)="onlynumdot($event)" maxlength="50" required/>
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <!-- <div nz-col nzSpan="7"  style="margin-left: 5px;">
+                    <nz-form-item>
+                      <nz-form-label nzNoColon> Status </nz-form-label>
+                      <nz-form-control>
+                          <nz-switch name="Countrystatus" [(ngModel)]="data.STATUS"></nz-switch>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div> -->
+                
+                
+              </div>
+            </nz-spin>
+          </form>
+
+  <div class="footer">
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px" >
+      <span> Cancel </span>
+    </button>
+  
+    <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID"  nz-button
+      nz-dropdown
+      [nzDropdownMenu]="menu"
+      [nzLoading]="isSpinning"
+  (click)="isSpinning = true; save(false, websitebannerPage)"
+    >
+      <span> Save & Close</span>
+    </button>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          class="menuc"
+          style="border-radius: 4px; background-color: #40a9ff"
+        >
+          <a style="color: white" (click)="isSpinning = true; save(true, websitebannerPage)"> Save & New</a>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      nz-button
+      [nzLoading]="isSpinning"
+      *ngIf="data.ID"
+      (click)="save(false,websitebannerPage)"
+    >
+      <span> Update & Close</span>
+    </button>
+  </div>
+</div>

@@ -46,13 +46,13 @@
             <b> Rate </b>
           </th>
 
-          <th nzColumnKey="{{ 'IN_COUNTRY' }}" [nzSortFn]="true" nzWidth="60px" style="text-align: center">
+          <!-- <th nzColumnKey="{{ 'IN_COUNTRY' }}" [nzSortFn]="true" nzWidth="60px" style="text-align: center">
             <b> In Country Packaging Charges </b>
           </th>
 
           <th nzColumnKey="{{ 'OUT_COUNTRY' }}" [nzSortFn]="true" nzWidth="60px" style="text-align: center">
             <b> Out Country Packaging Charges</b>
-          </th>
+          </th> -->
 
           <th nzColumnKey="{{ 'IS_MAINTAIN_STOCK' }}" [nzSortFn]="true" nzWidth="42px" style="text-align: center">
             <b> Is Main Stock ?</b>
@@ -116,8 +116,8 @@
           <td style="white-space: pre-line; text-align: right">
             {{ data["RATE"] }}
           </td>
-          <td style="text-align: right">{{ data["IN_COUNTRY"] }}</td>
-          <td style="text-align: right">{{ data["OUT_COUNTRY"] }}</td>
+          <!-- <td style="text-align: right">{{ data["IN_COUNTRY"] }}</td>
+          <td style="text-align: right">{{ data["OUT_COUNTRY"] }}</td> -->
           <td style="text-align: center">
             <i nz-icon *ngIf="data['IS_MAINTAIN_STOCK']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#52c41a'"></i>

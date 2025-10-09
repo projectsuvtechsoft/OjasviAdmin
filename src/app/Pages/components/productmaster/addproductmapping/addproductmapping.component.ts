@@ -133,13 +133,15 @@ export class AddproductmappingComponent implements OnInit {
       this.isOk = false;
       this.message.error('Please Select Unit', '');
     } 
-    else if (this.data.IN_COUNTRY == undefined ) {
-      this.isOk = false;
-      this.message.error(' Please Enter Correct In Country Packaging Charges ', '');
-    }else if (this.data.OUT_COUNTRY == undefined ) {
-      this.isOk = false;
-      this.message.error('Please Enter Correct Out Country Packaging charges  ', '');
-    }else if (this.data.RATE == 0 || this.data.RATE == undefined) {
+
+    // else if (this.data.IN_COUNTRY == undefined ) {
+    //   this.isOk = false;
+    //   this.message.error(' Please Enter Correct In Country Packaging Charges ', '');
+    // }else if (this.data.OUT_COUNTRY == undefined ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Correct Out Country Packaging charges  ', '');
+    // }
+    else if (this.data.RATE == 0 || this.data.RATE == undefined) {
       this.isOk = false;
       this.message.error('Please Enter Rate', '');
     }

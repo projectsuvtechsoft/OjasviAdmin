@@ -57,8 +57,8 @@ export class ProductlistComponent implements OnInit {
     ['CURRENT_STOCK', ' Current Stock '],
     ['SIZE', ' Size '],
     ['RATE', ' Rate '],
-    ['OUT_COUNTRY', ' OUT_COUNTRY '],
-    ['IN_COUNTRY', ' IN_COUNTRY '],
+    // ['OUT_COUNTRY', ' OUT_COUNTRY '],
+    // ['IN_COUNTRY', ' IN_COUNTRY '],
   ];
   @Input()
   drawerClose2!: Function;

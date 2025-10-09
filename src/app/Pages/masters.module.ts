@@ -128,6 +128,10 @@ import { DeliveredOrdersComponent } from './components/Orders/manage-orders/Deli
 import { FAQtableComponent } from './components/productmaster/FAQ/faqtable/faqtable.component';
 import { FAQAddComponent } from './components/productmaster/FAQ/faqadd/faqadd.component';
 import { BenefitsmappingComponent } from './components/productmaster/benefitsmapping/benefitsmapping.component';
+import { ShippingandhandlingComponent } from './components/shippingandhandling/shippingandhandling.component';
+import { ShippingandhandlingaddComponent } from './components/shippingandhandling/shippingandhandlingadd/shippingandhandlingadd.component';
+import { ReviewenabledisableComponent } from './components/reviewenabledisable/reviewenabledisable.component';
+import { ReveiwenabledisabledrawerComponent } from './components/reviewenabledisable/reveiwenabledisabledrawer/reveiwenabledisabledrawer.component';
 
 
 @NgModule({
@@ -193,6 +197,10 @@ import { BenefitsmappingComponent } from './components/productmaster/benefitsmap
     FAQtableComponent,
     FAQAddComponent,
     BenefitsmappingComponent,
+    ShippingandhandlingComponent,
+    ShippingandhandlingaddComponent,
+    ReviewenabledisableComponent,
+    ReveiwenabledisabledrawerComponent,
   ],
   imports: [
     // PickerComponent,
