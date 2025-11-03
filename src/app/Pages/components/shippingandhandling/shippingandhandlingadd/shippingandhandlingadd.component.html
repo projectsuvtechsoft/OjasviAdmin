@@ -6,8 +6,8 @@
 
                 <div nz-col nzSpan="12">
                   <nz-form-item>
-                    <nz-form-label nzRequired nzNoColon>Charges Type</nz-form-label>
-                    <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Charges Type" >
+                    <nz-form-label nzRequired nzNoColon>Key</nz-form-label>
+                    <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Key" >
                       <!-- <nz-input-number name="Countryseq"  style="width: 100%;"  [(ngModel)]="data.SEQUENCE_NO" [nzMin]="1"  [nzStep]="1" (keypress)="omit($event)" required></nz-input-number> -->
                       <input nz-input name="chargename"  style="width: 100%;"  [(ngModel)]="data.KEY1" maxlength="50" required/>
                     </nz-form-control>
@@ -16,25 +16,25 @@
                 
                 <div nz-col nzSpan="12">
                     <nz-form-item>
-                      <nz-form-label nzRequired nzNoColon> In Country Charges</nz-form-label>
-                      <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct In Country Charges" >
+                      <nz-form-label nzRequired nzNoColon>Value 1</nz-form-label>
+                      <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Value 1" >
                         <!-- <nz-input-number name="Countryseq"  style="width: 100%;"  [(ngModel)]="data.SEQUENCE_NO" [nzMin]="1"  [nzStep]="1" (keypress)="onlynumdot($event)" required></nz-input-number> -->
-                         <nz-input-group nzAddOnAfter="$">
+                         <!-- <nz-input-group nzAddOnAfter="$"> -->
                         <input nz-input name="incountry"  style="width: 100%;"  [(ngModel)]="data.VALUE_1"  (keypress)="onlynumdot($event)" maxlength="50" required/>
 
-                         </nz-input-group>
+                         <!-- </nz-input-group> -->
                       </nz-form-control>
                     </nz-form-item>
                   </div>
                   
                 <div nz-col nzSpan="12">
                     <nz-form-item>
-                      <nz-form-label nzRequired nzNoColon> Out Country </nz-form-label>
-                      <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Out Country Charges " >
+                      <nz-form-label nzRequired nzNoColon>Value 2</nz-form-label>
+                      <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Value 2 " >
                         <!-- <nz-input-number name="Countryseq"  style="width: 100%;"  [(ngModel)]="data.SEQUENCE_NO" [nzMin]="1"  [nzStep]="1" (keypress)="onlynumdot($event)" required></nz-input-number> -->
-                         <nz-input-group nzAddOnAfter="$">
+                         <!-- <nz-input-group nzAddOnAfter="$"> -->
                         <input nz-input name="outcountry"  style="width: 100%;"  [(ngModel)]="data.VALUE_2"  (keypress)="onlynumdot($event)" maxlength="50" required/>
-                        </nz-input-group>
+                        <!-- </nz-input-group> -->
                       </nz-form-control>
                     </nz-form-item>
                   </div>

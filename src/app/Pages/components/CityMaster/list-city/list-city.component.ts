@@ -1,20 +1,20 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { shippingandhandling } from 'src/app/Models/shippingandhandling';
+import { CityMaster } from 'src/app/Models/city';
+import { StateMaster } from 'src/app/Models/StateMaster';
 import { ApiServiceService } from 'src/app/Service/api-service.service';
-
 @Component({
-  selector: 'app-shippingandhandling',
-  templateUrl: './shippingandhandling.component.html',
-  styleUrls: ['./shippingandhandling.component.css']
+  selector: 'app-list-city',
+  templateUrl: './list-city.component.html',
+  styleUrls: ['./list-city.component.css']
 })
-export class ShippingandhandlingComponent {
-  drawerVisible!: boolean;
+export class ListCityComponent {
+ drawerVisible!: boolean;
   drawerTitle!: string;
-  drawerData: shippingandhandling = new shippingandhandling();
-  formTitle = 'Manage Configuration Details';
+  drawerData: CityMaster = new CityMaster();
+  formTitle = 'Manage Cities';
   @Input()
   dataList: any[] = [];
   // dataList = [];
@@ -28,9 +28,10 @@ export class ShippingandhandlingComponent {
   filterQuery: string = '';
   isFilterApplied: string = 'default';
   columns: string[][] = [
-    ['KEY1', 'KEY1'],
-    ['VALUE_1', 'VALUE_1'],
-    ['VALUE_2', 'VALUE_2'],
+    // ['SEQUENCE_NO', ' Sequence Number '],
+    ['NAME', ' City Name( '],
+    // ['SHORT_CODE', ' short code '],
+    ['STATE_NAME', ' State Name '],
   ];
   @Input()
   drawerClose2!: Function;
@@ -49,6 +50,7 @@ export class ShippingandhandlingComponent {
   keyup(event: any) {
     this.search();
   }
+
   search(reset: boolean = false) {
     if (reset) {
       this.pageIndex = 1;
@@ -71,7 +73,7 @@ export class ShippingandhandlingComponent {
       likeQuery = likeQuery.substring(0, likeQuery.length - 2);
     }
     this.api
-      .getAllCharges(
+      .getAllCityMaster(
         this.pageIndex,
         this.pageSize,
         this.sortKey,
@@ -84,10 +86,10 @@ export class ShippingandhandlingComponent {
             this.totalRecords = data['count'];
             this.dataList = data['data'];
             this.loadingRecords = false;
-            // this.dataList.forEach(
-            //   (item) => (item.checked = this.selectedIds.has(item.ID))
-            // );
-            // this.updateSelectedRows();
+            this.dataList.forEach(
+              (item) => (item.checked = this.selectedIds.has(item.ID))
+            );
+            this.updateSelectedRows();
             // if(this.totalRecords==0){
             //   data.SEQUENCE_NO=1;
             // }
@@ -101,38 +103,82 @@ export class ShippingandhandlingComponent {
         }
       );
   }
+  // search(reset: boolean = false) {
+  //   if (reset) {
+  //     this.pageIndex = 1;
+  //     this.sortKey = "id";
+  //     this.sortValue = "desc"
+  //   }
+  //   // this.loadingRecords = true;
+  //   var sort: string;
+  //   try {
+  //     sort = this.sortValue.startsWith("a") ? "asc" : "desc";
+  //   } catch (error) {
+  //     sort = "";
+  //   }
+  //   var likeQuery = "";
+  //   console.log("search text:" + this.searchText);
+  //   if (this.searchText != "") {
+  //     likeQuery = " AND";
+  //     this.columns.forEach(column => {
+  //       likeQuery += " " + column[0] + " like '%" + this.searchText + "%' OR";
+  //     });
+  //     likeQuery = likeQuery.substring(0, likeQuery.length - 2)
+  //     console.log("likeQuery" + likeQuery);
+  //   }
+  //   this.api.getAllCityMaster(this.pageIndex, this.pageSize, this.sortKey, sort, likeQuery).subscribe(data => {
+  //     this.loadingRecords = false;
+  //     this.totalRecords = data['count'];
+  //     this.dataList = data['data'];
+  //     console.log(this.dataList)
+  //   //   for (var i=0;i<this.dataList.length;i++){
+  //   //   console.log(this.imgurl+'AboutImage/'+this.dataList[i]['IMG_URL'])
+  //   //   }
+  //   //   if(this.totalRecords==0){
+  //   //     data.SEQ_NO=1;
+  //   //   }else{
+  //   //     data.SEQ_NO= this.dataList[this.dataList.length-1]['SEQ_NO']+1
+  //   //   }
+  //   // }, err => {
+  //   //   console.log(err);
+  //   });
+  // }
+
+  //Drawer Methods
 
   get closeCallback() {
     return this.drawerClose.bind(this);
   }
-
+  back() {
+    this.router.navigate(['/masters/menu']);
+  }
   add(): void {
-    this.drawerTitle = ' Add New Configuration';
-    this.drawerData = new shippingandhandling();
-    // this.api.getAllCountryMaster(1,1,'SEQUENCE_NO','desc','').subscribe (data =>{
-    //   if (data['count']==0){
-    //     this.drawerData.SEQUENCE_NO=1;
-    //   }else
-    //   {
-    //     this.drawerData.SEQUENCE_NO=data['data'][0]['SEQUENCE_NO']+1;
+    this.drawerTitle = ' Add New City ';
+    this.drawerData = new CityMaster();
+    // this.api.getAllCityMaster(1, 1, 'SEQUENCE_NO', 'desc', '').subscribe(
+    //   (data) => {
+    //     if (data['count'] == 0) {
+    //       this.drawerData.SEQUENCE_NO = 1;
+    //     } else {
+    //       this.drawerData.SEQUENCE_NO = data['data'][0]['SEQUENCE_NO'] + 1;
+    //     }
+    //   },
+    //   (err) => {
+    //     console.log(err);
     //   }
-    // },err=>{
-    //   console.log(err);
-    // })
+    // );
     this.drawerVisible = true;
   }
 
-  edit(data: shippingandhandling): void {
-    this.drawerTitle = ' Update Charges';
+  edit(data: CityMaster): void {
+    this.drawerTitle = ' Update City Information';
     this.drawerData = Object.assign({}, data);
+    this.drawerData.COUNTRY_ID = data['COUNTRY_ID'];
     this.drawerVisible = true;
   }
   drawerClose(): void {
     this.search();
     this.drawerVisible = false;
-  }
-  back() {
-    this.router.navigate(['/masters/menu']);
   }
   sort(params: NzTableQueryParams): void {
     const { pageSize, pageIndex, sort } = params;
@@ -166,30 +212,30 @@ export class ShippingandhandlingComponent {
   headerToggles: any = {
     STATUS: false,
   };
-  // chekedproduct() {
-  //   this.api
-  //     .getAllPackagingMaster(1, this.totalRecords, this.sortKey, 'desc', '')
-  //     .subscribe((res) => {
-  //       if (res['code'] === 200) {
-  //         res.data.forEach((item) => {
-  //           this.selectedIds.add(item.ID);
-  //         });
+  chekedproduct() {
+    this.api
+      .getAllCityMaster(1, this.totalRecords, this.sortKey, 'desc', '')
+      .subscribe((res) => {
+        if (res['code'] === 200) {
+          res.data.forEach((item) => {
+            this.selectedIds.add(item.ID);
+          });
 
-  //         // Also mark current page checkboxes as checked
-  //         this.dataList.forEach((item) => (item.checked = true));
-  //         this.updateSelectedRows();
-  //       }
-  //     });
-  // }
-  // checkAll(checked: boolean) {
-  //   if (checked) {
-  //     this.chekedproduct();
-  //   } else {
-  //     this.selectedIds.clear();
-  //     this.dataList.forEach((item) => (item.checked = false));
-  //     this.updateSelectedRows();
-  //   }
-  // }
+          // Also mark current page checkboxes as checked
+          this.dataList.forEach((item) => (item.checked = true));
+          this.updateSelectedRows();
+        }
+      });
+  }
+  checkAll(checked: boolean) {
+    if (checked) {
+      this.chekedproduct();
+    } else {
+      this.selectedIds.clear();
+      this.dataList.forEach((item) => (item.checked = false));
+      this.updateSelectedRows();
+    }
+  }
 
   onRowChecked(row: any) {
     if (row.checked) {
@@ -234,7 +280,7 @@ export class ShippingandhandlingComponent {
       }),
     };
 
-    this.api.packaginBulkUpdate(payload).subscribe(
+    this.api.cityBulkUpdate(payload).subscribe(
       (res: any) => {
         if (res.code == 200) {
           this.dataList.forEach((item) => {
@@ -267,13 +313,12 @@ export class ShippingandhandlingComponent {
     if (this.selectedIds.size === 0) return;
     this.loadingRecords = true;
     const payload = {
-      // data: [{
-      IDS: [...this.selectedIds].join(','),
-      // }]
+      data: this.selectedRows.map((item) => ({
+        ID: item.ID,
+        NAME: item.NAME, // include NAME from dataList
+      })),
     };
-    console.log(payload,'bulkpayload');
-
-    this.api.chargesDeleteBulk(payload).subscribe(
+    this.api.cityDeleteBulk(payload).subscribe(
       (res: any) => {
         if (res.code == 200) {
           // Remove deleted items from current page
@@ -299,18 +344,16 @@ export class ShippingandhandlingComponent {
     );
   }
   deleteSingledata(data) {
-    this.loadingRecords = true;
+      this.loadingRecords = true;
     const payload = {
-      // data: [
-      //   {
-      IDS: '' + data.ID,
-      // NAME: data.NAME, // include NAME from dataList
-      //   },
-      // ],
+      data: [
+        {
+          ID: data.ID,
+          NAME: data.NAME, // include NAME from dataList
+        },
+      ],
     };
-    // console.log(payload,'singlepayload');
-
-    this.api.chargesDeleteBulk(payload).subscribe(
+    this.api.cityDeleteBulk(payload).subscribe(
       (res: any) => {
         if (res.code == 200) {
           // Remove deleted items from current page
@@ -336,3 +379,4 @@ export class ShippingandhandlingComponent {
     );
   }
 }
+

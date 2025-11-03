@@ -39,6 +39,8 @@ import { DespatchedOrderComponent } from './components/Orders/manage-orders/Desp
 import { DeliveredOrdersComponent } from './components/Orders/manage-orders/Delivered Orders/delivered-orders/delivered-orders.component';
 import { ShippingandhandlingComponent } from './components/shippingandhandling/shippingandhandling.component';
 import { ReviewenabledisableComponent } from './components/reviewenabledisable/reviewenabledisable.component';
+import { ListCityComponent } from './components/CityMaster/list-city/list-city.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -92,6 +94,9 @@ const routes: Routes = [
       { path: 'delivered_orders', component: DeliveredOrdersComponent },
       { path: 'shippingandhandling', component:ShippingandhandlingComponent },
       { path: 'enabledisablereviews', component: ReviewenabledisableComponent},
+            { path: 'city_list', component: ListCityComponent},
+
+      
     ],
   },
 ];

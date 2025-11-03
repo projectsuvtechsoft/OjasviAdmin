@@ -7,9 +7,9 @@
                     <nz-form-item>
                       <nz-form-label  nzNoColon> Banner Name</nz-form-label>
                       <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Banner Name" >
-                        <input nz-input name="aptebanner" [pattern]="namepatt" [(ngModel)]="data.NAME"  (keypress)="numchar($event)" placeholder="Enter Banner Name"  maxlength="32"/>
+                        <input nz-input name="aptebanner" [pattern]="namepatt" [(ngModel)]="data.NAME"  (keypress)="numchar($event)" placeholder="Enter Banner Name"  maxlength="50"/>
                       </nz-form-control>
-                      <span style="font-size: 10px !important; color: red">{{data.NAME?.length}}/32</span>
+                      <span style="font-size: 10px !important; color: red">{{data.NAME?.length}}/50</span>
                     </nz-form-item>
                   </div> 
 

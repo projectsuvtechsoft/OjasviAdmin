@@ -8,8 +8,7 @@
         nzTheme="outline"
         style="font-weight: bold; cursor: pointer"
       ></span
-      >&nbsp;&nbsp;
-      <b> {{ formTitle }} </b>
+      >&nbsp;&nbsp;<b> {{ formTitle }} </b>
     </div>
   </div>
 
@@ -42,10 +41,10 @@
       </nz-form-item>
       <nz-form-item>
         <button nz-button nzType="primary" (click)="add()" nzJustify="end">
-          <i nz-icon nzType="plus"></i>Add New Charges
+          <i nz-icon nzType="plus"></i>Add New City
         </button>
       </nz-form-item>
-      <!-- <nz-form-item>
+      <nz-form-item>
         <button
           nz-button
           nzType="default"
@@ -60,11 +59,12 @@
         >
           <i nz-icon nzType="delete"></i>
         </button>
-      </nz-form-item> -->
+      </nz-form-item>
     </form>
   </div>
 </div>
 <br />
+
 <div nz-row>
   <div nz-col nzSpan="24" style="width: 100%">
     <nz-table
@@ -86,7 +86,7 @@
     >
       <thead>
         <tr>
-          <!-- <th nzWidth="15px" nzLeft style="text-align: center">
+          <th nzWidth="13px" nzLeft style="text-align: center">
             <label
               nz-checkbox
               [(ngModel)]="allChecked"
@@ -94,64 +94,73 @@
             >
               Select All
             </label>
-          </th> -->
-          <th nzWidth="8px" style="text-align: center"><b> Action </b></th>
-          <th
-            nzColumnKey="{{ 'KEY1' }}"
-            [nzSortFn]="true"
-            nzWidth="15px"
-            style="text-align: center"
-          >
-            <b>Key</b>
           </th>
-          <th
-            nzColumnKey="{{ 'VALUE_1' }}"
-            [nzSortFn]="true"
-            nzWidth="32px"
-            style="text-align: center"
-          >
-            <b>Value 1</b>
-          </th>
-          <th
-            nzColumnKey="{{ 'VALUE_2' }}"
-            [nzSortFn]="true"
-            nzWidth="32px"
-            style="text-align: center"
-          >
-            <b> Value 2 </b>
-          </th>
-
+          <th nzWidth="9px" style="text-align: center"><b> Action </b></th>
           <!-- <th
-            nzColumnKey="{{ 'STATUS' }}"
+            nzColumnKey="{{ 'SEQUENCE_NO' }}"
             [nzSortFn]="true"
             nzWidth="15px"
             style="text-align: center"
           >
-            <b> Status</b
-            ><ng-container *ngIf="toggleVisible">
+            <b> Sequence No. </b>
+          </th> -->
+
+          <th
+            nzColumnKey="{{ 'NAME' }}"
+            [nzSortFn]="true"
+            nzWidth="36px"
+            style="text-align: center"
+          >
+            <b> City Name </b>
+          </th>
+          <th
+            nzColumnKey="{{ 'STATE_NAME' }}"
+            [nzSortFn]="true"
+            nzWidth="36px"
+            style="text-align: center"
+          >
+            <b> State Name </b>
+          </th>
+          <!-- <th
+            nzColumnKey="{{ 'SHORT_CODE' }}"
+            [nzSortFn]="true"
+            nzWidth="20px"
+            style="text-align: center"
+          >
+            <b> Short Code </b>
+          </th> -->
+
+          <!-- <th nzColumnKey="{{ 'STATE_NAME_MR' }}" [nzSortFn]="true" nzWidth="42px" style="text-align: center;"> <b> State Name(Marathi) </b></th> -->
+          <!-- <th nzColumnKey="{{ 'TITLE_MR' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center;">  Title (Marathi) </th>             -->
+          <!-- <th *ngFor="let column of columns" nzColumnKey="{{column[0]}}" [nzSortFn]="true">{{column[1]}}</th> -->
+          <th
+            nzColumnKey="{{ 'IS_ACTIVE' }}"
+            [nzSortFn]="true"
+            nzWidth="10px"
+            style="text-align: center"
+          >
+            <b> Status </b>
+            <ng-container *ngIf="toggleVisible">
               <div (click)="$event.stopPropagation()">
                 <nz-switch
-                  [(ngModel)]="headerToggles.STATUS"
-                  (ngModelChange)="bulkUpdate('STATUS', $event)"
+                  [(ngModel)]="headerToggles.IS_ACTIVE"
+                  (ngModelChange)="bulkUpdate('IS_ACTIVE', $event)"
                 >
                 </nz-switch>
               </div>
             </ng-container>
-          </th> -->
-          <!-- <th nzColumnKey="{{ 'STATE_NAME_MR' }}" [nzSortFn]="true" nzWidth="42px" style="text-align: center;"> <b> State Name(Marathi) </b></th> -->
-          <!-- <th nzColumnKey="{{ 'TITLE_MR' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center;">  Title (Marathi) </th>             -->
-          <!-- <th *ngFor="let column of columns" nzColumnKey="{{column[0]}}" [nzSortFn]="true">{{column[1]}}</th> -->
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of unitMasterTable.data">
-          <!-- <td nzLeft style="text-align: center">
+          <td nzLeft style="text-align: center">
             <label
               nz-checkbox
               [(ngModel)]="data.checked"
               (ngModelChange)="onRowChecked(data)"
             ></label>
-          </td> -->
+          </td>
           <td style="text-align: center">
             <span
               nz-icon
@@ -168,7 +177,7 @@
               (click)="edit(data)"
             >
             </span>
-            <!-- <span
+            <span
               nz-icon
               nzType="delete"
               nzTheme="outline"
@@ -187,36 +196,36 @@
               nzOkText="Yes"
               nzCancelText="No"
             >
-            </span> -->
+            </span>
           </td>
-          <td style="text-align: center">{{ data["KEY1"] }}</td>
-          <td style="white-space: pre-line; text-align: center">
-            {{ data["VALUE_1"] }}
-          </td>
-          <td style="white-space: pre-line; text-align: center">
-            {{ data["VALUE_2"] }}
-          </td>
-          <!-- <td style="text-align: center">
+          <!-- <td style="text-align: center">{{ data["SEQUENCE_NO"] }}</td> -->
+
+          <td style="white-space: pre-line">{{ data["NAME"] }}</td>
+          <!-- <td style="white-space: pre-line">{{ data["COUNTRY_NAME"] }}</td> -->
+          <td style="white-space: pre-line">{{ data["STATE_NAME"] }}</td>
+
+          <!-- <td style="white-space: pre-line">{{ data["NAME"] }}</td> -->
+
+          <!-- <td style="white-space: pre-line;">{{data['STATE_NAME_MR']}}</td> -->
+          <!-- <td style="white-space: pre-line;">{{data['TITLE_MR']}}</td> -->
+
+          <!-- <td *ngFor="let column of columns" style="white-space: pre-line;">{{data[column[0]]}}</td> -->
+          <td style="text-align: center">
             <i
               nz-icon
-              *ngIf="data['STATUS']"
+              *ngIf="data['IS_ACTIVE']"
               [nzType]="'check-circle'"
               [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#52c41a'"
             ></i>
             <i
               nz-icon
-              *ngIf="!data['STATUS']"
+              *ngIf="!data['IS_ACTIVE']"
               [nzType]="'close-circle'"
               [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#f50'"
             ></i>
-          </td> -->
-
-          <!-- <td style="white-space: pre-line;">{{data['STATE_NAME_MR']}}</td> -->
-          <!-- <td style="white-space: pre-line;">{{data['TITLE_MR']}}</td> -->
-
-          <!-- <td *ngFor="let column of columns" style="white-space: pre-line;">{{data[column[0]]}}</td> -->
+          </td>
         </tr>
       </tbody>
     </nz-table>
@@ -240,10 +249,10 @@
 >
   <ng-container *nzDrawerContent>
     <!-- <app-addunit></app-addunit> -->
-    <app-shippingandhandlingadd
+    <app-add-city
       [drawerClose]="closeCallback"
       [drawerVisible]="drawerVisible"
       [data]="drawerData"
-    ></app-shippingandhandlingadd>
+    ></app-add-city>
   </ng-container>
 </nz-drawer>

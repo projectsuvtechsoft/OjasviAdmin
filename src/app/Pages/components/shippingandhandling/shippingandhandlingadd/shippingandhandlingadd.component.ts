@@ -129,13 +129,13 @@ export class ShippingandhandlingaddComponent {
 
   if (this.data.KEY1 == undefined || this.data.KEY1.trim()=="") {
       this.isOk = false;
-      this.message.error('Please Enter Charges Name', '');
-    } else if (this.data.VALUE_1 == undefined || this.data.VALUE_2 <= 0) {
+      this.message.error('Please Enter Key', '');
+    } else if (this.data.VALUE_1 == undefined || this.data.VALUE_2 < 0) {
       this.isOk = false;
-      this.message.error('Please Enter In Country Charges', '');
-    }else if (this.data.VALUE_2 == undefined || this.data.VALUE_2 <= 0) {
+      this.message.error('Please Enter Value 1', '');
+    }else if (this.data.VALUE_2 == undefined || this.data.VALUE_2 < 0) {
       this.isOk = false;
-      this.message.error('Please Enter Out Country Charges', '');
+      this.message.error('Please Enter Value 2', '');
     }
 
 

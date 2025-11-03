@@ -400,6 +400,11 @@ onFileSelected(event: any) {
   const file = event.target.files[0];
 
   if (file && (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png')) {
+  const fileSizeKB = parseFloat((file.size / 1024).toFixed(2)); // Convert to KB
+
+    if (fileSizeKB <= 300) { 
+
+ 
     const reader = new FileReader();
 
     reader.onload = (e: any) => {
@@ -419,7 +424,15 @@ onFileSelected(event: any) {
     };
 
     reader.readAsDataURL(file); // Don't forget to call this!
-  } else {
+    } else {
+        this.fileURL = null;
+        this.message.error(
+          "File Size Must Be Less Than Or Equal To '300 Kb'",
+          ''
+        );
+      }
+  } 
+  else {
     this.message.error("Select only JPEG/ JPG/ PNG file", "");
     this.fileURL = null;
     this.data.IMG_URL = '';

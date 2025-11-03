@@ -628,9 +628,11 @@ export class AddproductComponent implements OnInit {
       file?.type === 'image/jpg' ||
       file?.type === 'image/png'
     ) {
-      const fileSizeMB = parseFloat((file.size / 1024 / 1024).toFixed(2));
+      // const fileSizeMB = parseFloat((file.size / 1024 / 1024).toFixed(2));
+  const fileSizeKB = parseFloat((file.size / 1024).toFixed(2)); 
 
-      if (fileSizeMB <= 1) {
+    if (fileSizeKB <= 40) {
+      
         const reader = new FileReader();
 
         reader.onload = (e: any) => {
@@ -666,7 +668,7 @@ export class AddproductComponent implements OnInit {
       } else {
         this.fileURL1 = null;
         this.message.error(
-          "File Size Must Be Less Than Or Equal To '1 MB'",
+          "File Size Must Be Less Than Or Equal To '40 Kb'",
           ''
         );
       }

@@ -444,8 +444,8 @@ export class ApiServiceService {
   onuploadheader() {
     this.httpHeaders1 = new HttpHeaders({
       Accept: 'application/json',
-      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
-      applicationkey: '26lLNSmaKlcFziHH',
+      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
+      applicationkey: 'awlcQRwoZxAJQm7b',
       supportkey: this.cookie.get('supportKey'),
       Token: this.cookie.get('token'),
     });
@@ -454,28 +454,28 @@ export class ApiServiceService {
       headers: this.httpHeaders,
     };
   }
-  getAllCityMaster(
-    pageIndex: number,
-    pageSize: number,
-    sortKey: string,
-    sortValue: string,
-    filter: string
-  ): Observable<any> {
-    this.getheader();
-    var data = {
-      pageIndex: pageIndex,
-      pageSize: pageSize,
-      sortKey: sortKey,
-      sortValue: sortValue,
-      filter: filter,
-    };
+  // getAllCityMaster(
+  //   pageIndex: number,
+  //   pageSize: number,
+  //   sortKey: string,
+  //   sortValue: string,
+  //   filter: string
+  // ): Observable<any> {
+  //   this.getheader();
+  //   var data = {
+  //     pageIndex: pageIndex,
+  //     pageSize: pageSize,
+  //     sortKey: sortKey,
+  //     sortValue: sortValue,
+  //     filter: filter,
+  //   };
 
-    return this.httpClient.post<any>(
-      this.url + 'city/get',
-      JSON.stringify(data),
-      this.options
-    );
-  }
+  //   return this.httpClient.post<any>(
+  //     this.url + 'city/get',
+  //     JSON.stringify(data),
+  //     this.options
+  //   );
+  // }
 
   CreateCityMaster(user: any): Observable<any> {
     user.CLIENT_ID = this.clientId;
@@ -11442,4 +11442,104 @@ export class ApiServiceService {
       this.options
     );
   } 
+
+
+
+    getAllCityMaster(
+    pageIndex: number,
+    pageSize: number,
+    sortKey: string,
+    sortValue: string,
+    filter: string
+  ): Observable<any> {
+    var data = {
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+      sortKey: sortKey,
+      sortValue: sortValue,
+      filter: filter,
+    };
+    this.getheader();
+
+    // this.httpHeaders = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'apikey': 'yxPlx4hTu5xzEXRiqB3dgKbFDDYNDl82',
+    //   'applicationkey': 'B71DIrzfXKPF97Ci',
+    //   'deviceid':this.cookie.get('deviceId'),
+    //   'supportkey':this.cookie.get('supportKey'),
+    //   'Token': this.cookie.get('token'),
+    //     });
+    //     this.options = {
+    //   headers: this.httpHeaders
+    // };
+    return this.httpClient.post<any>(
+      this.url + 'city/get/',
+      JSON.stringify(data),
+      this.options
+    );
+  }
+
+  updateCityMaster(role: any): Observable<any> {
+    this.getheader();
+
+    // this.httpHeaders = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'apikey': 'yxPlx4hTu5xzEXRiqB3dgKbFDDYNDl82',
+    //   'applicationkey': 'B71DIrzfXKPF97Ci',
+    //   'deviceid':this.cookie.get('deviceId'),
+    //   'supportkey':this.cookie.get('supportKey'),
+    //   'Token': this.cookie.get('token'),
+    //     });
+    //     this.options = {
+    //   headers: this.httpHeaders
+    // };
+    return this.httpClient.put<any>(
+      this.url + 'city/update/',
+      JSON.stringify(role),
+      this.options
+    );
+  } //cartAddon/master/update
+
+  createCityMaster(role: any): Observable<any> {
+    role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+    // this.httpHeaders = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'apikey': 'yxPlx4hTu5xzEXRiqB3dgKbFDDYNDl82',
+    //   'applicationkey': 'B71DIrzfXKPF97Ci',
+    //   'deviceid':this.cookie.get('deviceId'),
+    //   'supportkey':this.cookie.get('supportKey'),
+    //   'Token': this.cookie.get('token'),
+    //     });
+    //     this.options = {
+    //   headers: this.httpHeaders
+    // };
+    return this.httpClient.post<any>(
+      this.url + 'city/create/',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+
+   cityDeleteBulk(role: any): Observable<any> {
+    this.getheader();
+
+    return this.httpClient.delete<any>(this.url + 'city/bulkDelete', {
+      headers: this.httpHeaders,
+      body: role,
+    });
+  }
+
+
+   cityBulkUpdate(role: any): Observable<any> {
+    // role.CLIENT_ID = this.clientId;
+    this.getheader();
+
+    return this.httpClient.put<any>(
+      this.url + 'city/updateBooleanValues',
+      JSON.stringify(role),
+      this.options
+    );
+  }
 }
