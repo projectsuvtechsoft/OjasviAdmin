@@ -187,7 +187,7 @@ export class AddblogComponent implements OnInit {
         this.api
           .onUpload('BlogImage ', this.fileURL, url)
           .subscribe((successCode: HttpEvent<any>) => {
-            console.log('Upload response:', successCode);
+            // console.log('Upload response:', successCode);
             switch (successCode.type) {
               case HttpEventType.UploadProgress:
                 break;

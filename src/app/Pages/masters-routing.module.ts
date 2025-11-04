@@ -40,6 +40,7 @@ import { DeliveredOrdersComponent } from './components/Orders/manage-orders/Deli
 import { ShippingandhandlingComponent } from './components/shippingandhandling/shippingandhandling.component';
 import { ReviewenabledisableComponent } from './components/reviewenabledisable/reviewenabledisable.component';
 import { ListCityComponent } from './components/CityMaster/list-city/list-city.component';
+import { PickuplocationlistComponent } from './components/pickuplocationmaster/pickuplocationlist/pickuplocationlist.component';
 
 const routes: Routes = [
   {
@@ -94,7 +95,8 @@ const routes: Routes = [
       { path: 'delivered_orders', component: DeliveredOrdersComponent },
       { path: 'shippingandhandling', component:ShippingandhandlingComponent },
       { path: 'enabledisablereviews', component: ReviewenabledisableComponent},
-            { path: 'city_list', component: ListCityComponent},
+      { path: 'pickuplocations', component: PickuplocationlistComponent},
+            { path: 'cities', component: ListCityComponent},
 
       
     ],

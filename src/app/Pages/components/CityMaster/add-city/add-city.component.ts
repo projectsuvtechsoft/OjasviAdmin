@@ -34,7 +34,7 @@ export class AddCityComponent {
   type: any;
   group: any;
   main: any;
-isFocused: string = '';
+  isFocused: string = '';
   country: CountryMaster[] = [];
 
 

@@ -1,108 +1,147 @@
 <div>
-    <form nz-form #websitebannerPage="ngForm">
+  <form nz-form #websitebannerPage="ngForm">
     <nz-spin [nzSpinning]="isSpinning">
-            <div nz-row >
+      <div nz-row>
+        <!-- Country -->
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon> Country </nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip=" Please Select Correct Country"
+            >
+              <nz-select
+                name="Country"
+                nzAllowClear
+                nzShowSearch
+                maxlength="256"
+                (ngModelChange)="onCountryChange($event)"
+                style="width: 100%"
+                [(ngModel)]="data.COUNTRY_ID"
+                nzPlaceHolder=" Select Country"
+                required
+              >
+                <nz-option
+                  *ngFor="let item of country"
+                  [nzLabel]="item.NAME"
+                  [nzValue]="item.ID"
+                >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
 
+        <!-- State -->
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon> State </nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip=" Please Select Correct State"
+            >
+              <nz-select
+                name="Sate"
+                nzAllowClear
+                nzShowSearch
+                maxlength="256"
+                style="width: 100%"
+                [(ngModel)]="data.STATE_ID"
+                nzPlaceHolder=" Select State"
+                required
+              >
+                <nz-option
+                  *ngFor="let item of state"
+                  [nzLabel]="item.NAME"
+                  [nzValue]="item.ID"
+                >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
 
-              <div nz-col nzSpan="24">
-                <nz-form-item>
-                  <nz-form-label nzRequired nzNoColon> Country </nz-form-label>
-                  <nz-form-control
-                    nzHasFeedback
-                    nzErrorTip=" Please Select Correct Country"
-                  >
-                    <nz-select
-                      name="Country"
-                      nzAllowClear
-                      nzShowSearch
-                      maxlength="256"
-                        (ngModelChange)="onCountryChange($event)"
-                      style="width: 100%"
-                      [(ngModel)]="data.COUNTRY_ID"
-                      nzPlaceHolder=" Select Country"
-                      required
-                    >
-                      <nz-option
-                        *ngFor="let item of country"
-                        [nzLabel]="item.NAME"
-                        [nzValue]="item.ID"
-                      >
-                      </nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
-              </div>
-   <div nz-col nzSpan="24">
-                <nz-form-item>
-                  <nz-form-label nzRequired nzNoColon> State </nz-form-label>
-                  <nz-form-control
-                    nzHasFeedback
-                    nzErrorTip=" Please Select Correct State"
-                  >
-                    <nz-select
-                      name="Sate"
-                      nzAllowClear
-                      nzShowSearch
-                      maxlength="256"
-                      style="width: 100%"
-                      [(ngModel)]="data.STATE_ID"
-                      nzPlaceHolder=" Select State"
-                      required
-                    >
-                      <nz-option
-                        *ngFor="let item of state"
-                        [nzLabel]="item.NAME"
-                        [nzValue]="item.ID"
-                      >
-                      </nz-option>
-                    </nz-select>
-                  </nz-form-control>
-                </nz-form-item>
-              </div>
-                <div nz-col nzSpan="24">
-                  <nz-form-item>
-                    <nz-form-label nzRequired nzNoColon> City Name </nz-form-label>
-                    <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct City Name " >
-                      <input nz-input name="Cityname"placeholder="Enter City Name" (keypress)="alphaOnly($event)" [(ngModel)]="data.NAME" maxlength="256" autocomplete="off"
-                      (focus)="isFocused = 'city'" (blur)="isFocused = ''"  required />
-                    </nz-form-control>
-                     <h6 style="color: red; font-size: 10px" *ngIf="
-                isFocused === 'city' ||
-                (data.NAME && isFocused === 'city')
-              ">
+        <!-- City Name -->
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon> City Name </nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip=" Please Enter Correct City Name "
+            >
+              <input
+                nz-input
+                name="Cityname"
+                placeholder="Enter City Name"
+                (keypress)="alphaOnly($event)"
+                [(ngModel)]="data.NAME"
+                maxlength="256"
+                autocomplete="off"
+                (focus)="isFocused = 'city'"
+                (blur)="isFocused = ''"
+                required
+              />
+            </nz-form-control>
+            <h6
+              style="color: red; font-size: 10px"
+              *ngIf="isFocused === 'city' || (data.NAME && isFocused === 'city')"
+            >
               {{ data.NAME.length || 0 }}/256
             </h6>
-                  </nz-form-item>
-                </div>     
-    
-                
-               
+          </nz-form-item>
+        </div>
 
-                
-                <div nz-col nzSpan="7"  style="margin-left: 5px;">
-                  <nz-form-item>
-                    <nz-form-label nzNoColon> Status </nz-form-label>
-                    <nz-form-control>
-                        <nz-switch name="Statestatus" [(ngModel)]="data.IS_ACTIVE"></nz-switch>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-              </div>
-            </nz-spin>
-          </form>
+        <!-- Status -->
+        <div nz-col nzSpan="7" style="margin-left: 5px;">
+          <nz-form-item>
+            <nz-form-label nzNoColon> Status </nz-form-label>
+            <nz-form-control>
+              <nz-switch name="Statestatus" [(ngModel)]="data.IS_ACTIVE"></nz-switch>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
 
+        <!-- IS_PICKUP_LOCATION -->
+        <div nz-col nzSpan="12" style="margin-left: 10px;">
+          <nz-form-item>
+            <nz-form-label nzNoColon> Is Pickup Location available? </nz-form-label>
+            <nz-form-control>
+              <nz-switch
+                name="PickupLocation"
+                [(ngModel)]="data.IS_LOCAL_PICKUP"
+              ></nz-switch>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </nz-spin>
+  </form>
+
+  <!-- Footer Buttons -->
   <div class="footer">
-    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px" >
+    <button
+      type="button"
+      nz-button
+      (click)="close()"
+      class="ant-btn"
+      style="margin-right: 8px"
+    >
       <span> Cancel </span>
     </button>
-    <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID"  nz-button
+
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      *ngIf="!data.ID"
+      nz-button
       nz-dropdown
       [nzDropdownMenu]="menu"
-       [nzLoading]="isSpinning"
-  (click)="isSpinning = true; save(false, websitebannerPage)"
+      [nzLoading]="isSpinning"
+      (click)="isSpinning = true; save(false, websitebannerPage)"
     >
       <span> Save & Close</span>
     </button>
+
     <nz-dropdown-menu #menu="nzDropdownMenu">
       <ul nz-menu>
         <li
@@ -110,17 +149,20 @@
           class="menuc"
           style="border-radius: 4px; background-color: #40a9ff"
         >
-          <a style="color: white" (click)="isSpinning = true; save(true, websitebannerPage)"> Save & New</a>
+          <a style="color: white" (click)="isSpinning = true; save(true, websitebannerPage)">
+            Save & New
+          </a>
         </li>
       </ul>
     </nz-dropdown-menu>
+
     <button
       type="button"
       class="ant-btn ant-btn-primary"
       nz-button
       [nzLoading]="isSpinning"
       *ngIf="data.ID"
-      (click)="save(false,websitebannerPage)"
+      (click)="save(false, websitebannerPage)"
     >
       <span> Update & Close</span>
     </button>

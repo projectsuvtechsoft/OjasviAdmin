@@ -1,0 +1,337 @@
+<div nz-row nzType="flex">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+    <div class="formname">
+      <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span>
+      &nbsp;&nbsp;<b>{{ formTitle }}</b>
+    </div>
+  </div>
+
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="6"
+    nzXl="12"
+    style="display: flex; justify-content: flex-end"
+  >
+    <form nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            type="text"
+            name="addressSearch"
+            (keyup)="keyup($event)"
+            [(ngModel)]="searchText"
+            nz-input
+            placeholder="Search Address"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" (click)="search(true)" nzSearch>
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-item>
+
+      <nz-form-item>
+        <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+          <i nz-icon nzType="plus"></i>Add New Pickup Location
+        </button>
+      </nz-form-item>
+
+      <!-- <nz-form-item>
+        <button
+          nz-button
+          nzType="default"
+          nz-popconfirm
+          nzPopconfirmTitle="Are you sure you want to delete selected addresses?"
+          nzPopconfirmPlacement="top"
+          (nzOnConfirm)="bulkDelete()"
+          nzOkText="Yes"
+          nzCancelText="No"
+          [disabled]="selectedRows.length === 0 || selectedRows.length < 2"
+          style="color: rgb(23, 99, 34); margin-left: 10px"
+        >
+          <i nz-icon nzType="delete"></i>
+        </button>
+      </nz-form-item> -->
+    </form>
+  </div>
+</div>
+
+<br />
+
+<!-- Address Table -->
+<div nz-row>
+  <div nz-col nzSpan="24" style="width: 100%">
+    <nz-table
+      nzBordered
+      #addressTable
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzData]="dataList"
+      [nzLoading]="loadingRecords"
+      [nzSize]="'small'"
+      [nzScroll]="{ x: '1500px', y: '64vh' }"
+      [nzTotal]="totalRecords"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()"
+      (nzPageSizeChange)="search(true)"
+      (nzQueryParams)="sort($event)"
+      style="width: 100%"
+    >
+      <thead>
+        <tr>
+          <!-- <th nzWidth="13px" nzLeft style="text-align: center">
+            <label
+              nz-checkbox
+              [(ngModel)]="allChecked"
+              (ngModelChange)="checkAll($event)"
+            >
+              Select All
+            </label>
+          </th> -->
+          <th nzWidth="40px" style="text-align: center"><b>Action</b></th>
+
+          <th
+            nzColumnKey="ADDRESS"
+            [nzSortFn]="true"
+            nzWidth="120px"
+            style="text-align: center"
+          >
+            <b>Full Address</b>
+          </th>
+
+          <th
+            nzColumnKey="LOCALITY"
+            [nzSortFn]="true"
+            nzWidth="40px"
+            style="text-align: center"
+          >
+            <b>Locality</b>
+          </th>
+
+          <th
+            nzColumnKey="CITY_NAME"
+            [nzSortFn]="true"
+            nzWidth="40px"
+            style="text-align: center"
+          >
+            <b>City</b>
+          </th>
+
+          <th
+            nzColumnKey="STATE_NAME"
+            [nzSortFn]="true"
+            nzWidth="40px"
+            style="text-align: center"
+          >
+            <b>State</b>
+          </th>
+
+          <th
+            nzColumnKey="COUNTRY_NAME"
+            [nzSortFn]="true"
+            nzWidth="40px"
+            style="text-align: center"
+          >
+            <b>Country</b>
+          </th>
+
+          <th
+            nzColumnKey="PINCODE"
+            [nzSortFn]="true"
+            nzWidth="40px"
+            style="text-align: center"
+          >
+            <b>Pincode</b>
+          </th>
+
+          <th
+            nzColumnKey="LANDMARK"
+            [nzSortFn]="true"
+            nzWidth="100px"
+            style="text-align: center"
+          >
+            <b>Landmark</b>
+          </th>
+
+          <!-- <th nzColumnKey="CLIENT_ID" [nzSortFn]="true" nzWidth="25px" style="text-align: center">
+            <b>Client ID</b>
+          </th> -->
+
+          <th
+            nzColumnKey="COUNTRY_CODE"
+            [nzSortFn]="true"
+            nzWidth="50px"
+            style="text-align: center"
+          >
+            <b>Country Code</b>
+          </th>
+
+          <th
+            nzColumnKey="IS_ACTIVE"
+            [nzSortFn]="true"
+            nzWidth="25px"
+            style="text-align: center"
+          >
+            <b>Status</b>
+            <!-- <ng-container *ngIf="toggleVisible">
+              <div (click)="$event.stopPropagation()">
+                <nz-switch
+                  [(ngModel)]="headerToggles.IS_ACTIVE"
+                  (ngModelChange)="bulkUpdate('IS_ACTIVE', $event)"
+                ></nz-switch>
+              </div>
+            </ng-container> -->
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let data of addressTable.data">
+          <!-- <td nzLeft style="text-align: center">
+            <label
+              nz-checkbox
+              [(ngModel)]="data.checked"
+              (ngModelChange)="onRowChecked(data)"
+            ></label>
+          </td> -->
+
+          <td style="text-align: center">
+            <span
+              nz-icon
+              nzType="edit"
+              nzTheme="outline"
+              nzTooltipTitle="Edit"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              (click)="edit(data)"
+              style="cursor: pointer; font-size: 15px; color: #5a8f69"
+            ></span>
+
+            <!-- <span
+              nz-icon
+              nzType="delete"
+              nzTheme="outline"
+              nzTooltipTitle="Delete"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              nz-popconfirm
+              nzPopconfirmTitle="Are you sure to delete this address?"
+              (nzOnConfirm)="deleteSingledata(data)"
+              nzOkText="Yes"
+              nzCancelText="No"
+              style="cursor: pointer; font-size: 15px; color: #5a8f69; margin-left: 10px"
+            ></span> -->
+          </td>
+
+          <td
+            nz-tooltip
+            [nzTooltipTitle]="data['ADDRESS']"
+            class="truncate-cell"
+          >
+            {{ data["ADDRESS"] }}
+          </td>
+
+          <!-- Locality -->
+          <td
+            nz-tooltip
+            [nzTooltipTitle]="data['LOCALITY']"
+            class="truncate-cell"
+          >
+            {{ data["LOCALITY"] }}
+          </td>
+
+          <!-- City -->
+          <td nz-tooltip [nzTooltipTitle]="data['CITY_NAME']" class="truncate-cell">
+            {{ data["CITY_NAME"] }}
+          </td>
+
+          <!-- State -->
+          <td
+            nz-tooltip
+            [nzTooltipTitle]="data['STATE_NAME']"
+            class="truncate-cell"
+          >
+            {{ data["STATE_NAME"] }}
+          </td>
+
+          <!-- Country -->
+          <td
+            nz-tooltip
+            [nzTooltipTitle]="data['COUNTRY_NAME']"
+            class="truncate-cell"
+          >
+            {{ data["COUNTRY_NAME"] }}
+          </td>
+
+          <!-- Pincode -->
+          <td style="text-align: center">{{ data["PINCODE"] }}</td>
+
+          <!-- Landmark -->
+          <td
+            nz-tooltip
+            [nzTooltipTitle]="data['LANDMARK']"
+            class="truncate-cell"
+          >
+            {{ data["LANDMARK"] }}
+          </td>
+
+          <!-- Country Code -->
+          <td style="text-align: center">{{ data["COUNTRY_CODE"] }}</td>
+
+          <!-- Status -->
+          <td style="text-align: center">
+            <i
+              nz-icon
+              *ngIf="data['IS_ACTIVE']"
+              [nzType]="'check-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"
+            ></i>
+            <i
+              nz-icon
+              *ngIf="!data['IS_ACTIVE']"
+              [nzType]="'close-circle'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<!-- Drawer for Add/Edit Address -->
+<nz-drawer
+  [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }"
+  [nzClosable]="true"
+  [nzMask]="true"
+  [nzMaskClosable]="false"
+  [nzWidth]="500"
+  [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle"
+  (nzOnClose)="drawerClose()"
+>
+  <ng-container *nzDrawerContent>
+    <app-pickuplocationadd
+      [drawerClose]="closeCallback"
+      [drawerVisible]="drawerVisible"
+      [data]="drawerData"
+    ></app-pickuplocationadd>
+  </ng-container>
+</nz-drawer>

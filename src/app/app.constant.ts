@@ -5,7 +5,7 @@ export const url = {
   // link: 'https://1786vqrk-9898.inc1.devtunnels.ms/',// ngrok darshan
   // link: 'https://pn5m5nf6-8090.inc1.devtunnels.ms/', // ngrok ujef
   // link: 'http://192.168.29.211:9878/',// ngrok pooja
-  // link: 'https://p8rhkmb7-9878.inc1.devtunnels.ms/',// ngrok bahubali
+  // link: 'https://h10rqczh-9092.inc1.devtunnels.ms/',// ngrok bahubali
   link: 'https://ojasviadmin.uvtechsoft.com:9090/', // live
   // link: 'https://admin.ojasvidermacare.com:9092/', // Other live
 

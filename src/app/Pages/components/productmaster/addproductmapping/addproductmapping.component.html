@@ -48,7 +48,6 @@
           </nz-form-item>
         </div>
 
-        
         <!-- <div nz-col nzSpan="12" *ngIf="varient == 1">
           <nz-form-item>
             <nz-form-label nzRequired nzNoColon> In Country Packaging Charges </nz-form-label>
@@ -96,7 +95,6 @@
           </nz-form-item>
         </div> -->
 
-        
         <div nz-col nzSpan="12">
           <nz-form-item>
             <nz-form-label nzRequired nzNoColon> Rate </nz-form-label>
@@ -119,8 +117,7 @@
           </nz-form-item>
         </div>
 
-
-        <div nz-col nzSpan="10" >
+        <div nz-col nzSpan="10">
           <nz-form-item>
             <nz-form-label nzNoColon> Status </nz-form-label>
             <nz-form-control>
@@ -179,7 +176,7 @@
                 name="currentstock"
                 [(ngModel)]="data.CURRENT_STOCK"
                 maxlength="8"
-                 placeholder="Enter Current Stock"
+                placeholder="Enter Current Stock"
                 [disabled]="disabled"
                 (keypress)="onlynumdot($event)"
                 style="width: 100%"
@@ -187,8 +184,6 @@
             </nz-form-control>
           </nz-form-item>
         </div>
-
-     
       </div>
 
       <div nz-row class="my-box" *ngIf="maintain == 1 && varient == 1">
@@ -218,7 +213,7 @@
                 name="ratio"
                 [(ngModel)]="data.RATIO_WITH_MAIN_STOCK"
                 maxlength="10"
-                 placeholder="Enter Ratio With Maintain Stock"
+                placeholder="Enter Ratio With Maintain Stock"
                 (keypress)="onlynumdot($event)"
                 style="width: 100%"
                 required
@@ -239,7 +234,7 @@
               <input
                 nz-input
                 name="ratio"
-                 placeholder="Enter Ratio With Maintain Stock"
+                placeholder="Enter Ratio With Maintain Stock"
                 [(ngModel)]="data.RATIO_WITH_MAIN_STOCK"
                 maxlength="10"
                 (keypress)="onlynumdot($event)"
@@ -260,7 +255,7 @@
               <input
                 nz-input
                 name="openingstock"
-                 placeholder="Enter Opening Stock"
+                placeholder="Enter Opening Stock"
                 [(ngModel)]="data.OPENING_STOCK"
                 maxlength="8"
                 (keypress)="onlynumdot($event)"
@@ -290,9 +285,107 @@
             </nz-form-control>
           </nz-form-item>
         </div>
-
-
-
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>
+              Image
+              <span
+                *ngIf="
+                  (data.VARIENT_IMAGE_URL && data.VARIENT_IMAGE_URL != ' ') ||
+                  fileURL
+                "
+                nz-popconfirm
+                nzPopconfirmTitle="Are you sure you want to delete?"
+                nzPopconfirmPlacement="top"
+                (nzOnConfirm)="removeImage()"
+                (nzOnCancel)="deleteCancel()"
+                style="cursor: pointer; color: red; margin-left: 10px"
+              >
+                <span
+                  nz-icon
+                  nzType="delete"
+                  nzTheme="twotone"
+                  [nzTwotoneColor]="'#FF0000'"
+                  nz-tooltip
+                  nzTooltipTitle="Delete"
+                ></span> </span
+            ></nz-form-label>
+            <nz-form-control
+              nzHasFeedback
+              nzErrorTip=" Please Select Valid Image"
+            >
+              <button
+                *ngIf="
+                  !fileURL &&
+                  (!data.VARIENT_IMAGE_URL ||
+                    data.VARIENT_IMAGE_URL?.trim() === '')
+                "
+                nz-button
+                style="height: 28px; padding: 0px 7px; font-size: 12px"
+                (click)="fileInput.click()"
+              >
+                Select Image
+                <input
+                  #fileInput
+                  accept=".png, .jpg, .jpeg"
+                  name="image"
+                  type="file"
+                  (change)="onFileSelected($event)"
+                  style="display: none"
+                  required
+                />
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+          <!-- <div nz-col nzSpan="23" *ngIf="fileURL!=null" style="overflow: hidden;font-size: 13px;margin-top: -32px;padding-left: 11px;color: #40a9ff;">
+                  {{fileURL.name}}
+                </div> -->
+          <div
+            nz-col
+            nzSpan="23"
+            *ngIf="fileURL != null && fileURL != '' && imagePreviews"
+            style="
+              overflow: hidden;
+              font-size: 13px;
+              margin-top: -32px;
+              padding-left: 11px;
+              color: #107dd5;
+            "
+          >
+            <img
+              nz-image
+              [nzSrc]="imagePreviews"
+              style="
+                width: 300px;
+                height: 150px;
+                border: 1px solid #ccc;
+                padding: 2px;
+              "
+            />
+          </div>
+        </div>
+        <div
+          nz-col
+          nzSpan="24"
+          *ngIf="!fileURL && data.VARIENT_IMAGE_URL"
+        >
+          <img
+            style="
+              width: 300px;
+              height: 150px;
+              margin-left: 10px;
+              margin-top: -32px;
+            "
+            alt="Image"
+            src="{{ imgurl }}VarientImages/{{ data.VARIENT_IMAGE_URL }}"
+          />
+          <!-- <button (click)="removeImage()" [nzSize]="'default'"  nz-button style="margin-left: 4%; margin-top: 10px; "> 
+                  <nz-badge >
+                    <i style="font-size: 15px; color: red;"  nz-icon nzType="delete" 
+                  ></i>  
+                  </nz-badge>
+                </button> -->
+        </div>
       </div>
     </nz-spin>
   </form>

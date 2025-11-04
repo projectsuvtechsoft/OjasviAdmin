@@ -134,6 +134,8 @@ import { ReviewenabledisableComponent } from './components/reviewenabledisable/r
 import { ReveiwenabledisabledrawerComponent } from './components/reviewenabledisable/reveiwenabledisabledrawer/reveiwenabledisabledrawer.component';
 import { AddCityComponent } from './components/CityMaster/add-city/add-city.component';
 import { ListCityComponent } from './components/CityMaster/list-city/list-city.component';
+import { PickuplocationaddComponent } from './components/pickuplocationmaster/pickuplocationadd/pickuplocationadd.component';
+import { PickuplocationlistComponent } from './components/pickuplocationmaster/pickuplocationlist/pickuplocationlist.component';
 @NgModule({
   declarations: [
     MastersComponent,
@@ -202,7 +204,9 @@ import { ListCityComponent } from './components/CityMaster/list-city/list-city.c
     ReviewenabledisableComponent,
     ReveiwenabledisabledrawerComponent,
     AddCityComponent,
-    ListCityComponent
+    ListCityComponent,
+    PickuplocationaddComponent,
+    PickuplocationlistComponent
   ],
   imports: [
     // PickerComponent,

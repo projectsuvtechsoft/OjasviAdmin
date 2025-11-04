@@ -12,4 +12,5 @@ export class ProductMapping {
     UNIT_NAME:string =''
     IN_COUNTRY:number=0 ;
     OUT_COUNTRY:number=0 ;
+    VARIENT_IMAGE_URL=''
 }

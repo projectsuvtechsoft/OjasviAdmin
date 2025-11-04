@@ -1,0 +1,210 @@
+<div>
+  <form nz-form #addressForm="ngForm">
+    <nz-spin [nzSpinning]="isSpinning">
+      <div nz-row>
+
+        <!-- Country -->
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Country</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please select a country">
+              <nz-select
+                name="COUNTRY_ID"
+                nzAllowClear
+                nzShowSearch
+                style="width: 100%"
+                [(ngModel)]="data.COUNTRY_ID"
+                (ngModelChange)="onCountryChange($event)"
+                nzPlaceHolder="Select Country"
+                required
+              >
+                <nz-option
+                  *ngFor="let item of country"
+                  [nzLabel]="item.NAME"
+                  [nzValue]="item.ID"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- State -->
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>State</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please select a state">
+              <nz-select
+                name="STATE_ID"
+                nzAllowClear
+                nzShowSearch
+                style="width: 100%"
+                [(ngModel)]="data.STATE_ID"
+                (ngModelChange)="onStateChange($event)"
+                nzPlaceHolder="Select State"
+                required
+              >
+                <nz-option
+                  *ngFor="let item of state"
+                  [nzLabel]="item.NAME"
+                  [nzValue]="item.ID"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- City -->
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>City</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please select a city">
+              <nz-select
+                name="CITY_ID"
+                nzAllowClear
+                nzShowSearch
+                style="width: 100%"
+                [(ngModel)]="data.CITY_ID"
+                nzPlaceHolder="Select City"
+                required
+              >
+                <nz-option
+                  *ngFor="let item of cities"
+                  [nzLabel]="item.NAME"
+                  [nzValue]="item.ID"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Locality -->
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzNoColon nzRequired>Locality</nz-form-label>
+            <nz-form-control>
+              <input
+                nz-input
+                name="LOCALITY"
+                placeholder="Enter Locality"
+                [(ngModel)]="data.LOCALITY"
+                maxlength="256"
+                autocomplete="off"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Address -->
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Address</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please enter address">
+              <textarea
+                nz-input
+                name="ADDRESS"
+                placeholder="Enter Full Address"
+                [(ngModel)]="data.ADDRESS"
+                maxlength="512"
+                rows="3"
+                required
+              ></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Landmark -->
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzNoColon nzRequired>Landmark</nz-form-label>
+            <nz-form-control>
+              <input
+                nz-input
+                name="LANDMARK"
+                placeholder="Enter Landmark"
+                [(ngModel)]="data.LANDMARK"
+                maxlength="256"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Pincode -->
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Pincode / ZIP</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please enter valid pincode/ ZIP">
+              <input
+                nz-input
+                name="PINCODE"
+                placeholder="Enter Pincode"
+                maxlength="10"
+                [(ngModel)]="data.PINCODE"
+                required
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Country Code -->
+       <div nz-col nzSpan="12">
+  <nz-form-item>
+    <nz-form-label nzNoColon nzRequired>Country Code</nz-form-label>
+    <nz-form-control>
+      <nz-select
+        name="COUNTRY_CODE"
+        [(ngModel)]="data.COUNTRY_CODE"
+        nzPlaceHolder="Select Country Code"
+      >
+        <nz-option
+          *ngFor="let code of countryCodes"
+          [nzLabel]="code.label"
+          [nzValue]="code.value"
+        >
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+</div>
+
+
+
+
+      </div>
+    </nz-spin>
+  </form>
+
+  <!-- Footer Buttons -->
+  <div class="footer mt-4">
+    <button
+      type="button"
+      nz-button
+      (click)="close()"
+      class="ant-btn"
+      style="margin-right: 8px"
+    >
+      <span>Cancel</span>
+    </button>
+
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      *ngIf="!data.ID"
+      nz-button
+      [nzLoading]="isSpinning"
+      (click)="isSpinning = true; save(false, addressForm)"
+    >
+      <span>Save & Close</span>
+    </button>
+
+    <button
+      type="button"
+      class="ant-btn ant-btn-primary"
+      nz-button
+      [nzLoading]="isSpinning"
+      *ngIf="data.ID"
+      (click)="save(false, addressForm)"
+    >
+      <span>Update & Close</span>
+    </button>
+  </div>
+</div>
