@@ -11,5 +11,6 @@ export class pickupLocation {
   LANDMARK: string;
   CLIENT_ID: number;
   COUNTRY_CODE: string;
+  STATUS:boolean=true
   ID:any
 }

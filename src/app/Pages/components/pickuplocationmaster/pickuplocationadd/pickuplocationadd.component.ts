@@ -9,10 +9,10 @@ import { ApiServiceService } from 'src/app/Service/api-service.service';
 @Component({
   selector: 'app-pickuplocationadd',
   templateUrl: './pickuplocationadd.component.html',
-  styleUrls: ['./pickuplocationadd.component.css']
+  styleUrls: ['./pickuplocationadd.component.css'],
 })
 export class PickuplocationaddComponent {
-@Input()
+  @Input()
   drawerClose!: Function;
   @Input()
   data: pickupLocation = new pickupLocation();
@@ -37,78 +37,92 @@ export class PickuplocationaddComponent {
   isFocused: string = '';
   country: CountryMaster[] = [];
 
-
   constructor(
     private api: ApiServiceService,
     private message: NzNotificationService,
     private datePipe: DatePipe
   ) {}
 
-state: any[] = [];
+  state: any[] = [];
 
-
-ngOnInit(): void {
-  this.loadCountry();
-   if (this.data?.COUNTRY_ID) {
+  ngOnInit(): void {
+    this.loadCountry();
+    if (this.data?.COUNTRY_ID) {
       this.loadState(this.data.COUNTRY_ID);
-      if(this.data?.STATE_ID){
-        this.loadCities(this.data.STATE_ID)
+      if (this.data?.STATE_ID) {
+        this.loadCities(this.data.STATE_ID);
       }
     }
-}
-cities:any=[]
-// Load countries
-loadCountry() {
-  this.api.getAllCountryMaster(0, 0, '', '', ' AND STATUS=1').subscribe(
-    (data) => {
-      this.country = data['data'];
-    },
-    (err) => {
-      console.log(err);
-      this.isSpinning = false;
-    }
-  );
-}
-
-// Load states based on selected country
-loadState(countryId: number) {
-  if (!countryId) {
-    this.state = []; // clear states if no country selected
-    return;
   }
-  this.api.getAllStateMaster(0, 0, '', '', ' AND STATUS=1 AND COUNTRY_ID=' + countryId).subscribe(
-    (data) => {
-      this.state = data['data'];
-    },
-    (err) => {
-      console.log(err);
-      this.isSpinning = false;
-    }
-  );
-}
-loadCities(countryId: number) {
-  if (!countryId) {
-    this.cities = []; // clear states if no country selected
-    return;
+  cities: any = [];
+  // Load countries
+  loadCountry() {
+    this.api.getAllCountryMaster(0, 0, '', '', ' AND STATUS=1').subscribe(
+      (data) => {
+        this.country = data['data'];
+      },
+      (err) => {
+        console.log(err);
+        this.isSpinning = false;
+      }
+    );
   }
-  this.api.getAllCityMaster(0, 0, '', '', ' AND IS_ACTIVE=1 AND STATE_ID=' + countryId).subscribe(
-    (data) => {
-      this.cities = data['data'];
-    },
-    (err) => {
-      // console.log(err);
-      this.isSpinning = false;
-    }
-  );
-}
 
-// Triggered when country changes
-onCountryChange(event: any) {
-  this.loadState(event);
-}
-onStateChange(event: any){
-  this.loadCities(event)
-}
+  // Load states based on selected country
+  loadState(countryId: number) {
+    if (!countryId) {
+      this.state = []; // clear states if no country selected
+      return;
+    }
+    this.api
+      .getAllStateMaster(
+        0,
+        0,
+        '',
+        '',
+        ' AND STATUS=1 AND COUNTRY_ID=' + countryId
+      )
+      .subscribe(
+        (data) => {
+          this.state = data['data'];
+        },
+        (err) => {
+          console.log(err);
+          this.isSpinning = false;
+        }
+      );
+  }
+  loadCities(countryId: number) {
+    if (!countryId) {
+      this.cities = []; // clear states if no country selected
+      return;
+    }
+    this.api
+      .getAllCityMaster(
+        0,
+        0,
+        '',
+        '',
+        ' AND IS_ACTIVE=1 AND STATE_ID=' + countryId
+      )
+      .subscribe(
+        (data) => {
+          this.cities = data['data'];
+        },
+        (err) => {
+          // console.log(err);
+          this.isSpinning = false;
+        }
+      );
+  }
+
+  // Triggered when country changes
+  onCountryChange(event: any) {
+    this.loadState(event);
+  }
+  onStateChange(event: any) {
+    this.loadCities(event);
+  }
 
   close(): void {
     this.drawerClose();
@@ -151,7 +165,7 @@ onStateChange(event: any){
     websitebannerPage.form.markAsPristine();
     websitebannerPage.form.markAsUntouched();
   }
- countryCodes = [
+  countryCodes = [
     { label: '+91 (India)', value: '+91' },
     { label: '+92 (Pakistan)', value: '+92' },
     { label: '+93 (Afghanistan)', value: '+93' },
@@ -389,115 +403,126 @@ onStateChange(event: any){
     { label: 'Kyrgyzstan (+996)', value: '+996' },
     { label: 'Uzbekistan (+998)', value: '+998' },
   ];
-save(addNew: boolean, addressForm: NgForm): void {
-  this.isOk = true;
-  this.isSpinning = false;
+  save(addNew: boolean, addressForm: NgForm): void {
+    this.isOk = true;
+    this.isSpinning = false;
 
-  // ✅ Validate required fields
-  if (
-    (!this.data.COUNTRY_ID || this.data.COUNTRY_ID <= 0) &&
-    (!this.data.STATE_ID || this.data.STATE_ID <= 0) &&
-    (!this.data.CITY_ID || this.data.CITY_ID <= 0) &&
-    (!this.data.ADDRESS?.trim() || this.data.ADDRESS.trim() === '') &&
-    (!this.data.PINCODE?.trim() || this.data.PINCODE.trim() === '')
-  ) {
-    this.isOk = false;
-    this.message.error('Please fill all required fields', '');
-  } 
-  else if (!this.data.COUNTRY_ID || this.data.COUNTRY_ID <= 0) {
-    this.isOk = false;
-    this.message.error('Please select a Country', '');
-  } 
-  else if (!this.data.STATE_ID || this.data.STATE_ID <= 0) {
-    this.isOk = false;
-    this.message.error('Please select a State', '');
-  } 
-  else if (!this.data.CITY_ID || this.data.CITY_ID <= 0) {
-    this.isOk = false;
-    this.message.error('Please select a City', '');
-  } 
-  else if (!this.data.ADDRESS?.trim()) {
-    this.isOk = false;
-    this.message.error('Please enter Address', '');
-  } 
-  else if (!this.data.PINCODE?.trim()) {
-    this.isOk = false;
-    this.message.error('Please enter valid Pincode', '');
-  }
+    // ✅ Gather all required field conditions
+    const missingFields:any = [];
 
-  if (!this.isOk) return;
+    if (!this.data.COUNTRY_ID || this.data.COUNTRY_ID <= 0)
+      missingFields.push('Country');
+    if (!this.data.STATE_ID || this.data.STATE_ID <= 0)
+      missingFields.push('State');
+    if (!this.data.CITY_ID || this.data.CITY_ID <= 0)
+      missingFields.push('City');
+    if (!this.data.LOCALITY?.trim()) missingFields.push('Locality');
+    if (!this.data.ADDRESS?.trim()) missingFields.push('Address');
+    if (!this.data.LANDMARK?.trim()) missingFields.push('Landmark');
+    if (!this.data.PINCODE?.trim()) missingFields.push('Pincode');
+    if (!this.data.COUNTRY_CODE?.trim()) missingFields.push('Country Code');
 
-  // ✅ Proceed if validation passes
-  this.isSpinning = true;
-
-  this.api.getAllpickupLocation(0, 0, '', 'desc', '').subscribe(
-    (allData: any) => {
-      const locations = allData?.data || [];
-
-      // Optional duplicate check (example: by city + address)
-      const duplicateExists = locations.some(
-        (loc: any) =>
-          loc.COUNTRY_ID === this.data.COUNTRY_ID &&
-          loc.STATE_ID === this.data.STATE_ID &&
-          loc.CITY_ID === this.data.CITY_ID &&
-          loc.ADDRESS.trim().toLowerCase() === this.data.ADDRESS.trim().toLowerCase() &&
-          loc.ID !== this.data.ID
-      );
-
-      if (duplicateExists) {
-        this.message.error('This address already exists for the selected city', '');
-        this.isSpinning = false;
-        return;
-      }
-
-      // ✅ Update existing record
-      if (this.data.ID) {
-        this.api.updatepickupLocation(this.data).subscribe(
-          (successCode) => {
-            if (successCode.code == '200') {
-              this.message.success('Pickup location updated successfully', '');
-              if (!addNew) this.drawerClose();
-            } else {
-              this.message.error('Pickup location update failed', '');
-            }
-            this.isSpinning = false;
-          },
-          () => {
-            this.message.error('Something went wrong, please try again later', '');
-            this.isSpinning = false;
-          }
-        );
-      } 
-      // ✅ Create new record
-      else {
-        this.api.createpickupLocation(this.data).subscribe(
-          (successCode) => {
-            if (successCode.code == '200') {
-              this.message.success('Pickup location created successfully', '');
-              if (!addNew) {
-                this.drawerClose();
-              } else {
-                this.data = new pickupLocation();
-                this.resetDrawer(addressForm);
-              }
-            } else {
-              this.message.error('Pickup location creation failed', '');
-            }
-            this.isSpinning = false;
-          },
-          () => {
-            this.message.error('Something went wrong, please try again later', '');
-            this.isSpinning = false;
-          }
-        );
-      }
-    },
-    () => {
-      this.message.error('Something went wrong, please try again later', '');
-      this.isSpinning = false;
+    // ✅ If multiple fields missing, show generic message
+    if (missingFields.length === 0) {
+      this.isOk = true;
+    } else if (missingFields.length >= 4) {
+      this.isOk = false;
+      this.message.error('Please fill all required fields', '');
     }
-  );
-}
+    // ✅ If few missing, show specific error for first missing one
+    else {
+      this.isOk = false;
+      const firstMissing = missingFields[0];
+      this.message.error(`Please enter/select ${firstMissing}`, '');
+    }
 
+    if (!this.isOk) return;
 
+    // ✅ Proceed if validation passes
+    this.isSpinning = true;
+
+    this.api.getAllpickupLocation(0, 0, '', 'desc', '').subscribe(
+      (allData: any) => {
+        const locations = allData?.data || [];
+
+        // ✅ Optional duplicate check (same Country, State, City, Address)
+        const duplicateExists = locations.some(
+          (loc: any) =>
+            loc.COUNTRY_ID === this.data.COUNTRY_ID &&
+            loc.STATE_ID === this.data.STATE_ID &&
+            loc.CITY_ID === this.data.CITY_ID &&
+            loc.ADDRESS?.trim().toLowerCase() ===
+              this.data.ADDRESS?.trim().toLowerCase() &&
+            loc.ID !== this.data.ID
+        );
+
+        if (duplicateExists) {
+          this.message.error(
+            'This address already exists for the selected city',
+            ''
+          );
+          this.isSpinning = false;
+          return;
+        }
+
+        // ✅ Update record
+        if (this.data.ID) {
+          this.api.updatepickupLocation(this.data).subscribe(
+            (successCode) => {
+              if (successCode.code === 200) {
+                this.message.success(
+                  'Pickup location updated successfully',
+                  ''
+                );
+                if (!addNew) this.drawerClose();
+              } else {
+                this.message.error('Pickup location update failed', '');
+              }
+              this.isSpinning = false;
+            },
+            () => {
+              this.message.error(
+                'Something went wrong, please try again later',
+                ''
+              );
+              this.isSpinning = false;
+            }
+          );
+        }
+        // ✅ Create new record
+        else {
+          this.api.createpickupLocation(this.data).subscribe(
+            (successCode) => {
+              if (successCode.code === 200) {
+                this.message.success(
+                  'Pickup location created successfully',
+                  ''
+                );
+                if (!addNew) {
+                  this.drawerClose();
+                } else {
+                  this.data = new pickupLocation();
+                  this.resetDrawer(addressForm);
+                }
+              } else {
+                this.message.error('Pickup location creation failed', '');
+              }
+              this.isSpinning = false;
+            },
+            () => {
+              this.message.error(
+                'Something went wrong, please try again later',
+                ''
+              );
+              this.isSpinning = false;
+            }
+          );
+        }
+      },
+      () => {
+        this.message.error('Something went wrong, please try again later', '');
+        this.isSpinning = false;
+      }
+    );
+  }
 }

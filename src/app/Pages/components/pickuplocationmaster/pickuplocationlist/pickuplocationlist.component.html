@@ -178,7 +178,7 @@
           </th>
 
           <th
-            nzColumnKey="IS_ACTIVE"
+            nzColumnKey="STATUS"
             [nzSortFn]="true"
             nzWidth="25px"
             style="text-align: center"
@@ -187,8 +187,8 @@
             <!-- <ng-container *ngIf="toggleVisible">
               <div (click)="$event.stopPropagation()">
                 <nz-switch
-                  [(ngModel)]="headerToggles.IS_ACTIVE"
-                  (ngModelChange)="bulkUpdate('IS_ACTIVE', $event)"
+                  [(ngModel)]="headerToggles.STATUS"
+                  (ngModelChange)="bulkUpdate('STATUS', $event)"
                 ></nz-switch>
               </div>
             </ng-container> -->
@@ -293,14 +293,14 @@
           <td style="text-align: center">
             <i
               nz-icon
-              *ngIf="data['IS_ACTIVE']"
+              *ngIf="data['STATUS']"
               [nzType]="'check-circle'"
               [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#52c41a'"
             ></i>
             <i
               nz-icon
-              *ngIf="!data['IS_ACTIVE']"
+              *ngIf="!data['STATUS']"
               [nzType]="'close-circle'"
               [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#f50'"

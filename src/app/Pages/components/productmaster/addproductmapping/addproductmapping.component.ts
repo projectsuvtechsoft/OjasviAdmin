@@ -484,29 +484,62 @@ export class AddproductmappingComponent implements OnInit {
   deleteCancel() {}
   //Choose Image
   imagePreviews;
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
+ onFileSelected(event: any) {
+  const file = event.target.files[0];
 
-    if (
-      file &&
-      (file.type === 'image/jpeg' ||
-        file.type === 'image/jpg' ||
-        file.type === 'image/png')
-    ) {
-      this.fileURL = file;
+  // Reset preview and file before validation
+  this.fileURL = null;
+  this.imagePreviews = '';
+  this.data.VARIENT_IMAGE_URL = '';
 
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imagePreviews = e.target.result; // Assign string to bind to <img>
-      };
-      reader.readAsDataURL(file); // Don’t forget to call this!
-    } else {
-      this.message.error('Select only JPEG/ JPG/ PNG file', '');
-      this.fileURL = null;
-      this.data.VARIENT_IMAGE_URL = '';
-      this.imagePreviews = '';
-    }
+  if (!file) return;
+
+  // ✅ File type validation
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+  if (!validTypes.includes(file.type)) {
+    this.message.error('Select only JPEG, JPG, or PNG file', '');
+    return;
   }
+
+  // ✅ File size validation (<= 100 KB)
+  const maxSizeKB = 40;
+  const fileSizeKB = file.size / 1024;
+  if (fileSizeKB > maxSizeKB) {
+    this.message.error('File size should not exceed 40 KB', '');
+    return;
+  }
+
+  // ✅ Read and validate image dimensions (<= 500x500)
+  const reader = new FileReader();
+  reader.onload = (e: any) => {
+    const img = new Image();
+    img.onload = () => {
+      const width = img.width;
+      const height = img.height;
+
+      if (width > 500 || height > 500) {
+        this.message.error('Image dimensions must be 500x500 pixels or less', '');
+        this.fileURL = null;
+        this.imagePreviews = '';
+        this.data.VARIENT_IMAGE_URL = '';
+        return;
+      }
+
+      // ✅ Passed all validations
+      this.fileURL = file;
+      this.imagePreviews = e.target.result;
+    };
+
+    img.onerror = () => {
+      this.message.error('Invalid image file', '');
+    };
+
+    img.src = e.target.result;
+  };
+
+  reader.readAsDataURL(file);
+}
+
 
   removeImage() {
     this.data.VARIENT_IMAGE_URL = '';

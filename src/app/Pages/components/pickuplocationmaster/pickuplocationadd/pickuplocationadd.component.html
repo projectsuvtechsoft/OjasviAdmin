@@ -2,7 +2,6 @@
   <form nz-form #addressForm="ngForm">
     <nz-spin [nzSpinning]="isSpinning">
       <div nz-row>
-
         <!-- Country -->
         <div nz-col nzSpan="24">
           <nz-form-item>
@@ -146,29 +145,39 @@
         </div>
 
         <!-- Country Code -->
-       <div nz-col nzSpan="12">
-  <nz-form-item>
-    <nz-form-label nzNoColon nzRequired>Country Code</nz-form-label>
-    <nz-form-control>
-      <nz-select
-        name="COUNTRY_CODE"
-        [(ngModel)]="data.COUNTRY_CODE"
-        nzPlaceHolder="Select Country Code"
-      >
-        <nz-option
-          *ngFor="let code of countryCodes"
-          [nzLabel]="code.label"
-          [nzValue]="code.value"
-        >
-        </nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
-</div>
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzNoColon nzRequired>Country Code</nz-form-label>
+            <nz-form-control>
+              <nz-select
+                name="COUNTRY_CODE"
+                [(ngModel)]="data.COUNTRY_CODE"
+                nzPlaceHolder="Select Country Code"
+              >
+                <nz-option
+                  *ngFor="let code of countryCodes"
+                  [nzLabel]="code.label"
+                  [nzValue]="code.value"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
 
-
-
-
+        <!-- ✅ Status Switch -->
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nzNoColon>Status</nz-form-label>
+            <nz-form-control>
+              <nz-switch
+                name="STATUS"
+                [(ngModel)]="data.STATUS"
+                nzCheckedChildren="Active"
+                nzUnCheckedChildren="Inactive"
+              ></nz-switch>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
       </div>
     </nz-spin>
   </form>

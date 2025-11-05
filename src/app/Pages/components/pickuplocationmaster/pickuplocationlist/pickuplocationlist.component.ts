@@ -160,7 +160,7 @@ export class PickuplocationlistComponent {
   // toggleVisible: boolean = false;
 
   // headerToggles: any = {
-  //   IS_ACTIVE: false,
+  //   STATUS: false,
   // };
 
   // chekedproduct() {
