@@ -33,7 +33,7 @@ export class DespatchedOrderViewComponent implements OnInit {
         0,
         '',
         '',
-        " AND CURRENT_STAGE = 'OD' AND ID = " + this.OrdersID
+        " AND CURRENT_STAGE = 'DD' AND ID = " + this.OrdersID
       )
       .subscribe(
         (data) => {

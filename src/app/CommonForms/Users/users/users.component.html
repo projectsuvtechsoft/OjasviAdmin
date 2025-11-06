@@ -1,18 +1,44 @@
 <div nz-row nzType="flex">
-  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="8">
     <div class="formname">
       <b>
-        <span (click)="back()" nz-icon nzType="arrow-left" nzTheme="outline"
-          style="font-weight: bold; cursor: pointer"></span>&nbsp;&nbsp; {{ formTitle }}
+        <span
+          (click)="back()"
+          nz-icon
+          nzType="arrow-left"
+          nzTheme="outline"
+          style="font-weight: bold; cursor: pointer"
+        ></span
+        >&nbsp;&nbsp; {{ formTitle }}
       </b>
     </div>
   </div>
-  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12" style="display: flex; justify-content: flex-end">
+
+  <div
+    nz-col
+    nzXs="24"
+    nzSm="24"
+    nzMd="4"
+    nzLg="4"
+    nzXl="16"
+    style="display: flex; justify-content: flex-end"
+  >
     <form nz-form [nzLayout]="'inline'">
-      <nz-form-item style="margin-right: 0px;">
-        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-          <input type="text" name="search" nz-input placeholder="Min 3 chars required." [(ngModel)]="searchText"
-            (onkeypress)="search()" (keyup)="onKeyup($event)" />
+      <nz-form-item>
+        <nz-input-group
+          nzSearch
+          [nzAddOnAfter]="suffixIconButton"
+          style="width: 270px"
+        >
+          <input
+            type="text"
+            name="search"
+            nz-input
+            (keyup)="keyup($event)"
+            placeholder="Min 3 chars required."
+            [(ngModel)]="searchText"
+            autocomplete="off"
+          />
         </nz-input-group>
         <ng-template #suffixIconButton>
           <button nz-button nzType="primary" (click)="search()" nzSearch>
@@ -20,7 +46,7 @@
           </button>
         </ng-template>
       </nz-form-item>
-      <nz-form-item style="display: none;">
+      <nz-form-item style="margin-right: 0px">
         <button nz-button nzType="primary" (click)="add()" nzJustify="end">
           <i nz-icon nzType="plus"></i>New User
         </button>

@@ -290,7 +290,7 @@
             <b>Total Amount</b>
           </th>
           <th
-            nzColumnKey="{{ 'STATUS' }}"
+            nzColumnKey="{{ 'ORDER_STATUS' }}"
             nzAlign="center"
             [nzSortFn]="true"
             nzWidth="150px"
@@ -319,19 +319,19 @@
               >
                 {{
                   data["CUSTOMER_NAME"] == null
-                    ? "-"
+                    ? "Guest User"
                     : (data["CUSTOMER_NAME"] | slice : 0 : 22)
                 }}{{ data["CUSTOMER_NAME"].length > 25 ? "..." : "" }}
               </span>
               <span *ngIf="data['CUSTOMER_NAME'].length < 25">
                 {{
                   data["CUSTOMER_NAME"] == null
-                    ? "-"
+                    ? "Guest User"
                     : (data["CUSTOMER_NAME"] | slice : 0 : 22)
                 }}{{ data["CUSTOMER_NAME"].length > 25 ? "..." : "" }}
               </span>
             </span>
-            <span *ngIf="data['CUSTOMER_NAME'] == null">-</span>
+            <span *ngIf="data['CUSTOMER_NAME'] == null">Guest User</span>
           </td>
           <td style="text-align: center;white-space: pre-line;">{{ data["ORDER_NUMBER"] }}</td>
           <td style="text-align: center;white-space: pre-line;">{{ data["TOTAL_ITEMS"] }}</td>
@@ -346,16 +346,18 @@
             <span *ngIf="data['PAYMENT_MODE'] == 'C'">Cash On Delivery</span>
           </td> -->
           <td style="text-align: center; white-space: pre-line">
-            <span *ngIf="data['STATUS'] == 'P'">Pending</span>
-            <span *ngIf="data['STATUS'] == 'R'">Reject</span>
-            <span *ngIf="data['STATUS'] == 'BP'">Preparing</span>
-            <span *ngIf="data['STATUS'] == 'A'">Accept</span> 
-            <span *ngIf="data['STATUS'] == 'DD'">Dispatch Done</span>
-            <span *ngIf="data['STATUS'] == 'D'">Ready To Dispatch</span>
-            <span *ngIf="data['STATUS'] == 'SP'">Packaging</span>
-            <span *ngIf="data['STATUS'] == 'OP'">Order Prepared</span>
-            <span *ngIf="data['STATUS'] == 'SP'">Packaging</span>
-            <span *ngIf="data['STATUS'] == 'PD'">Packaging Done</span>
+            <span *ngIf="data['ORDER_STATUS'] == 'P'">Pending</span>
+            <span *ngIf="data['ORDER_STATUS'] == 'R'">Reject</span>
+            <span *ngIf="data['ORDER_STATUS'] == 'BP'">Preparing</span>
+            <span *ngIf="data['ORDER_STATUS'] == 'A'">Accept</span> 
+            <span *ngIf="data['ORDER_STATUS'] == 'DD'">Dispatch Done</span>
+            <span *ngIf="data['ORDER_STATUS'] == 'D'">Ready To Dispatch</span>
+            <span *ngIf="data['ORDER_STATUS'] == 'SP'">Packaging</span>
+            <span *ngIf="data['ORDER_STATUS'] == 'OP'">Order Prepared</span>
+            <span *ngIf="data['ORDER_STATUS'] == 'SP'">Packaging</span>
+            <span *ngIf="data['ORDER_STATUS'] == 'PD'">Packaging Done</span>
+            <span *ngIf="data['ORDER_STATUS'] == 'OD'">Order Delivered</span>
+
 
           </td>
           <!-- <td style="text-align:center">{{data['TOTAL_QUANTITY']}}</td>  -->

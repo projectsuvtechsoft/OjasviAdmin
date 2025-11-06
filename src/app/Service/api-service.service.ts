@@ -265,7 +265,7 @@ export class ApiServiceService {
       LINK: link,
     };
     return this.httpClient.post<any>(
-      this.url + 'roleDetails/checkAccess',
+      this.url + 'roleDetail/checkAccess',
       JSON.stringify(data),
       this.options
     );

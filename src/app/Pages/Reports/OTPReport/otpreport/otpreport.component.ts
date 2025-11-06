@@ -94,7 +94,7 @@ export class OTPReportComponent implements OnInit {
         this.pageSize,
         this.sortKey,
         sort,
-       this.filterQuery + likeQuery
+       this.filterQuery + likeQuery + " AND TYPE='M'"
       )
       .subscribe(
         (data) => {

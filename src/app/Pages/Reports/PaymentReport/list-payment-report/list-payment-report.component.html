@@ -221,7 +221,7 @@
             {{ data["PAYMENT_DATETIME"] }}
           </td>
           <td style="text-align: left; white-space: nowrap">
-            {{ data["CUSTOMER_NAME"] }}
+            {{ data["CUSTOMER_NAME"] || 'Guest User'}}
           </td>
           <td style="text-align: right; white-space: nowrap">
             {{ data["PAID_AMOUNT"] }}

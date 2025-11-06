@@ -292,15 +292,17 @@ export class UserComponent implements OnInit {
     ) {
       this.isOk = false;
       this.message.error(' Please Enter Password.', '');
-    } else if (
-      this.data.PROFILE_PHOTO == null ||
-      this.data.PROFILE_PHOTO == undefined ||
-      this.data.PROFILE_PHOTO == '' ||
-      this.data.PROFILE_PHOTO == ' '
-    ) {
-      this.isOk = false;
-      this.message.error('Please Upload Profile Photo', '');
-    } else if (
+    }
+    //  else if (
+    //   this.data.PROFILE_PHOTO == null ||
+    //   this.data.PROFILE_PHOTO == undefined ||
+    //   this.data.PROFILE_PHOTO == '' ||
+    //   this.data.PROFILE_PHOTO == ' '
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Upload Profile Photo', '');
+    // } 
+    else if (
       !this.commonFunction.passPattern.test(this.data.PASSWORD) &&
       !this.data.ID
     ) {
@@ -312,35 +314,35 @@ export class UserComponent implements OnInit {
       this.isSpinning = true;
       {
         if (this.data.ID) {
-          var udata = {
-            ARCHIVE_FLAG: 'F',
-            BACKOFFICE_TEAM_ID: null,
-            CITY_ID: null,
-            CLIENT_ID: this.data.CLIENT_ID,
-            COUNTRY_ID: null,
-            CREATED_MODIFIED_DATE: null,
-            EMAIL_ID: this.data.EMAIL_ID,
-            FIREBASE_REG_TOKEN: null,
-            ID: this.data.ID,
-            IS_ACTIVE: this.data.IS_ACTIVE,
-            LAST_LOGIN_DATETIME: null,
-            LOGOUT_DATE_TIME: null,
-            NAME: this.data.NAME,
-            ORGANISATION_ID: this.orgid,
-            ORG_ID: this.orgid,
-            PINCODE_ID: null,
-            PROFILE_PHOTO: this.data.PROFILE_PHOTO,
-            READ_ONLY: null,
-            ROLE_ID: this.data.ROLE_ID,
-            ROLE_IDS: null,
-            ROLE_NAME: null,
-            STATE_ID: null,
-            TECHNICIAN_ID: null,
-            USER_TYPE: null,
-            VENDOR_ID: null,
-          };
+          // var udata = {
+          //   ARCHIVE_FLAG: 'F',
+          //   BACKOFFICE_TEAM_ID: null,
+          //   CITY_ID: null,
+          //   CLIENT_ID: this.data.CLIENT_ID,
+          //   COUNTRY_ID: null,
+          //   CREATED_MODIFIED_DATE: null,
+          //   EMAIL_ID: this.data.EMAIL_ID,
+          //   FIREBASE_REG_TOKEN: null,
+          //   ID: this.data.ID,
+          //   IS_ACTIVE: this.data.IS_ACTIVE,
+          //   LAST_LOGIN_DATETIME: null,
+          //   LOGOUT_DATE_TIME: null,
+          //   NAME: this.data.NAME,
+          //   ORGANISATION_ID: this.orgid,
+          //   ORG_ID: this.orgid,
+          //   PINCODE_ID: null,
+          //   PROFILE_PHOTO: this.data.PROFILE_PHOTO,
+          //   READ_ONLY: null,
+          //   ROLE_ID: this.data.ROLE_ID,
+          //   ROLE_IDS: null,
+          //   ROLE_NAME: null,
+          //   STATE_ID: null,
+          //   TECHNICIAN_ID: null,
+          //   USER_TYPE: null,
+          //   VENDOR_ID: null,
+          // };
 
-          this.api.updateUser(udata).subscribe((successCode) => {
+          this.api.updateUser(this.data).subscribe((successCode) => {
             if (successCode.code == '200') {
               if (
                 this.fileURL != undefined &&

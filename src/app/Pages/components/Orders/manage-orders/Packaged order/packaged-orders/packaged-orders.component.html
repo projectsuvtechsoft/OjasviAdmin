@@ -1,7 +1,15 @@
 <div nz-row nzType="flex">
   <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
     <div class="formname">
-      <b> {{ formTitle }} </b>
+      <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp;
+      <b>{{ formTitle }}</b>
     </div>
   </div>
 
@@ -186,7 +194,7 @@
 
           </td> -->
           <td style="text-align: left; white-space: pre-line">
-            {{ data["CUSTOMER_NAME"] }}
+            {{ data["CUSTOMER_NAME"] ? data["CUSTOMER_NAME"] :'Guest User' }}
           </td>
 
           <td style="text-align: center; white-space: pre-line">
@@ -237,7 +245,8 @@
     </nz-table>
   </div>
 
-  <nz-drawer
+  <div *ngIf="drawerVisible">
+<nz-drawer
     [nzBodyStyle]="{
       height: 'calc(100% - 55px)',
       overflow: 'auto',
@@ -262,4 +271,6 @@
       ></app-view-packaged-orders>
     </ng-container>
   </nz-drawer>
+  </div>
+  
 </div>

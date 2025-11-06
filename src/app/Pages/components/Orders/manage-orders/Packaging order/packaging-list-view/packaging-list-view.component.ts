@@ -26,19 +26,23 @@ export class PackagingListViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.loaddata = true;
+    let filter=" AND CURRENT_STAGE = 'SP'"
+    if(this.OrdersID){
+      filter+="   AND ID = " + this.OrdersID
+    }
     this.api
       .getAllOrderMaster(
         0,
         0,
         '',
         '',
-        " AND CURRENT_STAGE = 'PD' AND ID = " + this.OrdersID
+        filter
       )
       .subscribe(
         (data) => {
           if (data['code'] == 200) {
             this.loaddata = false;
-            this.detailslist = JSON.parse(data['data'][0]['CART_ITEMS']);
+            this.detailslist = data['data'].length>0 ? JSON.parse(data['data']?.[0]?.['CART_ITEMS']):[];
           } else {
             this.loaddata = false;
             // this.message.error('Something Went Wrong', '');

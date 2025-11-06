@@ -14,11 +14,13 @@ import { CommonFunctionService } from 'src/app/Service/CommonFunctionService';
 })
 export class ViewPackagedOrdersComponent implements OnInit {
   detailslist: any;
+
   constructor(
     private message: NzNotificationService,
     private api: ApiServiceService,
     private datepipe: DatePipe
   ) {}
+
   // this.detailslist = JSON.parse(data['data'][0]['CART_ITEMS'])
   dates: any = [];
   loaddata: any;
@@ -43,28 +45,24 @@ export class ViewPackagedOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.loaddata = true;
-    this.api
-      .getAllOrderMaster(
-        0,
-        0,
-        '',
-        '',
-        " AND CURRENT_STAGE = 'D' AND ID = " + this.OrdersID
-      )
-      .subscribe(
-        (data) => {
-          if (data['code'] == 200) {
-            this.loaddata = false;
-            this.detailslist = JSON.parse(data['data'][0]['CART_ITEMS']);
-          } else {
-            this.loaddata = false;
-            // this.message.error('Something Went Wrong', '');
-          }
-        },
-        (err) => {
-          console.log(err);
+    let filter = " AND CURRENT_STAGE = 'PD'";
+    if (this.OrdersID) {
+      filter += 'AND ID = ' + this.OrdersID;
+    }
+    this.api.getAllOrderMaster(0, 0, '', '', filter).subscribe(
+      (data) => {
+        if (data['code'] == 200) {
+          this.loaddata = false;
+          this.detailslist = JSON.parse(data['data'][0]['CART_ITEMS']);
+        } else {
+          this.loaddata = false;
+          // this.message.error('Something Went Wrong', '');
         }
-      );
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
     console.log('dd', this.confirmdate);
     this.date = new Date(this.confirmdate);
     // this.date = this.datepipe.transform(new Date (this.confirmdate), 'yyyy-MM-dd');

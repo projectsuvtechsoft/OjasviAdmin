@@ -1,7 +1,15 @@
 <div nz-row nzType="flex">
-  <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+ <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
     <div class="formname">
-      <b> {{ formTitle }} </b>
+      <span
+        (click)="back()"
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"
+      ></span
+      >&nbsp;&nbsp;
+      <b>{{ formTitle }}</b>
     </div>
   </div>
 
@@ -106,7 +114,7 @@
             style="font-weight: bold; text-align: center"
             [nzSortFn]="true"
           >
-            Expected Dispatch DateTime
+            Expected Dispatch/Ready for pickup DateTime
           </th>
 
           <th
@@ -177,7 +185,7 @@
             <span *ngIf="data['ORDER_STATUS'] == 'D'"> Ready To Dispatch </span>
           </td> -->
           <td style="text-align: left; white-space: pre-line">
-            {{ data["CUSTOMER_NAME"] }}
+            {{ data["CUSTOMER_NAME"] ? data["CUSTOMER_NAME"] : 'Guest User'}}
           </td>
 
           <td style="text-align: center; white-space: pre-line">
@@ -228,6 +236,7 @@
     </nz-table>
   </div>
 
+  <div *ngIf="drawerVisible">
   <nz-drawer
     [nzBodyStyle]="{
       height: 'calc(100% - 55px)',
@@ -252,4 +261,6 @@
       ></app-despatching-ordersview>
     </ng-container>
   </nz-drawer>
+  </div>
+
 </div>

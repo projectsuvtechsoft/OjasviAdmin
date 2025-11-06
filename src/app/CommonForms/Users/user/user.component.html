@@ -7,7 +7,7 @@
             <nz-form-label nzRequired nzNoColon>Role </nz-form-label>
             <nz-form-control nzHasFeedback nzErrorTip="Please Select Role">
               <nz-select name="role" nzPlaceHolder="Select Role" nzShowSearch style="width: 100%"
-                [(ngModel)]="data.ROLE_ID" [nzDisabled]="data.ID">
+                [(ngModel)]="data.ROLE_ID">
                 <nz-option *ngFor="let role of roles" [nzValue]="role.ID" [nzLabel]="role.NAME"></nz-option>
               </nz-select>
             </nz-form-control>
@@ -42,7 +42,7 @@
                 email.invalid && email.touched ? 'Please Enter Valid Email' : ''
               ">
               <input nz-input name="email" placeholder="Enter Email" [pattern]="commonFunction.email"
-                [(ngModel)]="data.EMAIL_ID" [disabled]="data.ID" required maxlength="64" #email="ngModel"
+                [(ngModel)]="data.EMAIL_ID"  required maxlength="64" #email="ngModel"
                 autocomplete="off" (focus)="isFocused = 'email'" (blur)="isFocused = ''" />
               <h6 style="color: red; font-size: 10px" *ngIf="data.EMAIL_ID && isFocused === 'email'">
                 {{ data.EMAIL_ID.length || 0 }}/64
@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <!-- <div nz-row>
+      <div nz-row>
         <div nz-col nzSpan="24">
           <nz-form-item>
             <nz-form-label nzRequired nzNoColon>Mobile No </nz-form-label>
@@ -70,7 +70,7 @@
             </nz-form-control>
           </nz-form-item>
         </div>
-      </div> -->
+      </div>
 
       <div nz-col nzSpan="24" *ngIf="!data.ID">
         <nz-form-item>
@@ -112,7 +112,7 @@
 
       <div nz-col nzSpan="24">
         <nz-form-item>
-          <nz-form-label nzRequired nzNoColon>Profile Photo</nz-form-label>
+          <nz-form-label nzNoColon>Profile Photo</nz-form-label>
           <nz-form-control nzHasFeedback nzErrorTip="Select Profile Photo">
             <button *ngIf="data.PROFILE_PHOTO == ' ' || data.PROFILE_PHOTO == null" nz-button style="
                 height: 28px;
@@ -177,12 +177,12 @@
         </nz-form-item>
       </div>
 
-      <div nz-row *ngIf="!data.ID">
+      <div nz-row>
         <div nz-col nzSpan="24">
           <nz-form-item>
             <nz-form-label nzNoColon>Status</nz-form-label>
             <nz-form-control>
-              <nz-switch name="is_active" [nzDisabled]="data.ID" nzCheckedChildren="Active"
+              <nz-switch name="is_active" nzCheckedChildren="Active"
                 nzUnCheckedChildren="Inactive" [(ngModel)]="data.IS_ACTIVE"></nz-switch>
             </nz-form-control>
           </nz-form-item>

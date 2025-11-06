@@ -53,11 +53,14 @@ export class ManageOrdersComponent implements OnInit {
 
   data1: OrderDetailMaster[] = [];
   isSpinning = false;
-
+back() {
+    this.router.navigate(['/masters/menu']);
+  }
   constructor(
     private datePipe: DatePipe,
     private api: ApiServiceService,
-    private notify: NzNotificationService
+    private notify: NzNotificationService,
+    private router:Router
   ) {}
 
   date3: any;
@@ -194,15 +197,15 @@ export class ManageOrdersComponent implements OnInit {
   OrdersID: any;
   edit(data: OrderDetailMaster): void {
     this.OrdersID = data.ID;
-    console.log('orderID', this.OrdersID);
+    // console.log('orderID', this.OrdersID);
     this.drawerTitle = 'Order Details';
     this.drawerData = Object.assign({}, data);
     this.drawerVisible = true;
     this.drawerData.ORDER_STATUS = 'A';
 
     // console.log(JSON.parse(data['CART_ITEMS']))
-    var a = JSON.parse(this.drawerData.CART_ITEMS);
-    console.log(a);
+    // var a = JSON.parse(this.drawerData.CART_ITEMS);
+    // console.log(a);
   }
   drawerClose(): void {
     this.search();

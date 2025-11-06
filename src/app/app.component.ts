@@ -202,14 +202,15 @@ export class AppComponent {
 
         this.router.navigate(['/login']);
       }
-      // let urls: any = window.location.href;
-      // var arrr: any = urls.split('/');
+      let urls: any = window.location.href;
+      var arrr: any = urls.split('/');
+      // console.log(urls,arrr)
       // if (arrr[3] != undefined) {
-      //   if (arrr[3] == '/') {
-      //     if (arrr[3] != undefined && arrr[4] != undefined) {
+      // //   if (arrr[3] == '/') {
+      //     if (arrr[3] != undefined) {
       //       this.accessPageForRedirect(arrr[3], arrr[4]);
       //     }
-      //   }
+      // //   }
       // }
 
       const subscribedChannels = sessionStorage.getItem('subscribedChannels');
@@ -436,7 +437,7 @@ export class AppComponent {
       let url = window.location.href;
       var arr = url.split('/');
       let validPage = '/' + arr[3];
-      let validPage1 = '/' + first + '/' + second;
+      let validPage1 = '/' + first + (second?'/'+second:'')
       this.api
         .getCheckAccessOfForm(this.decreptedroleId, validPage1)
         .subscribe((data) => {

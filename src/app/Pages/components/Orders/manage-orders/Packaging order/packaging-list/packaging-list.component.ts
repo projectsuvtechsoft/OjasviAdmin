@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { OrderDetailMaster } from 'src/app/Models/orderdetail';
 import { ApiServiceService } from 'src/app/Service/api-service.service';
@@ -47,14 +48,16 @@ export class PackagingListComponent implements OnInit {
   data1: OrderDetailMaster[] = [];
   isSpinning = false;
 
-  constructor(private api: ApiServiceService) {}
+  constructor(private api: ApiServiceService,private router:Router) {}
 
   ngOnInit(): void {}
 
   keyup(event: any) {
     this.search();
   }
-
+back() {
+    this.router.navigate(['/masters/menu']);
+  }
   search(reset: boolean = false) {
     if (reset) {
       this.pageIndex = 1;
