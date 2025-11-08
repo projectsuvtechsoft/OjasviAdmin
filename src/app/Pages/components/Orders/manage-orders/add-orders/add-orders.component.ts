@@ -36,7 +36,7 @@ this.rawPdfUrl = 'assets/sample-invoice.pdf';
 // this.rawPdfUrl = this.imageUrl + this.data.PDF_URL; 
 this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.rawPdfUrl);
     
-    console.log('orders' + this.OrdersID);
+    // console.log('orders' + this.OrdersID);
     this.loaddata = true;
     this.api
       .getAllOrderMaster(
@@ -503,5 +503,7 @@ printInvoice(): void {
     console.error('Unable to access iframe for printing.');
   }
 }
-
+ calculateAddOnAmount(arr){
+  //  console.log(arr,'arr')
+ }
 }
