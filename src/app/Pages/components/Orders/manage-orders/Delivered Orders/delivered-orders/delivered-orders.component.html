@@ -167,6 +167,13 @@
           >
             Addon Amount
           </th>
+           <th
+            nzWidth="200px"
+            style="font-weight: bold; text-align: center"
+            [nzSortFn]="true"
+          >
+            Discount Amount / Percentage
+          </th>
           <th
             nzWidth="200px"
             style="font-weight: bold; text-align: center"
@@ -227,6 +234,9 @@
           </td>
           <td style="text-align: right; white-space: pre-line">
             {{ data["ADDON_AMOUNT"] }}
+          </td>
+          <td style="text-align: right; white-space: pre-line">
+             <span>{{ (data["TOTAL_AMOUNT"] - data['TOTAL_DISCOUNT_AMOUNT']).toFixed(2) }} {{calculatePercent(data)}} %</span> 
           </td>
           <td style="text-align: right; white-space: pre-line">
             {{ data["NET_AMOUNT"] }}

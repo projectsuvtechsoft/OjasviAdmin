@@ -55,7 +55,17 @@
               <span>{{ data["ADDON_AMOUNT"] }}</span>
             </div>
           </div>
-
+          <div nz-row>
+            <div nz-col nzSpan="12">
+              <div>Discount Amount / Percent</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="11">
+              <span>{{ (data["TOTAL_AMOUNT"] - data['TOTAL_DISCOUNT_AMOUNT']).toFixed(2) }} $ / {{calculatePercent(data)}} %</span>
+            </div>
+          </div>
           <div nz-row>
             <div nz-col nzSpan="12">
               <div>Net amount</div>
@@ -110,33 +120,32 @@
               ></iframe>
             </ng-container>
 
-          <ng-template #modalFooter>
-             <button 
-                nz-button 
-                style="margin: 2px;" 
-                nzType="primary" 
+            <ng-template #modalFooter>
+              <button
+                nz-button
+                style="margin: 2px"
+                nzType="primary"
                 (click)="printInvoice()"
               >
                 Print
               </button>
-              <button 
-                nz-button 
-                style="margin: 2px;" 
-                nzType="primary" 
+              <button
+                nz-button
+                style="margin: 2px"
+                nzType="primary"
                 (click)="downloadInvoice()"
               >
                 Download
               </button>
-              <button 
-                nz-button 
-                nzType="default" 
-                style="margin: 2px;" 
+              <button
+                nz-button
+                nzType="default"
+                style="margin: 2px"
                 (click)="onModalCancel()"
               >
                 Cancel
               </button>
             </ng-template>
-
           </nz-modal>
         </div>
 
@@ -154,7 +163,7 @@
               <div>:</div>
             </div>
             <div nz-col nzSpan="12">
-              <span>{{ data["CUSTOMER_NAME"] || 'Guest User'}}</span>
+              <span>{{ data["CUSTOMER_NAME"] || "Guest User" }}</span>
             </div>
           </div>
 
@@ -276,7 +285,7 @@
                 <td>{{ data.VERIENT_SIZE }}</td>
                 <td>{{ data.VERIENT_UNIT_NAME }}</td>
                 <td>{{ data.QUANTITY }}</td>
-                <td>{{ data.ITEM_DISCOUNT_AMOUNT??data.PRICE }}</td>
+                <td>{{ data.ITEM_DISCOUNT_AMOUNT ?? data.PRICE }}</td>
               </tr>
             </tbody>
           </nz-table>

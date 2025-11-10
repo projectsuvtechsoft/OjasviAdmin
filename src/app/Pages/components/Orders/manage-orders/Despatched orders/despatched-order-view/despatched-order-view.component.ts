@@ -168,4 +168,10 @@ export class DespatchedOrderViewComponent implements OnInit {
       }
     }
   }
+
+   calculatePercent(data){
+  //  console.log(arr,'arr')
+  let val=((Number((data.TOTAL_AMOUNT - data.TOTAL_DISCOUNT_AMOUNT).toFixed(2)) / data.TOTAL_AMOUNT) * 100).toFixed(2)
+  return val
+ }
 }

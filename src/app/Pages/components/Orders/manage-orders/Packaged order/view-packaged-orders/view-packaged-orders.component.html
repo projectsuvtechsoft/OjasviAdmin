@@ -53,7 +53,17 @@
               <span>{{ data["ADDON_AMOUNT"] }}</span>
             </div>
           </div>
-
+   <div nz-row>
+            <div nz-col nzSpan="12">
+              <div>Discount Amount / Percent</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="11">
+              <span>{{ (data["TOTAL_AMOUNT"] - data['TOTAL_DISCOUNT_AMOUNT']).toFixed(2) }} $ / {{calculatePercent(data)}} %</span>
+            </div>
+          </div>
           <div nz-row>
             <div nz-col nzSpan="12">
               <div>Net amount</div>

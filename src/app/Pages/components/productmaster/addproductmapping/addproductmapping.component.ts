@@ -517,9 +517,10 @@ export class AddproductmappingComponent implements OnInit {
       const width = img.width;
       const height = img.height;
 
-      if (width > 500 || height > 500) {
+      if (width !=500  && height != 500) {
         this.message.error('Image dimensions must be 500x500 pixels or less', '');
         this.fileURL = null;
+        event.target.value=null
         this.imagePreviews = '';
         this.data.VARIENT_IMAGE_URL = '';
         return;
@@ -531,6 +532,7 @@ export class AddproductmappingComponent implements OnInit {
     };
 
     img.onerror = () => {
+      event.target.value=null
       this.message.error('Invalid image file', '');
     };
 
