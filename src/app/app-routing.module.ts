@@ -5,6 +5,7 @@ import { UsersComponent } from './CommonForms/Users/users/users.component';
 import { RolesComponent } from './CommonForms/Roles/roles/roles.component';
 import { FormsComponent } from './CommonForms/Forms/forms/forms.component';
 import { MainDashboardComponent } from './CommonForms/main-dashboard/main-dashboard.component';
+import { AdminDashboardComponent } from './AdminDashboard/admin-dashboard/admin-dashboard.component';
 // import { MaindashboardComponent } from "./maindashboard/maindashboard.component";
 // import { SearchpageComponent } from './searchpage/searchpage.component';
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'roles', component: RolesComponent },
   { path: 'forms', component: FormsComponent },
   { path: 'dashboard', component: MainDashboardComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent },
   // { path: "search", component: SearchpageComponent },
   {
     path: 'masters',

@@ -190,7 +190,7 @@
             <b>Payment Date Time</b>
           </th>
           <th
-            nzColumnKey="{{ 'CUSTOMER_NAME' }}"
+            nzColumnKey="{{ 'CUSTOMER_ADDRESS_NAME' }}"
             nzAlign="center"
             [nzSortFn]="true"
             nzWidth="180px"
@@ -221,7 +221,7 @@
             {{ data["PAYMENT_DATETIME"] }}
           </td>
           <td style="text-align: left; white-space: nowrap">
-            {{ data["CUSTOMER_NAME"] || 'Guest User'}}
+            {{ data["CUSTOMER_ADDRESS_NAME"] || 'Guest User'}}
           </td>
           <td style="text-align: right; white-space: nowrap">
             {{ data["PAID_AMOUNT"] }}

@@ -1,0 +1,291 @@
+<div class="min-h-screen bg-gray-50 p-3 sm:p-4 lg:p-6">
+  <!-- Header -->
+  <div class="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div>
+      <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
+      <p class="text-xs sm:text-sm text-gray-600 mt-1">Track your store performance</p>
+    </div>
+    <nz-select 
+      [(ngModel)]="selectedDateRange" 
+      (ngModelChange)="onDateRangeChange($event)"
+      class="w-full sm:w-36">
+      <nz-option 
+        *ngFor="let range of dateRanges" 
+        [nzValue]="range.value" 
+        [nzLabel]="range.label">
+      </nz-option>
+    </nz-select>
+  </div>
+
+  <!-- KPI Cards Section -->
+  <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 mb-4">
+    <div 
+      *ngFor="let card of kpiCards" 
+      class="rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 transition-all hover:shadow-md"
+      [ngClass]="card.bgColor">
+      <div class="flex items-start justify-between mb-2">
+        <span [ngClass]="card.color" class="text-lg sm:text-xl">
+          <i nz-icon [nzType]="card.icon" nzTheme="outline"></i>
+        </span>
+        <span 
+          *ngIf="card.change"
+          [ngClass]="{
+            'text-green-600 bg-green-100': card.changeType === 'increase',
+            'text-red-600 bg-red-100': card.changeType === 'decrease'
+          }"
+          class="text-[10px] sm:text-xs font-medium px-1.5 py-0.5 rounded-full whitespace-nowrap">
+          {{ card.change }}
+        </span>
+      </div>
+      <h3 class="text-gray-600 text-[10px] sm:text-xs font-medium mb-1 leading-tight">{{ card.title }}</h3>
+      <p class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 truncate">{{ card.value }}</p>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-4">
+    <!-- Sales Over Time -->
+    <nz-card nzTitle="Sales Over Time" [nzBordered]="false" class="shadow-sm">
+      <div class="w-full overflow-hidden">
+        <apx-chart
+          [series]="salesOverTimeChart.series!"
+          [chart]="salesOverTimeChart.chart!"
+          [dataLabels]="salesOverTimeChart.dataLabels!"
+          [stroke]="salesOverTimeChart.stroke!"
+          [xaxis]="salesOverTimeChart.xaxis!"
+          [yaxis]="salesOverTimeChart.yaxis!"
+          [colors]="salesOverTimeChart.colors!"
+          [fill]="salesOverTimeChart.fill!">
+        </apx-chart>
+      </div>
+    </nz-card>
+
+    <!-- Orders by Status -->
+    <nz-card nzTitle="Orders by Status" [nzBordered]="false" class="shadow-sm">
+      <div class="w-full overflow-hidden">
+        <apx-chart
+          [series]="ordersByStatusChart.series!"
+          [chart]="ordersByStatusChart.chart!"
+          [labels]="ordersByStatusChart.labels!"
+          [colors]="ordersByStatusChart.colors!"
+          [legend]="ordersByStatusChart.legend!"
+          [dataLabels]="ordersByStatusChart.dataLabels!">
+        </apx-chart>
+      </div>
+    </nz-card>
+
+    <!-- Sales by Category -->
+    <nz-card nzTitle="Sales by Category" [nzBordered]="false" class="shadow-sm">
+      <div class="w-full overflow-hidden">
+        <apx-chart
+          [series]="salesByCategoryChart.series!"
+          [chart]="salesByCategoryChart.chart!"
+          [plotOptions]="salesByCategoryChart.plotOptions!"
+          [dataLabels]="salesByCategoryChart.dataLabels!"
+          [xaxis]="salesByCategoryChart.xaxis!"
+          [colors]="salesByCategoryChart.colors!">
+        </apx-chart>
+      </div>
+    </nz-card>
+
+    <!-- Top 5 Products -->
+    <nz-card nzTitle="Top 5 Products by Sales" [nzBordered]="false" class="shadow-sm">
+      <div class="w-full overflow-hidden">
+        <apx-chart
+          [series]="topProductsChart.series!"
+          [chart]="topProductsChart.chart!"
+          [plotOptions]="topProductsChart.plotOptions!"
+          [dataLabels]="topProductsChart.dataLabels!"
+          [xaxis]="topProductsChart.xaxis!"
+          [yaxis]="topProductsChart.yaxis!"
+          [colors]="topProductsChart.colors!">
+        </apx-chart>
+      </div>
+    </nz-card>
+  </div>
+
+  <!-- Data Tables Section -->
+  <nz-card nzTitle="Detailed Insights" [nzBordered]="false" class="shadow-sm">
+    <nz-tabset [nzTabPosition]="'top'" [nzSize]="'small'">
+      <!-- Top Selling Products Tab -->
+      <nz-tab nzTitle="Top Products">
+        <div class="overflow-x-auto -mx-2 sm:mx-0">
+          <nz-table 
+            #topProductsTable 
+            [nzData]="topSellingProducts"
+            [nzPageSize]="5"
+            [nzShowPagination]="true"
+            [nzSize]="'small'">
+            <thead>
+              <tr>
+                <th class="whitespace-nowrap">Product</th>
+                <th class="whitespace-nowrap">Category</th>
+                <th nzAlign="right" class="whitespace-nowrap">Units</th>
+                <th nzAlign="right" class="whitespace-nowrap">Revenue</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of topProductsTable.data">
+                <td>
+                  <div class="flex items-center space-x-2 min-w-[120px]">
+                    <img 
+                      [src]="product.image" 
+                      [alt]="product.name"
+                      class="w-8 h-8 rounded object-cover flex-shrink-0">
+                    <span class="text-xs sm:text-sm font-medium truncate">{{ product.name }}</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] sm:text-xs rounded-full whitespace-nowrap">
+                    {{ product.category }}
+                  </span>
+                </td>
+                <td nzAlign="right" class="text-xs sm:text-sm">{{ product.unitsSold }}</td>
+                <td nzAlign="right" class="text-xs sm:text-sm font-semibold text-green-600 whitespace-nowrap">
+                  ₹{{ product.revenue.toLocaleString('en-IN') }}
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </nz-tab>
+
+      <!-- Sales by Category Tab -->
+      <nz-tab nzTitle="By Category">
+        <div class="overflow-x-auto -mx-2 sm:mx-0">
+          <nz-table 
+            #categoryTable 
+            [nzData]="categoryData"
+            [nzPageSize]="10"
+            [nzSize]="'small'">
+            <thead>
+              <tr>
+                <th class="whitespace-nowrap">Category</th>
+                <th nzAlign="center" class="whitespace-nowrap">Products</th>
+                <th nzAlign="center" class="whitespace-nowrap">Orders</th>
+                <th nzAlign="right" class="whitespace-nowrap">Revenue</th>
+                <th nzAlign="center" class="whitespace-nowrap">% Sales</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let category of categoryTable.data">
+                <td class="text-xs sm:text-sm font-medium">{{ category.category }}</td>
+                <td nzAlign="center" class="text-xs sm:text-sm">{{ category.totalProducts }}</td>
+                <td nzAlign="center" class="text-xs sm:text-sm">{{ category.orders }}</td>
+                <td nzAlign="right" class="text-xs sm:text-sm font-semibold text-green-600 whitespace-nowrap">
+                  ₹{{ category.revenue.toLocaleString('en-IN') }}
+                </td>
+                <td nzAlign="center">
+                  <span class="px-2 py-0.5 bg-purple-100 text-purple-800 text-[10px] sm:text-xs rounded-full whitespace-nowrap">
+                    {{ category.percentOfTotal }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </nz-tab>
+
+      <!-- Product Reviews Tab -->
+      <nz-tab nzTitle="Reviews">
+        <div class="overflow-x-auto -mx-2 sm:mx-0">
+          <nz-table 
+            #reviewsTable 
+            [nzData]="productReviews"
+            [nzPageSize]="10"
+            [nzSize]="'small'">
+            <thead>
+              <tr>
+                <th class="whitespace-nowrap">Product</th>
+                <th nzAlign="center" class="whitespace-nowrap">Rating</th>
+                <th nzAlign="center" class="whitespace-nowrap">Reviews</th>
+                <th nzAlign="center" class="whitespace-nowrap">Latest</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let review of reviewsTable.data">
+                <td class="text-xs sm:text-sm font-medium">{{ review.productName }}</td>
+                <td nzAlign="center">
+                  <div class="flex items-center justify-center space-x-1">
+                    <i nz-icon nzType="star" nzTheme="fill" class="text-yellow-500 text-xs"></i>
+                    <span class="text-xs sm:text-sm font-semibold">{{ review.avgRating }}</span>
+                  </div>
+                </td>
+                <td nzAlign="center" class="text-xs sm:text-sm text-gray-600">
+                  {{ review.reviewCount }}
+                </td>
+                <td nzAlign="center" class="text-xs sm:text-sm whitespace-nowrap">{{ review.latestReviewDate }}</td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </nz-tab>
+
+      <!-- Top Customers Tab -->
+      <nz-tab nzTitle="Top Customers">
+        <div class="overflow-x-auto -mx-2 sm:mx-0">
+          <nz-table 
+            #customersTable 
+            [nzData]="topCustomers"
+            [nzPageSize]="10"
+            [nzSize]="'small'">
+            <thead>
+              <tr>
+                <th class="whitespace-nowrap">Name</th>
+                <th class="whitespace-nowrap">Email</th>
+                <th nzAlign="center" class="whitespace-nowrap">Orders</th>
+                <th nzAlign="right" class="whitespace-nowrap">Total Spent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let customer of customersTable.data">
+                <td class="text-xs sm:text-sm font-medium">{{ customer.name }}</td>
+                <td class="text-xs sm:text-sm text-gray-600 truncate max-w-[150px]">{{ customer.email }}</td>
+                <td nzAlign="center">
+                  <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 text-[10px] sm:text-xs rounded-full">
+                    {{ customer.orders }}
+                  </span>
+                </td>
+                <td nzAlign="right" class="text-xs sm:text-sm font-semibold text-green-600 whitespace-nowrap">
+                  ₹{{ customer.totalSpent.toLocaleString('en-IN') }}
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </nz-tab>
+
+      <!-- Category Product Count Tab -->
+      <nz-tab nzTitle="Product Count">
+        <div class="overflow-x-auto -mx-2 sm:mx-0">
+          <nz-table 
+            #categoryCountTable 
+            [nzData]="categoryCount"
+            [nzPageSize]="10"
+            [nzSize]="'small'">
+            <thead>
+              <tr>
+                <th class="whitespace-nowrap">Category</th>
+                <th nzAlign="center" class="whitespace-nowrap">Count</th>
+                <th nzAlign="center" class="whitespace-nowrap">% Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of categoryCountTable.data">
+                <td class="text-xs sm:text-sm font-medium">{{ item.category }}</td>
+                <td nzAlign="center" class="text-sm sm:text-base font-semibold text-blue-600">
+                  {{ item.productCount }}
+                </td>
+                <td nzAlign="center">
+                  <span class="px-2 py-0.5 bg-teal-100 text-teal-800 text-[10px] sm:text-xs rounded-full whitespace-nowrap">
+                    {{ item.percentOfTotal }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </nz-tab>
+    </nz-tabset>
+  </nz-card>
+</div>

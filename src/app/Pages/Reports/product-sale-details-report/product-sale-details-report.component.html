@@ -125,7 +125,7 @@
         <tr>
           <th nzColumnKey="{{ 'ORDER_DATETIME' }}" nzAlign="center" nzWidth="200px" [nzSortFn]="true"><b>Order Date
               Time</b></th>
-          <th nzColumnKey="{{ 'CUSTOMER_NAME' }}" nzAlign="center" nzWidth="200px" [nzSortFn]="true"><b>Customer
+          <th nzColumnKey="{{ 'CUSTOMER_ADDRESS_NAME' }}" nzAlign="center" nzWidth="200px" [nzSortFn]="true"><b>Customer
               Name</b></th>
 
           <th nzColumnKey="{{ 'PRODUCT_NAME' }}" nzAlign="center" nzWidth="200px" [nzSortFn]="true"><b>Product Name</b>
@@ -146,7 +146,7 @@
       <tbody>
         <tr *ngFor="let data of Contra.data">
           <td style="text-align:center;white-space: pre-line;">{{data['ORDER_DATETIME'] || "-"}}</td>
-          <td style="text-align:left;white-space: pre-line;">{{data['CUSTOMER_NAME'] || "Guest User"}}</td>
+          <td style="text-align:left;white-space: pre-line;">{{data['CUSTOMER_ADDRESS_NAME'] || "Guest User"}}</td>
 
           <td style="text-align:left;white-space: pre-line;">
             <!-- {{data['PRODUCT_NAME'] || "-"}} -->

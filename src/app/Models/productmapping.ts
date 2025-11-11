@@ -8,7 +8,7 @@ export class ProductMapping {
     STATUS: boolean = true;
     OPENING_STOCK: any ; 
     CURRENT_STOCK: any ;
-    RATIO_WITH_MAIN_STOCK: any; 
+    RATIO_WITH_MAIN_STOCK: any=1; 
     UNIT_NAME:string =''
     IN_COUNTRY:number=0 ;
     OUT_COUNTRY:number=0 ;

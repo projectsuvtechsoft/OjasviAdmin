@@ -63,9 +63,9 @@
           <th nzColumnKey="{{ 'CURRENT_STOCK' }}" [nzSortFn]="true" nzWidth="35px" style="text-align: center">
             <b> Current Stock </b>
           </th>
-          <th nzColumnKey="{{ 'RATIO_WITH_MAIN_STOCK' }}" [nzSortFn]="true" nzWidth="47px" style="text-align: center">
+          <!-- <th nzColumnKey="{{ 'RATIO_WITH_MAIN_STOCK' }}" [nzSortFn]="true" nzWidth="47px" style="text-align: center">
             <b> Ratio With Main Stock </b>
-          </th>
+          </th> -->
           <th nzColumnKey="{{ 'STATUS' }}" [nzSortFn]="true" nzWidth="20px" style="text-align: center">
             <b> Status </b>
           </th>
@@ -130,9 +130,9 @@
           <td style="white-space: pre-line; text-align: right">
             {{ data["CURRENT_STOCK"] }}
           </td>
-          <td style="white-space: pre-line; text-align: right">
+          <!-- <td style="white-space: pre-line; text-align: right">
             {{ data["RATIO_WITH_MAIN_STOCK"] }}
-          </td>
+          </td> -->
           <td style="text-align: center">
             <i nz-icon *ngIf="data['STATUS']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#52c41a'"></i>

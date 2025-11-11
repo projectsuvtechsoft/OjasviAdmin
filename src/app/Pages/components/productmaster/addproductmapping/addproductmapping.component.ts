@@ -294,22 +294,25 @@ export class AddproductmappingComponent implements OnInit {
     } else if (this.data.RATE == 0 || this.data.RATE == undefined) {
       this.isOk = false;
       this.message.error('Please Enter Rate', '');
-    } else if (this.maintain == 1 && this.varient == 1) {
-      if (
-        this.data.IS_MAINTAIN_STOCK == true &&
-        (this.data.RATIO_WITH_MAIN_STOCK == 0 ||
-          this.data.RATIO_WITH_MAIN_STOCK == undefined)
-      ) {
-        this.isOk = false;
-        this.message.error('Please Enter Ratio With Maintain Stock ', '');
-      } else if (
-        this.data.IS_MAINTAIN_STOCK == false &&
-        (this.data.RATIO_WITH_MAIN_STOCK == 0 ||
-          this.data.RATIO_WITH_MAIN_STOCK == undefined)
-      ) {
-        this.isOk = false;
-        this.message.error('Please Enter Ratio With Maintain Stock ', '');
-      } else if (
+    } 
+    else if (this.maintain == 1 && this.varient == 1) {
+      // if (
+      //   this.data.IS_MAINTAIN_STOCK == true &&
+      //   (this.data.RATIO_WITH_MAIN_STOCK == 0 ||
+      //     this.data.RATIO_WITH_MAIN_STOCK == undefined)
+      // ) {
+      //   this.isOk = false;
+      //   this.message.error('Please Enter Ratio With Maintain Stock ', '');
+      // } 
+      // else if (
+      //   this.data.IS_MAINTAIN_STOCK == false &&
+      //   (this.data.RATIO_WITH_MAIN_STOCK == 0 ||
+      //     this.data.RATIO_WITH_MAIN_STOCK == undefined)
+      // ) {
+      //   this.isOk = false;
+      //   this.message.error('Please Enter Ratio With Maintain Stock ', '');
+      // }
+        if (
         this.data.IS_MAINTAIN_STOCK == false &&
         (this.data.OPENING_STOCK == 0 || this.data.OPENING_STOCK == undefined)
       ) {

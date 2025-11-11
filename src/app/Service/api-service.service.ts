@@ -102,26 +102,11 @@ export class ApiServiceService {
     return s;
   }
   // For  Testing server
-  getheader() {
-    this.httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
-      deviceid: this.cookie.get('deviceId'),
-      supportkey: this.cookie.get('supportKey'),
-      Token: this.cookie.get('token'),
-      skip_zrok_interstitial: 'true',
-      'ngrok-skip-browser-warning': 'true',
-    });
-    this.options = {
-      headers: this.httpHeaders,
-    };
-  }
-  //   getheader() {
+  // getheader() {
   //   this.httpHeaders = new HttpHeaders({
   //     'Content-Type': 'application/json',
-  //     apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
-  //     applicationkey: '26lLNSmaKlcFziHH',
+  //     apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
+  //     applicationkey: 'awlcQRwoZxAJQm7b',
   //     deviceid: this.cookie.get('deviceId'),
   //     supportkey: this.cookie.get('supportKey'),
   //     Token: this.cookie.get('token'),
@@ -132,6 +117,21 @@ export class ApiServiceService {
   //     headers: this.httpHeaders,
   //   };
   // }
+    getheader() {
+    this.httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
+      deviceid: this.cookie.get('deviceId'),
+      supportkey: this.cookie.get('supportKey'),
+      Token: this.cookie.get('token'),
+      skip_zrok_interstitial: 'true',
+      'ngrok-skip-browser-warning': 'true',
+    });
+    this.options = {
+      headers: this.httpHeaders,
+    };
+  }
 
   login(email: string, password: string, cloudid: any, type: any) {
     this.getheader();
@@ -441,26 +441,11 @@ export class ApiServiceService {
   }
 
   // // For Testing server
-  onuploadheader() {
-    this.httpHeaders1 = new HttpHeaders({
-      Accept: 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
-      supportkey: this.cookie.get('supportKey'),
-      Token: this.cookie.get('token'),
-    });
-
-    this.options1 = {
-      headers: this.httpHeaders,
-    };
-  }
-
-  //Live/Local
-  //   onuploadheader() {
+  // onuploadheader() {
   //   this.httpHeaders1 = new HttpHeaders({
   //     Accept: 'application/json',
-  //     apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
-  //     applicationkey: '26lLNSmaKlcFziHH',
+  //     apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
+  //     applicationkey: 'awlcQRwoZxAJQm7b',
   //     supportkey: this.cookie.get('supportKey'),
   //     Token: this.cookie.get('token'),
   //   });
@@ -469,6 +454,21 @@ export class ApiServiceService {
   //     headers: this.httpHeaders,
   //   };
   // }
+
+  //Live/Local
+    onuploadheader() {
+    this.httpHeaders1 = new HttpHeaders({
+      Accept: 'application/json',
+      apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+      applicationkey: '26lLNSmaKlcFziHH',
+      supportkey: this.cookie.get('supportKey'),
+      Token: this.cookie.get('token'),
+    });
+
+    this.options1 = {
+      headers: this.httpHeaders,
+    };
+  }
   // getAllCityMaster(
   //   pageIndex: number,
   //   pageSize: number,

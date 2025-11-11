@@ -64,6 +64,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { MainDashboardComponent } from './CommonForms/main-dashboard/main-dashboard.component';
 import { MasterModule } from './Pages/masters.module';
+import { AdminDashboardComponent } from './AdminDashboard/admin-dashboard/admin-dashboard.component';
 // import { SearchpageComponent } from './searchpage/searchpage.component';
 registerLocaleData(en);
 // initializeApp(environment.firebase);
@@ -80,6 +81,7 @@ registerLocaleData(en);
     UsersComponent,
     UserComponent,
     MainDashboardComponent,
+    AdminDashboardComponent,
   ],
 
   imports: [

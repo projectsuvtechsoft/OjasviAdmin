@@ -224,7 +224,7 @@
             <b>Order Date Time</b>
           </th>
           <th
-            nzColumnKey="{{ 'CUSTOMER_NAME' }}"
+            nzColumnKey="{{ 'CUSTOMER_ADDRESS_NAME' }}"
             nzAlign="center"
             nzWidth="200px"
             [nzSortFn]="true"
@@ -309,29 +309,29 @@
           <td  style="text-align: center;white-space: pre-line;">{{ data["ORDER_DATETIME"] }}</td>
 
           <td style="text-align: left;white-space: pre-line;">
-            <!-- {{ data["CUSTOMER_NAME"] }} -->
-             <span *ngIf="data['CUSTOMER_NAME'] != null">
+            <!-- {{ data["CUSTOMER_ADDRESS_NAME"] }} -->
+             <span *ngIf="data['CUSTOMER_ADDRESS_NAME'] != null">
               <span
-                *ngIf="data['CUSTOMER_NAME'].length >= 25"
-                [nzPopoverContent]="data['CUSTOMER_NAME']"
+                *ngIf="data['CUSTOMER_ADDRESS_NAME'].length >= 25"
+                [nzPopoverContent]="data['CUSTOMER_ADDRESS_NAME']"
                 nz-popover
                 nzPopoverPlacement="topLeft"
               >
                 {{
-                  data["CUSTOMER_NAME"] == null
+                  data["CUSTOMER_ADDRESS_NAME"] == null
                     ? "Guest User"
-                    : (data["CUSTOMER_NAME"] | slice : 0 : 22)
-                }}{{ data["CUSTOMER_NAME"].length > 25 ? "..." : "" }}
+                    : (data["CUSTOMER_ADDRESS_NAME"] | slice : 0 : 22)
+                }}{{ data["CUSTOMER_ADDRESS_NAME"].length > 25 ? "..." : "" }}
               </span>
-              <span *ngIf="data['CUSTOMER_NAME'].length < 25">
+              <span *ngIf="data['CUSTOMER_ADDRESS_NAME'].length < 25">
                 {{
-                  data["CUSTOMER_NAME"] == null
+                  data["CUSTOMER_ADDRESS_NAME"] == null
                     ? "Guest User"
-                    : (data["CUSTOMER_NAME"] | slice : 0 : 22)
-                }}{{ data["CUSTOMER_NAME"].length > 25 ? "..." : "" }}
+                    : (data["CUSTOMER_ADDRESS_NAME"] | slice : 0 : 22)
+                }}{{ data["CUSTOMER_ADDRESS_NAME"].length > 25 ? "..." : "" }}
               </span>
             </span>
-            <span *ngIf="data['CUSTOMER_NAME'] == null">Guest User</span>
+            <span *ngIf="data['CUSTOMER_ADDRESS_NAME'] == null">Guest User</span>
           </td>
           <td style="text-align: center;white-space: pre-line;">{{ data["ORDER_NUMBER"] }}</td>
           <td style="text-align: center;white-space: pre-line;">{{ data["TOTAL_ITEMS"] }}</td>
