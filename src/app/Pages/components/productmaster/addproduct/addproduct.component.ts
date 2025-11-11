@@ -219,16 +219,16 @@ export class AddproductComponent implements OnInit {
     if (this.data.IS_VERIENT_AVAILABLE == true) {
       this.data.IN_COUNTRY == null;
       this.data.OUT_COUNTRY == null;
-      console.log(this.data.IN_COUNTRY, 'this.data.IN_COUNTRY');
-      console.log(this.data.OUT_COUNTRY, 'this.data.IN_COUNTRY');
+      // console.log(this.data.IN_COUNTRY, 'this.data.IN_COUNTRY');
+      // console.log(this.data.OUT_COUNTRY, 'this.data.IN_COUNTRY');
     }
   }
 
   //save
   save(addNew: boolean, websitebannerPage: NgForm): void {
-    console.log(this.data.UNIT_ID, 'this.data.UNIT_ID');
-    console.log('data data ', this.data);
-    console.log(this.data.OPENING_STOCK);
+    // console.log(this.data.UNIT_ID, 'this.data.UNIT_ID');
+    // console.log('data data ', this.data);
+    // console.log(this.data.OPENING_STOCK);
 
     // console.log('PRICE2:',this.data.PRICE2);
     // console.log('SIZE2:',this.data.SIZE2);
@@ -240,7 +240,7 @@ export class AddproductComponent implements OnInit {
     // console.log('SIZE4:',this.data.SIZE4);
     // console.log('UNIT_ID4:',this.data.UNIT_ID4);
 
-    console.log(this.multipleImages.length);
+    // console.log(this.multipleImages.length);
     this.imagecount = this.multipleImages.length;
     // console.log('Count::::',this.imagecount);
 
@@ -296,7 +296,7 @@ export class AddproductComponent implements OnInit {
         this.data.DISCOUNT == undefined)
     ) {
       this.isOk = false;
-      console.log('this.data.DISCOUNT_TYPE', this.data.DISCOUNT_TYPE);
+      // console.log('this.data.DISCOUNT_TYPE', this.data.DISCOUNT_TYPE);
 
       this.message.error('Please Enter Discount. ', '');
     }
@@ -342,25 +342,26 @@ export class AddproductComponent implements OnInit {
     //   this.message.error(' Please Select Unit ', '');
 
     // }
-    else if (
-      this.data.IS_VERIENT_AVAILABLE == false &&
-      this.data.IN_COUNTRY == undefined
-    ) {
-      this.isOk = false;
-      this.message.error(
-        'Please Enter Correct In Country Packaging Charges ',
-        ''
-      );
-    } else if (
-      this.data.IS_VERIENT_AVAILABLE == false &&
-      this.data.OUT_COUNTRY == undefined
-    ) {
-      this.isOk = false;
-      this.message.error(
-        'Please Enter Correct Out Country Packaging charges  ',
-        ''
-      );
-    } else if (
+    // else if (
+    //   this.data.IS_VERIENT_AVAILABLE == false &&
+    //   this.data.IN_COUNTRY == undefined
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error(
+    //     'Please Enter Correct In Country Packaging Charges ',
+    //     ''
+    //   );
+    // } else if (
+    //   this.data.IS_VERIENT_AVAILABLE == false &&
+    //   this.data.OUT_COUNTRY == undefined
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error(
+    //     'Please Enter Correct Out Country Packaging charges  ',
+    //     ''
+    //   );
+    // }
+     else if (
       this.data.IS_MAINTAIN_STOCK == false &&
       this.data.IS_VERIENT_AVAILABLE == false &&
       (this.data.SIZE == undefined || this.data.SIZE <= 0)

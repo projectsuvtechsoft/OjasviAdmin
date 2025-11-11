@@ -10,7 +10,7 @@ import { ApiServiceService } from 'src/app/Service/api-service.service';
   styleUrls: ['./delivered-orders.component.css'],
 })
 export class DeliveredOrdersComponent implements OnInit {
-  constructor(private api: ApiServiceService,private router:Router) {}
+  constructor(private api: ApiServiceService, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -55,7 +55,7 @@ export class DeliveredOrdersComponent implements OnInit {
 
   data1: OrderDetailMaster[] = [];
   isSpinning = false;
-back() {
+  back() {
     this.router.navigate(['/masters/menu']);
   }
   search(reset: boolean = false) {
@@ -150,9 +150,13 @@ back() {
     this.sortValue = sortOrder;
     this.search();
   }
-   calculatePercent(data){
-  //  console.log(arr,'arr')
-  let val=((Number((data.TOTAL_AMOUNT - data.TOTAL_DISCOUNT_AMOUNT).toFixed(2)) / data.TOTAL_AMOUNT) * 100).toFixed(2)
-  return val
- }
+  calculatePercent(data) {
+    //  console.log(arr,'arr')
+    let val = (
+      (Number((data.TOTAL_AMOUNT - data.TOTAL_DISCOUNT_AMOUNT).toFixed(2)) /
+        data.TOTAL_AMOUNT) *
+      100
+    ).toFixed(2);
+    return val;
+  }
 }
