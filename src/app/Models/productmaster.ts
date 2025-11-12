@@ -39,9 +39,9 @@ export class ProductMaster {
     
     IS_MAINTAIN_STOCK:boolean=true;
     IS_VERIENT_AVAILABLE:boolean=true;
-    UNIT_ID:any;
-    OPENING_STOCK:any;
-    CURRENT_STOCK:any;
+    UNIT_ID:any=1;
+    OPENING_STOCK:any=1;
+    CURRENT_STOCK:any=1;
     BENIFITS:any
     IS_UPCOMING:boolean=false;
 }

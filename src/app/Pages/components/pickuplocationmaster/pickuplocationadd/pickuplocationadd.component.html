@@ -164,6 +164,40 @@
           </nz-form-item>
         </div>
 
+        <!-- Open Time -->
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Open Time</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please select open time">
+              <nz-time-picker
+                name="OPEN_TIME"
+                [(ngModel)]="data.OPEN_TIME"
+                nzFormat="HH:mm"
+                nzPlaceHolder="Select Open Time"
+                style="width: 100%"
+                required
+              ></nz-time-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- Close Time -->
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired nzNoColon>Close Time</nz-form-label>
+            <nz-form-control nzHasFeedback nzErrorTip="Please select close time">
+              <nz-time-picker
+                name="CLOSE_TIME"
+                [(ngModel)]="data.CLOSE_TIME"
+                nzFormat="HH:mm"
+                nzPlaceHolder="Select Close Time"
+                style="width: 100%"
+                required
+              ></nz-time-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
         <!-- ✅ Status Switch -->
         <div nz-col nzSpan="24">
           <nz-form-item>

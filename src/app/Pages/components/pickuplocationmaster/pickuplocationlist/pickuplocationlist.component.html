@@ -178,6 +178,24 @@
           </th>
 
           <th
+            nzColumnKey="OPEN_TIME"
+            [nzSortFn]="true"
+            nzWidth="40px"
+            style="text-align: center"
+          >
+            <b>Open Time</b>
+          </th>
+
+          <th
+            nzColumnKey="CLOSE_TIME"
+            [nzSortFn]="true"
+            nzWidth="40px"
+            style="text-align: center"
+          >
+            <b>Close Time</b>
+          </th>
+
+          <th
             nzColumnKey="STATUS"
             [nzSortFn]="true"
             nzWidth="25px"
@@ -288,6 +306,12 @@
 
           <!-- Country Code -->
           <td style="text-align: center">{{ data["COUNTRY_CODE"] }}</td>
+
+          <!-- Open Time -->
+          <td style="text-align: center">{{ data["OPEN_TIME"] }}</td>
+
+          <!-- Close Time -->
+          <td style="text-align: center">{{ data["CLOSE_TIME"] }}</td>
 
           <!-- Status -->
           <td style="text-align: center">

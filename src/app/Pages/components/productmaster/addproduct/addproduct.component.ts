@@ -361,71 +361,74 @@ export class AddproductComponent implements OnInit {
     //     ''
     //   );
     // }
-     else if (
-      this.data.IS_MAINTAIN_STOCK == false &&
-      this.data.IS_VERIENT_AVAILABLE == false &&
-      (this.data.SIZE == undefined || this.data.SIZE <= 0)
-    ) {
-      this.isOk = false;
-      this.message.error('Please Enter Base Size ', '');
-    } else if (
-      this.data.IS_MAINTAIN_STOCK == false &&
-      this.data.IS_VERIENT_AVAILABLE == false &&
-      (this.data.RATE == undefined || this.data.RATE <= 0)
-    ) {
-      this.isOk = false;
-      this.message.error('Please Enter Base Rate ', '');
-    } else if (
-      this.data.IS_MAINTAIN_STOCK == false &&
-      this.data.IS_VERIENT_AVAILABLE == false &&
-      (this.data.UNIT_ID == undefined || this.data.UNIT_ID <= 0)
-    ) {
-      this.isOk = false;
-      this.message.error('Please Select Base Unit ', '');
-    }
+    //  else if (
+    //   this.data.IS_MAINTAIN_STOCK == false &&
+    //   this.data.IS_VERIENT_AVAILABLE == false &&
+    //   (this.data.SIZE == undefined || this.data.SIZE <= 0)
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Base Size ', '');
+    // } else if (
+    //   this.data.IS_MAINTAIN_STOCK == false &&
+    //   this.data.IS_VERIENT_AVAILABLE == false &&
+    //   (this.data.RATE == undefined || this.data.RATE <= 0)
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Base Rate ', '');
+    // } else if (
+    //   this.data.IS_MAINTAIN_STOCK == false &&
+    //   this.data.IS_VERIENT_AVAILABLE == false &&
+    //   (this.data.UNIT_ID == undefined || this.data.UNIT_ID <= 0)
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Select Base Unit ', '');
+    // }
 
     // false true
+    // else if (
+    //   this.data.IS_MAINTAIN_STOCK == true &&
+    //   this.data.IS_VERIENT_AVAILABLE == false &&
+    //   (this.data.SIZE == undefined || this.data.SIZE <= 0)
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Base Size ', '');
+    // } else if (
+    //   this.data.IS_MAINTAIN_STOCK == true &&
+    //   this.data.IS_VERIENT_AVAILABLE == false &&
+    //   (this.data.RATE == undefined || this.data.RATE <= 0)
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Base Rate ', '');
+    // } else if (
+    //   this.data.IS_MAINTAIN_STOCK == true &&
+    //   this.data.IS_VERIENT_AVAILABLE == false &&
+    //   (this.data.UNIT_ID == undefined || this.data.UNIT_ID <= 0)
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Base Unit ', '');
+    // } else if (
+    //   this.data.IS_MAINTAIN_STOCK == true &&
+    //   this.data.IS_VERIENT_AVAILABLE == true &&
+    //   (this.data.UNIT_ID == undefined || this.data.UNIT_ID <= 0)
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Base Unit ', '');
+    // } 
     else if (
-      this.data.IS_MAINTAIN_STOCK == true &&
-      this.data.IS_VERIENT_AVAILABLE == false &&
-      (this.data.SIZE == undefined || this.data.SIZE <= 0)
-    ) {
-      this.isOk = false;
-      this.message.error('Please Enter Base Size ', '');
-    } else if (
-      this.data.IS_MAINTAIN_STOCK == true &&
-      this.data.IS_VERIENT_AVAILABLE == false &&
-      (this.data.RATE == undefined || this.data.RATE <= 0)
-    ) {
-      this.isOk = false;
-      this.message.error('Please Enter Base Rate ', '');
-    } else if (
-      this.data.IS_MAINTAIN_STOCK == true &&
-      this.data.IS_VERIENT_AVAILABLE == false &&
-      (this.data.UNIT_ID == undefined || this.data.UNIT_ID <= 0)
-    ) {
-      this.isOk = false;
-      this.message.error('Please Enter Base Unit ', '');
-    } else if (
-      this.data.IS_MAINTAIN_STOCK == true &&
-      this.data.IS_VERIENT_AVAILABLE == true &&
-      (this.data.UNIT_ID == undefined || this.data.UNIT_ID <= 0)
-    ) {
-      this.isOk = false;
-      this.message.error('Please Enter Base Unit ', '');
-    } else if (
       this.data.DESCRIPTION == null ||
       this.data.DESCRIPTION.trim() == ''
     ) {
       this.isOk = false;
       this.message.error(' Please Enter Description ', '');
-    } else if (this.multipleImages.length == 0) {
-      this.isOk = false;
-      this.message.error(' Please Select Image ', '');
-    } else if (this.multipleImages.length > 4) {
-      this.isOk = false;
-      this.message.error(' Please Select Only 4 Images ', '');
-    } else this.cgst = this.data.CGST;
+    }
+    //  else if (this.multipleImages.length == 0) {
+    //   this.isOk = false;
+    //   this.message.error(' Please Select Image ', '');
+    // } else if (this.multipleImages.length > 4) {
+    //   this.isOk = false;
+    //   this.message.error(' Please Select Only 4 Images ', '');
+    // } 
+    else this.cgst = this.data.CGST;
     this.sgst = this.data.SGST;
 
     if (this.isOk) {

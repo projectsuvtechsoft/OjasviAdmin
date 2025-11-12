@@ -11,6 +11,8 @@ export class pickupLocation {
   LANDMARK: string;
   CLIENT_ID: number;
   COUNTRY_CODE: string;
+  OPEN_TIME: any;
+  CLOSE_TIME: any;
   STATUS:boolean=true
   ID:any
 }

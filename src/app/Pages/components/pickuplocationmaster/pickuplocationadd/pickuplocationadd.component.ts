@@ -53,6 +53,9 @@ export class PickuplocationaddComponent {
         this.loadCities(this.data.STATE_ID);
       }
     }
+    
+    // ✅ Convert time strings to Date objects for time picker when editing
+    this.convertTimeStringsToDate();
   }
   cities: any = [];
   // Load countries
@@ -421,6 +424,8 @@ export class PickuplocationaddComponent {
     if (!this.data.LANDMARK?.trim()) missingFields.push('Landmark');
     if (!this.data.PINCODE?.trim()) missingFields.push('Pincode');
     if (!this.data.COUNTRY_CODE?.trim()) missingFields.push('Country Code');
+    if (!this.data.OPEN_TIME) missingFields.push('Open Time');
+    if (!this.data.CLOSE_TIME) missingFields.push('Close Time');
 
     // ✅ If multiple fields missing, show generic message
     if (missingFields.length === 0) {
@@ -440,6 +445,15 @@ export class PickuplocationaddComponent {
 
     // ✅ Proceed if validation passes
     this.isSpinning = true;
+
+    // ✅ Format time fields to HH:mm before sending to backend
+    const dataToSend = { ...this.data };
+    if (dataToSend.OPEN_TIME) {
+      dataToSend.OPEN_TIME = this.formatTimeToHHMM(dataToSend.OPEN_TIME);
+    }
+    if (dataToSend.CLOSE_TIME) {
+      dataToSend.CLOSE_TIME = this.formatTimeToHHMM(dataToSend.CLOSE_TIME);
+    }
 
     this.api.getAllpickupLocation(0, 0, '', 'desc', '').subscribe(
       (allData: any) => {
@@ -467,7 +481,7 @@ export class PickuplocationaddComponent {
 
         // ✅ Update record
         if (this.data.ID) {
-          this.api.updatepickupLocation(this.data).subscribe(
+          this.api.updatepickupLocation(dataToSend).subscribe(
             (successCode) => {
               if (successCode.code === 200) {
                 this.message.success(
@@ -491,7 +505,7 @@ export class PickuplocationaddComponent {
         }
         // ✅ Create new record
         else {
-          this.api.createpickupLocation(this.data).subscribe(
+          this.api.createpickupLocation(dataToSend).subscribe(
             (successCode) => {
               if (successCode.code === 200) {
                 this.message.success(
@@ -524,5 +538,52 @@ export class PickuplocationaddComponent {
         this.isSpinning = false;
       }
     );
+  }
+
+  // ✅ Convert time strings from backend to Date objects for time picker
+  convertTimeStringsToDate(): void {
+    if (this.data.OPEN_TIME && typeof this.data.OPEN_TIME === 'string') {
+      this.data.OPEN_TIME = this.convertHHMMToDate(this.data.OPEN_TIME);
+    }
+    if (this.data.CLOSE_TIME && typeof this.data.CLOSE_TIME === 'string') {
+      this.data.CLOSE_TIME = this.convertHHMMToDate(this.data.CLOSE_TIME);
+    }
+  }
+
+  // ✅ Convert HH:mm string to Date object for time picker
+  convertHHMMToDate(timeString: string): Date {
+    if (!timeString || !timeString.match(/^\d{2}:\d{2}$/)) {
+      return new Date();
+    }
+    
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  }
+
+  // ✅ Format time to HH:mm format for backend
+  formatTimeToHHMM(time: any): string {
+    if (!time) return '';
+    
+    // If time is already a string in HH:mm format, return as is
+    if (typeof time === 'string' && time.match(/^\d{2}:\d{2}$/)) {
+      return time;
+    }
+    
+    // If time is a Date object or other format, convert using DatePipe
+    if (time instanceof Date) {
+      return this.datePipe.transform(time, 'HH:mm') || '';
+    }
+    
+    // If time is a string that can be converted to Date
+    if (typeof time === 'string') {
+      const dateTime = new Date(time);
+      if (!isNaN(dateTime.getTime())) {
+        return this.datePipe.transform(dateTime, 'HH:mm') || '';
+      }
+    }
+    
+    return time.toString();
   }
 }
