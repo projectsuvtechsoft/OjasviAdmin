@@ -1,30 +1,70 @@
-<div class="min-h-screen bg-gray-50 p-3 sm:p-4 lg:p-6">
-  <!-- Header -->
-  <div class="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+<div class="min-h-screen bg-gray-50 p-2 sm:p-3 lg:p-4">
+  <!-- Compact Header -->
+  <div class="mb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
     <div>
-      <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
-      <p class="text-xs sm:text-sm text-gray-600 mt-1">Track your store performance</p>
+      <h1 class="text-lg sm:text-xl font-bold text-gray-900">Dashboard</h1>
+      <p class="text-xs text-gray-600">Store performance</p>
     </div>
-    <nz-select 
-      [(ngModel)]="selectedDateRange" 
-      (ngModelChange)="onDateRangeChange($event)"
-      class="w-full sm:w-36">
-      <nz-option 
-        *ngFor="let range of dateRanges" 
-        [nzValue]="range.value" 
-        [nzLabel]="range.label">
-      </nz-option>
-    </nz-select>
+    <div class="flex items-center gap-1.5">
+      <button 
+        (click)="refreshDashboard()"
+        [disabled]="isRefreshing"
+        class="flex items-center gap-1 px-2 py-1.5 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+        <i nz-icon [nzType]="isRefreshing ? 'loading' : 'reload'" [nzSpin]="isRefreshing" class="text-xs"></i>
+        <span class="hidden sm:inline text-xs">{{ isRefreshing ? 'Refreshing...' : 'Refresh' }}</span>
+      </button>
+      <nz-select 
+        [(ngModel)]="selectedDateRange" 
+        (ngModelChange)="onDateRangeChange($event)"
+        class="w-24 sm:w-28" nzSize="small">
+        <nz-option 
+          *ngFor="let range of dateRanges" 
+          [nzValue]="range.value" 
+          [nzLabel]="range.label">
+        </nz-option>
+      </nz-select>
+    </div>
   </div>
 
-  <!-- KPI Cards Section -->
-  <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 mb-4">
+  <!-- Compact KPI Cards Section -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-1.5 sm:gap-2 mb-3">
+    <!-- Loading Skeleton Cards -->
+    <ng-container *ngIf="isLoadingKPIs">
+      <div 
+        *ngFor="let item of [1,2,3,4,5,6,7,8]; let i = index"
+        class="rounded shadow-sm border border-gray-200 p-2 sm:p-3 animate-pulse bg-gray-50"
+        [style.animation-delay.ms]="i * 100">
+        <div class="flex items-start justify-between mb-1">
+          <div class="w-4 h-4 bg-gray-300 rounded"></div>
+          <div class="w-8 h-3 bg-gray-300 rounded-full"></div>
+        </div>
+        <div class="w-16 h-2.5 bg-gray-300 rounded mb-1"></div>
+        <div class="w-12 h-4 bg-gray-300 rounded"></div>
+      </div>
+    </ng-container>
+
+    <!-- Compact Error State -->
     <div 
-      *ngFor="let card of kpiCards" 
-      class="rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 transition-all hover:shadow-md"
-      [ngClass]="card.bgColor">
-      <div class="flex items-start justify-between mb-2">
-        <span [ngClass]="card.color" class="text-lg sm:text-xl">
+      *ngIf="kpiError && !isLoadingKPIs"
+      class="col-span-2 sm:col-span-4 rounded shadow-sm border border-red-200 p-3 bg-red-50 text-center">
+      <i nz-icon nzType="exclamation-circle" class="text-red-500 text-lg mb-1"></i>
+      <p class="text-red-700 text-xs mb-2">Failed to load data</p>
+      <button 
+        (click)="retryKPILoad()"
+        class="px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors">
+        Retry
+      </button>
+    </div>
+
+    <!-- Compact KPI Cards -->
+    <div 
+      *ngFor="let card of kpiCards; let i = index" 
+      [style.animation-delay.ms]="i * 50"
+      class="rounded shadow-sm border border-gray-200 p-2 sm:p-3 transition-all hover:shadow-md kpi-card-enter"
+      [ngClass]="card.bgColor"
+      [hidden]="isLoadingKPIs || kpiError">
+      <div class="flex items-start justify-between mb-1">
+        <span [ngClass]="card.color" class="text-sm sm:text-base">
           <i nz-icon [nzType]="card.icon" nzTheme="outline"></i>
         </span>
         <span 
@@ -33,20 +73,46 @@
             'text-green-600 bg-green-100': card.changeType === 'increase',
             'text-red-600 bg-red-100': card.changeType === 'decrease'
           }"
-          class="text-[10px] sm:text-xs font-medium px-1.5 py-0.5 rounded-full whitespace-nowrap">
+          class="text-[9px] sm:text-[10px] font-medium px-1 py-0.5 rounded-full whitespace-nowrap">
           {{ card.change }}
         </span>
       </div>
-      <h3 class="text-gray-600 text-[10px] sm:text-xs font-medium mb-1 leading-tight">{{ card.title }}</h3>
-      <p class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 truncate">{{ card.value }}</p>
+      <h3 class="text-gray-600 text-[9px] sm:text-[10px] font-medium mb-0.5 leading-tight" 
+          [nz-tooltip]="card.title" 
+          nzTooltipPlacement="top">{{ card.title }}</h3>
+      <p class="text-sm sm:text-base font-bold text-gray-900 truncate" 
+         [nz-tooltip]="card.value.toString()" 
+         nzTooltipPlacement="top">{{ card.value }}</p>
     </div>
   </div>
 
-  <!-- Charts Section -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-4">
+  <!-- Moderately Compact Charts Section -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 mb-3">
     <!-- Sales Over Time -->
-    <nz-card nzTitle="Sales Over Time" [nzBordered]="false" class="shadow-sm">
-      <div class="w-full overflow-hidden">
+    <nz-card nzTitle="Sales" [nzBordered]="false" class="shadow-sm chart-card">
+      <!-- Moderate Chart Loading State -->
+      <div *ngIf="isLoadingCharts" class="w-full h-[200px] sm:h-[240px] lg:h-[260px] flex items-center justify-center bg-gray-50 rounded animate-pulse">
+        <div class="text-center">
+          <i nz-icon nzType="loading" nzSpin class="text-sm text-gray-400 mb-1"></i>
+          <p class="text-xs text-gray-500">Loading chart...</p>
+        </div>
+      </div>
+      
+      <!-- Moderate Chart Error State -->
+      <div *ngIf="chartError && !isLoadingCharts" class="w-full h-[200px] sm:h-[240px] lg:h-[260px] flex items-center justify-center bg-red-50 rounded">
+        <div class="text-center">
+          <i nz-icon nzType="exclamation-circle" class="text-sm text-red-500 mb-1"></i>
+          <p class="text-xs text-red-700 mb-2">Failed to load chart</p>
+          <button 
+            (click)="retryChartLoad()"
+            class="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-colors text-xs">
+            Retry
+          </button>
+        </div>
+      </div>
+      
+      <!-- Actual Chart -->
+      <div class="w-full overflow-hidden" [hidden]="isLoadingCharts || chartError">
         <apx-chart
           [series]="salesOverTimeChart.series!"
           [chart]="salesOverTimeChart.chart!"
@@ -61,8 +127,30 @@
     </nz-card>
 
     <!-- Orders by Status -->
-    <nz-card nzTitle="Orders by Status" [nzBordered]="false" class="shadow-sm">
-      <div class="w-full overflow-hidden">
+    <nz-card nzTitle="Orders" [nzBordered]="false" class="shadow-sm chart-card">
+      <!-- Moderate Chart Loading State -->
+      <div *ngIf="isLoadingCharts" class="w-full h-[200px] sm:h-[240px] flex items-center justify-center bg-gray-50 rounded animate-pulse">
+        <div class="text-center">
+          <i nz-icon nzType="loading" nzSpin class="text-sm text-gray-400 mb-1"></i>
+          <p class="text-xs text-gray-500">Loading chart...</p>
+        </div>
+      </div>
+      
+      <!-- Moderate Chart Error State -->
+      <div *ngIf="chartError && !isLoadingCharts" class="w-full h-[200px] sm:h-[240px] flex items-center justify-center bg-red-50 rounded">
+        <div class="text-center">
+          <i nz-icon nzType="exclamation-circle" class="text-sm text-red-500 mb-1"></i>
+          <p class="text-xs text-red-700 mb-2">Failed to load chart</p>
+          <button 
+            (click)="retryChartLoad()"
+            class="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-colors text-xs">
+            Retry
+          </button>
+        </div>
+      </div>
+      
+      <!-- Actual Chart -->
+      <div class="w-full py-4 overflow-hidden" [hidden]="isLoadingCharts || chartError">
         <apx-chart
           [series]="ordersByStatusChart.series!"
           [chart]="ordersByStatusChart.chart!"
@@ -75,8 +163,30 @@
     </nz-card>
 
     <!-- Sales by Category -->
-    <nz-card nzTitle="Sales by Category" [nzBordered]="false" class="shadow-sm">
-      <div class="w-full overflow-hidden">
+    <nz-card nzTitle="Categories" [nzBordered]="false" class="shadow-sm chart-card">
+      <!-- Moderate Chart Loading State -->
+      <div *ngIf="isLoadingCharts" class="w-full h-[200px] sm:h-[240px] lg:h-[260px] flex items-center justify-center bg-gray-50 rounded animate-pulse">
+        <div class="text-center">
+          <i nz-icon nzType="loading" nzSpin class="text-sm text-gray-400 mb-1"></i>
+          <p class="text-xs text-gray-500">Loading chart...</p>
+        </div>
+      </div>
+      
+      <!-- Moderate Chart Error State -->
+      <div *ngIf="chartError && !isLoadingCharts" class="w-full h-[200px] sm:h-[240px] lg:h-[260px] flex items-center justify-center bg-red-50 rounded">
+        <div class="text-center">
+          <i nz-icon nzType="exclamation-circle" class="text-sm text-red-500 mb-1"></i>
+          <p class="text-xs text-red-700 mb-2">Failed to load chart</p>
+          <button 
+            (click)="retryChartLoad()"
+            class="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-colors text-xs">
+            Retry
+          </button>
+        </div>
+      </div>
+      
+      <!-- Actual Chart -->
+      <div class="w-full overflow-hidden" [hidden]="isLoadingCharts || chartError">
         <apx-chart
           [series]="salesByCategoryChart.series!"
           [chart]="salesByCategoryChart.chart!"
@@ -89,8 +199,30 @@
     </nz-card>
 
     <!-- Top 5 Products -->
-    <nz-card nzTitle="Top 5 Products by Sales" [nzBordered]="false" class="shadow-sm">
-      <div class="w-full overflow-hidden">
+    <nz-card nzTitle="Top Products" [nzBordered]="false" class="shadow-sm chart-card">
+      <!-- Moderate Chart Loading State -->
+      <div *ngIf="isLoadingCharts" class="w-full h-[200px] sm:h-[240px] lg:h-[260px] flex items-center justify-center bg-gray-50 rounded animate-pulse">
+        <div class="text-center">
+          <i nz-icon nzType="loading" nzSpin class="text-sm text-gray-400 mb-1"></i>
+          <p class="text-xs text-gray-500">Loading chart...</p>
+        </div>
+      </div>
+      
+      <!-- Moderate Chart Error State -->
+      <div *ngIf="chartError && !isLoadingCharts" class="w-full h-[200px] sm:h-[240px] lg:h-[260px] flex items-center justify-center bg-red-50 rounded">
+        <div class="text-center">
+          <i nz-icon nzType="exclamation-circle" class="text-sm text-red-500 mb-1"></i>
+          <p class="text-xs text-red-700 mb-2">Failed to load chart</p>
+          <button 
+            (click)="retryChartLoad()"
+            class="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-colors text-xs">
+            Retry
+          </button>
+        </div>
+      </div>
+      
+      <!-- Actual Chart -->
+      <div class="w-full overflow-hidden" [hidden]="isLoadingCharts || chartError">
         <apx-chart
           [series]="topProductsChart.series!"
           [chart]="topProductsChart.chart!"
@@ -105,8 +237,37 @@
   </div>
 
   <!-- Data Tables Section -->
-  <nz-card nzTitle="Detailed Insights" [nzBordered]="false" class="shadow-sm">
-    <nz-tabset [nzTabPosition]="'top'" [nzSize]="'small'">
+  <nz-card nzTitle="Detailed Insights" [nzBordered]="false" class="shadow-sm table-card">
+    <!-- Table Loading State -->
+    <div *ngIf="isLoadingTables" class="animate-pulse">
+      <div class="flex space-x-4 mb-4">
+        <div class="h-8 bg-gray-300 rounded w-20"></div>
+        <div class="h-8 bg-gray-300 rounded w-24"></div>
+        <div class="h-8 bg-gray-300 rounded w-16"></div>
+      </div>
+      <div class="space-y-3">
+        <div *ngFor="let item of [1,2,3,4,5]" class="flex space-x-4">
+          <div class="h-4 bg-gray-300 rounded flex-1"></div>
+          <div class="h-4 bg-gray-300 rounded w-16"></div>
+          <div class="h-4 bg-gray-300 rounded w-20"></div>
+          <div class="h-4 bg-gray-300 rounded w-24"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Table Error State -->
+    <div *ngIf="tableError && !isLoadingTables" class="text-center py-8">
+      <i nz-icon nzType="exclamation-circle" class="text-3xl text-red-500 mb-3"></i>
+      <p class="text-red-700 mb-4">Failed to load table data</p>
+      <button 
+        (click)="retryTableLoad()"
+        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+        Retry
+      </button>
+    </div>
+    
+    <!-- Actual Tables -->
+    <nz-tabset [nzTabPosition]="'top'" [nzSize]="'small'" [hidden]="isLoadingTables || tableError">
       <!-- Top Selling Products Tab -->
       <nz-tab nzTitle="Top Products">
         <div class="overflow-x-auto -mx-2 sm:mx-0">
@@ -121,6 +282,7 @@
                 <th class="whitespace-nowrap">Product</th>
                 <th class="whitespace-nowrap">Category</th>
                 <th nzAlign="right" class="whitespace-nowrap">Units</th>
+                <th nzAlign="right" class="whitespace-nowrap">Size</th>
                 <th nzAlign="right" class="whitespace-nowrap">Revenue</th>
               </tr>
             </thead>
@@ -132,7 +294,12 @@
                       [src]="product.image" 
                       [alt]="product.name"
                       class="w-8 h-8 rounded object-cover flex-shrink-0">
-                    <span class="text-xs sm:text-sm font-medium truncate">{{ product.name }}</span>
+                    <span class="text-xs sm:text-sm font-medium flex-1" 
+                          [nz-tooltip]="product.name" 
+                          nzTooltipPlacement="top">
+                       {{ product.name || 'No Name' }}
+                      <!--<small class="text-red-500" *ngIf="!product.name">[DEBUG: Name missing]</small> -->
+                    </span>
                   </div>
                 </td>
                 <td>
@@ -141,8 +308,9 @@
                   </span>
                 </td>
                 <td nzAlign="right" class="text-xs sm:text-sm">{{ product.unitsSold }}</td>
+                <td nzAlign="right" class="text-xs sm:text-sm">{{ product.size }}</td>
                 <td nzAlign="right" class="text-xs sm:text-sm font-semibold text-green-600 whitespace-nowrap">
-                  ₹{{ product.revenue.toLocaleString('en-IN') }}
+                  ${{ product.revenue.toLocaleString('en-US') }}
                 </td>
               </tr>
             </tbody>
@@ -150,41 +318,6 @@
         </div>
       </nz-tab>
 
-      <!-- Sales by Category Tab -->
-      <nz-tab nzTitle="By Category">
-        <div class="overflow-x-auto -mx-2 sm:mx-0">
-          <nz-table 
-            #categoryTable 
-            [nzData]="categoryData"
-            [nzPageSize]="10"
-            [nzSize]="'small'">
-            <thead>
-              <tr>
-                <th class="whitespace-nowrap">Category</th>
-                <th nzAlign="center" class="whitespace-nowrap">Products</th>
-                <th nzAlign="center" class="whitespace-nowrap">Orders</th>
-                <th nzAlign="right" class="whitespace-nowrap">Revenue</th>
-                <th nzAlign="center" class="whitespace-nowrap">% Sales</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let category of categoryTable.data">
-                <td class="text-xs sm:text-sm font-medium">{{ category.category }}</td>
-                <td nzAlign="center" class="text-xs sm:text-sm">{{ category.totalProducts }}</td>
-                <td nzAlign="center" class="text-xs sm:text-sm">{{ category.orders }}</td>
-                <td nzAlign="right" class="text-xs sm:text-sm font-semibold text-green-600 whitespace-nowrap">
-                  ₹{{ category.revenue.toLocaleString('en-IN') }}
-                </td>
-                <td nzAlign="center">
-                  <span class="px-2 py-0.5 bg-purple-100 text-purple-800 text-[10px] sm:text-xs rounded-full whitespace-nowrap">
-                    {{ category.percentOfTotal }}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </nz-table>
-        </div>
-      </nz-tab>
 
       <!-- Product Reviews Tab -->
       <nz-tab nzTitle="Reviews">
@@ -240,14 +373,16 @@
             <tbody>
               <tr *ngFor="let customer of customersTable.data">
                 <td class="text-xs sm:text-sm font-medium">{{ customer.name }}</td>
-                <td class="text-xs sm:text-sm text-gray-600 truncate max-w-[150px]">{{ customer.email }}</td>
+                <td class="text-xs sm:text-sm text-gray-600 truncate max-w-[150px]" 
+                    [nz-tooltip]="customer.email" 
+                    nzTooltipPlacement="top">{{ customer.email }}</td>
                 <td nzAlign="center">
                   <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 text-[10px] sm:text-xs rounded-full">
                     {{ customer.orders }}
                   </span>
                 </td>
                 <td nzAlign="right" class="text-xs sm:text-sm font-semibold text-green-600 whitespace-nowrap">
-                  ₹{{ customer.totalSpent.toLocaleString('en-IN') }}
+                  ${{ customer.totalSpent.toLocaleString('en-US') }}
                 </td>
               </tr>
             </tbody>

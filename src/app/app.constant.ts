@@ -6,8 +6,8 @@ export const url = {
   // link: 'https://p8rhkmb7-9878.inc1.devtunnels.ms/', // ngrok bahubali office
   // link: 'https://h10rqczh-9090.inc1.devtunnels.ms/',// ngrok pooja
   // link: 'https://wnm884z0-9878.inc1.devtunnels.ms/',// ngrok bahubali
-  // link: 'https://ojasviadmin.uvtechsoft.com:9090/', // live
-  link: 'https://admin.ojasvidermacare.com:9092/', // Other lives
+  link: 'https://ojasviadmin.uvtechsoft.com:9090/', // live
+  // link: 'https://admin.ojasvidermacare.com:9092/', // Other lives
 
   // link: 'https://h10rqczh-9090.inc1.devtunnels.ms/',// ngrok
 };

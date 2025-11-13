@@ -175,9 +175,16 @@ export class LoginComponent implements OnInit {
           
 
             // SUBSCRIBED_CHANNELS: []
+            if(data['data'][0]['UserData'][0]['ROLE_ID']===7 || data['data'][0]['UserData'][0]['ROLE_ID']===6){
+               this.router.navigate(['/admin-dashboard']).then(() => {
+              window.location.reload();
+            });
+            }
+            else{
             this.router.navigate(['/dashboard']).then(() => {
               window.location.reload();
             });
+          }
           } else {
             this.isloginSpinning = false;
             this.message.error('You have entered wrong credentials', '');
