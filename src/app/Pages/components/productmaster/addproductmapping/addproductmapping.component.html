@@ -185,9 +185,9 @@
           </nz-form-item>
         </div>
       </div>
-
-      <div nz-row class="my-box" *ngIf="maintain == 1 && varient == 1">
-        <div nz-col nzSpan="24">
+<!-- && varient == 1 -->
+      <div nz-row class="my-box" *ngIf="maintain == 1 ">
+        <!-- <div nz-col nzSpan="24">
           <nz-form-item>
             <nz-form-label nzNoColon> Is Main Stock ? </nz-form-label>
             <nz-form-control>
@@ -197,7 +197,7 @@
               ></nz-switch>
             </nz-form-control>
           </nz-form-item>
-        </div>
+        </div> -->
 
         <!-- <div nz-col nzSpan="12" *ngIf="data.IS_MAINTAIN_STOCK == true">
           <nz-form-item>
@@ -245,7 +245,7 @@
           </nz-form-item>
         </div> -->
 
-        <div nz-col nzSpan="12" *ngIf="data.IS_MAINTAIN_STOCK == true">
+        <!-- <div nz-col nzSpan="12" *ngIf="data.IS_MAINTAIN_STOCK == true">
           <nz-form-item>
             <nz-form-label nzNoColon> Opening Stock </nz-form-label>
             <nz-form-control
@@ -263,9 +263,9 @@
               />
             </nz-form-control>
           </nz-form-item>
-        </div>
+        </div> -->
 
-        <div nz-col nzSpan="12" *ngIf="data.IS_MAINTAIN_STOCK == true">
+        <!-- <div nz-col nzSpan="12" *ngIf="data.IS_MAINTAIN_STOCK == true">
           <nz-form-item>
             <nz-form-label nzNoColon> Current Stock </nz-form-label>
             <nz-form-control
@@ -284,11 +284,14 @@
               />
             </nz-form-control>
           </nz-form-item>
-        </div>
+        </div> -->
         <div nz-col nzSpan="24">
           <nz-form-item>
             <nz-form-label nzRequired nzNoColon>
-              Image
+              Image &nbsp;&nbsp;&nbsp;
+              <span style="color: rgb(242, 74, 74);font-size: 11px !important; ">
+                       ( Select an image (PNG, JPG, JPEG) of size 500px width and 500px height)
+                      </span>
               <span
                 *ngIf="
                   (data.VARIENT_IMAGE_URL && data.VARIENT_IMAGE_URL != ' ') ||

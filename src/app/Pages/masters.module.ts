@@ -136,6 +136,7 @@ import { AddCityComponent } from './components/CityMaster/add-city/add-city.comp
 import { ListCityComponent } from './components/CityMaster/list-city/list-city.component';
 import { PickuplocationaddComponent } from './components/pickuplocationmaster/pickuplocationadd/pickuplocationadd.component';
 import { PickuplocationlistComponent } from './components/pickuplocationmaster/pickuplocationlist/pickuplocationlist.component';
+import { DatetimeFormatPipe } from '../Pipes/datetime-format.pipe';
 @NgModule({
   declarations: [
     MastersComponent,
@@ -206,7 +207,8 @@ import { PickuplocationlistComponent } from './components/pickuplocationmaster/p
     AddCityComponent,
     ListCityComponent,
     PickuplocationaddComponent,
-    PickuplocationlistComponent
+    PickuplocationlistComponent,
+    DatetimeFormatPipe
   ],
   imports: [
     // PickerComponent,

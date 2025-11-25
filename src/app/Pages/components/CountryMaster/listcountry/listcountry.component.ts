@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
@@ -12,6 +12,7 @@ import { ApiServiceService } from 'src/app/Service/api-service.service';
   styleUrls: ['./listcountry.component.css'],
 })
 export class ListcountryComponent implements OnInit {
+  
   drawerVisible!: boolean;
   drawerTitle!: string;
   drawerData: CountryMaster = new CountryMaster();
@@ -99,6 +100,7 @@ export class ListcountryComponent implements OnInit {
               (item) => (item.checked = this.selectedIds.has(item.ID))
             );
             this.updateSelectedRows();
+           
           } else {
             this.message.error('Something Went Wrong', '');
             this.loadingRecords = false;

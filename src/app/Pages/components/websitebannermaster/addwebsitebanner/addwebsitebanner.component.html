@@ -128,8 +128,11 @@
                   <div nz-col nzSpan="24">
                     <nz-form-item>
                       <nz-form-label nzRequired nzNoColon>  Image &nbsp;&nbsp;&nbsp;
-                           <span nz-icon nzType="info-circle" nzTheme="twotone" nz-tooltip
-                        nzTooltipTitle="Select an image (PNG, JPG, JPEG) of size 1920 x 500px">
+                           <!-- <span nz-icon nzType="info-circle" nzTheme="twotone" nz-tooltip
+                        nzTooltipTitle="Select an image (PNG, JPG, JPEG) of size 1920 x 600px">
+                      </span> --> 
+                      <span style="color: rgb(242, 74, 74);font-size: 11px !important; ">
+                       ( Select an image (PNG, JPG, JPEG) of size 1920px width and 600px height )
                       </span>
                         <span
                   *ngIf="(data.IMG_URL && data.IMG_URL != ' ') || fileURL"

@@ -6,7 +6,7 @@ export class ProductMapping {
     RATE: number = 0;
     IS_MAINTAIN_STOCK: boolean = true;
     STATUS: boolean = true;
-    OPENING_STOCK: any ; 
+    OPENING_STOCK:number = 9999999999.00; 
     CURRENT_STOCK: any ;
     RATIO_WITH_MAIN_STOCK: any=1; 
     UNIT_NAME:string =''

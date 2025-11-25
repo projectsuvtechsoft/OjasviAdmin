@@ -1576,7 +1576,10 @@ export class AppComponent {
   }
 
   openDashboard() {
-    this.router.navigate(['/dashboard']);
+    if(this.decreptedroleIdString == '6' || this.decreptedroleIdString == '7'){
+      this.router.navigate(['/admin-dashboard']);
+    }
+    else this.router.navigate(['/dashboard']);
   }
 
   onCrossClick(menu: any, index: number): void {

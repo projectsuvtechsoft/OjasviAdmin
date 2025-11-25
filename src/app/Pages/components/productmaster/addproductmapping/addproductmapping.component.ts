@@ -346,11 +346,11 @@ export class AddproductmappingComponent implements OnInit {
 
       if (this.maintain == 1 && this.varient == 1) {
         if (this.data.IS_MAINTAIN_STOCK == false) {
-          this.data.OPENING_STOCK = null;
+          this.data.OPENING_STOCK = 0;
         }
       } else if (this.maintain == 0 && this.varient == 1) {
         if (this.data.IS_MAINTAIN_STOCK == false) {
-          this.data.OPENING_STOCK = null;
+          this.data.OPENING_STOCK = 0;
         }
       }
 

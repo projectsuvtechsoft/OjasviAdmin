@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -12,6 +12,7 @@ import { ApiServiceService } from 'src/app/Service/api-service.service';
   styleUrls: ['./websitebannerlist.component.css'],
 })
 export class WebsitebannerlistComponent implements OnInit {
+ 
   drawerVisible!: boolean;
   drawerTitle!: string;
   drawerData: WebsiteBannerMaster = new WebsiteBannerMaster();
@@ -96,6 +97,8 @@ export class WebsitebannerlistComponent implements OnInit {
             // }else{
             //   data.SEQUENCE_NO= this.dataList[this.dataList.length-1]['SEQUENCE_NO']+1
             // }
+
+            
           } else {
             this.message.error('Something Went Wrong', '');
             this.loadingRecords = false;

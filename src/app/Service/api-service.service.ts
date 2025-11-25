@@ -441,7 +441,22 @@ export class ApiServiceService {
   }
 
   // // For Testing server
-  onuploadheader() {
+  // onuploadheader() {
+  //   this.httpHeaders1 = new HttpHeaders({
+  //     Accept: 'application/json',
+  //     apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
+  //     applicationkey: 'awlcQRwoZxAJQm7b',
+  //     supportkey: this.cookie.get('supportKey'),
+  //     Token: this.cookie.get('token'),
+  //   });
+
+  //   this.options1 = {
+  //     headers: this.httpHeaders,
+  //   };
+  // }
+
+  //Live/Local
+    onuploadheader() {
     this.httpHeaders1 = new HttpHeaders({
       Accept: 'application/json',
       apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
@@ -454,21 +469,6 @@ export class ApiServiceService {
       headers: this.httpHeaders,
     };
   }
-
-  //Live/Local
-  //   onuploadheader() {
-  //   this.httpHeaders1 = new HttpHeaders({
-  //     Accept: 'application/json',
-  //     apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
-  //     applicationkey: '26lLNSmaKlcFziHH',
-  //     supportkey: this.cookie.get('supportKey'),
-  //     Token: this.cookie.get('token'),
-  //   });
-
-  //   this.options1 = {
-  //     headers: this.httpHeaders,
-  //   };
-  // }
   // getAllCityMaster(
   //   pageIndex: number,
   //   pageSize: number,

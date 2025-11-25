@@ -620,35 +620,127 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.ordersByStatusChart = {
       series: orderStatusData,
       chart: { 
-        type: 'donut', 
-        height: 240, 
-        fontFamily: 'inherit',
-        toolbar: { show: false },
+        type: 'donut',
+        height: 300,
+        fontFamily: 'Inter, sans-serif',
+        toolbar: { 
+          show: false 
+        },
         offsetY: 10
       },
       labels: orderStatusLabels,
       colors: statusColors.slice(0, orderStatusLabels.length),
-      legend: { 
-        position: 'bottom', 
-        fontSize: '10px',
-        floating: false,
+      legend: {
+        position: 'bottom',
+        horizontalAlign: 'center',
+        fontSize: '12px',
+        fontFamily: 'Inter, sans-serif',
+        itemMargin: {
+          horizontal: 8,
+          vertical: 4
+        },
+        markers: {
+          width: 10,
+          height: 10,
+          radius: 5,
+          offsetX: -4
+        },
         offsetY: 5,
-        height: orderStatusLabels.length > 6 ? 80 : 60
+        height: 80, // Fixed height that works well for most cases
+        formatter: function(legendName: string) {
+          return legendName.length > 15 ? legendName.substring(0, 15) + '...' : legendName;
+        },
+        onItemHover: {
+          highlightDataSeries: true
+        },
+        onItemClick: {
+          toggleDataSeries: true
+        },
+        containerMargin: {
+          top: 5
+        }
       },
       dataLabels: { 
-        enabled: true, 
-        formatter: (val: number) => val.toFixed(1) + '%', 
-        style: { fontSize: '10px' },
+        enabled: false 
       },
       plotOptions: {
         pie: {
-          offsetY: 15,
           donut: {
-            size: '70%'
+            size: '55%',
+            labels: {
+              show: true,
+              name: {
+                show: true,
+                fontSize: '14px',
+                fontFamily: 'Inter, sans-serif',
+                offsetY: 0
+              },
+              value: {
+                show: true,
+                fontSize: '16px',
+                fontFamily: 'Inter, sans-serif',
+                offsetY: 5,
+                formatter: (val: string) => val
+              },
+              total: {
+                show: true,
+                showAlways: true,
+                label: 'Total',
+                fontSize: '14px',
+                fontFamily: 'Inter, sans-serif',
+                color: '#6B7280'
+              }
+            }
           }
         }
       },
-      responsive: responsiveOptions
+      responsive: [{
+        breakpoint: 768,
+        options: {
+          chart: {
+            height: 300
+          },
+          legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+            height: 100,
+            itemMargin: {
+              horizontal: 6,
+              vertical: 2
+            },
+            fontSize: '11px',
+            containerMargin: {
+              top: 5
+            }
+          }
+        }
+      },
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            height: 300
+          },
+          legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+            height: 120,
+            itemMargin: {
+              horizontal: 4,
+              vertical: 1
+            },
+            fontSize: '10px',
+            markers: {
+              width: 8,
+              height: 8,
+              radius: 4
+            },
+            containerMargin: {
+              top: 5
+            }
+          }
+        }
+      }]
     };
 
     // Process category revenue data
@@ -737,9 +829,16 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         categories: topProductsLabels,
         labels: { 
           rotate: -45, 
-          style: { fontSize: '10px' },
+          style: { 
+            fontSize: '10px',
+            fontFamily: 'Inter, sans-serif'
+          },
           maxHeight: 80,
-          trim: true
+          trim: true,
+          formatter: function(value: string) {
+            // Truncate long labels in the x-axis
+            return value.length > 15 ? value.substring(0, 12) + '...' : value;
+          }
         }
       },
       yaxis: { 
@@ -749,14 +848,87 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         } 
       },
       tooltip: {
+        enabled: true,
+        shared: true,
+        intersect: false,
         custom: function({ series, seriesIndex, dataPointIndex, w }) {
           const fullName = self.topProductsFullNames[dataPointIndex] || 'Product Name';
           const quantity = series[seriesIndex][dataPointIndex];
-          // console.log('Tooltip Debug:', { dataPointIndex, fullName, quantity, fullNamesArray: self.topProductsFullNames });
-          return `<div style="background: #1f2937; color: white; padding: 8px; border-radius: 6px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); font-family: inherit; z-index: 9999;">
-                    <div style="font-weight: 500; font-size: 14px; margin-bottom: 4px; white-space: nowrap;">${fullName}</div>
-                    <div style="font-size: 12px; color: #d1d5db;">Quantity: ${quantity}</div>
-                  </div>`;
+          
+          // Split the name into parts if it contains '...'
+          const nameParts = fullName.split('...').filter(part => part.trim().length > 0);
+          const displayName = nameParts.length > 1 ? nameParts[0] + nameParts[1] : fullName;
+          
+          // Create a more detailed and styled tooltip
+          return `
+            <div style="
+              background: rgba(31, 41, 55, 0.98);
+              color: white;
+              padding: 12px;
+              border-radius: 8px;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+              font-family: 'Inter', sans-serif;
+              backdrop-filter: blur(4px);
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              max-width: 400px;
+              z-index: 10000;
+              white-space: normal;
+              word-break: break-word;
+            ">
+              <div style="
+                font-weight: 600;
+                font-size: 14px;
+                margin-bottom: 6px;
+                color: #f3f4f6;
+                white-space: normal;
+                word-break: break-word;
+                line-height: 1.4;
+                max-width: 100%;
+                overflow: visible;
+              ">
+                ${displayName}
+              </div>
+              <div style="
+                display: flex;
+                align-items: center;
+                font-size: 13px;
+                color: #9ca3af;
+                margin-top: 4px;
+              ">
+                <span style="
+                  display: inline-block;
+                  width: 8px;
+                  height: 8px;
+                  border-radius: 50%;
+                  background-color: #14b8a6;
+                  margin-right: 8px;
+                  flex-shrink: 0;
+                "></span>
+                <span>Quantity: <strong style="color: #f9fafb;">${quantity}</strong></span>
+              </div>
+            </div>`;
+        },
+        style: {
+          fontSize: '14px',
+          fontFamily: 'Inter, sans-serif'
+        },
+        fixed: {
+          enabled: true,
+          position: 'topRight',
+          offsetX: 0,
+          offsetY: 0,
+        },
+        onDatasetHover: {
+          highlightDataSeries: true
+        },
+        x: {
+          show: false
+        },
+        y: {
+          formatter: undefined,
+          title: {
+            formatter: () => ''
+          }
         }
       },
       colors: ['#14b8a6'],
