@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes} from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './CommonForms/Users/users/users.component';
 import { RolesComponent } from './CommonForms/Roles/roles/roles.component';
@@ -30,4 +30,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+
+
+export class AppRoutingModule {
+}

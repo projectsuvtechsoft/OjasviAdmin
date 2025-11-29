@@ -49,9 +49,14 @@
                     maxlength="128"
                     placeholder="Enter Product Name"
                     (keypress)="alphaOnly($event)"
+                    (focus)="isFocused = 'product'"
                     required
                   />
                 </nz-form-control>
+                <h6 style="color: red; font-size: 10px"
+              *ngIf="isFocused === 'product' || (data.NAME && isFocused === 'product')">
+              {{ data.NAME.length || 0 }}/128
+            </h6>
               </nz-form-item>
             </div>
 
@@ -70,10 +75,15 @@
                     placeholder="Enter Unique Code"
                     (keypress)="numchar($event)"
                     [(ngModel)]="data.UNIQUE_CODE"
-                    maxlength="8"
+                    maxlength="128"
+                    (focus)="isFocused = 'unit'" maxlength="8"
                     required
                   />
                 </nz-form-control>
+                       <h6 style="color: red; font-size: 10px"
+              *ngIf="isFocused === 'unit' || (data.UNIQUE_CODE && isFocused === 'unit')">
+              {{ data.UNIQUE_CODE.length || 0 }}/128
+            </h6>
               </nz-form-item>
             </div>
           </div>

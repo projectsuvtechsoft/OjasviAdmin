@@ -27,7 +27,7 @@ export class DespatchingOrdersviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.loaddata = true;
-    let filter=" AND CURRENT_STAGE = 'D'"
+    let filter=" AND ORDER_STATUS = 'PD'"
     if(this.OrdersID){
       filter+= " AND ID = " + this.OrdersID
     }
@@ -163,24 +163,24 @@ export class DespatchingOrdersviewComponent implements OnInit {
   save(addNew: boolean, websitebannerPage: NgForm): void {
     this.isSpinning = false;
     this.isOk = true;
-    console.log('websitebannerPage', websitebannerPage);
+    // console.log('websitebannerPage', websitebannerPage);
 
-    if (this.data.TRACKING_ID == undefined || this.data.TRACKING_ID == null) {
-      this.isOk = false;
-      this.message.error('Please Enter Tracking Id. ', '');
-    } else if (
-      this.data.COURIER_NAME == undefined ||
-      this.data.COURIER_NAME == null
-    ) {
-      this.isOk = false;
-      this.message.error('Please Enter Courier Name. ', '');
-    }else if (
-      this.data.TRACKING_LINK == undefined ||
-      this.data.TRACKING_LINK == null
-    ) {
-      this.isOk = false;
-      this.message.error('Please Enter Tracking Link. ', '');
-    }
+    // if (this.data.TRACKING_ID == undefined || this.data.TRACKING_ID == null) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Tracking Id. ', '');
+    // } else if (
+    //   this.data.COURIER_NAME == undefined ||
+    //   this.data.COURIER_NAME == null
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Courier Name. ', '');
+    // }else if (
+    //   this.data.TRACKING_LINK == undefined ||
+    //   this.data.TRACKING_LINK == null
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Tracking Link. ', '');
+    // }
 
     if (this.isOk) {
       this.data.TO_STAGE = 'Ready For Delivery';
@@ -205,9 +205,9 @@ export class DespatchingOrdersviewComponent implements OnInit {
 
       this.isSpinning = true;
       if (this.data.ID) {
-        this.api.updateOrderMaster(this.data).subscribe((successCode) => {
+        this.api.pendingDelivery(this.data).subscribe((successCode) => {
           if (successCode.code == '200') {
-            this.message.success(' Information Updated Successfully...', '');
+            this.message.success('Dispatched/Picked Up...', '');
             if (!addNew) this.drawerClose();
             this.isSpinning = false;
           } else {
@@ -224,4 +224,5 @@ export class DespatchingOrdersviewComponent implements OnInit {
   let val=((Number((data.TOTAL_AMOUNT - data.TOTAL_DISCOUNT_AMOUNT).toFixed(2)) / data.TOTAL_AMOUNT) * 100).toFixed(2)
   return val
  }
+ 
 }

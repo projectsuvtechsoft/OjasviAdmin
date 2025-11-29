@@ -441,6 +441,21 @@ export class ApiServiceService {
   }
 
   // // For Testing server
+  onuploadheader() {
+    this.httpHeaders1 = new HttpHeaders({
+      Accept: 'application/json',
+      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
+      applicationkey: 'awlcQRwoZxAJQm7b',
+      supportkey: this.cookie.get('supportKey'),
+      Token: this.cookie.get('token'),
+    });
+
+    this.options1 = {
+      headers: this.httpHeaders,
+    };
+  }
+
+  //Live/Local
   // onuploadheader() {
   //   this.httpHeaders1 = new HttpHeaders({
   //     Accept: 'application/json',
@@ -454,21 +469,6 @@ export class ApiServiceService {
   //     headers: this.httpHeaders,
   //   };
   // }
-
-  //Live/Local
-    onuploadheader() {
-    this.httpHeaders1 = new HttpHeaders({
-      Accept: 'application/json',
-      apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-      applicationkey: 'awlcQRwoZxAJQm7b',
-      supportkey: this.cookie.get('supportKey'),
-      Token: this.cookie.get('token'),
-    });
-
-    this.options1 = {
-      headers: this.httpHeaders,
-    };
-  }
   // getAllCityMaster(
   //   pageIndex: number,
   //   pageSize: number,
@@ -11313,19 +11313,27 @@ export class ApiServiceService {
       }
     );
   }
-   productMappingDelete(role: any): Observable<any> {
+  productMappingDelete(role: any): Observable<any> {
     this.getheader();
 
-    return this.httpClient.post<any>(this.url + 'productVarientMapping/delete',JSON.stringify(role), {
-      headers: this.httpHeaders,
-    });
+    return this.httpClient.post<any>(
+      this.url + 'productVarientMapping/delete',
+      JSON.stringify(role),
+      {
+        headers: this.httpHeaders,
+      }
+    );
   }
-   FaqMappingDelete(role: any): Observable<any> {
+  FaqMappingDelete(role: any): Observable<any> {
     this.getheader();
 
-    return this.httpClient.post<any>(this.url + 'productFaqMapping/delete',JSON.stringify(role), {
-      headers: this.httpHeaders,
-    });
+    return this.httpClient.post<any>(
+      this.url + 'productFaqMapping/delete',
+      JSON.stringify(role),
+      {
+        headers: this.httpHeaders,
+      }
+    );
   }
   getAllCharges(
     pageIndex: number,
@@ -11456,7 +11464,7 @@ export class ApiServiceService {
       JSON.stringify(role),
       this.options
     );
-  } 
+  }
   getAllCityMaster(
     pageIndex: number,
     pageSize: number,
@@ -11534,7 +11542,7 @@ export class ApiServiceService {
     );
   }
 
-   cityDeleteBulk(role: any): Observable<any> {
+  cityDeleteBulk(role: any): Observable<any> {
     this.getheader();
 
     return this.httpClient.delete<any>(this.url + 'city/bulkDelete', {
@@ -11543,8 +11551,7 @@ export class ApiServiceService {
     });
   }
 
-
-   cityBulkUpdate(role: any): Observable<any> {
+  cityBulkUpdate(role: any): Observable<any> {
     // role.CLIENT_ID = this.clientId;
     this.getheader();
 
@@ -11554,7 +11561,7 @@ export class ApiServiceService {
       this.options
     );
   }
-   getAllpickupLocation(
+  getAllpickupLocation(
     pageIndex: number,
     pageSize: number,
     sortKey: string,
@@ -11567,7 +11574,7 @@ export class ApiServiceService {
       sortKey: sortKey,
       sortValue: sortValue,
       filter: filter,
-      CLIENT_ID:this.clientId
+      CLIENT_ID: this.clientId,
     };
     this.getheader();
 
@@ -11591,7 +11598,7 @@ export class ApiServiceService {
   }
 
   updatepickupLocation(role: any): Observable<any> {
-    role.CLIENT_ID=this.clientId
+    role.CLIENT_ID = this.clientId;
     this.getheader();
 
     // this.httpHeaders = new HttpHeaders({
@@ -11633,7 +11640,7 @@ export class ApiServiceService {
       this.options
     );
   }
-    getCardDashboard(
+  getCardDashboard(
     pageIndex: number,
     pageSize: number,
     sortKey: string,
@@ -11646,8 +11653,8 @@ export class ApiServiceService {
       sortKey: sortKey,
       sortValue: sortValue,
       filter: filter,
-      startDate:filter.startDate,
-      endDate:filter.endDate
+      startDate: filter.startDate,
+      endDate: filter.endDate,
     };
     this.getheader();
 
@@ -11683,7 +11690,7 @@ export class ApiServiceService {
       sortValue: sortValue,
       filter: filter,
       startDate: filter.startDate,
-      endDate: filter.endDate
+      endDate: filter.endDate,
     };
     this.getheader();
 
@@ -11708,13 +11715,114 @@ export class ApiServiceService {
       sortValue: sortValue,
       filter: filter,
       startDate: filter.startDate,
-      endDate: filter.endDate
+      endDate: filter.endDate,
     };
     this.getheader();
 
     return this.httpClient.post<any>(
       this.url + 'report/dashboardThree',
       JSON.stringify(data),
+      this.options
+    );
+  }
+  AcceptOrder(role: any): Observable<any> {
+    this.getheader();
+
+    // this.httpHeaders = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'apikey': 'yxPlx4hTu5xzEXRiqB3dgKbFDDYNDl82',
+    //   'applicationkey': 'B71DIrzfXKPF97Ci',
+    //   'deviceid':this.cookie.get('deviceId'),
+    //   'supportkey':this.cookie.get('supportKey'),
+    //   'Token': this.cookie.get('token'),
+    //     });
+    //     this.options = {
+    //   headers: this.httpHeaders
+    // };
+    return this.httpClient.put<any>(
+      this.url + 'order/acceptOrder',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  RejectOrder(role: any): Observable<any> {
+    this.getheader();
+
+    // this.httpHeaders = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'apikey': 'yxPlx4hTu5xzEXRiqB3dgKbFDDYNDl82',
+    //   'applicationkey': 'B71DIrzfXKPF97Ci',
+    //   'deviceid':this.cookie.get('deviceId'),
+    //   'supportkey':this.cookie.get('supportKey'),
+    //   'Token': this.cookie.get('token'),
+    //     });
+    //     this.options = {
+    //   headers: this.httpHeaders
+    // };
+    return this.httpClient.put<any>(
+      this.url + 'order/rejectOrder',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+
+  PackagingOrder(role: any): Observable<any> {
+    this.getheader();
+
+    // this.httpHeaders = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'apikey': 'yxPlx4hTu5xzEXRiqB3dgKbFDDYNDl82',
+    //   'applicationkey': 'B71DIrzfXKPF97Ci',
+    //   'deviceid':this.cookie.get('deviceId'),
+    //   'supportkey':this.cookie.get('supportKey'),
+    //   'Token': this.cookie.get('token'),
+    //     });
+    //     this.options = {
+    //   headers: this.httpHeaders
+    // };
+    return this.httpClient.put<any>(
+      this.url + 'order/pendingDispatch',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  pendingDelivery(role: any): Observable<any> {
+    this.getheader();
+
+    // this.httpHeaders = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'apikey': 'yxPlx4hTu5xzEXRiqB3dgKbFDDYNDl82',
+    //   'applicationkey': 'B71DIrzfXKPF97Ci',
+    //   'deviceid':this.cookie.get('deviceId'),
+    //   'supportkey':this.cookie.get('supportKey'),
+    //   'Token': this.cookie.get('token'),
+    //     });
+    //     this.options = {
+    //   headers: this.httpHeaders
+    // };
+    return this.httpClient.put<any>(
+      this.url + 'order/pendingDelivery',
+      JSON.stringify(role),
+      this.options
+    );
+  }
+  OrderDelivered(role: any): Observable<any> {
+    this.getheader();
+
+    // this.httpHeaders = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'apikey': 'yxPlx4hTu5xzEXRiqB3dgKbFDDYNDl82',
+    //   'applicationkey': 'B71DIrzfXKPF97Ci',
+    //   'deviceid':this.cookie.get('deviceId'),
+    //   'supportkey':this.cookie.get('supportKey'),
+    //   'Token': this.cookie.get('token'),
+    //     });
+    //     this.options = {
+    //   headers: this.httpHeaders
+    // };
+    return this.httpClient.put<any>(
+      this.url + 'order/orderDelivered',
+      JSON.stringify(role),
       this.options
     );
   }

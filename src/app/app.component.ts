@@ -564,7 +564,7 @@ export class AppComponent {
     this.cookie.deleteAll();
     sessionStorage.clear();
     localStorage.clear();
-    this._notificationService.success('Logout Successfully', '');
+    this._notificationService.success('Logout Successful', '');
     this.loadlogout = false;
     window.location.reload();
   }

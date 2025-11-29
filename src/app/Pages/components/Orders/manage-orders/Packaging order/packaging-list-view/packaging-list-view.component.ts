@@ -26,7 +26,7 @@ export class PackagingListViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.loaddata = true;
-    let filter=" AND CURRENT_STAGE = 'SP'"
+    let filter=" AND ORDER_STATUS = 'A'"
     if(this.OrdersID){
       filter+="   AND ID = " + this.OrdersID
     }
@@ -92,11 +92,10 @@ userId = sessionStorage.getItem('userId');
     this.isOk = true;
 
     if (this.isOk) {
-      this.data.TO_STAGE = 'Ready For Dispatch';
-      this.data.FROM_STAGE = 'Packaging Done';
-      this.data.CURRENT_STAGE = 'PD';
-      this.data.ORDER_STATUS = 'PD';
-     this.data.USER_ID = this.userId
+ 
+      // this.data.CURRENT_STAGE = 'PD';
+      // this.data.ORDER_STATUS = 'PD';
+      this.data.USER_ID = this.userId
         ? this.commonFunction.decryptdata(this.userId)
         : '0';
       // this.isSpinning=false;
@@ -115,9 +114,13 @@ userId = sessionStorage.getItem('userId');
 
       this.isSpinning = true;
       if (this.data.ID) {
-        this.api.updateOrderMaster(this.data).subscribe((successCode) => {
+        this.data.ORDER_STATUS='PD'
+        this.data.CURRENT_STAGE='PD'
+       this.data.TO_STAGE = 'Ready For Dispatch';
+      this.data.FROM_STAGE = 'Packaging Done';
+        this.api.PackagingOrder(this.data).subscribe((successCode) => {
           if (successCode.code == '200') {
-            this.message.success(' Information Updated Successfully...', '');
+            this.message.success('Packaging Done...', '');
             if (!addNew) this.drawerClose();
             this.isSpinning = false;
           } else {

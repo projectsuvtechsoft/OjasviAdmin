@@ -49,9 +49,6 @@ state: any[] = [];
 
 ngOnInit(): void {
   this.loadCountry();
-   if (this.data?.COUNTRY_ID) {
-      this.loadState(this.data.COUNTRY_ID);
-    }
 }
 
 // Load countries
@@ -59,6 +56,9 @@ loadCountry() {
   this.api.getAllCountryMaster(0, 0, '', '', ' AND STATUS=1').subscribe(
     (data) => {
       this.country = data['data'];
+      if (this.data?.COUNTRY_ID) {
+         this.loadState(this.data.COUNTRY_ID);
+      }
     },
     (err) => {
       console.log(err);
@@ -86,6 +86,7 @@ loadState(countryId: number) {
 
 // Triggered when country changes
 onCountryChange(event: any) {
+  this.data.STATE_ID=null
   this.loadState(event);
 }
 
@@ -149,7 +150,7 @@ onCountryChange(event: any) {
   } 
     else if (!this.data.STATE_ID || this.data.STATE_ID <= 0) {
     this.isOk = false;
-    this.message.error('Please Select Sate', '');
+    this.message.error('Please Select State', '');
   } 
   else if (!this.data.NAME?.trim()) {
     this.isOk = false;
@@ -181,7 +182,7 @@ onCountryChange(event: any) {
    
 
       if (nameExists) {
-        this.message.error('State name already exists for the selected country', '');
+        this.message.error('City name already exists for the selected country', '');
         this.isSpinning = false;
         return;
       }
@@ -191,10 +192,10 @@ onCountryChange(event: any) {
         this.api.updateCityMaster(this.data).subscribe(
           (successCode) => {
             if (successCode.code == '200') {
-              this.message.success('State Updated Successfully...', '');
+              this.message.success('City Updated Successfully...', '');
               if (!addNew) this.drawerClose();
             } else {
-              this.message.error('State Updation Failed...', '');
+              this.message.error('City Updation Failed...', '');
             }
             this.isSpinning = false;
           },
@@ -207,7 +208,7 @@ onCountryChange(event: any) {
         this.api.createCityMaster(this.data).subscribe(
           (successCode) => {
             if (successCode.code == '200') {
-              this.message.success('State Created Successfully...', '');
+              this.message.success('City Created Successfully...', '');
               if (!addNew) {
                 this.drawerClose();
               } else {
@@ -227,7 +228,7 @@ onCountryChange(event: any) {
                 // );
               }
             } else {
-              this.message.error('State Creation Failed...', '');
+              this.message.error('City Creation Failed...', '');
             }
             this.isSpinning = false;
           },

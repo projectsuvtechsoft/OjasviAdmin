@@ -72,14 +72,14 @@ back() {
       sort = '';
     }
     var likeQuery = '';
-    console.log('search text:' + this.searchText);
+    // console.log('search text:' + this.searchText);
     if (this.searchText != '') {
       likeQuery = ' AND(';
       this.columns.forEach((column) => {
         likeQuery += ' ' + column[0] + " like '%" + this.searchText + "%' OR";
       });
       likeQuery = likeQuery.substring(0, likeQuery.length - 2) + ')';
-      console.log('likeQuery' + likeQuery);
+      // console.log('likeQuery' + likeQuery);
     }
 
     this.api
@@ -88,7 +88,7 @@ back() {
         this.pageSize,
         this.sortKey,
         sort,
-        likeQuery + " AND CURRENT_STAGE = 'DD' "
+        likeQuery + " AND ORDER_STATUS = 'DD' "
       )
       .subscribe(
         (data) => {

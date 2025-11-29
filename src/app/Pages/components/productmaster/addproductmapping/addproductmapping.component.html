@@ -287,11 +287,16 @@
         </div> -->
         <div nz-col nzSpan="24">
           <nz-form-item>
-            <nz-form-label nzRequired nzNoColon>
-              Image &nbsp;&nbsp;&nbsp;
-              <span style="color: rgb(242, 74, 74);font-size: 11px !important; ">
-                       ( Select an image (PNG, JPG, JPEG) of size 500px width and 500px height)
-                      </span>
+            <br nzRequired nzNoColon>
+             <nz-form-label> Image: &nbsp;&nbsp;&nbsp;
+              <div style="text-align:left;">
+                <span style="color: rgb(242, 74, 74); font-size: 11px !important;">
+                  (Select an image (PNG, JPG, JPEG) with dimensions 500x500 pixels and
+                </span>
+                <span style="color: rgb(242, 74, 74); font-size: 11px !important; display:block;">
+                  maximum file size of 40 KB.)
+                </span>
+            </div>
               <span
                 *ngIf="
                   (data.VARIENT_IMAGE_URL && data.VARIENT_IMAGE_URL != ' ') ||

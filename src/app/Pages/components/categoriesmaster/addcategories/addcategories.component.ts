@@ -743,7 +743,7 @@ export class AddcategoriesComponent implements OnInit {
       this.data.IMAGE == ' '
     ) {
       this.isOk = false;
-      this.message.error('Please Upload Category IMAGE', '');
+      this.message.error('Please upload image', '');
       return;
     } else if (
       this.data.SEQUENCE_NO == undefined ||

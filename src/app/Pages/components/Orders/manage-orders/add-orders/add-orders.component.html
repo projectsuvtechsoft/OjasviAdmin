@@ -44,7 +44,7 @@
             </div>
           </div>
 
-          <div nz-row>
+          <!-- <div nz-row>
             <div nz-col nzSpan="12">
               <div>Addon Amount</div>
             </div>
@@ -54,7 +54,7 @@
             <div nz-col nzSpan="11">
               <span>{{ data["ADDON_AMOUNT"] }}</span>
             </div>
-          </div>
+          </div> -->
           <div nz-row>
             <div nz-col nzSpan="12">
               <div>Discount Amount / Percent</div>
@@ -250,6 +250,17 @@
               <span>{{ data["STATE_NAME"] }}</span>
             </div>
           </div>
+             <div nz-row>
+            <div nz-col nzSpan="10">
+              <div>Is Local Pickup?</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="12">
+              <span>{{ data["IS_LOCAL_PICKUP_SELECTED"] == '1' ? 'Yes':'No'}}</span>
+            </div>
+          </div>
         </div>
 
         <!-- end -->
@@ -320,7 +331,7 @@
             </nz-form-item>
           </div>
 
-          <div nz-col nzSpan="5" *ngIf="this.data.ORDER_STATUS != 'R'">
+          <!-- <div nz-col nzSpan="5" *ngIf="this.data.ORDER_STATUS != 'R'">
             <nz-form-item>
               <nz-form-label nzNoColon> Select Stage </nz-form-label>
               <nz-form-control
@@ -335,10 +346,6 @@
                   [(ngModel)]="data.CURRENT_STAGE"
                   nzPlaceHolder=" Select stage"
                 >
-                  <!-- <nz-option [nzLabel]="'Start Packaging'" [nzValue]="'SP'">
-                  </nz-option>
-                  <nz-option [nzLabel]="'Start Dispatching'" [nzValue]="'D'">
-                  </nz-option> -->
 
                   <nz-option [nzLabel]="'Start Packaging'" [nzValue]="'SP'">
                   </nz-option>
@@ -347,188 +354,8 @@
                 </nz-select>
               </nz-form-control>
             </nz-form-item>
-          </div>
+          </div> -->
 
-          <div
-            nz-col
-            nzSpan="5"
-            style="margin-left: 15px"
-            *ngIf="
-              this.data.CURRENT_STAGE == 'BP' && this.data.ORDER_STATUS != 'R'
-            "
-          >
-            <nz-form-item>
-              <nz-form-label nzRequired nzNoColon
-                >Expected Preparing Date</nz-form-label
-              >
-
-              <nz-form-control
-                nzHasFeedback
-                nzErrorTip="Please Select Expected Preparing Date"
-              >
-                <nz-date-picker
-                  style="width: 100%"
-                  (ngModelChange)="startDateChange()"
-                  nzPlaceHolder=" Expected Preparing Date."
-                  name="expectededdate"
-                  [(ngModel)]="data.EXPECTED_BEING_PREPARE"
-                  [nzFormat]="dateFormat"
-                  [nzDisabledDate]="disabledStartDate2"
-                  required
-                ></nz-date-picker>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <div
-            nz-col
-            nzSpan="5"
-            style="margin-left: 15px"
-            *ngIf="
-              this.data.CURRENT_STAGE == 'BP' && this.data.ORDER_STATUS != 'R'
-            "
-          >
-            <nz-form-item>
-              <nz-form-label nzRequired nzNoColon
-                >Expected Delivery Date</nz-form-label
-              >
-
-              <nz-form-control
-                nzHasFeedback
-                nzErrorTip="Please Select Expected Delivery Date"
-              >
-                <nz-date-picker
-                  style="width: 100%"
-                  [nzDisabledDate]="disabledStartDate2"
-                  nzPlaceHolder="  Expected Delivery Date."
-                  name="expectededdatsde"
-                  [(ngModel)]="data.EXPECTED_DELIVERY_DATETIME"
-                  [nzFormat]="dateFormat"
-                  required
-                ></nz-date-picker>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <div
-            nz-col
-            nzSpan="5"
-            style="margin-left: 15px"
-            *ngIf="
-              this.data.CURRENT_STAGE == 'SP' && this.data.ORDER_STATUS != 'R'
-            "
-          >
-            <nz-form-item>
-              <nz-form-label nzRequired nzNoColon
-                >Expected Packaging Date</nz-form-label
-              >
-              <nz-form-control
-                nzHasFeedback
-                nzErrorTip="Please Select Expected Prepare Packaging Date"
-              >
-                <nz-date-picker
-                  style="width: 100%"
-                  nzPlaceHolder=" Select Expected Prepare Packaging Date."
-                  name="expectededdate"
-                  [(ngModel)]="data.EXPECTED_PREPARE_PACKAGING_DATETIME"
-                  [nzFormat]="dateFormat"
-                  [nzDisabledDate]="disabledStartDate2"
-                  required
-                ></nz-date-picker>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <div
-            nz-col
-            nzSpan="5"
-            style="margin-left: 15px"
-            *ngIf="
-              this.data.CURRENT_STAGE == 'SP' && this.data.ORDER_STATUS != 'R'
-            "
-          >
-            <nz-form-item>
-              <nz-form-label nzRequired nzNoColon
-                >Expected Delivery Date</nz-form-label
-              >
-
-              <nz-form-control
-                nzHasFeedback
-                nzErrorTip="Please Select Expected Delivery Date"
-              >
-                <nz-date-picker
-                  style="width: 100%"
-                  [nzDisabledDate]="disabledStartDate2"
-                  nzPlaceHolder="  Expected Delivery Date."
-                  name="expectededdasdtsde"
-                  [(ngModel)]="data.EXPECTED_DELIVERY_DATETIME"
-                  [nzFormat]="dateFormat"
-                  required
-                ></nz-date-picker>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <div
-            nz-col
-            nzSpan="5"
-            style="margin-left: 15px"
-            *ngIf="
-              this.data.CURRENT_STAGE == 'D' && this.data.ORDER_STATUS != 'R'
-            "
-          >
-            <nz-form-item>
-              <nz-form-label nzRequired nzNoColon
-                >Expected Dispatch Date</nz-form-label
-              >
-
-              <nz-form-control
-                nzHasFeedback
-                nzErrorTip="Please Select Expected Dispatching Date"
-              >
-                <nz-date-picker
-                  style="width: 100%"
-                  (ngModelChange)="startDateChange()"
-                  nzPlaceHolder=" Expected Dispatching Date."
-                  name="expectededdate1"
-                  [(ngModel)]="data.EXPECTED_DISPATCH_DATETIME"
-                  [nzFormat]="dateFormat"
-                  [nzDisabledDate]="disabledStartDate2"
-                  required
-                ></nz-date-picker>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-
-          <div
-            nz-col
-            nzSpan="5"
-            style="margin-left: 15px"
-            *ngIf="
-              this.data.CURRENT_STAGE == 'D' && this.data.ORDER_STATUS != 'R'
-            "
-          >
-            <nz-form-item>
-              <nz-form-label nzRequired nzNoColon
-                >Expected Delivery Date</nz-form-label
-              >
-
-              <nz-form-control
-                nzHasFeedback
-                nzErrorTip="Please Select Expected Delivery Date"
-              >
-                <nz-date-picker
-                  style="width: 100%"
-                  [nzDisabledDate]="disabledStartDate2"
-                  nzPlaceHolder="  Expected Delivery Date."
-                  name="expectededdadtsde"
-                  [(ngModel)]="data.EXPECTED_DELIVERY_DATETIME"
-                  [nzFormat]="dateFormat"
-                  required
-                ></nz-date-picker>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
 
           <div nz-col nzSpan="14" *ngIf="this.data.ORDER_STATUS == 'R'">
             <nz-form-item>
@@ -577,53 +404,15 @@
     >
       <span>Reject Order</span>
     </button>
-
     <button
-      type="button"
       style="margin-left: 10px"
+      type="button"
       class="ant-btn ant-btn-primary"
       nz-button
       [nzLoading]="isSpinning"
-      *ngIf="this.data.ORDER_STATUS == 'A' && this.data.CURRENT_STAGE == 'P'"
+      *ngIf="this.data.ORDER_STATUS == 'A' && this.data.CURRENT_STAGE == 'A'"
       (click)="save(false, websitebannerPage)"
     >
-      <span>Confirm Order</span>
+      <span>Accept Order</span>
     </button>
-
-    <button
-      style="margin-left: 10px"
-      type="button"
-      class="ant-btn ant-btn-primary"
-      nz-button
-      [nzLoading]="isSpinning"
-      *ngIf="data.CURRENT_STAGE == 'BP'"
-      (click)="Preparing(false, websitebannerPage)"
-    >
-      <span>Accept Preparing Order</span>
-    </button>
-
-    <button
-      style="margin-left: 10px"
-      type="button"
-      class="ant-btn ant-btn-primary"
-      nz-button
-      [nzLoading]="isSpinning"
-      *ngIf="data.CURRENT_STAGE == 'SP'"
-      (click)="packaging(false, websitebannerPage)"
-    >
-      <span>Start Packaging</span>
-    </button>
-
-    <button
-      style="margin-left: 10px"
-      type="button"
-      class="ant-btn ant-btn-primary"
-      nz-button
-      [nzLoading]="isSpinning"
-      *ngIf="data.CURRENT_STAGE == 'D'"
-      (click)="dispatched(false, websitebannerPage)"
-    >
-      <span>Start Dispatching</span>
-    </button>
-  </div>
 </div>

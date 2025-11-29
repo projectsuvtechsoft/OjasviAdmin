@@ -13,7 +13,7 @@ export class PackagingListComponent implements OnInit {
   drawerVisible: boolean = false;
   drawerTitle!: string;
   drawerData: OrderDetailMaster = new OrderDetailMaster();
-  formTitle = 'Packaging Orders';
+  formTitle = 'Pending Packaging Orders';
   dataList = [];
   loadingRecords = false;
   totalRecords = 1;
@@ -72,14 +72,14 @@ back() {
       sort = '';
     }
     var likeQuery = '';
-    console.log('search text:' + this.searchText);
+    // console.log('search text:' + this.searchText);
     if (this.searchText != '') {
       likeQuery = ' AND (';
       this.columns.forEach((column) => {
         likeQuery += ' ' + column[0] + " like '%" + this.searchText + "%' OR";
       });
       likeQuery = likeQuery.substring(0, likeQuery.length - 2) + ')';
-      console.log('likeQuery' + likeQuery);
+      // console.log('likeQuery' + likeQuery);
     }
 
     this.api
@@ -88,7 +88,7 @@ back() {
         this.pageSize,
         this.sortKey,
         sort,
-        likeQuery + " AND CURRENT_STAGE = 'SP' "
+        likeQuery + " AND ORDER_STATUS = 'A'"
       )
       .subscribe(
         (data) => {
@@ -131,9 +131,9 @@ back() {
     const currentSort = sort.find((item) => item.value !== null);
     const sortField = (currentSort && currentSort.key) || 'id';
     const sortOrder = (currentSort && currentSort.value) || 'desc';
-    console.log(currentSort);
+    // console.log(currentSort);
 
-    console.log('sortOrder :' + sortOrder);
+    // console.log('sortOrder :' + sortOrder);
     this.pageIndex = pageIndex;
     this.pageSize = pageSize;
 

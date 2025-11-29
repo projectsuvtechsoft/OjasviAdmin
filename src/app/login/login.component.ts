@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit {
             // this.isloginSpinning = false;
            
 
-            this.message.success('Successfully Logged In', '');
+            this.message.success('Login Successful', '');
             this.cookie.set(
               'token',
               data['data'][0]['token'],

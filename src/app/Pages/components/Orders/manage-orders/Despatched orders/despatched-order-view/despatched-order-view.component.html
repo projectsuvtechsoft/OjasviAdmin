@@ -44,7 +44,7 @@
             </div>
           </div>
 
-          <div nz-row>
+          <!-- <div nz-row>
             <div nz-col nzSpan="12">
               <div>Addon Amount</div>
             </div>
@@ -54,7 +54,7 @@
             <div nz-col nzSpan="11">
               <span>{{ data["ADDON_AMOUNT"] }}</span>
             </div>
-          </div>
+          </div> -->
    <div nz-row>
             <div nz-col nzSpan="12">
               <div>Discount Amount / Percent</div>
@@ -196,6 +196,17 @@
               <span>{{ data["STATE_NAME"] }}</span>
             </div>
           </div>
+          <div nz-row>
+            <div nz-col nzSpan="10">
+              <div>Is Local Pickup?</div>
+            </div>
+            <div nz-col nzSpan="1">
+              <div>:</div>
+            </div>
+            <div nz-col nzSpan="12">
+              <span>{{ data["IS_LOCAL_PICKUP_SELECTED"] == '1' ? 'Yes':'No'}}</span>
+            </div>
+          </div>
         </div>
 
         <div nz-col nzSpan="24" class="my-box">
@@ -318,9 +329,58 @@
       nz-button
       [nzLoading]="isSpinning"
       *ngIf="data.ID"
-      (click)="save(false, websitebannerPage)"
+      (click)="data['IS_LOCAL_PICKUP_SELECTED']==0?save(false, websitebannerPage):openPickupModal()"
     >
-      <span>Order Delivered </span>
+      <span>Order Delivered/Picked Up</span>
     </button>
   </div>
+</div>
+<div *ngIf="viewModalSecretPickup">
+  <nz-modal
+    [nzVisible]="viewModalSecretPickup"
+    nzTitle="Secret Key"
+    [nzFooter]="modalFooter"
+    (nzOnCancel)="closePickupModal()"
+    [nzWidth]="400"
+    nzCentered
+  >
+    <ng-container *nzModalContent>
+      <form nz-form>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">Secret Key</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input
+              nz-input
+              type="text"
+              placeholder="Enter secret key"
+              [(ngModel)]="data['SECRET_KEY']"
+              name="secretKey"
+              maxlength="6"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-container>
+
+    <ng-template #modalFooter>
+      <button
+        nz-button
+        nzType="primary"
+        style="margin: 2px"
+        [nzLoading]="isSpinning"
+        (click)="saveviasecretkey(false, websitebannerPage)"
+      >
+        Save
+      </button>
+
+      <button
+        nz-button
+        nzType="default"
+        style="margin: 2px"
+        (click)="closePickupModal()"
+      >
+        Cancel
+      </button>
+    </ng-template>
+  </nz-modal>
 </div>

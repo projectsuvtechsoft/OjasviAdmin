@@ -5,9 +5,9 @@ export class pickupLocation {
   COUNTRY_ID: number;
   COUNTRY_NAME: string;
   STATE_NAME: string;
-  CITY_ID: number;
+  CITY_ID: any=0;
   CITY: string;
-  STATE_ID: number;
+  STATE_ID: any=0;
   LANDMARK: string;
   CLIENT_ID: number;
   COUNTRY_CODE: string;

@@ -27,15 +27,15 @@ export class AddOrdersComponent implements OnInit {
   OrdersID: any;
 
   detailslist: any;
-rawPdfUrl : any; 
-pdfUrl: SafeResourceUrl;  
-imageUrl = appkeys.retriveimgUrl;
+  rawPdfUrl: any;
+  pdfUrl: SafeResourceUrl;
+  imageUrl = appkeys.retriveimgUrl;
 
-ngOnInit(): void {
-this.rawPdfUrl = 'assets/sample-invoice.pdf'; 
-// this.rawPdfUrl = this.imageUrl + this.data.PDF_URL; 
-this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.rawPdfUrl);
-    
+  ngOnInit(): void {
+    this.rawPdfUrl = 'assets/sample-invoice.pdf';
+    // this.rawPdfUrl = this.imageUrl + this.data.PDF_URL;
+    this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.rawPdfUrl);
+
     // console.log('orders' + this.OrdersID);
     this.loaddata = true;
     this.api
@@ -246,10 +246,9 @@ this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.rawPdfUrl);
         ? this.commonFunction.decryptdata(this.userId)
         : '0';
 
-      this.data.FROM_STAGE = 'Order Confirmed';
-      this.data.TO_STAGE = 'Reject';
-      this.data.ORDER_STATUS = 'R';
-      this.data.CURRENT_STAGE = 'N/A';
+      
+      // this.data.ORDER_STATUS = 'R';
+      // this.data.CURRENT_STAGE = 'N/A';
 
       // console.log('order date time ', this.data.ORDER_CONFIRMED_DATETIME);
       this.data.ORDER_CONFIRMED_DATETIME = this.datepipe.transform(
@@ -258,16 +257,36 @@ this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.rawPdfUrl);
       );
       this.isSpinning = true;
       // if (this.data.ID) {
-      this.api.updateOrderMaster(this.data).subscribe((successCode) => {
-        if (successCode.code == '200') {
-          this.message.success(' Information Updated Successfully...', '');
-          if (!addNew) this.drawerClose();
-          this.isSpinning = false;
-        } else {
-          this.message.error(' Failed To Update Information...', '');
-          this.isSpinning = false;
-        }
-      });
+      if (this.data.ORDER_STATUS == 'A'){
+        this.data.CURRENT_STAGE = 'SP'
+        this.data.FROM_STAGE = 'Order Placed';
+        this.data.TO_STAGE = 'Order Confirmation';
+        this.api.AcceptOrder(this.data).subscribe((successCode) => {
+          if (successCode.code == '200') {
+            this.message.success('Order Accepted...', '');
+            if (!addNew) this.drawerClose();
+            this.isSpinning = false;
+          } else {
+            this.message.error(' Failed To Update Information...', '');
+            this.isSpinning = false;
+          }
+        });
+      }
+      else{
+         this.data.FROM_STAGE = 'Order Placed';
+        this.data.TO_STAGE = 'Order Rejected';
+        this.data.CURRENT_STAGE = 'OC'
+        this.api.RejectOrder(this.data).subscribe((successCode) => {
+          if (successCode.code == '200') {
+            this.message.success('Order Rejected...', '');
+            if (!addNew) this.drawerClose();
+            this.isSpinning = false;
+          } else {
+            this.message.error(' Failed To Update Information...', '');
+            this.isSpinning = false;
+          }
+        });
+      }
     }
   }
 
@@ -473,39 +492,43 @@ this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.rawPdfUrl);
     this.invoicevisible = false;
   }
 
-downloadInvoice(): void {
-  fetch(this.rawPdfUrl)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.blob();
-    })
-    .then(blob => {
-      const blobUrl = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = 'invoice.pdf';
-      a.click();
-      window.URL.revokeObjectURL(blobUrl);
-    })
-    .catch(error => {
-      console.error('Download error:', error);
-    });
-}
-
-printInvoice(): void {
-  const iframe = document.querySelector('iframe');
-  if (iframe && iframe.contentWindow) {
-    iframe.contentWindow.focus();
-    iframe.contentWindow.print();
-  } else {
-    console.error('Unable to access iframe for printing.');
+  downloadInvoice(): void {
+    fetch(this.rawPdfUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then((blob) => {
+        const blobUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = 'invoice.pdf';
+        a.click();
+        window.URL.revokeObjectURL(blobUrl);
+      })
+      .catch((error) => {
+        console.error('Download error:', error);
+      });
   }
-}
- calculatePercent(data){
-  //  console.log(arr,'arr')
-  let val=((Number((data.TOTAL_AMOUNT - data.TOTAL_DISCOUNT_AMOUNT).toFixed(2)) / data.TOTAL_AMOUNT) * 100).toFixed(2)
-  return val
- }
+
+  printInvoice(): void {
+    const iframe = document.querySelector('iframe');
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+    } else {
+      console.error('Unable to access iframe for printing.');
+    }
+  }
+  calculatePercent(data) {
+    //  console.log(arr,'arr')
+    let val = (
+      (Number((data.TOTAL_AMOUNT - data.TOTAL_DISCOUNT_AMOUNT).toFixed(2)) /
+        data.TOTAL_AMOUNT) *
+      100
+    ).toFixed(2);
+    return val;
+  }
 }

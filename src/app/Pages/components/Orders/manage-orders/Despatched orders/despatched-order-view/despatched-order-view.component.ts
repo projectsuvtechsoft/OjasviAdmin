@@ -33,7 +33,7 @@ export class DespatchedOrderViewComponent implements OnInit {
         0,
         '',
         '',
-        " AND CURRENT_STAGE = 'DD' AND ID = " + this.OrdersID
+        " AND ORDER_STATUS = 'DD' AND ID = " + this.OrdersID
       )
       .subscribe(
         (data) => {
@@ -46,7 +46,7 @@ export class DespatchedOrderViewComponent implements OnInit {
           }
         },
         (err) => {
-          console.log(err);
+          // console.log(err);
         }
       );
   }
@@ -155,9 +155,9 @@ export class DespatchedOrderViewComponent implements OnInit {
 
       this.isSpinning = true;
       if (this.data.ID) {
-        this.api.updateOrderMaster(this.data).subscribe((successCode) => {
+        this.api.OrderDelivered(this.data).subscribe((successCode) => {
           if (successCode.code == '200') {
-            this.message.success(' Information Updated Successfully...', '');
+            this.message.success('Order Delivered...', '');
             if (!addNew) this.drawerClose();
             this.isSpinning = false;
           } else {
@@ -174,4 +174,76 @@ export class DespatchedOrderViewComponent implements OnInit {
   let val=((Number((data.TOTAL_AMOUNT - data.TOTAL_DISCOUNT_AMOUNT).toFixed(2)) / data.TOTAL_AMOUNT) * 100).toFixed(2)
   return val
  }
+ viewModalSecretPickup=false
+ openPickupModal(){
+   this.viewModalSecretPickup=true
+ }
+ closePickupModal(){
+  this.viewModalSecretPickup=false
+ }
+  saveviasecretkey(addNew: boolean, websitebannerPage: NgForm): void {
+    this.isSpinning = false;
+    this.isOk = true;
+    // console.log('websitebannerPage', websitebannerPage);
+
+    if (this.data['SECRET_KEY'] == undefined || this.data['SECRET_KEY']== null || this.data['SECRET_KEY']?.trim() == '') {
+      this.isOk = false;
+      this.message.error('Please Enter Secret Key. ', '');
+    } 
+    // else if (
+    //   this.data.COURIER_NAME == undefined ||
+    //   this.data.COURIER_NAME == null
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Courier Name. ', '');
+    // }else if (
+    //   this.data.TRACKING_LINK == undefined ||
+    //   this.data.TRACKING_LINK == null
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please Enter Tracking Link. ', '');
+    // }
+
+    if (this.isOk) {
+      this.data.TO_STAGE = 'Order Delivered';
+      this.data.FROM_STAGE = 'Ready For Delivery';
+      this.data.CURRENT_STAGE = 'OD';
+      this.data.ORDER_STATUS = 'OD';
+      this.data.USER_ID = this.userId
+        ? this.commonFunction.decryptdata(this.userId)
+        : '0';
+
+      this.data.ACTUAL_DISPATCH_DATETIME = this.datepipe.transform(
+        new Date(),
+        'yyyy-MM-dd HH:mm:ss'
+      );
+      // this.data.EXPECTED_PREPARE_PACKAGING_DATETIME = this.datepipe.transform(
+      //   new Date(this.data.EXPECTED_PREPARE_PACKAGING_DATETIME),
+      //   'yyyy-MM-dd HH:mm:ss'
+      // );
+
+      // this.isSpinning=false;PREPARE_PACKAGING_ID
+      // this.data.PREPARE_PACKAGING_ID = Number(sessionStorage.getItem('userId'));
+
+      this.isSpinning = true;
+      if (this.data.ID) {
+        this.api.OrderDelivered(this.data).subscribe((successCode) => {
+          if (successCode.code == '200') {
+            this.message.success('Delivered/Picked Up...', '');
+            this.viewModalSecretPickup=false
+            if (!addNew) this.drawerClose();
+            this.isSpinning = false;
+          } 
+          else if(successCode.code=='302'){
+            this.message.error('Invalid Secret Key','')
+            this.isSpinning = false;
+          }
+          else {
+            this.message.error(' Failed To Update Information...', '');
+            this.isSpinning = false;
+          }
+        });
+      }
+    }
+  }
 }

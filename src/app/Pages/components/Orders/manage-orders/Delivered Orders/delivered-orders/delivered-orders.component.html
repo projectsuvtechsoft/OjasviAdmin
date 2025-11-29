@@ -236,7 +236,7 @@
             {{ data["ADDON_AMOUNT"] }}
           </td>
           <td style="text-align: right; white-space: pre-line">
-             <span>{{ (data["TOTAL_AMOUNT"] - data['TOTAL_DISCOUNT_AMOUNT']).toFixed(2) }} {{calculatePercent(data)}} %</span> 
+             <span>{{ (data["TOTAL_AMOUNT"] - data['TOTAL_DISCOUNT_AMOUNT']).toFixed(2) }} / {{calculatePercent(data)}} %</span> 
           </td>
           <td style="text-align: right; white-space: pre-line">
             {{ data["NET_AMOUNT"] }}

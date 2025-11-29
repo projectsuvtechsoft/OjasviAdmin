@@ -41,7 +41,7 @@ export class AddproductComponent implements OnInit {
   selected: any;
   @Input()
   disabled: any;
-
+isFocused: string = '';
   current = new Date();
   dateFormat = 'dd-MM-yyyy';
   parentaccount: any;

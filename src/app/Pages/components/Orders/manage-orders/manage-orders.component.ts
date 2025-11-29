@@ -154,14 +154,14 @@ back() {
       sort = '';
     }
     var likeQuery = '';
-    console.log('search text:' + this.searchText);
+    // console.log('search text:' + this.searchText);
     if (this.searchText != '') {
       likeQuery = ' AND(';
       this.columns.forEach((column) => {
         likeQuery += ' ' + column[0] + " like '%" + this.searchText + "%' OR";
       });
       likeQuery = likeQuery.substring(0, likeQuery.length - 2) + ')';
-      console.log('likeQuery' + likeQuery);
+      // console.log('likeQuery' + likeQuery);
     }
 
     this.api
@@ -170,7 +170,7 @@ back() {
         this.pageSize,
         this.sortKey,
         sort,
-        " AND CURRENT_STAGE = 'A'" + likeQuery + this.filterQuery
+        " AND ORDER_STATUS='P'" + likeQuery + this.filterQuery
       )
       .subscribe(
         (data) => {
@@ -185,7 +185,7 @@ back() {
           }
         },
         (err) => {
-          console.log(err);
+          // console.log(err);
         }
       );
   }
@@ -201,8 +201,7 @@ back() {
     this.drawerTitle = 'Order Details';
     this.drawerData = Object.assign({}, data);
     this.drawerVisible = true;
-    this.drawerData.ORDER_STATUS = 'A';
-
+    this.drawerData.ORDER_STATUS = 'A'
     // console.log(JSON.parse(data['CART_ITEMS']))
     // var a = JSON.parse(this.drawerData.CART_ITEMS);
     // console.log(a);
@@ -328,21 +327,21 @@ back() {
     }
 
     var likeQuery = '';
-    console.log('search text:' + this.searchText);
+    // console.log('search text:' + this.searchText);
     if (this.searchText != '') {
       likeQuery = ' AND (';
       this.columns.forEach((column) => {
         likeQuery += ' ' + column[0] + " like '%" + this.searchText + "%' OR";
       });
       likeQuery = likeQuery.substring(0, likeQuery.length - 2) + ')';
-      console.log('likeQuery' + likeQuery);
+      // console.log('likeQuery' + likeQuery);
     }
     var filter = '';
     if (this.searchText != '') {
       filter = likeQuery + this.filterQuery;
     } else {
       filter = this.filterQuery;
-      console.log(filter);
+      // console.log(filter);
     }
 
     this.api
@@ -351,7 +350,7 @@ back() {
         this.pageSize,
         this.sortKey,
         sort,
-        " AND CURRENT_STAGE = 'A'" + filter
+        " AND ORDER_STATUS = 'P'" + filter
       )
       .subscribe(
         (data) => {
@@ -368,7 +367,7 @@ back() {
           }
         },
         (err) => {
-          console.log(err);
+          // console.log(err);
         }
       );
   }
@@ -379,9 +378,9 @@ back() {
     const currentSort = sort.find((item) => item.value !== null);
     const sortField = (currentSort && currentSort.key) || 'id';
     const sortOrder = (currentSort && currentSort.value) || 'desc';
-    console.log(currentSort);
+    // console.log(currentSort);
 
-    console.log('sortOrder :' + sortOrder);
+    // console.log('sortOrder :' + sortOrder);
     this.pageIndex = pageIndex;
     this.pageSize = pageSize;
 
