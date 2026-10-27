@@ -267,7 +267,7 @@ tableheight:any;
     console.log('Customer id from customer master ', this.cust);
 
     this.api
-      .getAllCartMaster(0, 0, 'id', '', ' AND CUSTOMER_ID = ' + this.cust)
+      .getAllCartMaster(0, 0, 'id', '', ' AND CUSTOMER_ID = ' + this.cust + " AND STATUS = 'C'")
       .subscribe((data) => {
         if (data['code'] == 200) {
           // this.totalRecords = data['count'];
@@ -483,20 +483,35 @@ this.custMobileNo=data.MOBILE_NO
     this.search();
   }
 
-   clearFilter1() {
-    this.dataList = [];
+  //  clearFilter1() {
+  //   this.dataList = [];
 
-    this.dataList = [];
+  //   this.dataList = [];
     
-    this.month = this.today;
+  //   this.month = this.today;
    
-    this.isFilterApplied = 'default';
-    this.istodaysdate = 'default';
-    this.islastsevendays = 'default';
-    this.iscurrentmonth = 'default';
+  //   this.isFilterApplied = 'default';
+  //   this.istodaysdate = 'default';
+  //   this.islastsevendays = 'default';
+  //   this.iscurrentmonth = 'default';
 
-    this.search();
-  }
+  //   this.search();
+  // }
+
+  clearFilter1() {
+  this.dataList = [];
+  this.month = this.today;
+
+  // Reset filters
+  this.filterQuery = '';          // REQUIRED
+  this.isFilterApplied = 'default';
+  this.istodaysdate = 'default';
+  this.islastsevendays = 'default';
+  this.iscurrentmonth = 'default';
+
+  // Fetch fresh records
+  this.search(true);
+}
   applyFilter() {
     // this.isFilterApplied = 'primary';
     this.loadingRecords = true;

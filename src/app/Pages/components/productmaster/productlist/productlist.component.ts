@@ -294,10 +294,11 @@ export class ProductlistComponent implements OnInit {
   Ismaintainstock: any;
   Isvarientavailable: any;
   FAQDataList: any = [];
+  data1:any
   map(data: any): void {
     this.productId = data.ID;
     this.mapdrawerTitle = ' Product Variant Mapping';
-    // this.drawerData = Object.assign({}, data);
+    this.data1 = Object.assign({}, data);
     console.log('productlist ' + data);
     this.Ismaintainstock = data.IS_MAINTAIN_STOCK;
     console.log(this.Ismaintainstock);

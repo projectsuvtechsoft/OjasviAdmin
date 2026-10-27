@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit {
       this.message.error('Please Enter Password', '');
     } 
     else if (this.PASSWORD.length < 8 || !this.passwordPattern.test(this.PASSWORD.trim())) {
-      this.message.error(  'Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.', '');
+      this.message.error('Please Enter Valid Password', '');
     } 
     else {
       this.isloginSpinning = true;
@@ -175,7 +175,7 @@ export class LoginComponent implements OnInit {
           
 
             // SUBSCRIBED_CHANNELS: []
-            if(data['data'][0]['UserData'][0]['ROLE_ID']===7 || data['data'][0]['UserData'][0]['ROLE_ID']===6){
+            if(data['data'][0]['UserData'][0]['ROLE_ID']===1){
                this.router.navigate(['/admin-dashboard']).then(() => {
               window.location.reload();
             });

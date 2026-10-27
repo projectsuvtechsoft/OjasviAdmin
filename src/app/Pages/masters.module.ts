@@ -136,7 +136,10 @@ import { AddCityComponent } from './components/CityMaster/add-city/add-city.comp
 import { ListCityComponent } from './components/CityMaster/list-city/list-city.component';
 import { PickuplocationaddComponent } from './components/pickuplocationmaster/pickuplocationadd/pickuplocationadd.component';
 import { PickuplocationlistComponent } from './components/pickuplocationmaster/pickuplocationlist/pickuplocationlist.component';
-import { DatetimeFormatPipe } from '../Pipes/datetime-format.pipe';
+import { WebsiteReviewsComponent } from './components/website-reviews/website-reviews.component';
+import { CustomerProductReviewsComponent } from './components/customer-product-reviews/customer-product-reviews.component';
+import { PriceLogsComponent } from './components/price-logs/price-logs.component';
+// import { DatetimeFormatPipe } from '../Pipes/datetime-format.pipe';
 @NgModule({
   declarations: [
     MastersComponent,
@@ -208,7 +211,10 @@ import { DatetimeFormatPipe } from '../Pipes/datetime-format.pipe';
     ListCityComponent,
     PickuplocationaddComponent,
     PickuplocationlistComponent,
-    DatetimeFormatPipe
+    WebsiteReviewsComponent,
+    CustomerProductReviewsComponent,
+    PriceLogsComponent,
+    // DatetimeFormatPipe
   ],
   imports: [
     // PickerComponent,

@@ -110,14 +110,14 @@
             <b>Full Address</b>
           </th>
 
-          <th
+          <!-- <th
             nzColumnKey="LOCALITY"
             [nzSortFn]="true"
             nzWidth="40px"
             style="text-align: center"
           >
             <b>Locality</b>
-          </th>
+          </th> -->
 
           <th
             nzColumnKey="CITY_NAME"
@@ -161,21 +161,21 @@
             nzWidth="100px"
             style="text-align: center"
           >
-            <b>Landmark</b>
+            <b>Remark</b>
           </th>
 
           <!-- <th nzColumnKey="CLIENT_ID" [nzSortFn]="true" nzWidth="25px" style="text-align: center">
             <b>Client ID</b>
           </th> -->
 
-          <th
+          <!-- <th
             nzColumnKey="COUNTRY_CODE"
             [nzSortFn]="true"
             nzWidth="50px"
             style="text-align: center"
           >
             <b>Country Code</b>
-          </th>
+          </th> -->
 
           <th
             nzColumnKey="OPEN_TIME"
@@ -261,13 +261,13 @@
           </td>
 
           <!-- Locality -->
-          <td
+          <!-- <td
             nz-tooltip
             [nzTooltipTitle]="data['LOCALITY']"
             class="truncate-cell"
           >
             {{ data["LOCALITY"] }}
-          </td>
+          </td> -->
 
           <!-- City -->
           <td nz-tooltip [nzTooltipTitle]="data['CITY_NAME']" class="truncate-cell">
@@ -305,7 +305,7 @@
           </td>
 
           <!-- Country Code -->
-          <td style="text-align: center">{{ data["COUNTRY_CODE"] }}</td>
+          <!-- <td style="text-align: center">{{ data["COUNTRY_CODE"] }}</td> -->
 
           <!-- Open Time -->
           <td style="text-align: center">{{ data["OPEN_TIME"] }}</td>

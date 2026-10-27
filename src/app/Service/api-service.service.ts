@@ -117,6 +117,7 @@ export class ApiServiceService {
       headers: this.httpHeaders,
     };
   }
+  //Live
   //   getheader() {
   //   this.httpHeaders = new HttpHeaders({
   //     'Content-Type': 'application/json',
@@ -440,7 +441,7 @@ export class ApiServiceService {
     return this.httpClient.request(req);
   }
 
-  // // For Testing server
+  // For Testing server
   onuploadheader() {
     this.httpHeaders1 = new HttpHeaders({
       Accept: 'application/json',
@@ -459,8 +460,8 @@ export class ApiServiceService {
   // onuploadheader() {
   //   this.httpHeaders1 = new HttpHeaders({
   //     Accept: 'application/json',
-  //     apikey: 'VnEgKy9sBEXscwr4zs7J18aSjW0YA4fY',
-  //     applicationkey: 'awlcQRwoZxAJQm7b',
+  //     apikey: 'BEZhBltbyzL11SPV9YFdH4YgYUKZ6Fla',
+  //     applicationkey: '26lLNSmaKlcFziHH',
   //     supportkey: this.cookie.get('supportKey'),
   //     Token: this.cookie.get('token'),
   //   });
@@ -11826,4 +11827,94 @@ export class ApiServiceService {
       this.options
     );
   }
+
+// Website Review...
+  getcustomerWebsiteReviews(
+    pageIndex: number,
+    pageSize: number,
+    sortKey: string,
+    sortValue: string,
+    filter: string
+  ): Observable<any> {
+    var data = {
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+      sortKey: sortKey,
+      sortValue: sortValue,
+      filter: filter,
+    };
+
+    return this.httpClient.post<any>(
+      this.url + 'customerWebsiteReviews/get ',
+      JSON.stringify(data),
+      this.options
+    );
+  }
+
+  updatecustomerWebsiteReviews(role: any): Observable<any> {
+    this.getheader();
+
+    return this.httpClient.put<any>(
+      this.url + 'customerWebsiteReviews/update/',
+      JSON.stringify(role),
+      this.options
+    );
+  } 
+
+  //Customer Product Review...
+
+  getcustomerProductReviews(
+    pageIndex: number,
+    pageSize: number,
+    sortKey: string,
+    sortValue: string,
+    filter: string
+  ): Observable<any> {
+    var data = {
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+      sortKey: sortKey,
+      sortValue: sortValue,
+      filter: filter,
+    };
+
+    return this.httpClient.post<any>(
+      this.url + 'customerProductReviews/get',
+      JSON.stringify(data),
+      this.options
+    );
+  }
+
+  updatecustomerProductReviews(role: any): Observable<any> {
+    this.getheader();
+
+    return this.httpClient.put<any>(
+      this.url + 'customerProductReviews/update/',
+      JSON.stringify(role),
+      this.options
+    );
+  } 
+
+ getproductPriceLogs(
+    pageIndex: number,
+    pageSize: number,
+    sortKey: string,
+    sortValue: string,
+    filter: string
+  ): Observable<any> {
+    var data = {
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+      sortKey: sortKey,
+      sortValue: sortValue,
+      filter: filter,
+    };
+
+    return this.httpClient.post<any>(
+      this.url + 'products/productPriceLogs',
+      JSON.stringify(data),
+      this.options
+    );
+  }
+
 }

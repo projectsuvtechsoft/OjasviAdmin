@@ -58,6 +58,7 @@ isFocused: string = '';
   uploadedAttachmentStr1: string = '';
   units: UnitMaster[] = [];
   imagecount: number = 0;
+ 
   constructor(
     private api: ApiServiceService,
     private message: NzNotificationService,
@@ -87,38 +88,136 @@ isFocused: string = '';
       }
     );
   }
-  inputValue: any;
-  @Input() tags: any = [];
+ @Input() tags: any[] = [];
 
-  checkComma(event: KeyboardEvent): void {
-    const input = this.inputValue.trim();
+inputValue: string = "";
+maxTags: number = 4;        // maximum tags
+maxTagLength: number = 32;  // max characters per tag
 
-    if ((event.key === ',' || event.key === 'Enter') && input) {
-      const newTags = input
-        .split(',')
-        .map((tag) => tag.trim())
-        .filter((tag) => tag !== '');
+// checkComma(event: KeyboardEvent): void {
+//   const input = this.inputValue.trim();
 
-      for (let tag of newTags) {
-        if (!this.tags.includes(tag)) {
-          this.tags.push(tag);
-        }
-      }
+//   // ❌ Do not allow adding tag if 4 already exist
+//   if ((event.key === "," || event.key === "Enter") && this.tags.length >= this.maxTags) {
+//     event.preventDefault();
+//     return;
+//   }
 
-      this.inputValue = '';
-      this.updateBenefitsString();
+//   // Add tag on comma or Enter
+//   if ((event.key === "," || event.key === "Enter") && input) {
+//     // Split tags if multiple separated
+//     const newTags = input
+//       .split(",")
+//       .map(tag => tag.trim())
+//       .filter(tag => tag !== "" && tag.length <= this.maxTagLength);
+
+//     for (let tag of newTags) {
+//       if (!this.tags.includes(tag) && this.tags.length < this.maxTags) {
+//         this.tags.push(tag);
+//       }
+//     }
+
+//     this.inputValue = "";
+//     this.updateBenefitsString();
+//   }
+// }
+
+addTag(): void {
+  const input = this.inputValue?.trim();
+  if (!input) return;
+
+  // ❌ Check max tags limit
+  if (this.tags.length >= this.maxTags) {
+    return; // don't add more
+  }
+
+  // Split input by comma if multiple tags typed at once
+  const newTags = input
+    .split(',')
+    .map(tag => tag.trim())
+    .filter(tag => tag && tag.length <= this.maxTagLength);
+
+  for (const tag of newTags) {
+    if (!this.tags.includes(tag) && this.tags.length < this.maxTags) {
+      this.tags.push(tag);
     }
   }
 
-  removeTag(index: number): void {
-    this.tags.splice(index, 1);
-    this.updateBenefitsString();
-  }
+  // Clear input after adding
+  this.inputValue = '';
 
-  updateBenefitsString(): void {
-    // Send comma-separated values to data.BENIFITS
-    this.data.BENIFITS = this.tags.join(', ');
+  // Update your model or backend field
+  this.updateBenefitsString();
+}
+
+// Called on comma key
+checkComma(event: KeyboardEvent): void {
+  if (event.key === ',') {
+    event.preventDefault(); // prevent comma in input
+    this.addTag();
   }
+}
+
+// Update your data field
+updateBenefitsString(): void {
+  this.data.BENIFITS = this.tags.join(', ');
+}
+
+// Remove a tag
+removeTag(index: number): void {
+  this.tags.splice(index, 1);
+  this.updateBenefitsString();
+}
+
+
+
+
+
+products: any[] = [];
+
+loadproducts(){
+   this.api
+      .getAllProductMaster(
+        0,
+        0,
+        'id',
+        'desc',
+      ' AND STATUS=1'
+      )
+      .subscribe((data) => {
+        if (data['code'] == 200) {
+
+        this.products = data['data'];  // ← store all products
+
+      } else {
+        this.message.error('Something Went Wrong', '');
+      }
+      });
+}
+
+checkDuplicateProduct() {
+  if (!this.data.NAME || !this.data.CATEGORY_ID) return false;
+
+  return this.products.some(
+    (p: any) =>
+      p.NAME.trim().toLowerCase() === this.data.NAME.trim().toLowerCase() &&
+      p.CATEGORY_ID === this.data.CATEGORY_ID &&
+      p.ID !== this.data.ID  // allow same product while editing
+  );
+}
+
+
+
+// Stop typing more than max length
+limitInput(event: any) {
+  const target = event.target as HTMLInputElement;
+  if (target.value.length > this.maxTagLength) {
+    target.value = target.value.substring(0, this.maxTagLength);
+    this.inputValue = target.value; // update ngModel
+  }
+}
+
+
 
   ///Unit Mastre
   loadunit() {
@@ -281,7 +380,11 @@ isFocused: string = '';
     } else if (this.data.NAME == null || this.data.NAME.trim() == '') {
       this.isOk = false;
       this.message.error(' Please Enter Product Name', '');
-    } else if (
+    }
+     else if (this.checkDuplicateProduct()) {
+    this.isOk = false;
+    this.message.error('This Product already exists in this category ', '');
+  } else if (
       this.data.UNIQUE_CODE == null ||
       this.data.UNIQUE_CODE.trim() == ''
     ) {

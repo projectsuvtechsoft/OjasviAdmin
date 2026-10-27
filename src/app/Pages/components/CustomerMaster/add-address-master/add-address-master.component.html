@@ -10,7 +10,8 @@
                 placeholder="Enter Customer Name" autocomplete="off" disabled (focus)="isFocused = 'customer'"
                 (blur)="isFocused = ''" required />
             </nz-form-control>
-            <h6 style="color: red; font-size: 10px" *ngIf="isFocused === 'customer' || (data.NAME && isFocused === 'customer')">
+            <h6 style="color: red; font-size: 10px"
+              *ngIf="isFocused === 'customer' || (data.NAME && isFocused === 'customer')">
               {{ data.NAME.length || 0 }}/512
             </h6>
           </nz-form-item>
@@ -41,7 +42,8 @@
                 (blur)="isFocused = ''"></textarea>
 
             </nz-form-control>
-            <h6 style="color: red; font-size: 10px" *ngIf="isFocused === 'address' || (data.ADDRESS && isFocused === 'address')">
+            <h6 style="color: red; font-size: 10px"
+              *ngIf="isFocused === 'address' || (data.ADDRESS && isFocused === 'address')">
               {{ data.ADDRESS.length || 0 }}/512
             </h6>
           </nz-form-item>
@@ -78,12 +80,12 @@
           <nz-form-item>
             <nz-form-label nzRequired nzNoColon> City </nz-form-label>
             <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Valid City">
-              <input nz-input name="city" [(ngModel)]="data.CITY" maxlength="256" (keypress)="alphaOnly($event)"
+              <input nz-input name="city" [(ngModel)]="data.CITY_NAME" maxlength="256" (keypress)="alphaOnly($event)"
                 required placeholder="Enter City" autocomplete="off" (focus)="isFocused = 'cityy'"
-                (blur)="isFocused = ''" />
-            </nz-form-control>
-            <h6 style="color: red; font-size: 10px" *ngIf="isFocused === 'cityy' || (data.CITY && isFocused === 'cityy')">
-              {{ data.CITY.length || 0 }}/256
+                (blur)="isFocused = ''" />         </nz-form-control>
+            <h6 style="color: red; font-size: 10px"
+              *ngIf="isFocused === 'cityy' || (data.CITY_NAME && isFocused === 'cityy')">
+              {{ data.CITY_NAME.length || 0 }}/256
             </h6>
           </nz-form-item>
         </div>
@@ -96,9 +98,8 @@
             <nz-form-label nzRequired nzNoColon> Zipcode </nz-form-label>
             <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Valid Zipcode">
               <nz-input-group style="width: 100%">
-                <input nz-input name="pincode" [(ngModel)]="data.PINCODE" maxlength="5" maxlength="5"
-                  [pattern]="pincode" (keypress)="omit($event)" style="width: 100%" required
-                  placeholder="Enter Zipcode" />
+                <input nz-input name="pincode" [(ngModel)]="data.PINCODE" maxlength="8" [pattern]="pincode"
+                  (keypress)="omit($event)" required placeholder="Enter Zipcode" />
               </nz-input-group>
             </nz-form-control>
           </nz-form-item>
@@ -112,7 +113,8 @@
                 required placeholder="Enter Landmark" autocomplete="off" (focus)="isFocused = 'landmark'"
                 (blur)="isFocused = ''" />
             </nz-form-control>
-            <h6 style="color: red; font-size: 10px" *ngIf="isFocused === 'landmark' || (data.LANDMARK && isFocused === 'landmark')">
+            <h6 style="color: red; font-size: 10px"
+              *ngIf="isFocused === 'landmark' || (data.LANDMARK && isFocused === 'landmark')">
               {{ data.LANDMARK.length || 0 }}/256
             </h6>
           </nz-form-item>
@@ -126,7 +128,8 @@
                 required placeholder="Enter Area" autocomplete="off" (focus)="isFocused = 'area'"
                 (blur)="isFocused = ''" />
             </nz-form-control>
-            <h6 style="color: red; font-size: 10px" *ngIf="isFocused === 'area' || (data.LOCALITY && isFocused === 'area')">
+            <h6 style="color: red; font-size: 10px"
+              *ngIf="isFocused === 'area' || (data.LOCALITY && isFocused === 'area')">
               {{ data.LOCALITY.length || 0 }}/30
             </h6>
           </nz-form-item>

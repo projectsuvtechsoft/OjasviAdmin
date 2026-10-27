@@ -1,0 +1,93 @@
+<div nz-row nzType="flex">
+    <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
+        <div class="formname">
+            <span (click)="back()" nz-icon nzType="arrow-left" nzTheme="outline"
+                style="font-weight: bold; cursor: pointer"></span>&nbsp;&nbsp;<b> {{ formTitle }} </b>
+        </div>
+    </div>
+
+    <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex; justify-content: flex-end">
+        <form nz-form [nzLayout]="'inline'">
+            <nz-form-item>
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                    <input type="text" name="aboutsearch" (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input
+                        placeholder=" Search Record" />
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                    <button nz-button nzType="primary" (click)="search(true)" nzSearch>
+                        <i nz-icon nzType="search"></i>
+                    </button>
+                </ng-template>
+            </nz-form-item>
+            <!-- <nz-form-item>
+        <button nz-button nzType="primary" (click)="add()" nzJustify="end">
+          <i nz-icon nzType="plus"></i>Add New City
+        </button>
+      </nz-form-item> -->
+            <!-- <nz-form-item>
+        <button
+          nz-button
+          nzType="default"
+          nz-popconfirm
+          nzPopconfirmTitle="Are you sure you want to delete selected records?"
+          nzPopconfirmPlacement="top"
+          (nzOnConfirm)="bulkDelete()"
+          nzOkText="Yes"
+          nzCancelText="No"
+          [disabled]="selectedRows.length === 0 || selectedRows.length < 2"
+          style="color: rgb(23, 99, 34); margin-left: 10px"
+        >
+          <i nz-icon nzType="delete"></i>
+        </button>
+      </nz-form-item> -->
+        </form>
+    </div>
+</div>
+<br />
+
+
+<div nz-row>
+    <div nz-col nzSpan="24" style="width: 100%">
+        <nz-table nzBordered #PriceLogsTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="dataList"
+            [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="{ y: '64vh' }" [nzTotal]="totalRecords"
+            [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="search()"
+            (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)" style="width: 100%">
+            <thead>
+                <tr>
+                    <th nzColumnKey="{{ 'PRODUCT_NAME' }}"  [nzSortFn]="true" nzWidth="25px" style="text-align: center">
+                        <b> Product Name</b>
+                    </th>
+                    <th nzColumnKey="{{ 'SIZE' }}" [nzSortFn]="true" nzWidth="15px" style="text-align: center">
+                        <b> Size</b>
+                    </th>
+
+                    <th nzColumnKey="{{ 'OLD_PRICE' }}" [nzSortFn]="true" nzWidth="15px" style="text-align: center">
+                        <b> Old Price </b>
+                    </th>
+                    <th nzColumnKey="{{ 'NEW_PRICE' }}" [nzSortFn]="true" nzWidth="15px" style="text-align: center">
+                        <b> New Price </b>
+                    </th>
+
+                    <th nzColumnKey="{{ 'PRICE_CHANGED_DATE' }}" [nzSortFn]="true" nzWidth="30px" style="text-align: center">
+                        <b> Price Changed Date </b>
+                       
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of PriceLogsTable.data">
+                    <td style="text-align: center">{{ data["PRODUCT_NAME"] }}</td>
+
+                    <td style="text-align: center"> {{ data.SIZE }} {{ data.UNIT_NAME }}</td>
+
+                    <td style="text-align:center">{{ data["OLD_PRICE"] }}</td>
+
+                    <td style="text-align:center">{{ data["NEW_PRICE"] }}</td>
+                    <td style="text-align: center">
+                       {{ data["PRICE_CHANGED_DATE"] }}
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

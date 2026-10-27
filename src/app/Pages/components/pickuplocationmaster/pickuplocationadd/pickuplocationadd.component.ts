@@ -53,11 +53,33 @@ export class PickuplocationaddComponent {
         this.loadCities(this.data.STATE_ID);
       }
     }
-    
+     this.getStoreKeepers()
     // ✅ Convert time strings to Date objects for time picker when editing
     this.convertTimeStringsToDate();
   }
   cities: any = [];
+
+  keepersList:any=[]
+  getStoreKeepers(){
+    this.api
+      .getAllUsers(
+        0,
+        0,
+        '',
+        '',
+        ' AND IS_ACTIVE=1 AND ROLE_ID = 7'
+      )
+      .subscribe(
+        (data) => {
+          this.keepersList = data['data'];
+        },
+        (err) => {
+          // console.log(err);
+          this.isSpinning = false;
+        }
+      );
+  }
+ 
   // Load countries
   loadCountry() {
     this.api.getAllCountryMaster(0, 0, '', '', ' AND STATUS=1').subscribe(
@@ -121,9 +143,12 @@ export class PickuplocationaddComponent {
 
   // Triggered when country changes
   onCountryChange(event: any) {
+    this.data.STATE_ID=null;
+    this.data.CITY_ID=null
     this.loadState(event);
   }
   onStateChange(event: any) {
+    this.data.CITY_ID =null;
     this.loadCities(event);
   }
 
@@ -406,27 +431,168 @@ export class PickuplocationaddComponent {
     { label: 'Kyrgyzstan (+996)', value: '+996' },
     { label: 'Uzbekistan (+998)', value: '+998' },
   ];
-  save(addNew: boolean, addressForm: NgForm): void {
+//   save(addNew: boolean, addressForm: NgForm): void {
+//     this.isOk = true;
+//     this.isSpinning = false;
+
+//     if (!this.data.PINCODE) {
+//   this.isOk = false;
+//   this.message.error('Please enter a valid 6-digit pincode', '');
+//   return;
+// }
+//     // ✅ Gather all required field conditions
+//     const missingFields:any = [];
+
+//     if (!this.data.COUNTRY_ID || this.data.COUNTRY_ID <= 0)
+//       missingFields.push('Country');
+//     if (!this.data.STATE_ID || this.data.STATE_ID <= 0)
+//       missingFields.push('State');
+//     if (!this.data.CITY_ID || this.data.CITY_ID <= 0)
+//       missingFields.push('City');
+//     if (!this.data.LOCALITY?.trim()) missingFields.push('Locality');
+//     if (!this.data.ADDRESS?.trim()) missingFields.push('Address');
+//     if (!this.data.LANDMARK?.trim()) missingFields.push('Landmark');
+//     if (!this.data.PINCODE?.trim()) missingFields.push('Pincode');
+//     if (!this.data.COUNTRY_CODE?.trim()) missingFields.push('Country Code');
+//     if (!this.data.OPEN_TIME) missingFields.push('Open Time');
+//     if (!this.data.CLOSE_TIME) missingFields.push('Close Time');
+
+//     // ✅ If multiple fields missing, show generic message
+//     if (missingFields.length === 0) {
+//       this.isOk = true;
+//     } else if (missingFields.length >= 4) {
+//       this.isOk = false;
+//       this.message.error('Please fill all required fields', '');
+//     }
+//     // ✅ If few missing, show specific error for first missing one
+//     else {
+//       this.isOk = false;
+//       const firstMissing = missingFields[0];
+//       this.message.error(`Please enter/select ${firstMissing}`, '');
+//     }
+
+//     if (!this.isOk) return;
+
+//     // ✅ Proceed if validation passes
+//     this.isSpinning = true;
+
+//     // ✅ Format time fields to HH:mm before sending to backend
+    
+
+//     this.api.getAllpickupLocation(0, 0, '', 'desc', '').subscribe(
+//       (allData: any) => {
+//         const locations = allData?.data || [];
+
+//         // ✅ Optional duplicate check (same Country, State, City, Address)
+//         const duplicateExists = locations.some(
+//           (loc: any) =>
+//             loc.COUNTRY_ID === this.data.COUNTRY_ID &&
+//             loc.STATE_ID === this.data.STATE_ID &&
+//             loc.CITY_ID === this.data.CITY_ID &&
+//             loc.ADDRESS?.trim().toLowerCase() ===
+//               this.data.ADDRESS?.trim().toLowerCase() &&
+//             loc.ID !== this.data.ID
+//         );
+
+//         if (duplicateExists) {
+//           this.message.error(
+//             'This address already exists for the selected city',
+//             ''
+//           );
+//           this.isSpinning = false;
+//           return;
+//         }
+
+//         // ✅ Update record
+//         if (this.data.ID) {
+//           this.api.updatepickupLocation(dataToSend).subscribe(
+//             (successCode) => {
+//               if (successCode.code === 200) {
+//                 this.message.success(
+//                   'Pickup location updated successfully',
+//                   ''
+//                 );
+               
+//                 if (!addNew) this.drawerClose();
+//               } else {
+//                 this.message.error('Pickup location update failed', '');
+//               }
+//               this.isSpinning = false;
+//             },
+//             () => {
+//               this.message.error(
+//                 'Something went wrong, please try again later',
+//                 ''
+//               );
+//               this.isSpinning = false;
+//             }
+//           );
+//         }
+//         // ✅ Create new record
+//         else {
+//           this.api.createpickupLocation(dataToSend).subscribe(
+//             (successCode) => {
+//               if (successCode.code === 200) {
+//                 this.message.success(
+//                   'Pickup location created successfully',
+//                   ''
+//                 );
+//                 if (!addNew) {
+//                   this.drawerClose();
+//                 } else {
+//                   this.data = new pickupLocation();
+//                   this.resetDrawer(addressForm);
+//                 }
+//               } else {
+//                 this.message.error('Pickup location creation failed', '');
+//               }
+//               this.isSpinning = false;
+//             },
+//             () => {
+//               this.message.error(
+//                 'Something went wrong, please try again later',
+//                 ''
+//               );
+//               this.isSpinning = false;
+//             }
+//           );
+//         }
+//       },
+//       () => {
+//         this.message.error('Something went wrong, please try again later', '');
+//         this.isSpinning = false;
+//       }
+//     );
+//   }
+
+
+   save(addNew: boolean, addressForm: NgForm): void {
     this.isOk = true;
     this.isSpinning = false;
-
+ 
+    if (!this.data.PINCODE) {
+  this.isOk = false;
+  this.message.error('Please enter a valid pincode', '');
+  return;
+}
     // ✅ Gather all required field conditions
     const missingFields:any = [];
-
+ 
     if (!this.data.COUNTRY_ID || this.data.COUNTRY_ID <= 0)
       missingFields.push('Country');
     if (!this.data.STATE_ID || this.data.STATE_ID <= 0)
       missingFields.push('State');
     if (!this.data.CITY_ID || this.data.CITY_ID <= 0)
       missingFields.push('City');
-    if (!this.data.LOCALITY?.trim()) missingFields.push('Locality');
+    //if (!this.data.LOCALITY?.trim()) missingFields.push('Locality');
     if (!this.data.ADDRESS?.trim()) missingFields.push('Address');
-    if (!this.data.LANDMARK?.trim()) missingFields.push('Landmark');
+    // if (!this.data.LANDMARK?.trim()) missingFields.push('Landmark');
     if (!this.data.PINCODE?.trim()) missingFields.push('Pincode');
-    if (!this.data.COUNTRY_CODE?.trim()) missingFields.push('Country Code');
+    // if (!this.data.COUNTRY_CODE?.trim()) missingFields.push('Country Code');
     if (!this.data.OPEN_TIME) missingFields.push('Open Time');
     if (!this.data.CLOSE_TIME) missingFields.push('Close Time');
-
+    if (!this.data.USER_ID) missingFields.push('User Id');
+ 
     // ✅ If multiple fields missing, show generic message
     if (missingFields.length === 0) {
       this.isOk = true;
@@ -440,25 +606,25 @@ export class PickuplocationaddComponent {
       const firstMissing = missingFields[0];
       this.message.error(`Please enter/select ${firstMissing}`, '');
     }
-
+ 
     if (!this.isOk) return;
-
+ 
     // ✅ Proceed if validation passes
     this.isSpinning = true;
-
+ 
     // ✅ Format time fields to HH:mm before sending to backend
-    const dataToSend = { ...this.data };
+   const dataToSend = { ...this.data };
     if (dataToSend.OPEN_TIME) {
       dataToSend.OPEN_TIME = this.formatTimeToHHMM(dataToSend.OPEN_TIME);
     }
     if (dataToSend.CLOSE_TIME) {
       dataToSend.CLOSE_TIME = this.formatTimeToHHMM(dataToSend.CLOSE_TIME);
     }
-
+ 
     this.api.getAllpickupLocation(0, 0, '', 'desc', '').subscribe(
       (allData: any) => {
         const locations = allData?.data || [];
-
+ 
         // ✅ Optional duplicate check (same Country, State, City, Address)
         const duplicateExists = locations.some(
           (loc: any) =>
@@ -469,7 +635,7 @@ export class PickuplocationaddComponent {
               this.data.ADDRESS?.trim().toLowerCase() &&
             loc.ID !== this.data.ID
         );
-
+ 
         if (duplicateExists) {
           this.message.error(
             'This address already exists for the selected city',
@@ -478,7 +644,7 @@ export class PickuplocationaddComponent {
           this.isSpinning = false;
           return;
         }
-
+ 
         // ✅ Update record
         if (this.data.ID) {
           this.api.updatepickupLocation(dataToSend).subscribe(
@@ -488,6 +654,7 @@ export class PickuplocationaddComponent {
                   'Pickup location updated successfully',
                   ''
                 );
+               
                 if (!addNew) this.drawerClose();
               } else {
                 this.message.error('Pickup location update failed', '');
@@ -539,51 +706,49 @@ export class PickuplocationaddComponent {
       }
     );
   }
+ 
 
   // ✅ Convert time strings from backend to Date objects for time picker
-  convertTimeStringsToDate(): void {
-    if (this.data.OPEN_TIME && typeof this.data.OPEN_TIME === 'string') {
-      this.data.OPEN_TIME = this.convertHHMMToDate(this.data.OPEN_TIME);
-    }
-    if (this.data.CLOSE_TIME && typeof this.data.CLOSE_TIME === 'string') {
-      this.data.CLOSE_TIME = this.convertHHMMToDate(this.data.CLOSE_TIME);
-    }
+  // convertTimeStringsToDate(): void {
+  //   if (this.data.OPEN_TIME && typeof this.data.OPEN_TIME === 'string') {
+  //     this.data.OPEN_TIME = this.convertHHMMToDate(this.data.OPEN_TIME);
+  //   }
+  //   if (this.data.CLOSE_TIME && typeof this.data.CLOSE_TIME === 'string') {
+  //     this.data.CLOSE_TIME = this.convertHHMMToDate(this.data.CLOSE_TIME);
+  //   }
+  // }
+
+ convertTimeStringsToDate(): void {
+  if (typeof this.data.OPEN_TIME === 'string') {
+    this.data.OPEN_TIME = this.convertHHMMToDate(this.data.OPEN_TIME);
   }
+  if (typeof this.data.CLOSE_TIME === 'string') {
+    this.data.CLOSE_TIME = this.convertHHMMToDate(this.data.CLOSE_TIME);
+  }
+}
 
   // ✅ Convert HH:mm string to Date object for time picker
-  convertHHMMToDate(timeString: string): Date {
-    if (!timeString || !timeString.match(/^\d{2}:\d{2}$/)) {
-      return new Date();
-    }
-    
-    const [hours, minutes] = timeString.split(':').map(Number);
-    const date = new Date();
-    date.setHours(hours, minutes, 0, 0);
-    return date;
-  }
+convertHHMMToDate(timeString: string): Date {
+  if (!timeString) return null as any;
+
+  const parts = timeString.split(':');
+  const hours = Number(parts[0]);
+  const minutes = Number(parts[1] || 0);
+
+  if (isNaN(hours) || isNaN(minutes)) return null as any;
+
+  // Create Date WITHOUT timezone shift
+  const date = new Date();
+  date.setHours(hours, minutes, 0, 0);
+
+  return date;
+}
 
   // ✅ Format time to HH:mm format for backend
   formatTimeToHHMM(time: any): string {
-    if (!time) return '';
-    
-    // If time is already a string in HH:mm format, return as is
-    if (typeof time === 'string' && time.match(/^\d{2}:\d{2}$/)) {
-      return time;
-    }
-    
-    // If time is a Date object or other format, convert using DatePipe
-    if (time instanceof Date) {
-      return this.datePipe.transform(time, 'HH:mm') || '';
-    }
-    
-    // If time is a string that can be converted to Date
-    if (typeof time === 'string') {
-      const dateTime = new Date(time);
-      if (!isNaN(dateTime.getTime())) {
-        return this.datePipe.transform(dateTime, 'HH:mm') || '';
-      }
-    }
-    
-    return time.toString();
-  }
+  if (!time) return '';
+  if (typeof time === 'string' && time.match(/^\d{2}:\d{2}$/)) return time;
+  if (time instanceof Date) return this.datePipe.transform(time, 'HH:mm') || '';
+  return time.toString();
+}
 }

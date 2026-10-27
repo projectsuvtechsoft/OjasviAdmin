@@ -18,7 +18,7 @@ export class UsercontactComponent implements OnInit {
   drawerTitle!: string;
   drawerData: UserContactReport = new UserContactReport();
   formTitle = " User Contact Report";
-  dataList:any = [];
+  dataList: any = [];
   dataList2 = [];
   loadingRecords = true;
   totalRecords = 1;
@@ -27,27 +27,27 @@ export class UsercontactComponent implements OnInit {
   sortValue: string = "desc";
   sortKey: string = "id";
   searchText: string = "";
-  groupname:string='';
+  groupname: string = '';
   filterQuery: string = "";
   isFilterApplied: any = "default";
   exportLoading: boolean = false;
   filterClass: string = 'filter-invisible';
   isSpinning = false;
-  assessment:any;
-  columns: string[][] = [["NAME","Name"],["MOBILE_NO","Mobile Number"],
-  ["EMAIL_ID"," Email ID "],["SUBJECT"," Subject "],["MESSAGE"," Message "]];
+  assessment: any;
+  columns: string[][] = [["NAME", "Name"], ["MOBILE_NO", "Mobile Number"],
+  ["EMAIL_ID", " Email ID "], ["SUBJECT", " Subject "], ["MESSAGE", " Message "]];
 
-  constructor(private api: ApiServiceService,private message: NzNotificationService,private _exportService: ExportService,private datePipe:DatePipe,private router: Router) { }
+  constructor(private api: ApiServiceService, private message: NzNotificationService, private _exportService: ExportService, private datePipe: DatePipe, private router: Router) { }
 
   ngOnInit(): void {
 
   }
 
-  keyup(event:any) {
+  keyup(event: any) {
     this.search();
   }
-  
-  search(reset: boolean = false,exportInExcel: boolean = false) {
+
+  search(reset: boolean = false, exportInExcel: boolean = false) {
     if (reset) {
       this.pageIndex = 1;
       this.sortKey = "id";
@@ -63,60 +63,68 @@ export class UsercontactComponent implements OnInit {
     var likeQuery = "";
     console.log("search text:" + this.searchText);
     if (this.searchText != "") {
+      // likeQuery = " AND";
+      // this.columns.forEach(column => {
+      //   likeQuery += " " + column[0] + " like '%" + this.searchText + "%' OR";
+      // });
+      // likeQuery = likeQuery.substring(0, likeQuery.length - 2)
+      // console.log("likeQuery" + likeQuery);
       likeQuery = " AND";
+      let searchLower = this.searchText.toLowerCase();
+
       this.columns.forEach(column => {
-        likeQuery += " " + column[0] + " like '%" + this.searchText + "%' OR";
+        likeQuery += " LOWER(" + column[0] + ") LIKE '%" + searchLower + "%' OR";
       });
-      likeQuery = likeQuery.substring(0, likeQuery.length - 2)
-      console.log("likeQuery" + likeQuery);
+
+      likeQuery = likeQuery.substring(0, likeQuery.length - 2);
     }
     if (exportInExcel == false) {
-    this.api.getAllUserContactReport(this.pageIndex, this.pageSize, this.sortKey, sort, likeQuery+
-      this.filterQuery).subscribe(data => {
-        if(data['code'] == 200){
-      this.totalRecords = data['count'];
-      this.dataList = data['data'];
-      this.loadingRecords = false;
-      this.dataList.forEach(item => item.checked = this.selectedIds.has(item.ID));
-      this.updateSelectedRows();
-      // if(this.totalRecords==0){
-      //   data.SEQUENCE_NO=1;
-      // }else{
-      //   data.SEQUENCE_NO= this.dataList[this.dataList.length-1]['SEQUENCE_NO']+1
-      // }
-      }else{
-        this.message.error("Something Went Wrong","")
-        this.loadingRecords = false;
-      }
-    }, err => {
-      console.log(err);
-    });
-  }else{
-     this.api
-      .getAllUserContactReport(0, 0, this.sortKey, sort, this.filterQuery + likeQuery)
-      .subscribe(
-        (data) => {
+      this.api.getAllUserContactReport(this.pageIndex, this.pageSize, this.sortKey, sort, likeQuery +
+        this.filterQuery).subscribe(data => {
           if (data['code'] == 200) {
-             this.loadingRecords = false;
             this.totalRecords = data['count'];
-            this.dataList2 = data['data'];
-             this.convertInExcel();
-            this.isSpinning = false;
-          } else {
-            this.dataList2 = [];
-              this.exportLoading = false;
+            this.dataList = data['data'];
             this.loadingRecords = false;
-            this.isSpinning = false;
-            this.message.error('Something Went wrong', '');
+            this.dataList.forEach(item => item.checked = this.selectedIds.has(item.ID));
+            this.updateSelectedRows();
+            // if(this.totalRecords==0){
+            //   data.SEQUENCE_NO=1;
+            // }else{
+            //   data.SEQUENCE_NO= this.dataList[this.dataList.length-1]['SEQUENCE_NO']+1
+            // }
+          } else {
+            this.message.error("Something Went Wrong", "")
+            this.loadingRecords = false;
           }
-        },
-        (err) => {
+        }, err => {
           console.log(err);
-        }
-      );
+        });
+    } else {
+      this.api
+        .getAllUserContactReport(0, 0, this.sortKey, sort, this.filterQuery + likeQuery)
+        .subscribe(
+          (data) => {
+            if (data['code'] == 200) {
+              this.loadingRecords = false;
+              this.totalRecords = data['count'];
+              this.dataList2 = data['data'];
+              this.convertInExcel();
+              this.isSpinning = false;
+            } else {
+              this.dataList2 = [];
+              this.exportLoading = false;
+              this.loadingRecords = false;
+              this.isSpinning = false;
+              this.message.error('Something Went wrong', '');
+            }
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
     }
   }
-  
+
 
   //Drawer Methods
   get closeCallback() {
@@ -148,27 +156,27 @@ export class UsercontactComponent implements OnInit {
     this.search();
     this.drawerVisible = false;
   }
-sort(params: NzTableQueryParams): void {
-    const { pageSize, pageIndex, sort} = params;
+  sort(params: NzTableQueryParams): void {
+    const { pageSize, pageIndex, sort } = params;
     const currentSort = sort.find(item => item.value !== null);
-    const sortField = (currentSort && currentSort.key) || 'id'; 
+    const sortField = (currentSort && currentSort.key) || 'id';
     // const sortOrder = (currentSort && currentSort.value) || 'asc';
     const sortOrder = (currentSort && currentSort.value) || 'desc';
 
     console.log(currentSort)
 
-    console.log("sortOrder :"+sortOrder)
+    console.log("sortOrder :" + sortOrder)
     this.pageIndex = pageIndex;
     this.pageSize = pageSize;
 
-    if(this.pageSize != pageSize) {
+    if (this.pageSize != pageSize) {
       this.pageIndex = 1;
       this.pageSize = pageSize;
-    }    
-    
-    if( this.sortKey != sortField) {
+    }
+
+    if (this.sortKey != sortField) {
       this.pageIndex = 1;
-      this.pageSize =pageSize;
+      this.pageSize = pageSize;
     }
 
     this.sortKey = sortField;
@@ -182,7 +190,7 @@ sort(params: NzTableQueryParams): void {
     else this.filterClass = 'filter-visible';
   }
   // applyFilter() { 
-    
+
   //   // this.isSpinning=true
   //   var sort: string;
   //   try {
@@ -190,7 +198,7 @@ sort(params: NzTableQueryParams): void {
   //   } catch (error) {
   //     sort = '';
   //   }
-    
+
   //   var likeQuery = "";
   //   // console.log("search text:" + this.searchText);
 
@@ -239,15 +247,15 @@ sort(params: NzTableQueryParams): void {
     } catch (error) {
       sort = '';
     }
- 
-    if(this.groupname == ''){
-      this.message.error("Please select group name",'');
-    } else if (this.groupname != undefined){
-     {
-      this.filterQuery = 'AND MOCK_GROUP_NAME=' + "'" + this.groupname + "'";
-    
+
+    if (this.groupname == '') {
+      this.message.error("Please select group name", '');
+    } else if (this.groupname != undefined) {
+      {
+        this.filterQuery = 'AND MOCK_GROUP_NAME=' + "'" + this.groupname + "'";
+
+      }
     }
-  }
     var likeQuery = "";
     // console.log("search text:" + this.searchText);
 
@@ -257,42 +265,42 @@ sort(params: NzTableQueryParams): void {
         likeQuery += " " + column[0] + " like '%" + this.searchText + "%' OR";
       });
       likeQuery = likeQuery.substring(0, likeQuery.length - 2)
-      
+
       //console.log("likeQuery" + likeQuery);
     }
     this.api
-    .getAllUserContactReport(
-      this.pageIndex,
-      this.pageSize,
-      this.sortKey,
-      sort,likeQuery+
-     this.filterQuery
-    )
-    .subscribe(
-      (data) => {
-        if(data['code'] == 200){
-        this.isFilterApplied = 'primary';
-        this.totalRecords = data['count'];
-        this.dataList = data['data'];
-        this.isSpinning = false;
-        this.filterClass = 'filter-invisible';
-        this.loadingRecords = false;
-        // this.search();
-        }else{
-          this.message.error("Something Went Wrong","");
-          this.loadingRecords = false;
+      .getAllUserContactReport(
+        this.pageIndex,
+        this.pageSize,
+        this.sortKey,
+        sort, likeQuery +
+      this.filterQuery
+      )
+      .subscribe(
+        (data) => {
+          if (data['code'] == 200) {
+            this.isFilterApplied = 'primary';
+            this.totalRecords = data['count'];
+            this.dataList = data['data'];
+            this.isSpinning = false;
+            this.filterClass = 'filter-invisible';
+            this.loadingRecords = false;
+            // this.search();
+          } else {
+            this.message.error("Something Went Wrong", "");
+            this.loadingRecords = false;
+          }
+        },
+        (err) => {
+          console.log(err);
         }
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-    
+      );
+
     // this.dataList=[];
   }
 
   clearFilter() {
-    this.groupname='';
+    this.groupname = '';
     this.filterClass = 'filter-invisible';
     this.isFilterApplied = 'default';
     this.filterQuery = '';
@@ -308,12 +316,12 @@ sort(params: NzTableQueryParams): void {
     this.router.navigate(['/masters/menu']);
   }
 
-   importInExcel() {
+  importInExcel() {
     this.search(true, true);
   }
 
 
-    convertInExcel() {
+  convertInExcel() {
     var arry1: any = [];
     var obj1: any = new Object();
     if (this.dataList2.length > 0) {
@@ -322,8 +330,8 @@ sort(params: NzTableQueryParams): void {
         obj1["Mobile No"] = this.dataList2[i]["MOBILE_NO"];
         obj1["Email Id"] = this.dataList2[i]["EMAIL_ID"];
         obj1["Subject"] = this.dataList2[i]["SUBJECT"];
-        obj1["Message"] = this.dataList2[i]["MESSAGE"]; 
-        
+        obj1["Message"] = this.dataList2[i]["MESSAGE"];
+
         arry1.push(Object.assign({}, obj1));
         if (i == this.dataList2.length - 1) {
           this._exportService.exportExcel(
@@ -338,137 +346,137 @@ sort(params: NzTableQueryParams): void {
     }
   }
 
-    allChecked = false;
-  selectedIds = new Set<number>(); 
-  selectedRows: any[] = [];        
+  allChecked = false;
+  selectedIds = new Set<number>();
+  selectedRows: any[] = [];
   headerToggles: any = {
-     STATUS: false
+    STATUS: false
   };
-  chekedproduct(){
-     this.api.getAllUserContactReport(1, this.totalRecords, this.sortKey, 'desc', '')
-        .subscribe(res => {
-          if (res['code'] === 200) {
-            res.data.forEach(item => {
-              this.selectedIds.add(item.ID);
-            });
-  
-            // Also mark current page checkboxes as checked
-            this.dataList.forEach(item => item.checked = true);
-            this.updateSelectedRows();
-          }
-        });
+  chekedproduct() {
+    this.api.getAllUserContactReport(1, this.totalRecords, this.sortKey, 'desc', '')
+      .subscribe(res => {
+        if (res['code'] === 200) {
+          res.data.forEach(item => {
+            this.selectedIds.add(item.ID);
+          });
+
+          // Also mark current page checkboxes as checked
+          this.dataList.forEach(item => item.checked = true);
+          this.updateSelectedRows();
+        }
+      });
   }
   updateSelectedRows() {
     // rows on current page
     this.selectedRows = this.dataList.filter(item => this.selectedIds.has(item.ID));
-  
-  
+
+
   }
-  
+
   checkAll(checked: boolean) {
     if (checked) {
-    this.chekedproduct()
+      this.chekedproduct()
     } else {
       this.selectedIds.clear();
       this.dataList.forEach(item => item.checked = false);
-     this.updateSelectedRows();
+      this.updateSelectedRows();
     }
   }
-  
-  
+
+
   onRowChecked(row: any) {
     if (row.checked) {
       this.selectedIds.add(row.ID);
     } else {
       this.selectedIds.delete(row.ID);
     }
-  this.updateSelectedRows();
-    
+    this.updateSelectedRows();
+
   }
-  
-bulkDelete() {
-  this.loadingRecords = true;
 
-  if (this.selectedIds.size === 0) return;
+  bulkDelete() {
+    this.loadingRecords = true;
 
-  // Convert selectedIds set -> array -> comma separated string
-  const payload = {
-    IDS: Array.from(this.selectedIds).join(',')  // "1,2,3"
-  };
+    if (this.selectedIds.size === 0) return;
 
-  this.api.usercontactDelete(payload).subscribe(
-    (res: any) => {
-      if (res.code == 200) {
-        // Remove deleted items from current page
-        this.dataList = this.dataList.filter(
-          item => !this.selectedIds.has(item.ID)
-        );
+    // Convert selectedIds set -> array -> comma separated string
+    const payload = {
+      IDS: Array.from(this.selectedIds).join(',')  // "1,2,3"
+    };
 
-        this.message.success('Successfully deleted data.', '');
+    this.api.usercontactDelete(payload).subscribe(
+      (res: any) => {
+        if (res.code == 200) {
+          // Remove deleted items from current page
+          this.dataList = this.dataList.filter(
+            item => !this.selectedIds.has(item.ID)
+          );
+
+          this.message.success('Successfully deleted data.', '');
           this.search();
+          this.loadingRecords = false;
+
+          // Clear selection
+          this.selectedIds.clear();
+          this.selectedRows = [];
+          this.allChecked = false;
+        }
+        else if (res.code == '400') {
+          this.message.info(res.message, '');
+          this.loadingRecords = false;
+
+        }
+        else {
+          this.message.error('Failed to delete data.', '');
+        }
+
         this.loadingRecords = false;
-
-        // Clear selection
-        this.selectedIds.clear();
-        this.selectedRows = [];
-        this.allChecked = false;
-      } 
-      else if (res.code == '400') {
-        this.message.info(res.message, '');
-              this.loadingRecords = false;
-
-      } 
-      else {
-        this.message.error('Failed to delete data.', '');
-      }
-
-      this.loadingRecords = false;
-    },
-    (err) => {
-      console.error("Failed to delete data.", err);
-      this.loadingRecords = false;
-    }
-  );
-}
-
-  
-  
- deleteSingleRecord(row: UserContactReport) {
-  this.loadingRecords = true;
-
-  const payload = {
-    IDS: row.ID.toString()   // single record ID in string format
-  };
-
-  console.log("Deleting:", payload);
-
-  this.api.usercontactDelete(payload).subscribe(
-    (res: any) => {
-      if (res.code === 200) {
-        // Remove record from list
-        this.dataList = this.dataList.filter(item => item.ID !== row.ID);
-        this.selectedIds.delete(row.ID);
-        this.selectedRows = [];
-        this.allChecked = false;
-
-        this.message.success('Successfully deleted data.', '');
-          this.search();
-                this.loadingRecords = false;
-
-      } else if (res.code === 400) {
-        this.message.info(res.message, '');
-        this.loadingRecords = false;
-      } else {
-        this.message.error('Failed to delete data.', '');
+      },
+      (err) => {
+        console.error("Failed to delete data.", err);
         this.loadingRecords = false;
       }
-    },
-    (err) => {
-      console.error("Failed to delete data.", err);
-      this.loadingRecords = false;
-    }
-  );
-}
+    );
+  }
+
+
+
+  deleteSingleRecord(row: UserContactReport) {
+    this.loadingRecords = true;
+
+    const payload = {
+      IDS: row.ID.toString()   // single record ID in string format
+    };
+
+    console.log("Deleting:", payload);
+
+    this.api.usercontactDelete(payload).subscribe(
+      (res: any) => {
+        if (res.code === 200) {
+          // Remove record from list
+          this.dataList = this.dataList.filter(item => item.ID !== row.ID);
+          this.selectedIds.delete(row.ID);
+          this.selectedRows = [];
+          this.allChecked = false;
+
+          this.message.success('Successfully deleted data.', '');
+          this.search();
+          this.loadingRecords = false;
+
+        } else if (res.code === 400) {
+          this.message.info(res.message, '');
+          this.loadingRecords = false;
+        } else {
+          this.message.error('Failed to delete data.', '');
+          this.loadingRecords = false;
+        }
+      },
+      (err) => {
+        console.error("Failed to delete data.", err);
+        this.loadingRecords = false;
+      }
+    );
+  }
 
 }
 

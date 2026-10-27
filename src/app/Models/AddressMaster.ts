@@ -10,14 +10,14 @@ export class AddressMaster {
     ADDRESS_TYPE:any='R';
     LANDMARK:string=''
     STATE_NAME:string=''
-    STATE_ID:number=0;
+    STATE_ID:any;
     COUNTRY_ID:number=0;
     IS_LAST_SHIPPING_ADDRESS:boolean=false;
-
-    CITY:string=''
+    CITY_ID:any
+    CITY_NAME:string=''
     ADDRESS:string=''
     LOCALITY:string=''
-    PINCODE:any=0
+    PINCODE:any=''
     MOBILE_NO:any;  
     NAME:string=''
     CUST_ID:number=0;  

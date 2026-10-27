@@ -8,24 +8,10 @@
             <div nz-col nzSpan="12">
               <nz-form-item>
                 <nz-form-label nzRequired nzNoColon> Category </nz-form-label>
-                <nz-form-control
-                  nzHasFeedback
-                  nzErrorTip=" Please Select Correct Category"
-                >
-                  <nz-select
-                    name="category"
-                    nzAllowClear
-                    nzShowSearch
-                    style="width: 100%"
-                    [(ngModel)]="data.CATEGORY_ID"
-                    nzPlaceHolder=" Select Category"
-                    required
-                  >
-                    <nz-option
-                      *ngFor="let item of category"
-                      [nzLabel]="item.CATEGORY_NAME"
-                      [nzValue]="item.ID"
-                    >
+                <nz-form-control nzHasFeedback nzErrorTip=" Please Select Correct Category">
+                  <nz-select name="category" nzAllowClear nzShowSearch style="width: 100%"
+                    [(ngModel)]="data.CATEGORY_ID" nzPlaceHolder=" Select Category" required>
+                    <nz-option *ngFor="let item of category" [nzLabel]="item.CATEGORY_NAME" [nzValue]="item.ID">
                     </nz-option>
                     <!-- <nz-option [nzLabel]=" 'Kilogram' " [nzValue]="'KG'"> </nz-option>             -->
                   </nz-select>
@@ -36,27 +22,16 @@
             <div nz-col nzSpan="12">
               <nz-form-item>
                 <nz-form-label nzRequired nzNoColon>
-                  Product Name</nz-form-label
-                >
-                <nz-form-control
-                  nzHasFeedback
-                  nzErrorTip=" Please Enter Correct Product Name"
-                >
-                  <input
-                    nz-input
-                    name="prodname"
-                    [(ngModel)]="data.NAME"
-                    maxlength="128"
-                    placeholder="Enter Product Name"
-                    (keypress)="alphaOnly($event)"
-                    (focus)="isFocused = 'product'"
-                    required
-                  />
+                  Product Name</nz-form-label>
+                <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Product Name">
+                  <input nz-input name="prodname" [(ngModel)]="data.NAME" maxlength="128"
+                    placeholder="Enter Product Name" (keypress)="alphaOnly($event)" (focus)="isFocused = 'product'"
+                    required />
                 </nz-form-control>
                 <h6 style="color: red; font-size: 10px"
-              *ngIf="isFocused === 'product' || (data.NAME && isFocused === 'product')">
-              {{ data.NAME.length || 0 }}/128
-            </h6>
+                  *ngIf="isFocused === 'product' || (data.NAME && isFocused === 'product')">
+                  {{ data.NAME.length || 0 }}/128
+                </h6>
               </nz-form-item>
             </div>
 
@@ -65,25 +40,14 @@
                 <nz-form-label nzRequired nzNoColon>
                   Unique Code
                 </nz-form-label>
-                <nz-form-control
-                  nzHasFeedback
-                  nzErrorTip=" Please Enter Correct Unique Code "
-                >
-                  <input
-                    nz-input
-                    name="uniquecode"
-                    placeholder="Enter Unique Code"
-                    (keypress)="numchar($event)"
-                    [(ngModel)]="data.UNIQUE_CODE"
-                    maxlength="128"
-                    (focus)="isFocused = 'unit'" maxlength="8"
-                    required
-                  />
+                <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Unique Code ">
+                  <input nz-input name="uniquecode" placeholder="Enter Unique Code" (keypress)="numchar($event)"
+                    [(ngModel)]="data.UNIQUE_CODE" maxlength="16" (focus)="isFocused = 'unit'" maxlength="8" required />
                 </nz-form-control>
-                       <h6 style="color: red; font-size: 10px"
-              *ngIf="isFocused === 'unit' || (data.UNIQUE_CODE && isFocused === 'unit')">
-              {{ data.UNIQUE_CODE.length || 0 }}/128
-            </h6>
+                <h6 style="color: red; font-size: 10px"
+                  *ngIf="isFocused === 'unit' || (data.UNIQUE_CODE && isFocused === 'unit')">
+                  {{ data.UNIQUE_CODE.length || 0 }}/16
+                </h6>
               </nz-form-item>
             </div>
           </div>
@@ -457,25 +421,13 @@
             <div nz-col nzSpan="8">
               <nz-form-item>
                 <nz-form-label nzNoColon> Discount Type </nz-form-label>
-                <nz-form-control
-                  nzHasFeedback
-                  nzErrorTip=" Please Select Correct Discount Type"
-                >
-                  <nz-select
-                    name="discounttype"
-                    nzAllowClear
-                    nzShowSearch
-                    style="width: 100%"
-                    [(ngModel)]="data.DISCOUNT_TYPE"
-                    nzPlaceHolder=" Select type"
-                  >
+                <nz-form-control nzHasFeedback nzErrorTip=" Please Select Correct Discount Type">
+                  <nz-select name="discounttype" nzAllowClear nzShowSearch style="width: 100%"
+                    [(ngModel)]="data.DISCOUNT_TYPE" nzPlaceHolder=" Select type">
                     <!-- <nz-option *ngFor="let item of groups" [nzLabel]="item.NAME" [nzValue]="item.ID"> -->
                     <nz-option [nzLabel]="'In Amount ($)'" [nzValue]="'Amount'">
                     </nz-option>
-                    <nz-option
-                      [nzLabel]="'In Percentage (%)'"
-                      [nzValue]="'Percentage'"
-                    >
+                    <nz-option [nzLabel]="'In Percentage (%)'" [nzValue]="'Percentage'">
                     </nz-option>
                   </nz-select>
                 </nz-form-control>
@@ -485,20 +437,10 @@
             <div nz-col nzSpan="6">
               <nz-form-item>
                 <nz-form-label nzNoColon> Discount </nz-form-label>
-                <nz-form-control
-                  nzHasFeedback
-                  nzErrorTip=" Please Enter Correct Discount"
-                >
+                <nz-form-control nzHasFeedback nzErrorTip=" Please Enter Correct Discount">
                   <nz-input-group style="width: 100%">
-                    <input
-                      nz-input
-                      name="discount"
-                      [(ngModel)]="data.DISCOUNT"
-                      maxlength="6"
-                      placeholder="Enter Discount"
-                      (keypress)="onlynumdot($event)"
-                      style="width: 100%"
-                    />
+                    <input nz-input name="discount" [(ngModel)]="data.DISCOUNT" maxlength="6"
+                      placeholder="Enter Discount" (keypress)="onlynumdot($event)" style="width: 100%" />
                   </nz-input-group>
                 </nz-form-control>
               </nz-form-item>
@@ -510,10 +452,7 @@
               <nz-form-item>
                 <nz-form-label nzNoColon> Status </nz-form-label>
                 <nz-form-control>
-                  <nz-switch
-                    name="isstatus"
-                    [(ngModel)]="data.STATUS"
-                  ></nz-switch>
+                  <nz-switch name="isstatus" [(ngModel)]="data.STATUS"></nz-switch>
                 </nz-form-control>
               </nz-form-item>
             </div>
@@ -522,16 +461,13 @@
               <nz-form-item>
                 <nz-form-label nzNoColon> Is Popular ? </nz-form-label>
                 <nz-form-control>
-                  <nz-switch
-                    name="ispopular"
-                    [(ngModel)]="data.IS_POPULAR"
-                    (ngModelChange)="onOtherChange()"
-                  ></nz-switch>
+                  <nz-switch name="ispopular" [(ngModel)]="data.IS_POPULAR"
+                    (ngModelChange)="onOtherChange()"></nz-switch>
                 </nz-form-control>
               </nz-form-item>
             </div>
 
-            <div nz-col nzSpan="5">
+            <!-- <div nz-col nzSpan="5">
               <nz-form-item>
                 <nz-form-label nzNoColon> Is Best Seller ? </nz-form-label>
                 <nz-form-control>
@@ -542,17 +478,14 @@
                   ></nz-switch>
                 </nz-form-control>
               </nz-form-item>
-            </div>
+            </div> -->
 
             <div nz-col nzSpan="5">
               <nz-form-item>
                 <nz-form-label nzNoColon> Is New Arrival ? </nz-form-label>
                 <nz-form-control>
-                  <nz-switch
-                    name="isnewarrival"
-                    [(ngModel)]="data.IS_NEW_ARRIVAL"
-                    (ngModelChange)="onOtherChange()"
-                  ></nz-switch>
+                  <nz-switch name="isnewarrival" [(ngModel)]="data.IS_NEW_ARRIVAL"
+                    (ngModelChange)="onOtherChange()"></nz-switch>
                 </nz-form-control>
               </nz-form-item>
             </div>
@@ -560,17 +493,14 @@
               <nz-form-item>
                 <nz-form-label nzNoColon> Is Upcoming ? </nz-form-label>
                 <nz-form-control>
-                  <nz-switch
-                    name="isupcoming"
-                    [(ngModel)]="data.IS_UPCOMING"
-                    (ngModelChange)="onUpcomingChange()"
-                  ></nz-switch>
+                  <nz-switch name="isupcoming" [(ngModel)]="data.IS_UPCOMING"
+                    (ngModelChange)="onUpcomingChange()"></nz-switch>
                 </nz-form-control>
               </nz-form-item>
             </div>
           </div>
 
-          </div>
+        </div>
         <div nz-col nzSpan="1"></div>
         <div nz-col nzSpan="10" style="padding-top: 14px" class="my-box">
           <div nz-col nzSpan="24">
@@ -579,15 +509,8 @@
             </nz-form-label>
             <nz-form-item>
               <nz-form-control nzErrorTip=" Please Enter Correct Description ">
-                <textarea
-                  rows="5"
-                  nz-input
-                  [(ngModel)]="data.DESCRIPTION"
-                  maxlength="2000"
-                  placeholder="Enter Description"
-                  name="text"
-                  required
-                ></textarea>
+                <textarea rows="5" nz-input [(ngModel)]="data.DESCRIPTION" maxlength="2000"
+                  placeholder="Enter Description" name="text" required></textarea>
                 <h6 style="color: red" *ngIf="data.DESCRIPTION != undefined">
                   {{ data.DESCRIPTION.length }}/2000
                 </h6>
@@ -598,23 +521,18 @@
             <nz-form-item>
               <nz-form-label nzNoColon>Benefits</nz-form-label>
               <nz-form-control>
-                <input
-                  nz-input
-                  [(ngModel)]="inputValue"
-                  name="benifit"
-                  (keyup)="checkComma($event)"
-                  placeholder="Type and press comma or enter benifits"
-                />
+                <input nz-input [(ngModel)]="inputValue" name="benefit" maxlength="32" (keyup.enter)="addTag()"
+                  (keyup)="checkComma($event)" placeholder="Type a benefit and press Enter or comma to add more" />
+                <h6 style="color: red" *ngIf="inputValue != undefined">
+                  {{ inputValue.length }}/32
+                </h6>
                 <div style="margin-top: 8px">
-                  <nz-tag
-                    *ngFor="let tag of tags; let i = index"
-                    nzMode="closeable"
-                    (nzOnClose)="removeTag(i)"
-                  >
+                  <nz-tag *ngFor="let tag of tags; let i = index" nzMode="closeable" (nzOnClose)="removeTag(i)">
                     {{ tag }}
                   </nz-tag>
                 </div>
               </nz-form-control>
+
             </nz-form-item>
           </div>
           <!-- <nz-form-label nzRequired nzNoColon>
@@ -730,51 +648,23 @@
   </form>
 
   <div class="footer">
-    <button
-      type="button"
-      nz-button
-      (click)="close()"
-      class="ant-btn"
-      style="margin-right: 8px"
-    >
+    <button type="button" nz-button (click)="close()" class="ant-btn" style="margin-right: 8px">
       <span> Cancel </span>
     </button>
-    <button
-      type="button"
-      class="ant-btn ant-btn-primary"
-      *ngIf="!data.ID"
-      nz-button
-      nz-dropdown
-      [nzDropdownMenu]="menu"
-      [nzLoading]="isSpinning"
-      (click)="isSpinning = true; save(false, websitebannerPage)"
-    >
+    <button type="button" class="ant-btn ant-btn-primary" *ngIf="!data.ID" nz-button nz-dropdown [nzDropdownMenu]="menu"
+      [nzLoading]="isSpinning" (click)="isSpinning = true; save(false, websitebannerPage)">
       <span> Save & Close</span>
     </button>
     <nz-dropdown-menu #menu="nzDropdownMenu">
       <ul nz-menu>
-        <li
-          nz-menu-item
-          class="menuc"
-          style="border-radius: 4px; background-color: #40a9ff"
-        >
-          <a
-            style="color: white"
-            (click)="isSpinning = true; save(true, websitebannerPage)"
-          >
-            Save & New</a
-          >
+        <li nz-menu-item class="menuc" style="border-radius: 4px; background-color: #40a9ff">
+          <a style="color: white" (click)="isSpinning = true; save(true, websitebannerPage)">
+            Save & New</a>
         </li>
       </ul>
     </nz-dropdown-menu>
-    <button
-      type="button"
-      class="ant-btn ant-btn-primary"
-      nz-button
-      [nzLoading]="isSpinning"
-      *ngIf="data.ID"
-      (click)="save(false, websitebannerPage)"
-    >
+    <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="isSpinning" *ngIf="data.ID"
+      (click)="save(false, websitebannerPage)">
       <span> Update & Close</span>
     </button>
   </div>

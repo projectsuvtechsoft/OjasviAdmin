@@ -287,8 +287,8 @@
         </div> -->
         <div nz-col nzSpan="24">
           <nz-form-item>
-            <br nzRequired nzNoColon>
-             <nz-form-label> Image: &nbsp;&nbsp;&nbsp;
+            <!-- <br nzRequired nzNoColon> -->
+             <nz-form-label nzNoColon nzRequired> Image &nbsp;&nbsp;&nbsp;
               <div style="text-align:left;">
                 <span style="color: rgb(242, 74, 74); font-size: 11px !important;">
                   (Select an image (PNG, JPG, JPEG) with dimensions 500x500 pixels and
@@ -364,8 +364,8 @@
               nz-image
               [nzSrc]="imagePreviews"
               style="
-                width: 300px;
-                height: 150px;
+                width: 200px;
+                height: 200px;
                 border: 1px solid #ccc;
                 padding: 2px;
               "
@@ -379,8 +379,8 @@
         >
           <img
             style="
-              width: 300px;
-              height: 150px;
+              width: 200px;
+              height: 200px;
               margin-left: 10px;
               margin-top: -32px;
             "

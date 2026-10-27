@@ -1576,7 +1576,7 @@ export class AppComponent {
   }
 
   openDashboard() {
-    if(this.decreptedroleIdString == '6' || this.decreptedroleIdString == '7'){
+    if(this.decreptedroleIdString == '1'){
       this.router.navigate(['/admin-dashboard']);
     }
     else this.router.navigate(['/dashboard']);

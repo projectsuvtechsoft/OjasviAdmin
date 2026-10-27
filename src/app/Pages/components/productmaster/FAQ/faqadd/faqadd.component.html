@@ -14,7 +14,7 @@
                 name="question"
                 placeholder="Enter Question"
                 [(ngModel)]="data.QUESTION"
-                maxlength="256"
+                maxlength="500"
                 autocomplete="off"
                 (focus)="isFocused = 'question'"
                 (blur)="isFocused = ''"
@@ -28,7 +28,7 @@
                 (data.QUESTION && isFocused === 'question')
               "
             >
-              {{ data.QUESTION.length || 0 }}/256
+              {{ data.QUESTION?.length || 0 }}/500
             </h6>
           </nz-form-item>
         </div>

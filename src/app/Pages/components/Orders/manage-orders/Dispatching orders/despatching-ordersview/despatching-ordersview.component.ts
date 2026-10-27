@@ -21,7 +21,7 @@ export class DespatchingOrdersviewComponent implements OnInit {
 
   detailslist: any;
   loaddata: any;
-
+IS_LOCAL_PICKUP_SELECTED:any
   @Input()
   OrdersID: any;
 
@@ -44,6 +44,7 @@ export class DespatchingOrdersviewComponent implements OnInit {
           if (data['code'] == 200) {
             this.loaddata = false;
             this.detailslist = JSON.parse(data['data']?.[0]?.['CART_ITEMS']);
+            this.IS_LOCAL_PICKUP_SELECTED = JSON.parse(data['data']?.[0]?.['IS_LOCAL_PICKUP_SELECTED'])
           } else {
             this.loaddata = false;
             // this.message.error('Something Went Wrong', '');

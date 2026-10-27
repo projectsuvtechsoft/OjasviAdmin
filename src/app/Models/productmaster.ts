@@ -23,7 +23,7 @@ export class ProductMaster {
     IGST:number=0; 
     GST_TYPE:number=0;  
     DISCOUNT_TYPE: any;
-    DISCOUNT: any; 
+    DISCOUNT: any=0; 
     UNIQUE_CODE:string='';
     IS_POPULAR:boolean=true;
     IS_BEST_SELLER:boolean=true;

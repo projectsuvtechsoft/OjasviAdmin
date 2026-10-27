@@ -53,7 +53,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of unitMasterTable.data">
+        <tr *ngFor="let data of dataList">
           <td nzLeft style="text-align: center;">
             <span nz-icon nzType="edit" nzTheme="outline" style="
                 cursor: pointer;
@@ -68,7 +68,7 @@
           <td style="white-space: pre-line; text-align: left;">{{data['ADDRESS']}}</td>
           <td style="white-space: pre-line; text-align: left;">{{data['COUNTRY_NAME']}}</td>
           <td style=" white-space: pre-line ;text-align: left;">{{data['STATE_NAME']}}</td>
-          <td style=" white-space: pre-line ;text-align: left;">{{data['CITY']}}</td>
+          <td style=" white-space: pre-line ;text-align: left;">{{data['CITY_NAME']}}</td>
           <td style="white-space: pre-line; text-align: center;">{{data['PINCODE']}}</td>
           <td style=" white-space: pre-line ;text-align: left;">{{data['LANDMARK'] || "-"}}</td>
           <td style=" white-space: pre-line ;text-align: left;">{{data['LOCALITY']|| "-"}}</td>

@@ -45,8 +45,8 @@ export class AddproductmappingComponent implements OnInit {
   constructor(
     private api: ApiServiceService,
     private message: NzNotificationService,
-    private datePipe:DatePipe
-  ) {}
+    private datePipe: DatePipe
+  ) { }
 
   @Input()
   data1: ProductMaster = new ProductMaster();
@@ -76,6 +76,9 @@ export class AddproductmappingComponent implements OnInit {
       }
     );
   }
+
+
+
 
   //// Only number and dot
   onlynumdot(event: any) {
@@ -294,7 +297,34 @@ export class AddproductmappingComponent implements OnInit {
     } else if (this.data.RATE == 0 || this.data.RATE == undefined) {
       this.isOk = false;
       this.message.error('Please Enter Rate', '');
-    } 
+    }
+    else if (this.data1.DISCOUNT && this.data1.DISCOUNT_TYPE) {
+
+      const rate = Number(this.data.RATE || 0);
+      const discountValue = Number(this.data1.DISCOUNT || 0);
+      let discountAmount = 0;
+
+      if (this.data1.DISCOUNT_TYPE === 'Amount') {
+        // 💰 Direct amount
+        discountAmount = discountValue;
+      }
+      else if (this.data1.DISCOUNT_TYPE === 'Percentage') {
+        // ❌ Invalid percentage
+        if (discountValue > 100) {
+          this.isOk = false;
+          this.message.error('Discount percentage cannot be greater than 100', '');
+        }
+
+        // 📊 Convert % to amount
+        discountAmount = (rate * discountValue) / 100;
+      }
+
+      // ❌ Final validation
+      if (this.isOk && discountAmount >= rate) {
+        this.isOk = false;
+        this.message.error('Rate must be greater than Discount', '');
+      }
+    }
     else if (this.maintain == 1 && this.varient == 1) {
       // if (
       //   this.data.IS_MAINTAIN_STOCK == true &&
@@ -312,7 +342,7 @@ export class AddproductmappingComponent implements OnInit {
       //   this.isOk = false;
       //   this.message.error('Please Enter Ratio With Maintain Stock ', '');
       // }
-        if (
+      if (
         this.data.IS_MAINTAIN_STOCK == false &&
         (this.data.OPENING_STOCK == 0 || this.data.OPENING_STOCK == undefined)
       ) {
@@ -484,66 +514,66 @@ export class AddproductmappingComponent implements OnInit {
   imgurl = appkeys.retriveimgUrl;
   today = new Date();
   dateFormat = 'dd-MM-yyyy';
-  deleteCancel() {}
+  deleteCancel() { }
   //Choose Image
   imagePreviews;
- onFileSelected(event: any) {
-  const file = event.target.files[0];
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
 
-  // Reset preview and file before validation
-  this.fileURL = null;
-  this.imagePreviews = '';
-  this.data.VARIENT_IMAGE_URL = '';
+    // Reset preview and file before validation
+    this.fileURL = null;
+    this.imagePreviews = '';
+    this.data.VARIENT_IMAGE_URL = '';
 
-  if (!file) return;
+    if (!file) return;
 
-  // ✅ File type validation
-  const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-  if (!validTypes.includes(file.type)) {
-    this.message.error('Select only JPEG, JPG, or PNG file', '');
-    return;
-  }
+    // ✅ File type validation
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (!validTypes.includes(file.type)) {
+      this.message.error('Select only JPEG, JPG, or PNG file', '');
+      return;
+    }
 
-  // ✅ File size validation (<= 100 KB)
-  const maxSizeKB = 40;
-  const fileSizeKB = file.size / 1024;
-  if (fileSizeKB > maxSizeKB) {
-    this.message.error('File size should not exceed 40 KB', '');
-    return;
-  }
+    // ✅ File size validation (<= 100 KB)
+    const maxSizeKB = 40;
+    const fileSizeKB = file.size / 1024;
+    if (fileSizeKB > maxSizeKB) {
+      this.message.error('File size should not exceed 40 KB', '');
+      return;
+    }
 
-  // ✅ Read and validate image dimensions (<= 500x500)
-  const reader = new FileReader();
-  reader.onload = (e: any) => {
-    const img = new Image();
-    img.onload = () => {
-      const width = img.width;
-      const height = img.height;
+    // ✅ Read and validate image dimensions (<= 500x500)
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const img = new Image();
+      img.onload = () => {
+        const width = img.width;
+        const height = img.height;
 
-      if (width !=500  && height != 500) {
-        this.message.error('Image dimensions must be 500x500 pixels or less', '');
-        this.fileURL = null;
-        event.target.files=null
-        this.imagePreviews = '';
-        this.data.VARIENT_IMAGE_URL = '';
-        return;
-      }
+        if (width != 500 && height != 500) {
+          this.message.error('Image dimensions must be 500x500 pixels or less', '');
+          this.fileURL = null;
+          event.target.files = null
+          this.imagePreviews = '';
+          this.data.VARIENT_IMAGE_URL = '';
+          return;
+        }
 
-      // ✅ Passed all validations
-      this.fileURL = file;
-      this.imagePreviews = e.target.result;
+        // ✅ Passed all validations
+        this.fileURL = file;
+        this.imagePreviews = e.target.result;
+      };
+
+      img.onerror = () => {
+        event.target.files = null
+        this.message.error('Invalid image file', '');
+      };
+
+      img.src = e.target.result;
     };
 
-    img.onerror = () => {
-      event.target.files=null
-      this.message.error('Invalid image file', '');
-    };
-
-    img.src = e.target.result;
-  };
-
-  reader.readAsDataURL(file);
-}
+    reader.readAsDataURL(file);
+  }
 
 
   removeImage() {

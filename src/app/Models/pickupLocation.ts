@@ -14,5 +14,6 @@ export class pickupLocation {
   OPEN_TIME: any;
   CLOSE_TIME: any;
   STATUS:boolean=true
-  ID:any
+  ID:any;
+  USER_ID:any;
 }

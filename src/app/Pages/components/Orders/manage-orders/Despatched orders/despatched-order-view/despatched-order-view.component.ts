@@ -18,7 +18,7 @@ export class DespatchedOrderViewComponent implements OnInit {
     private datepipe: DatePipe
   ) {}
   loadingRecords1 = false;
-
+IS_LOCAL_PICKUP_SELECTED:any
   detailslist: any;
   loaddata: any;
 
@@ -40,6 +40,7 @@ export class DespatchedOrderViewComponent implements OnInit {
           if (data['code'] == 200) {
             this.loaddata = false;
             this.detailslist = JSON.parse(data['data'][0]['CART_ITEMS']);
+            this.IS_LOCAL_PICKUP_SELECTED = JSON.parse(data['data'][0]['IS_LOCAL_PICKUP_SELECTED'])
           } else {
             this.loaddata = false;
             // this.message.error('Something Went Wrong', '');

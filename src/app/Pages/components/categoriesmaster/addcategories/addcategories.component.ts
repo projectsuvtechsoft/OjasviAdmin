@@ -712,11 +712,11 @@ export class AddcategoriesComponent implements OnInit {
     if (
       (this.data.CATEGORY_NAME.trim() === '' ||
         this.data.CATEGORY_NAME == null ||
-        this.data.CATEGORY_NAME == undefined) &&
-      (this.data.IMAGE == undefined ||
-        this.data.IMAGE == null ||
-        this.data.IMAGE == '' ||
-        this.data.IMAGE == ' ')
+        this.data.CATEGORY_NAME == undefined)
+      // (this.data.IMAGE == undefined ||
+      //   this.data.IMAGE == null ||
+      //   this.data.IMAGE == '' ||
+      //   this.data.IMAGE == ' ')
     ) {
       this.isOk = false;
       this.message.error('Please fill all required details.', '');
@@ -736,16 +736,18 @@ export class AddcategoriesComponent implements OnInit {
       this.isOk = false;
       this.message.error(' Please Enter Short Code ', '');
       return;
-    } else if (
-      this.data.IMAGE == undefined ||
-      this.data.IMAGE == null ||
-      this.data.IMAGE == '' ||
-      this.data.IMAGE == ' '
-    ) {
-      this.isOk = false;
-      this.message.error('Please upload image', '');
-      return;
-    } else if (
+    } 
+    // else if (
+    //   this.data.IMAGE == undefined ||
+    //   this.data.IMAGE == null ||
+    //   this.data.IMAGE == '' ||
+    //   this.data.IMAGE == ' '
+    // ) {
+    //   this.isOk = false;
+    //   this.message.error('Please upload image', '');
+    //   return;
+    // } 
+    else if (
       this.data.SEQUENCE_NO == undefined ||
       this.data.SEQUENCE_NO == null ||
       this.data.SEQUENCE_NO == 0

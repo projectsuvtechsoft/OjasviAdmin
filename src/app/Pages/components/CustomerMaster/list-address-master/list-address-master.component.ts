@@ -37,15 +37,12 @@ export class ListAddressMasterComponent implements OnInit {
   filterQuery: string = '';
   isFilterApplied: string = 'default';
   columns: string[][] = [
-    ['NAME', ' Customer name '],
-    ['MOBILE_NO', ' mobno '],
-    ['PINCODE', ' pincode '],
+    ['ADDRESS', ' Adsress '],
+    ['CITY_NAME', ' City '],
+    ['COUNTRY_NAME', ' Country '],
     ['LOCALITY', ' locality '],
-    ['ADDRESS', ' address '],
-    ['CITY', ' city '],
-    ['COUNTRY_NAME','countryname'],
-    ['STATE_NAME', ' state '],
     ['LANDMARK', ' landmark '],
+    ['STATE_NAME', ' state '],
     ['ADDRESS_TYPE', ' addresstype '],
   ];
 
@@ -66,47 +63,90 @@ export class ListAddressMasterComponent implements OnInit {
   keyup(event: any) {
     this.search();
   }
+  // search(reset: boolean = false) {
+  //   if (reset) {
+  //     this.pageIndex = 1;
+  //     this.sortKey = 'id';
+  //     this.sortValue = 'desc';
+  //   }
+  //   this.loadingRecords = true;
+  //   var sort: string;
+  //   try {
+  //     sort = this.sortValue.startsWith('a') ? 'asc' : 'desc';
+  //   } catch (error) {
+  //     sort = '';
+  //   }
+  //   var likeQuery = '';
+  //   console.log('search text:' + this.searchText);
+  //   if (this.searchText != '') {
+  //     likeQuery = ' AND(';
+  //     this.columns.forEach((column) => {
+  //       likeQuery += ' ' + column[0] + " like '%" + this.searchText + "%' OR";
+  //     });
+  //     likeQuery = likeQuery.substring(0, likeQuery.length - 2)+")";
+  //     console.log('likeQuery' + likeQuery);
+  //   }
+  //   this.api.getAddressMaster(this.pageIndex, this.pageSize, this.sortKey, sort,  ' AND CUST_ID = ' + this.custid + likeQuery).subscribe(data => {
+  //     if(data['code'] == 200){
+  //     this.totalRecords = data['count'];
+  //     this.dataList = data['data'];
+  //     this.loadingRecords = false;
+  //     // if(this.totalRecords==0){
+  //     //   data.SEQUENCE_NO=1;
+  //     // }
+  //     }else{
+  //       // this.message.error("Something Went Wrong","");
+  //       this.loadingRecords = false;
+  //     }
+  //   }, err => {
+  //     console.log(err);
+  //   });
+  // }
+
+  //Drawer Methods
+  
   search(reset: boolean = false) {
-    if (reset) {
-      this.pageIndex = 1;
-      this.sortKey = 'id';
-      this.sortValue = 'desc';
-    }
-    this.loadingRecords = true;
-    var sort: string;
-    try {
-      sort = this.sortValue.startsWith('a') ? 'asc' : 'desc';
-    } catch (error) {
-      sort = '';
-    }
-    var likeQuery = '';
-    console.log('search text:' + this.searchText);
-    if (this.searchText != '') {
-      likeQuery = ' AND(';
+  if (reset) {
+    this.pageIndex = 1;
+    this.sortKey = 'id';
+    this.sortValue = 'desc';
+  }
+
+  this.loadingRecords = true;
+
+  let sort = (this.sortValue || '').startsWith('a') ? 'asc' : 'desc';
+
+  let likeQuery = '';
+
+  if (this.searchText && this.searchText.trim() !== '') {
+        likeQuery = ' AND(';
       this.columns.forEach((column) => {
         likeQuery += ' ' + column[0] + " like '%" + this.searchText + "%' OR";
       });
-      likeQuery = likeQuery.substring(0, likeQuery.length - 2)+")";
-      console.log('likeQuery' + likeQuery);
-    }
-    this.api.getAddressMaster(this.pageIndex, this.pageSize, this.sortKey, sort,  ' AND CUST_ID = ' + this.custid + likeQuery).subscribe(data => {
-      if(data['code'] == 200){
-      this.totalRecords = data['count'];
-      this.dataList = data['data'];
-      this.loadingRecords = false;
-      // if(this.totalRecords==0){
-      //   data.SEQUENCE_NO=1;
-      // }
-      }else{
-        // this.message.error("Something Went Wrong","");
-        this.loadingRecords = false;
-      }
-    }, err => {
-      console.log(err);
-    });
+      likeQuery = likeQuery.substring(0, likeQuery.length - 2) + ')';
   }
 
-  //Drawer Methods
+  const finalQuery = ` AND CUST_ID = ${this.custid} ${likeQuery}`;
+
+  this.api.getAddressMaster(
+    this.pageIndex,
+    this.pageSize,
+    this.sortKey,
+    sort,
+    finalQuery + likeQuery
+  ).subscribe(
+    data => {
+      if (data['code'] === 200) {
+        this.totalRecords = data['count'];
+        this.dataList = data['data'];
+      }
+      this.loadingRecords = false;
+    },
+    err => { console.log(err); }
+  );
+}
+
+  
   get closeCallback() {
     return this.drawerClose.bind(this);
   }
@@ -185,7 +225,7 @@ this.custMobileNo=this.custMobileNo
     this.drawerData = Object.assign({}, data);
     //  this.drawerData.STATE_ID = 10
     this.drawerData.STATE_ID = data['STATE_ID'];
-
+    this.drawerData.CITY_ID = data['CITY_ID'];
     // this.countryid = this.drawerData.COUNTRY_ID
 
     // console.log("countryid",this.countryid)

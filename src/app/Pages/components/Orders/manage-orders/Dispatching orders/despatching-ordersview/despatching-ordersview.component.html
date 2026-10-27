@@ -268,7 +268,8 @@
           </nz-table>
         </div>
 
-        <div nz-row class="my-box" style="width: 100%">
+        
+        <div nz-row class="my-box" style="width: 100%"  *ngIf="IS_LOCAL_PICKUP_SELECTED != 1" >
           <div nz-col nzSpan="6">
             <nz-form-item>
               <nz-form-label nzNoColon> Tracking ID </nz-form-label>

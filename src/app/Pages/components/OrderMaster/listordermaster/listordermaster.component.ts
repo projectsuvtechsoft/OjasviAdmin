@@ -27,7 +27,7 @@ export class ListordermasterComponent implements OnInit {
   @Input()
   OrderCustomer: any;
 
-  formTitle = ' Customer Order List ';
+  formTitle = ' Order Details ';
   loadingRecords = false;
   totalRecords = 1;
   totalRecords1 = 1;
@@ -86,7 +86,7 @@ export class ListordermasterComponent implements OnInit {
         likeQuery += ' ' + column[0] + " like '%" + this.searchText + "%' OR";
       });
       likeQuery = likeQuery.substring(0, likeQuery.length - 2) + ')';
-      console.log('likeQuery' + likeQuery);
+      // console.log('likeQuery' + likeQuery);
     }
     this.api
     .getAllCartMaster(

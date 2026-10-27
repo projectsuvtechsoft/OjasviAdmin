@@ -54,7 +54,7 @@
             <b> Out Country Packaging Charges</b>
           </th> -->
 
-          <th nzColumnKey="{{ 'IS_MAINTAIN_STOCK' }}" [nzSortFn]="true" nzWidth="42px" style="text-align: center">
+          <!-- <th nzColumnKey="{{ 'IS_MAINTAIN_STOCK' }}" [nzSortFn]="true" nzWidth="42px" style="text-align: center">
             <b> Is Main Stock ?</b>
           </th>
           <th nzColumnKey="{{ 'OPENING_STOCK' }}" [nzSortFn]="true" nzWidth="35px" style="text-align: center">
@@ -62,7 +62,7 @@
           </th>
           <th nzColumnKey="{{ 'CURRENT_STOCK' }}" [nzSortFn]="true" nzWidth="35px" style="text-align: center">
             <b> Current Stock </b>
-          </th>
+          </th> -->
           <!-- <th nzColumnKey="{{ 'RATIO_WITH_MAIN_STOCK' }}" [nzSortFn]="true" nzWidth="47px" style="text-align: center">
             <b> Ratio With Main Stock </b>
           </th> -->
@@ -89,7 +89,7 @@
               (click)="edit(data)"
             >
             </span>
-                <span
+                <!-- <span
               nz-popconfirm
               nzPopconfirmTitle="Are you sure you want to delete this record?"
               nzPopconfirmPlacement="top"
@@ -105,7 +105,7 @@
               nz-tooltip
             >
               <i nz-icon nzType="delete"></i>
-            </span>
+            </span> -->
           </td>
           <td style="white-space: pre-line; text-align: right">
             {{ data["SIZE"] }}
@@ -118,7 +118,7 @@
           </td>
           <!-- <td style="text-align: right">{{ data["IN_COUNTRY"] }}</td>
           <td style="text-align: right">{{ data["OUT_COUNTRY"] }}</td> -->
-          <td style="text-align: center">
+          <!-- <td style="text-align: center">
             <i nz-icon *ngIf="data['IS_MAINTAIN_STOCK']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#52c41a'"></i>
             <i nz-icon *ngIf="!data['IS_MAINTAIN_STOCK']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
@@ -129,7 +129,7 @@
           </td>
           <td style="white-space: pre-line; text-align: right">
             {{ data["CURRENT_STOCK"] }}
-          </td>
+          </td> -->
           <!-- <td style="white-space: pre-line; text-align: right">
             {{ data["RATIO_WITH_MAIN_STOCK"] }}
           </td> -->
@@ -155,6 +155,6 @@
   <ng-container *nzDrawerContent>
     <!-- <app-addproductmapping></app-addproductmapping> -->
     <app-addproductmapping [drawerClose]="closeCallback" [disabled]="disabled" [drawerVisible]="drawerVisible"
-      [data]="drawerData" [productId]="productId" [maintain]="maintain" [varient]="varient"></app-addproductmapping>
+      [data]="drawerData" [productId]="productId" [maintain]="maintain" [varient]="varient" [data1]="data"></app-addproductmapping>
   </ng-container>
 </nz-drawer>

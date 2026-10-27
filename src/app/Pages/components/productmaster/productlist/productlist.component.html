@@ -1,37 +1,17 @@
 <div nz-row nzType="flex">
   <div nz-col nzXs="24" nzSm="24" nzMd="20" nzLg="20" nzXl="12">
     <div class="formname">
-      <span
-        (click)="back()"
-        nz-icon
-        nzType="arrow-left"
-        nzTheme="outline"
-        style="font-weight: bold; cursor: pointer"
-      ></span
-      >&nbsp;&nbsp;{{ formTitle }}
+      <span (click)="back()" nz-icon nzType="arrow-left" nzTheme="outline"
+        style="font-weight: bold; cursor: pointer"></span>&nbsp;&nbsp;{{ formTitle }}
     </div>
   </div>
 
-  <div
-    nz-col
-    nzXs="24"
-    nzSm="24"
-    nzMd="4"
-    nzLg="6"
-    nzXl="12"
-    style="display: flex; justify-content: flex-end"
-  >
+  <div nz-col nzXs="24" nzSm="24" nzMd="4" nzLg="6" nzXl="12" style="display: flex; justify-content: flex-end">
     <form nz-form [nzLayout]="'inline'">
       <nz-form-item>
         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-          <input
-            type="text"
-            name="productsearch"
-            (keyup)="keyup($event)"
-            [(ngModel)]="searchText"
-            nz-input
-            placeholder=" Search Record"
-          />
+          <input type="text" name="productsearch" (keyup)="keyup($event)" [(ngModel)]="searchText" nz-input
+            placeholder=" Search Record" />
         </nz-input-group>
         <ng-template #suffixIconButton>
           <button nz-button nzType="primary" (click)="search(true)" nzSearch>
@@ -45,16 +25,10 @@
         </button>
       </nz-form-item>
       <nz-form-item>
-        <button
-          nz-button
-          nzType="default"
-          nz-popconfirm
-          nzPopconfirmTitle="Are you sure you want to delete selected records?"
-          nzPopconfirmPlacement="top"
-          (nzOnConfirm)="bulkDelete()"
-          [disabled]="selectedRows.length < 2"
-          style="color: rgb(23, 99, 34); margin-left: 10px"
-        >
+        <button nz-button nzType="default" nz-popconfirm
+          nzPopconfirmTitle="Are you sure you want to delete selected records?" nzPopconfirmPlacement="top"
+          (nzOnConfirm)="bulkDelete()" [disabled]="selectedRows.length < 2"
+          style="color: rgb(23, 99, 34); margin-left: 10px">
           <i nz-icon nzType="delete"></i>
         </button>
       </nz-form-item>
@@ -64,63 +38,30 @@
 <br />
 <div nz-row>
   <div nz-col nzSpan="24">
-    <nz-table
-      nzBordered
-      #produtMasterTable
-      nzShowSizeChanger
-      [nzFrontPagination]="false"
-      [nzData]="dataList"
-      [nzLoading]="loadingRecords"
-      [nzSize]="'small'"
-      [nzScroll]="
+    <nz-table nzBordered #produtMasterTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="dataList"
+      [nzLoading]="loadingRecords" [nzSize]="'small'" [nzScroll]="
         dataList.length > 10 ? { x: '3270px', y: '410px' } : { x: '3270px' }
-      "
-      [nzTotal]="totalRecords"
-      [nzTotal]="totalRecords"
-      [(nzPageIndex)]="pageIndex"
-      [(nzPageSize)]="pageSize"
-      (nzPageIndexChange)="search()"
-      (nzPageSizeChange)="search(true)"
-      (nzQueryParams)="sort($event)"
-    >
+      " [nzTotal]="totalRecords" [nzTotal]="totalRecords" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="search()" (nzPageSizeChange)="search(true)" (nzQueryParams)="sort($event)">
       <thead>
         <tr>
           <th nzWidth="10px" nzLeft style="text-align: center">
-            <label
-              nz-checkbox
-              [(ngModel)]="allChecked"
-              (ngModelChange)="checkAll($event)"
-            >
+            <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="checkAll($event)">
             </label>
           </th>
 
           <th nzWidth="13px" nzLeft style="text-align: center">
             <b> Action</b>
           </th>
-          <th
-            nzLeft
-            nzWidth="50px"
-            nzLeft
-            style="font-weight: bold; text-align: center"
-          >
+          <th nzLeft nzWidth="25px" nzLeft style="font-weight: bold; text-align: center">
             Mapping
           </th>
 
-          <th
-            nzColumnKey="{{ 'NAME' }}"
-            [nzSortFn]="true"
-            nzWidth="45px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'NAME' }}" [nzSortFn]="true" nzWidth="45px" style="text-align: center">
             <b> Product Name</b>
           </th>
 
-          <th
-            nzColumnKey="{{ 'CATEGORY_NAME' }}"
-            [nzSortFn]="true"
-            nzWidth="30px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'CATEGORY_NAME' }}" [nzSortFn]="true" nzWidth="30px" style="text-align: center">
             <b> Category Name</b>
           </th>
           <!-- <th nzColumnKey="{{ 'PRICE1' }}" [nzSortFn]="true" nzWidth="15px" style="text-align: center;"> <b>  Price 1</b></th>
@@ -140,20 +81,10 @@
             <th nzColumnKey="{{ 'SGST' }}" [nzSortFn]="true" nzWidth="13px" style="text-align: center;"> <b>  SGST</b></th>
             <th nzColumnKey="{{ 'IGST' }}" [nzSortFn]="true" nzWidth="13px" style="text-align: center;"> <b>  IGST</b></th>
             <th nzColumnKey="{{ 'GST_TYPE' }}" [nzSortFn]="true" nzWidth="20px" style="text-align: center;"> <b>  GST Type</b></th> -->
-          <th
-            nzColumnKey="{{ 'DISCOUNT_TYPE' }}"
-            [nzSortFn]="true"
-            nzWidth="20px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'DISCOUNT_TYPE' }}" [nzSortFn]="true" nzWidth="20px" style="text-align: center">
             <b> Discount Type</b>
           </th>
-          <th
-            nzColumnKey="{{ 'DISCOUNT' }}"
-            [nzSortFn]="true"
-            nzWidth="15px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'DISCOUNT' }}" [nzSortFn]="true" nzWidth="15px" style="text-align: center">
             <b> Discount</b>
           </th>
           <!-- <th
@@ -173,12 +104,7 @@
             <b> Out Country Packaging Charges</b>
           </th> -->
 
-          <th
-            nzColumnKey="{{ 'UNIQUE_CODE' }}"
-            [nzSortFn]="true"
-            nzWidth="20px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'UNIQUE_CODE' }}" [nzSortFn]="true" nzWidth="20px" style="text-align: center">
             <b> Unique Code</b>
           </th>
           <!-- <th
@@ -189,99 +115,62 @@
           >
             <b> Is Main Stock ?</b>
           </th> -->
-          <th
-            nzColumnKey="{{ 'IS_MAINTAIN_STOCK' }}"
-            [nzSortFn]="true"
-            nzWidth="24px"
-            style="text-align: center"
-          >
+          <!-- <th nzColumnKey="{{ 'IS_MAINTAIN_STOCK' }}" [nzSortFn]="true" nzWidth="24px" style="text-align: center">
             <b> Is Main Stock ? </b>
             <ng-container *ngIf="toggleVisible">
               <div (click)="$event.stopPropagation()">
-                <nz-switch
-                  [(ngModel)]="headerToggles.IS_MAINTAIN_STOCK"
-                  (ngModelChange)="bulkUpdate('IS_MAINTAIN_STOCK', $event)"
-                >
+                <nz-switch [(ngModel)]="headerToggles.IS_MAINTAIN_STOCK"
+                  (ngModelChange)="bulkUpdate('IS_MAINTAIN_STOCK', $event)">
                 </nz-switch>
               </div>
             </ng-container>
-          </th>
+          </th> -->
 
-          <th
-            nzColumnKey="{{ 'IS_VERIENT_AVAILABLE' }}"
-            [nzSortFn]="true"
-            nzWidth="24px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'IS_VERIENT_AVAILABLE' }}" [nzSortFn]="true" nzWidth="24px" style="text-align: center">
             <b> Is Varient Available ?</b><br />
             <ng-container *ngIf="toggleVisible">
               <div (click)="$event.stopPropagation()">
-                <nz-switch
-                  [(ngModel)]="headerToggles.IS_VERIENT_AVAILABLE"
-                  (ngModelChange)="bulkUpdate('IS_VERIENT_AVAILABLE', $event)"
-                >
+                <nz-switch [(ngModel)]="headerToggles.IS_VERIENT_AVAILABLE"
+                  (ngModelChange)="bulkUpdate('IS_VERIENT_AVAILABLE', $event)">
                 </nz-switch>
               </div>
             </ng-container>
           </th>
-          <th
+          <!-- <th
             nzColumnKey="{{ 'SIZE' }}"
             [nzSortFn]="true"
             nzWidth="16px"
             style="text-align: center"
           >
             <b> Size</b>
-          </th>
-          <th
-            nzColumnKey="{{ 'UNIT_NAME' }}"
-            [nzSortFn]="true"
-            nzWidth="18px"
-            style="text-align: center"
-          >
+          </th> -->
+          <!-- <th nzColumnKey="{{ 'UNIT_NAME' }}" [nzSortFn]="true" nzWidth="18px" style="text-align: center">
             <b> Unit Name</b>
-          </th>
-          <th
+          </th> -->
+          <!-- <th
             nzColumnKey="{{ 'RATE' }}"
             [nzSortFn]="true"
             nzWidth="16px"
             style="text-align: center"
           >
             <b> Rate</b>
-          </th>
-          <th
-            nzColumnKey="{{ 'OPENING_STOCK' }}"
-            [nzSortFn]="true"
-            nzWidth="19px"
-            style="text-align: center"
-          >
+          </th> -->
+          <!-- <th nzColumnKey="{{ 'OPENING_STOCK' }}" [nzSortFn]="true" nzWidth="19px" style="text-align: center">
             <b> Opening Stock </b>
-          </th>
-          <th
-            nzColumnKey="{{ 'CURRENT_STOCK' }}"
-            [nzSortFn]="true"
-            nzWidth="19px"
-            style="text-align: center"
-          >
+          </th> -->
+          <!-- <th nzColumnKey="{{ 'CURRENT_STOCK' }}" [nzSortFn]="true" nzWidth="19px" style="text-align: center">
             <b> Current Stock </b>
-          </th>
-          <th
-            nzColumnKey="{{ 'IS_POPULAR' }}"
-            [nzSortFn]="true"
-            nzWidth="18px"
-            style="text-align: center"
-          >
+          </th> -->
+          <th nzColumnKey="{{ 'IS_POPULAR' }}" [nzSortFn]="true" nzWidth="18px" style="text-align: center">
             <b> Is Popular ?</b>
             <ng-container *ngIf="toggleVisible">
               <div (click)="$event.stopPropagation()">
-                <nz-switch
-                  [(ngModel)]="headerToggles.IS_POPULAR"
-                  (ngModelChange)="bulkUpdate('IS_POPULAR', $event)"
-                >
+                <nz-switch [(ngModel)]="headerToggles.IS_POPULAR" (ngModelChange)="bulkUpdate('IS_POPULAR', $event)">
                 </nz-switch>
               </div>
             </ng-container>
           </th>
-          <th
+          <!-- <th
             nzColumnKey="{{ 'IS_BEST_SELLER' }}"
             [nzSortFn]="true"
             nzWidth="21px"
@@ -297,37 +186,22 @@
                 </nz-switch>
               </div>
             </ng-container>
-          </th>
-          <th
-            nzColumnKey="{{ 'IS_NEW_ARRIVAL' }}"
-            [nzSortFn]="true"
-            nzWidth="22px"
-            style="text-align: center"
-          >
+          </th> -->
+          <th nzColumnKey="{{ 'IS_NEW_ARRIVAL' }}" [nzSortFn]="true" nzWidth="22px" style="text-align: center">
             <b> Is New Arrival ?</b>
             <ng-container *ngIf="toggleVisible">
               <div (click)="$event.stopPropagation()">
-                <nz-switch
-                  [(ngModel)]="headerToggles.IS_NEW_ARRIVAL"
-                  (ngModelChange)="bulkUpdate('IS_NEW_ARRIVAL', $event)"
-                >
+                <nz-switch [(ngModel)]="headerToggles.IS_NEW_ARRIVAL"
+                  (ngModelChange)="bulkUpdate('IS_NEW_ARRIVAL', $event)">
                 </nz-switch>
               </div>
             </ng-container>
           </th>
-          <th
-            nzColumnKey="{{ 'STATUS' }}"
-            [nzSortFn]="true"
-            nzWidth="13px"
-            style="text-align: center"
-          >
+          <th nzColumnKey="{{ 'STATUS' }}" [nzSortFn]="true" nzWidth="13px" style="text-align: center">
             <b> Status</b>
             <ng-container *ngIf="toggleVisible">
               <div (click)="$event.stopPropagation()">
-                <nz-switch
-                  [(ngModel)]="headerToggles.STATUS"
-                  (ngModelChange)="bulkUpdate('STATUS', $event)"
-                >
+                <nz-switch [(ngModel)]="headerToggles.STATUS" (ngModelChange)="bulkUpdate('STATUS', $event)">
                 </nz-switch>
               </div>
             </ng-container>
@@ -337,60 +211,34 @@
       <tbody>
         <tr *ngFor="let data of produtMasterTable.data">
           <td nzLeft style="text-align: center">
-            <label
-              nz-checkbox
-              [(ngModel)]="data.checked"
-              (ngModelChange)="onRowChecked(data)"
-            ></label>
+            <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="onRowChecked(data)"></label>
           </td>
 
           <td nzLeft style="text-align: center">
             <!-- Edit -->
-            <span
-              nz-icon
-              nzType="edit"
-              nzTheme="outline"
-              style="
+            <span nz-icon nzType="edit" nzTheme="outline" style="
                 cursor: pointer;
                 font-size: 15px !important;
                 color: #5a8f69;
                 margin-left: 8px;
-              "
-              nzTooltipTitle="Edit"
-              nzTooltipPlacement="top"
-              nz-tooltip
-              (click)="edit(data)"
-            >
+              " nzTooltipTitle="Edit" nzTooltipPlacement="top" nz-tooltip (click)="edit(data)">
             </span>
 
-            <span
-              nz-popconfirm
-              nzPopconfirmTitle="Are you sure you want to delete this record?"
-              nzPopconfirmPlacement="top"
-              (nzOnConfirm)="deleteSingleRecord(data)"
-              style="
+            <span nz-popconfirm nzPopconfirmTitle="Are you sure you want to delete this record?"
+              nzPopconfirmPlacement="top" (nzOnConfirm)="deleteSingleRecord(data)" style="
                 cursor: pointer;
                 font-size: 15px !important;
                 color: #5a8f69;
                 margin-left: 8px;
-              "
-              nzTooltipTitle="Delete"
-              nzTooltipPlacement="top"
-              nz-tooltip
-            >
+              " nzTooltipTitle="Delete" nzTooltipPlacement="top" nz-tooltip>
               <i nz-icon nzType="delete"></i>
             </span>
           </td>
 
           <td nzLeft>
             <nz-space>
-              <a
-                *nzSpaceItem
-                (click)="map(data)"
-                nz-tooltip
-                nzTooltipTitle="Variant Mapping"
-              >
-                <nz-tag  nzColor="cyan">
+              <a *nzSpaceItem (click)="map(data)" nz-tooltip nzTooltipTitle="Variant Mapping">
+                <nz-tag nzColor="cyan">
                   <span nz-icon nzType="plus"></span>
                   <span>Variant Mapping</span>
                 </nz-tag>
@@ -406,12 +254,7 @@
                   <span>Ingredient Mapping</span>
                 </nz-tag>
               </a> -->
-              <a
-                *nzSpaceItem
-                (click)="mapFAQ(data)"
-                nz-tooltip
-                nzTooltipTitle="FAQ Mapping"
-              >
+              <a *nzSpaceItem (click)="mapFAQ(data)" nz-tooltip nzTooltipTitle="FAQ Mapping">
                 <nz-tag nzColor="green">
                   <span nz-icon nzType="form"></span>
                   <span>FAQ Mapping</span>
@@ -459,11 +302,13 @@
               <span *ngIf="data['GST_TYPE'] == 'Percentage'"> In Percentage </span>                         
             </td> -->
           <!-- <td >{{data['GST_TYPE']}}</td> -->
-          <td style="white-space: pre-line">
-            <span *ngIf="data['DISCOUNT_TYPE'] == 'Amount'"> In Amount </span>
-            <span *ngIf="data['DISCOUNT_TYPE'] == 'Percentage'">
-              In Percentage
-            </span>
+          <td style="white-space: pre-line;text-align: right">
+            <ng-container *ngIf="data['DISCOUNT_TYPE']; else noDiscount">
+              <span *ngIf="data['DISCOUNT_TYPE'] == 'Amount'">In Amount</span>
+              <span *ngIf="data['DISCOUNT_TYPE'] == 'Percentage'">In Percentage</span>
+            </ng-container>
+
+            <ng-template #noDiscount>-</ng-template>
           </td>
           <!-- <td >{{data['DISCOUNT_TYPE']}}</td> -->
 
@@ -472,61 +317,31 @@
           <td style="text-align: right">{{ data["OUT_COUNTRY"] }}</td> -->
 
           <td>{{ data["UNIQUE_CODE"] }}</td>
+          <!-- <td style="text-align: center">
+            <i nz-icon *ngIf="data['IS_MAINTAIN_STOCK']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"></i>
+            <i nz-icon *ngIf="!data['IS_MAINTAIN_STOCK']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"></i>
+          </td> -->
           <td style="text-align: center">
-            <i
-              nz-icon
-              *ngIf="data['IS_MAINTAIN_STOCK']"
-              [nzType]="'check-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#52c41a'"
-            ></i>
-            <i
-              nz-icon
-              *ngIf="!data['IS_MAINTAIN_STOCK']"
-              [nzType]="'close-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#f50'"
-            ></i>
+            <i nz-icon *ngIf="data['IS_VERIENT_AVAILABLE']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"></i>
+            <i nz-icon *ngIf="!data['IS_VERIENT_AVAILABLE']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"></i>
           </td>
-          <td style="text-align: center">
-            <i
-              nz-icon
-              *ngIf="data['IS_VERIENT_AVAILABLE']"
-              [nzType]="'check-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#52c41a'"
-            ></i>
-            <i
-              nz-icon
-              *ngIf="!data['IS_VERIENT_AVAILABLE']"
-              [nzType]="'close-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#f50'"
-            ></i>
-          </td>
-          <td style="text-align: right">{{ data["SIZE"] || "-" }}</td>
-          <td style="text-align: right">{{ data["UNIT_NAME"] }}</td>
-          <td style="text-align: right">{{ data["RATE"] || "-" }}</td>
-          <td style="text-align: right">{{ data["OPENING_STOCK"] }}</td>
-          <td style="text-align: right">{{ data["CURRENT_STOCK"] }}</td>
+          <!-- <td style="text-align: right">{{ data["SIZE"] || "-" }}</td> -->
+          <!-- <td style="text-align: right">{{ data["UNIT_NAME"] }}</td> -->
+          <!-- <td style="text-align: right">{{ data["RATE"] || "-" }}</td> -->
+          <!-- <td style="text-align: right">{{ data["OPENING_STOCK"] }}</td>
+          <td style="text-align: right">{{ data["CURRENT_STOCK"] }}</td> -->
           <!-- <td *ngFor="let column of columns" style="white-space: pre-line;">{{data[column[0]]}}</td> -->
           <td style="text-align: center">
-            <i
-              nz-icon
-              *ngIf="data['IS_POPULAR']"
-              [nzType]="'check-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#52c41a'"
-            ></i>
-            <i
-              nz-icon
-              *ngIf="!data['IS_POPULAR']"
-              [nzType]="'close-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#f50'"
-            ></i>
+            <i nz-icon *ngIf="data['IS_POPULAR']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"></i>
+            <i nz-icon *ngIf="!data['IS_POPULAR']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"></i>
           </td>
-          <td style="text-align: center">
+          <!-- <td style="text-align: center">
             <i
               nz-icon
               *ngIf="data['IS_BEST_SELLER']"
@@ -541,7 +356,7 @@
               [nzTheme]="'twotone'"
               [nzTwotoneColor]="'#f50'"
             ></i>
-          </td>
+          </td> -->
           <!-- <td>
                 <i nz-icon *ngIf="data['STATUS']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
                   [nzTwotoneColor]="'#52c41a'"></i>
@@ -549,36 +364,16 @@
                   [nzTwotoneColor]="'#f50'"></i>
               </td> -->
           <td style="text-align: center">
-            <i
-              nz-icon
-              *ngIf="data['IS_NEW_ARRIVAL']"
-              [nzType]="'check-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#52c41a'"
-            ></i>
-            <i
-              nz-icon
-              *ngIf="!data['IS_NEW_ARRIVAL']"
-              [nzType]="'close-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#f50'"
-            ></i>
+            <i nz-icon *ngIf="data['IS_NEW_ARRIVAL']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"></i>
+            <i nz-icon *ngIf="!data['IS_NEW_ARRIVAL']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"></i>
           </td>
           <td style="text-align: center">
-            <i
-              nz-icon
-              *ngIf="data['STATUS']"
-              [nzType]="'check-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#52c41a'"
-            ></i>
-            <i
-              nz-icon
-              *ngIf="!data['STATUS']"
-              [nzType]="'close-circle'"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#f50'"
-            ></i>
+            <i nz-icon *ngIf="data['STATUS']" [nzType]="'check-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#52c41a'"></i>
+            <i nz-icon *ngIf="!data['STATUS']" [nzType]="'close-circle'" [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#f50'"></i>
           </td>
         </tr>
       </tbody>
@@ -586,134 +381,64 @@
   </div>
 </div>
 
-<nz-drawer
-  [nzBodyStyle]="{
+<nz-drawer [nzBodyStyle]="{
     height: 'calc(100% - 55px)',
     overflow: 'auto',
     'padding-bottom': '53px'
-  }"
-  [nzClosable]="true"
-  [nzMask]="true"
-  [nzMaskClosable]="false"
-  [nzWidth]="1200"
-  [nzVisible]="drawerVisible"
-  [nzTitle]="drawerTitle"
-  (nzOnClose)="drawerClose()"
-  (nzKeyboard)="(true)"
->
+  }" [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="1200" [nzVisible]="drawerVisible"
+  [nzTitle]="drawerTitle" (nzOnClose)="drawerClose()" (nzKeyboard)="(true)">
   <ng-container *nzDrawerContent>
     <!-- <app-addproduct></app-addproduct> -->
-    <app-addproduct
-      [drawerClose]="closeCallback"
-      [disabled]="disabled"
-      [drawerVisible]="drawerVisible"
-      [data]="drawerData"
-      [multipleImages]="multipleImages"
-      [tags]="tags"
-    ></app-addproduct>
+    <app-addproduct [drawerClose]="closeCallback" [disabled]="disabled" [drawerVisible]="drawerVisible"
+      [data]="drawerData" [multipleImages]="multipleImages" [tags]="tags"></app-addproduct>
   </ng-container>
 </nz-drawer>
 
-<nz-drawer
-  [nzBodyStyle]="{
+<nz-drawer [nzBodyStyle]="{
     height: 'calc(100% - 55px)',
     overflow: 'auto',
     'padding-bottom': '53px'
-  }"
-  [nzClosable]="true"
-  [nzMask]="true"
-  [nzMaskClosable]="false"
-  [nzWidth]="1090"
-  [nzVisible]="mapdrawerVisible"
-  [nzTitle]="mapdrawerTitle"
-  (nzOnClose)="mapDrawerClose()"
-  (nzKeyboard)="(true)"
->
+  }" [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="1090" [nzVisible]="mapdrawerVisible"
+  [nzTitle]="mapdrawerTitle" (nzOnClose)="mapDrawerClose()" (nzKeyboard)="(true)">
   <ng-container *nzDrawerContent>
     <!-- <app-productmappinglist></app-productmappinglist> -->
-    <app-productmappinglist
-      [drawerClose2]="mapCloseCallback"
-      [dataList]="mapDataList"
-      [maintain]="Ismaintainstock"
-      [varient]="Isvarientavailable"
-      [productId]="productId"
-    ></app-productmappinglist>
+    <app-productmappinglist [drawerClose2]="mapCloseCallback" [dataList]="mapDataList" [maintain]="Ismaintainstock"
+      [varient]="Isvarientavailable" [productId]="productId" [data]="data1"></app-productmappinglist>
   </ng-container>
 </nz-drawer>
 
 <!-- Benefits  -->
 
-<nz-drawer
-  [nzBodyStyle]="{
+<nz-drawer [nzBodyStyle]="{
     height: 'calc(100% - 55px)',
     overflow: 'auto',
     'padding-bottom': '53px'
-  }"
-  [nzClosable]="true"
-  [nzMask]="true"
-  [nzMaskClosable]="false"
-  [nzWidth]="1000"
-  [nzVisible]="benefitdrawerVisible"
-  [nzTitle]="benefitdrawerTitle"
-  (nzOnClose)="benefitsDrawerClose()"
-  (nzKeyboard)="(true)"
->
+  }" [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="1000" [nzVisible]="benefitdrawerVisible"
+  [nzTitle]="benefitdrawerTitle" (nzOnClose)="benefitsDrawerClose()" (nzKeyboard)="(true)">
   <ng-container *nzDrawerContent>
     <!-- <app-productmappinglist></app-productmappinglist> -->
-    <app-benefitsmapping
-      [drawerClose3]="mapCloseCallback"
-      [dataList1]="BenefitDatalist"
-    ></app-benefitsmapping>
+    <app-benefitsmapping [drawerClose3]="mapCloseCallback" [dataList1]="BenefitDatalist"></app-benefitsmapping>
   </ng-container>
 </nz-drawer>
 
 <div *ngIf="isIngredientMappingvisible">
-  <nz-drawer
-    [nzBodyStyle]="{
+  <nz-drawer [nzBodyStyle]="{
       height: 'calc(100% - 55px)',
       overflow: 'auto',
       'padding-bottom': '53px'
-    }"
-    [nzClosable]="true"
-    [nzMask]="true"
-    [nzMaskClosable]="false"
-    [nzWidth]="900"
-    [nzVisible]="isIngredientMappingvisible"
-    [nzTitle]="mapIngredienttitle"
-    (nzOnClose)="closeIngredientsMapping()"
-    (nzKeyboard)="(true)"
-  >
+    }" [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="900"
+    [nzVisible]="isIngredientMappingvisible" [nzTitle]="mapIngredienttitle" (nzOnClose)="closeIngredientsMapping()"
+    (nzKeyboard)="(true)">
     <ng-container *nzDrawerContent>
-      <div
-        nz-col
-        nzXs="24"
-        nzSm="24"
-        nzMd="24"
-        nzLg="24"
-        nzXl="24"
-        style="display: flex; justify-content: flex-end"
-      >
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" style="display: flex; justify-content: flex-end">
         <form [nzLayout]="'inline'" nz-form>
           <nz-form-item>
             <nz-input-group [nzAddOnAfter]="suffixIconButton" nzSearch>
-              <input
-                [(ngModel)]="searchText2"
-                (keyup)="keyup2()"
-                (keydown.enter)="preventDefault($event)"
-                type="text"
-                name="search2"
-                nz-input
-                placeholder="Min 3 chars required."
-              />
+              <input [(ngModel)]="searchText2" (keyup)="keyup2()" (keydown.enter)="preventDefault($event)" type="text"
+                name="search2" nz-input placeholder="Min 3 chars required." />
             </nz-input-group>
             <ng-template #suffixIconButton>
-              <button
-                (click)="searchIngredients()"
-                nz-button
-                nzType="primary"
-                nzSearch
-                id="search2"
-              >
+              <button (click)="searchIngredients()" nz-button nzType="primary" nzSearch id="search2">
                 <i nz-icon nzType="search"></i>
               </button>
             </ng-template>
@@ -723,33 +448,15 @@
       <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
         <div nz-row>
           <div nz-col nzSpan="24">
-            <nz-table
-              #promote
-              [nzData]="IngredientsList"
-              [nzLoading]="mapIngredientSpinning"
-              [nzSize]="'small'"
-              [nzScroll]="{ x: '800px', y: '55vh' }"
-              [nzFrontPagination]="false"
-              class="my-scroll no-wrap1"
-              nzBordered
-            >
+            <nz-table #promote [nzData]="IngredientsList" [nzLoading]="mapIngredientSpinning" [nzSize]="'small'"
+              [nzScroll]="{ x: '800px', y: '55vh' }" [nzFrontPagination]="false" class="my-scroll no-wrap1" nzBordered>
               <thead>
                 <tr>
-                  <th
-                    [(nzChecked)]="checked"
-                    [nzIndeterminate]="indeterminate"
-                    (nzCheckedChange)="onAllChecked($event)"
-                    nzLeft
-                    nzWidth="30px"
-                    style="font-weight: bold; text-align: center"
-                  >
+                  <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"
+                    nzLeft nzWidth="30px" style="font-weight: bold; text-align: center">
                     Select All
                   </th>
-                  <th
-                    [nzSortFn]="true"
-                    (nzSortOrderChange)="sortData('NAME', $event)"
-                    nzWidth="70px"
-                  >
+                  <th [nzSortFn]="true" (nzSortOrderChange)="sortData('NAME', $event)" nzWidth="70px">
                     Ingredients
                   </th>
                 </tr>
@@ -758,12 +465,8 @@
                 <tr *ngFor="let data of promote.data; let i = index">
                   <!-- <td [nzChecked]="setOfCheckedId.has(data.ID)" (nzCheckedChange)="onItemChecked(data, $event)" nzLeft
                     style="text-align: center"></td> -->
-                  <td
-                    [nzChecked]="setOfCheckedId.has(data.INGREDIENT_ID)"
-                    (nzCheckedChange)="onItemChecked(data, $event)"
-                    nzLeft
-                    style="text-align: center"
-                  ></td>
+                  <td [nzChecked]="setOfCheckedId.has(data.INGREDIENT_ID)"
+                    (nzCheckedChange)="onItemChecked(data, $event)" nzLeft style="text-align: center"></td>
 
                   <!-- <h1>{{ data['checked']}}</h1> -->
                   <td style="white-space: pre-line; text-align: left">
@@ -777,32 +480,15 @@
         <!-- </fieldset> -->
       </div>
       <div class="footer" style="text-align: right; margin-top: 16px">
-        <button
-          (click)="closeIngredientsMapping()"
-          type="button"
-          nz-button
-          style="margin-right: 8px"
-        >
+        <button (click)="closeIngredientsMapping()" type="button" nz-button style="margin-right: 8px">
           Cancel
         </button>
-        <button
-          *ngIf="!IngredientMappingData.PRODUCT_ID"
-          [nzLoading]="mapIngredientSpinning"
-          (click)="saveMapIngredients(false)"
-          type="button"
-          class="ant-btn ant-btn-primary"
-          nz-button
-        >
+        <button *ngIf="!IngredientMappingData.PRODUCT_ID" [nzLoading]="mapIngredientSpinning"
+          (click)="saveMapIngredients(false)" type="button" class="ant-btn ant-btn-primary" nz-button>
           Save & Close
         </button>
-        <button
-          *ngIf="IngredientMappingData.PRODUCT_ID"
-          [nzLoading]="mapIngredientSpinning"
-          (click)="saveMapIngredients(false)"
-          type="button"
-          class="ant-btn ant-btn-primary"
-          nz-button
-        >
+        <button *ngIf="IngredientMappingData.PRODUCT_ID" [nzLoading]="mapIngredientSpinning"
+          (click)="saveMapIngredients(false)" type="button" class="ant-btn ant-btn-primary" nz-button>
           Update & Close
         </button>
       </div>
@@ -812,29 +498,16 @@
 </div>
 
 <div *ngIf="mapFAQdrawerVisible">
-  <nz-drawer
-    [nzBodyStyle]="{
+  <nz-drawer [nzBodyStyle]="{
       height: 'calc(100% - 55px)',
       overflow: 'auto',
       'padding-bottom': '53px'
-    }"
-    [nzClosable]="true"
-    [nzMask]="true"
-    [nzMaskClosable]="false"
-    [nzWidth]="900"
-    [nzVisible]="mapFAQdrawerVisible"
-    [nzTitle]="mapFAQdrawerTitle"
-    (nzOnClose)="mapFAQDrawerClose()"
-    (nzKeyboard)="(true)"
-  >
+    }" [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="900" [nzVisible]="mapFAQdrawerVisible"
+    [nzTitle]="mapFAQdrawerTitle" (nzOnClose)="mapFAQDrawerClose()" (nzKeyboard)="(true)">
     <ng-container *nzDrawerContent>
       <!-- <app-productmappinglist></app-productmappinglist> -->
-      <app-faqtable
-        [drawerClose2]="mapFAQCloseCallback"
-        [dataList]="FAQDataList"
-        [productId]="productId"
-        [drawerVisible2]="mapFAQdrawerVisible"
-      ></app-faqtable>
+      <app-faqtable [drawerClose2]="mapFAQCloseCallback" [dataList]="FAQDataList" [productId]="productId"
+        [drawerVisible2]="mapFAQdrawerVisible"></app-faqtable>
     </ng-container>
   </nz-drawer>
 </div>

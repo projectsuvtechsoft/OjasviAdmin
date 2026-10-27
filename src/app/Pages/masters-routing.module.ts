@@ -41,7 +41,9 @@ import { ShippingandhandlingComponent } from './components/shippingandhandling/s
 import { ReviewenabledisableComponent } from './components/reviewenabledisable/reviewenabledisable.component';
 import { ListCityComponent } from './components/CityMaster/list-city/list-city.component';
 import { PickuplocationlistComponent } from './components/pickuplocationmaster/pickuplocationlist/pickuplocationlist.component';
-
+import { WebsiteReviewsComponent } from './components/website-reviews/website-reviews.component';
+import { CustomerProductReviewsComponent } from './components/customer-product-reviews/customer-product-reviews.component';
+import { PriceLogsComponent } from './components/price-logs/price-logs.component';
 const routes: Routes = [
   {
     path: '',
@@ -93,12 +95,13 @@ const routes: Routes = [
       { path: 'dispatching_orders', component: DespatchingOrdersComponent },
       { path: 'dispatched_orders', component: DespatchedOrderComponent },
       { path: 'delivered_orders', component: DeliveredOrdersComponent },
-      { path: 'shippingandhandling', component:ShippingandhandlingComponent },
-      { path: 'enabledisablereviews', component: ReviewenabledisableComponent},
-      { path: 'pickuplocations', component: PickuplocationlistComponent},
-            { path: 'cities', component: ListCityComponent},
-
-      
+      { path: 'shippingandhandling', component: ShippingandhandlingComponent },
+      { path: 'enabledisablereviews', component: ReviewenabledisableComponent },
+      { path: 'pickuplocations', component: PickuplocationlistComponent },
+      { path: 'cities', component: ListCityComponent },
+      { path: 'websitereview', component: WebsiteReviewsComponent },
+      { path: 'customerproductreview', component: CustomerProductReviewsComponent },
+      { path: 'pricelogs', component: PriceLogsComponent },
     ],
   },
 ];
@@ -107,4 +110,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MastersRoutingModule {}
+export class MastersRoutingModule { }

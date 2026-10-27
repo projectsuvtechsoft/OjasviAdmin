@@ -33,6 +33,7 @@ export class ShippingandhandlingaddComponent {
   parentaccount: any;
   parentgroup: any;
   parenttype: any;
+  isFocused: string = '';
   type: any;
   group: any;
   main: any;
@@ -130,10 +131,10 @@ export class ShippingandhandlingaddComponent {
   if (this.data.KEY1 == undefined || this.data.KEY1.trim()=="") {
       this.isOk = false;
       this.message.error('Please Enter Key', '');
-    } else if (this.data.VALUE_1 == undefined || this.data.VALUE_2 < 0) {
+    } else if (this.data.VALUE_1 == undefined || this.data.VALUE_1 < 0 || this.data.VALUE_1.trim()=="") {
       this.isOk = false;
       this.message.error('Please Enter Value 1', '');
-    }else if (this.data.VALUE_2 == undefined || this.data.VALUE_2 < 0) {
+    }else if (this.data.VALUE_2 == undefined || this.data.VALUE_2 < 0 || this.data.VALUE_2.trim()=="") {
       this.isOk = false;
       this.message.error('Please Enter Value 2', '');
     }

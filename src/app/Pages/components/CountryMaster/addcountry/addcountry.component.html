@@ -31,7 +31,7 @@
                 [(ngModel)]="data.NAME"
                 (keypress)="validateInput($event)"
                 #name="ngModel"
-                maxlength="128"
+                maxlength="120"
                 autocomplete="off"
                 (focus)="isFocused = 'countryName'"
                 (blur)="isFocused = ''"
@@ -44,7 +44,7 @@
                   (data.NAME && isFocused === 'countryName')
                 "
               >
-                {{ data.NAME?.length || 0 }}/128
+                {{ data.NAME?.length || 0 }}/120
               </h6>
             </nz-form-control>
           </nz-form-item>

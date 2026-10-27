@@ -48,8 +48,8 @@ interface DashboardTwoResponse {
       total_orders: number;
     }>;
     categoryRevenue: Array<{
-      category: string;
-      total_revenue: number;
+      CATEGORY_NAME: string;
+      TOTAL: number;
     }>;
     topSellingProducts: Array<{
       quantity: number;
@@ -127,18 +127,18 @@ interface DashboardThreeResponse {
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
-  
+
   // Loading states
   isLoadingKPIs = true;
   isLoadingCharts = true;
   isLoadingTables = true;
   isRefreshing = false;
-  
+
   // Error states
   kpiError = false;
   chartError = false;
   tableError = false;
-  
+
   // Data loaded flags
   kpiDataLoaded = false;
   chartDataLoaded = false;
@@ -169,7 +169,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   categoryCount: CategoryCount[] = [];
 
-  constructor(private apiService: ApiServiceService) {}
+  constructor(private apiService: ApiServiceService) { }
 
   ngOnInit(): void {
     this.loadDashboardData();
@@ -182,7 +182,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   loadDashboardData(): void {
     this.resetLoadingStates();
-    
+
     // Simulate API calls with different loading times
     this.loadKPIData();
     this.loadChartData();
@@ -200,11 +200,11 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   private loadKPIData(): void {
     // Get date range payload based on selected filter
-    const datePayload :any = this.convertDateRangeToPayload(this.selectedDateRange);
-    
+    const datePayload: any = this.convertDateRangeToPayload(this.selectedDateRange);
+
     // Clear existing KPI data before loading new data
     this.kpiCards = [];
-    
+
     // Call real API for KPI data with date range
     this.apiService.getCardDashboard(1, 10, '', '', datePayload).pipe(
       switchMap((response: DashboardResponse) => {
@@ -233,12 +233,12 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   private updateKPICards(data: any): void {
     // Clear existing KPI cards before updating
     this.kpiCards = [];
-    
+
     // Only update if data is not null or undefined
     if (!data) {
       return;
     }
-    
+
     this.kpiCards = [
       {
         title: 'Total Revenue',
@@ -318,13 +318,13 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   private loadChartData(): void {
     // Get date range payload based on selected filter
     const datePayload: any = this.convertDateRangeToPayload(this.selectedDateRange);
-    
+
     // Clear existing chart data before loading new data
     this.salesOverTimeChart = {};
     this.ordersByStatusChart = {};
     this.salesByCategoryChart = {};
     this.topProductsChart = {};
-    
+
     // Call real API for chart data
     this.apiService.getDashboardTwo(1, 10, '', '', datePayload).pipe(
       switchMap((response: DashboardTwoResponse) => {
@@ -356,13 +356,13 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   private loadTableData(): void {
     // Get date range payload based on selected filter
     const datePayload: any = this.convertDateRangeToPayload(this.selectedDateRange);
-    
+
     // Clear existing table data before loading new data
     this.topSellingProducts = [];
     this.productReviews = [];
     this.topCustomers = [];
     this.categoryCount = [];
-    
+
     // Call real API for table data
     this.apiService.getDashboardThree(1, 10, '', '', datePayload).pipe(
       switchMap((response: DashboardThreeResponse) => {
@@ -397,15 +397,15 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.productReviews = [];
     this.topCustomers = [];
     this.categoryCount = [];
-    
+
     // Only update if data is not null or undefined
     if (!data) {
       return;
     }
-    
+
     // console.log('Raw API Data:', data);
     // console.log('Top Selling Products from API:', data.topSellingProducts);
-    
+
     // Update top selling products
     this.topSellingProducts = data.topSellingProducts.map((product: any) => ({
       image: product.VARIENT_IMAGE_URL ? `${this.vareintImageUrl}${product.VARIENT_IMAGE_URL}` : 'assets/img/default-product.png',
@@ -415,7 +415,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       revenue: product.TOTAL_NET_AMOUNT,
       size: product.SIZE || 'N/A'
     }));
-    
+
     // console.log('Mapped Top Selling Products:', this.topSellingProducts);
 
     // Update top customers
@@ -448,7 +448,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   refreshDashboard(): void {
     this.isRefreshing = true;
     this.loadDashboardData();
-    
+
     // Hide refresh indicator after all data is loaded
     timer(1500).pipe(
       takeUntil(this.destroy$)
@@ -511,12 +511,12 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.ordersByStatusChart = {};
     this.salesByCategoryChart = {};
     this.topProductsChart = {};
-    
+
     // Only initialize if data is not null or undefined
     if (!data) {
       return;
     }
-    
+
     const responsiveOptions = [
       {
         breakpoint: 640,
@@ -546,29 +546,29 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       const year = parseInt(dateParts[0]);
       const month = parseInt(dateParts[1]);
       const day = parseInt(dateParts[2]);
-      
-      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      
+
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
       const formatted = `${monthNames[month - 1]} ${day}`;
-      
+
       // Debug each date conversion
       // console.log(`Date conversion: ${item.order_day} -> Month:${month}, Day:${day} -> ${formatted}`);
-      
+
       return formatted;
     });
-    
+
     // console.log('Sales Data Debug (No Sorting):');
     // console.log('Original API Data:', data.dailySalesTrend);
     // console.log('Processed Sales Data:', salesData);
     // console.log('Processed Categories:', salesCategories);
-    
+
     // // Manual verification of exact mapping
     // console.log('Manual Mapping Check:');
     // data.dailySalesTrend.forEach((item: any, index: number) => {
     //   console.log(`Position ${index + 1}: ${item.order_day} = ${item.total_sales} -> Chart shows as "${salesCategories[index]}" with value ${salesData[index]}`);
     // });
-    
+
     // Expected vs Actual
     // console.log('EXPECTED: Nov 6(113), Nov 7(788), Nov 8(583.6), Nov 10(1136.4), Nov 11(1145.4)');
     // console.log('ACTUAL ARRAYS:');
@@ -577,29 +577,29 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
     this.salesOverTimeChart = {
       series: [{ name: 'Sales', data: salesData }],
-      chart: { 
-        height: 260, 
-        type: 'area', 
-        toolbar: { show: true, tools: { pan: true, zoom: true, reset: true } }, 
+      chart: {
+        height: 260,
+        type: 'area',
+        toolbar: { show: true, tools: { pan: true, zoom: true, reset: true } },
         fontFamily: 'inherit',
         zoom: { enabled: true, type: 'x' },
         selection: { enabled: true, type: 'x' }
       },
       dataLabels: { enabled: false },
       stroke: { curve: 'smooth', width: 2 },
-      xaxis: { 
+      xaxis: {
         categories: salesCategories,
-        labels: { 
+        labels: {
           style: { fontSize: '10px' },
           rotate: -45,
           maxHeight: 60
         }
       },
-      yaxis: { 
-        labels: { 
+      yaxis: {
+        labels: {
           formatter: (val) => '$' + val.toFixed(0),
           style: { fontSize: '10px' }
-        } 
+        }
       },
       colors: ['#10b981'],
       fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.7, opacityTo: 0.3 } },
@@ -610,7 +610,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     const orderStatusData = data.orderStatusBreakdown.map((item: any) => item.total_orders);
     const orderStatusLabels = data.orderStatusBreakdown.map((item: any) => item.status);
     const statusColors = ['#10b981', '#3b82f6', '#ef4444', '#f59e0b', '#8b5cf6', '#06b6d4'];
-    
+
     // console.log('Order Status Debug:', {
     //   originalData: data.orderStatusBreakdown,
     //   statusData: orderStatusData,
@@ -619,12 +619,12 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
     this.ordersByStatusChart = {
       series: orderStatusData,
-      chart: { 
+      chart: {
         type: 'donut',
         height: 300,
         fontFamily: 'Inter, sans-serif',
-        toolbar: { 
-          show: false 
+        toolbar: {
+          show: false
         },
         offsetY: 10
       },
@@ -647,7 +647,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
         },
         offsetY: 5,
         height: 80, // Fixed height that works well for most cases
-        formatter: function(legendName: string) {
+        formatter: function (legendName: string) {
           return legendName.length > 15 ? legendName.substring(0, 15) + '...' : legendName;
         },
         onItemHover: {
@@ -660,8 +660,8 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
           top: 5
         }
       },
-      dataLabels: { 
-        enabled: false 
+      dataLabels: {
+        enabled: false
       },
       plotOptions: {
         pie: {
@@ -744,9 +744,9 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     };
 
     // Process category revenue data
-    const categoryRevenueData = data.categoryRevenue.map((item: any) => item.total_revenue);
-    const categoryLabels = data.categoryRevenue.map((item: any) => item.category);
-    
+    const categoryRevenueData = data.categoryRevenue.map((item: any) => item.TOTAL);
+    const categoryLabels = data.categoryRevenue.map((item: any) => item.CATEGORY_NAME);
+
     // console.log('Category Revenue Debug:', {
     //   originalData: data.categoryRevenue,
     //   revenueData: categoryRevenueData,
@@ -755,30 +755,29 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
     this.salesByCategoryChart = {
       series: [{ name: 'Revenue', data: categoryRevenueData }],
-      chart: { 
-        type: 'bar', 
-        height: Math.max(260, Math.min(400, categoryLabels.length * 35)), 
-        toolbar: { show: true, tools: { pan: true, zoom: true } }, 
+      chart: {
+        type: 'bar',
+        height: Math.max(260, Math.min(400, categoryLabels.length * 35)),
+        toolbar: { show: true, tools: { pan: true, zoom: true } },
         fontFamily: 'inherit',
         zoom: { enabled: true, type: 'y' }
       },
-      plotOptions: { 
-        bar: { 
-          horizontal: true, 
+      plotOptions: {
+        bar: {
+          horizontal: true,
           borderRadius: 4,
           barHeight: '70%'
-        } 
+        }
       },
-      dataLabels: { enabled: true, formatter: (val: number) => '$' + val.toFixed(0) },
-      xaxis: { 
-        categories: categoryLabels,
-        labels: { style: { fontSize: '10px' } }
+      dataLabels: {
+        enabled: true,
+        formatter: (val: number) => '$' + val  // ORIGINAL VALUES
       },
-      yaxis: { 
-        labels: { 
+      yaxis: {
+        labels: {
           style: { fontSize: '10px' },
           maxWidth: 150
-        } 
+        }
       },
       colors: ['#6366f1'],
       responsive: responsiveOptions
@@ -786,18 +785,18 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
     // Process top selling products data - sort by quantity descending to ensure proper order
     const sortedProductsData = [...data.topSellingProducts].sort((a, b) => b.quantity - a.quantity);
-    
+
     // Store full product names in component property for tooltip access
     this.topProductsFullNames = sortedProductsData.map((item: any) => item.PRODUCT_NAME);
-    
+
     const topProductsData = sortedProductsData.map((item: any) => item.quantity);
     const topProductsLabels = sortedProductsData.map((item: any) => {
       // Truncate long product names for better display
-      return item.PRODUCT_NAME.length > 15 
-        ? item.PRODUCT_NAME.substring(0, 15) + '...' 
+      return item.PRODUCT_NAME.length > 15
+        ? item.PRODUCT_NAME.substring(0, 15) + '...'
         : item.PRODUCT_NAME;
     });
-    
+
     // console.log('Top Products Debug:', {
     //   originalData: data.topSellingProducts,
     //   sortedData: sortedProductsData,
@@ -810,55 +809,55 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
     this.topProductsChart = {
       series: [{ name: 'Quantity', data: topProductsData }],
-      chart: { 
-        type: 'bar', 
-        height: 260, 
-        toolbar: { show: true, tools: { pan: true, zoom: true, reset: true } }, 
+      chart: {
+        type: 'bar',
+        height: 260,
+        toolbar: { show: true, tools: { pan: true, zoom: true, reset: true } },
         fontFamily: 'inherit',
         zoom: { enabled: true, type: 'x' },
         selection: { enabled: true, type: 'x' }
       },
-      plotOptions: { 
-        bar: { 
-          borderRadius: 4, 
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
           columnWidth: topProductsLabels.length > 10 ? '80%' : '60%'
-        } 
+        }
       },
       dataLabels: { enabled: false },
-      xaxis: { 
+      xaxis: {
         categories: topProductsLabels,
-        labels: { 
-          rotate: -45, 
-          style: { 
+        labels: {
+          rotate: -45,
+          style: {
             fontSize: '10px',
             fontFamily: 'Inter, sans-serif'
           },
           maxHeight: 80,
           trim: true,
-          formatter: function(value: string) {
+          formatter: function (value: string) {
             // Truncate long labels in the x-axis
             return value.length > 15 ? value.substring(0, 12) + '...' : value;
           }
         }
       },
-      yaxis: { 
-        labels: { 
+      yaxis: {
+        labels: {
           formatter: (val) => val.toString(),
           style: { fontSize: '10px' }
-        } 
+        }
       },
       tooltip: {
         enabled: true,
         shared: true,
         intersect: false,
-        custom: function({ series, seriesIndex, dataPointIndex, w }) {
+        custom: function ({ series, seriesIndex, dataPointIndex, w }) {
           const fullName = self.topProductsFullNames[dataPointIndex] || 'Product Name';
           const quantity = series[seriesIndex][dataPointIndex];
-          
+
           // Split the name into parts if it contains '...'
           const nameParts = fullName.split('...').filter(part => part.trim().length > 0);
           const displayName = nameParts.length > 1 ? nameParts[0] + nameParts[1] : fullName;
-          
+
           // Create a more detailed and styled tooltip
           return `
             <div style="
@@ -938,14 +937,14 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   onDateRangeChange(value: string): void {
     // console.log('Date range changed to:', value);
-    
+
     // Get the date range for the selected filter
     const datePayload = this.convertDateRangeToPayload(value);
     // console.log('Date range payload:', datePayload);
-    
+
     // Update selected date range
     this.selectedDateRange = value;
-    
+
     // Trigger data refresh when date range changes
     this.refreshDashboard();
   }

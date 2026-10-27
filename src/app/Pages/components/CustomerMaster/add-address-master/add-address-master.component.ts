@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { AddressMaster } from 'src/app/Models/AddressMaster';
+import { CityMaster } from 'src/app/Models/city';
 import { CountryMaster } from 'src/app/Models/CountryMaster';
 import { StateMaster } from 'src/app/Models/StateMaster';
 import { ApiServiceService } from 'src/app/Service/api-service.service';
@@ -26,6 +27,7 @@ export class AddAddressMasterComponent implements OnInit {
 
   isSpinning = false;
   isloadstate = false;
+  isloadcity =false;
   isOk = true;
   emailpattern =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -43,7 +45,7 @@ export class AddAddressMasterComponent implements OnInit {
   group: any;
   main: any;
   Customer: any;
-  pincode =  /^\d{5}$/;
+  pincode =  /^\d{6,8}$/;
 @Input()customerName:any
 @Input()custMobileNo
   AddressData: any = [];
@@ -51,6 +53,7 @@ export class AddAddressMasterComponent implements OnInit {
 
   state: StateMaster[] = [];
   country: CountryMaster[] = [];
+  city:CityMaster[]=[]
 isFocused:string=""
   constructor(
     private api: ApiServiceService,
@@ -82,6 +85,43 @@ isFocused:string=""
       }
     );
   }
+
+  // loadCities(event: any){
+
+  //   if (!event) {
+  //   this.city = [];             // Clear all states
+  //   this.data.CITY_ID = 0;   // Reset selected state
+  //   this.data.CITY_NAME = '';    // (Optional) Clear city also
+  //   return;
+  // }
+
+  // this.isloadcity = true;
+
+  //  this.api
+  //     .getAllCityMaster(
+  //       0,
+  //       0,
+  //       '',
+  //       '',
+  //       ' AND IS_ACTIVE=1 AND STATE_ID = ' + event
+  //     )
+  //     .subscribe(
+  //       (data) => {
+  //         if (data['code'] == 200) {
+  //           this.city = data['data'];
+  //           this.isloadcity = false;
+  //         } else {
+  //           this.message.error("Data Can't Load", '');
+  //         }
+         
+  //       },
+  //       (err) => {
+  //         console.log(err);
+  //         this.isloadcity = false;
+  //       }
+  //     );
+  //   console.log('Filter state called');
+  // }
  omit1(event: any) {
   const charCode = event.which ? event.which : event.keyCode;
   const allowedChars = [32, 40, 41, 45, 46]; // space, (, ), -, .
@@ -100,6 +140,14 @@ isFocused:string=""
   FilterCountry(event: any) {
     console.log('Event', event);
     // this.loadSTATE_ID();
+
+    if (!event) {
+    this.state = [];             // Clear all states
+    this.data.STATE_ID = 0;   // Reset selected state
+    this.data.CITY_NAME = '';    // (Optional) Clear city also
+    return;
+  }
+
     this.isloadstate = true;
 
     this.api
@@ -225,7 +273,8 @@ isFocused:string=""
       this.data.LOCALITY.trim() == '' &&
       this.data.MOBILE_NO == undefined &&
       this.data.STATE_ID <= 0 &&
-      this.data.CITY.trim() == '' &&
+      this.data.CITY_NAME.trim() == '' &&
+      this.data.CITY_NAME.trim() == '' &&
       this.data.PINCODE <= 0
     ) {
       this.isOk = false;
@@ -261,7 +310,7 @@ isFocused:string=""
     //   this.isOk = false;
     //   this.message.error('Please Enter Area', '');
     // } 
-    else if (this.data.CITY == null || this.data.CITY.trim() == '') {
+    else if (this.data.CITY_NAME == null || this.data.CITY_NAME) {
       this.isOk = false;
       this.message.error('Please Enter City', '');
     } else if (this.data.PINCODE == undefined || this.data.PINCODE <= 0) {
@@ -269,54 +318,58 @@ isFocused:string=""
       this.message.error(' Please Enter Zipcode ', '');
     } else if (!this.pincode.test(this.data.PINCODE)) {
       this.isOk = false;
-      this.message.error('Pincode Must Be 6 Digit ', '');
-    } else if (this.data.PINCODE != undefined || this.data.PINCODE >= 0) {
-      if (this.pincodelist.length > 0) {
-        console.log(this.pincodelist);
-        // console.log(this.pincodelist.includes(this.data.PINCODE));
-        this.exist = this.pincodelist.some(
-          (value) => value.PINCODE === this.data.PINCODE
-        );
-        console.log('this.exist', this.exist);       
-        // if (this.exist) {
-        //   //////////
-        //   this.isOk = true;
-        //   this.message.error('Please Select Address Type', '');
-        // } else {
-        //   this.isOk = false;
-        //   this.message.error('Invalid Pincode', '');
-        // }
-      }
-      if (this.exist == false) {
-        this.isOk = false;
-        this.message.error('Invalid Pincode', '');
-      }
-    
-    else{
-
-         if (!this.data.ID) {
-          if (this.dataList1.length > 0) {
-            console.log(this.dataList1);
-            if (this.data.IS_DEFUALT_ADDRESS == true) {
-              for (let i = 0; i < this.dataList1.length; i++) {
-                console.log(this.dataList1[i]['IS_DEFUALT_ADDRESS'] == 1);
-                if (this.dataList1[i]['IS_DEFUALT_ADDRESS'] == 1) {
-                  this.isOk = false;
-                }
-              }
-              if (this.isOk == false) {
-                this.message.error('Mark Default Address Already Enabled', '');
-              }
-            } else {
-              this.isOk = true;
-            }
-          }
-        }
-
-
-      }
-
+      this.message.error('Enter Valid Pincode OR Zipcode ', '');
     }
+//      else if (this.data.PINCODE != undefined || this.data.PINCODE >= 0) {
+//       if (this.pincodelist.length > 0) {
+//         //console.log(this.pincodelist);
+//         // console.log(this.pincodelist.includes(this.data.PINCODE));
+//        this.exist = this.pincodelist.some(
+//   (value) =>
+//     value.PINCODE.toString().trim().toLowerCase() ===
+//     this.data.PINCODE.toString().trim().toLowerCase()
+// );
+
+//         console.log('this.exist', this.exist);       
+//         // if (this.exist) {
+//         //   //////////
+//         //   this.isOk = true;
+//         //   this.message.error('Please Select Address Type', '');
+//         // } else {
+//         //   this.isOk = false;
+//         //   this.message.error('Invalid Pincode', '');
+//         // }
+//       }
+//       if (this.exist == false) {
+//         this.isOk = false;
+//         this.message.error('Invalid Pincode', '');
+//       }
+    
+//     else{
+
+//          if (!this.data.ID) {
+//           if (this.dataList1.length > 0) {
+//             console.log(this.dataList1);
+//             if (this.data.IS_DEFUALT_ADDRESS == true) {
+//               for (let i = 0; i < this.dataList1.length; i++) {
+//                 console.log(this.dataList1[i]['IS_DEFUALT_ADDRESS'] == 1);
+//                 if (this.dataList1[i]['IS_DEFUALT_ADDRESS'] == 1) {
+//                   this.isOk = false;
+//                 }
+//               }
+//               if (this.isOk == false) {
+//                 this.message.error('Mark Default Address Already Enabled', '');
+//               }
+//             } else {
+//               this.isOk = true;
+//             }
+//           }
+//         }
+
+
+//       }
+
+//     }
 
     // else if (
     //   this.data.ADDRESS_TYPE == undefined ||

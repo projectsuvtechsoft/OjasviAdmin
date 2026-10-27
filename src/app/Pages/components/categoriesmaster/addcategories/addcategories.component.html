@@ -202,14 +202,20 @@
               name="shortcode"
               placeholder="Short Code"
               [(ngModel)]="data.SHORT_CODE"
-              maxlength="4"
+              maxlength="8"
                #name="ngModel"
               (keypress)="numchar($event)"
               (ngModelChange)="data.SHORT_CODE = ($event || '').toUpperCase()" 
               required
+              (focus)="isFocused = 'shortcode'"
+ 
             />
           </nz-form-control>
-        </nz-form-item>
+
+        </nz-form-item> <h6 style="color: red; font-size: 10px"
+              *ngIf="isFocused === 'shortcode'">
+              {{ data.SHORT_CODE.length || 0 }}/8
+            </h6>
       </div>
       <div nz-col nzSpan="9">
         <nz-form-item>
@@ -299,7 +305,7 @@
           </div>
         </div> -->
 
-      <div nz-col nzSpan="24">
+      <!-- <div nz-col nzSpan="24">
         <nz-form-item>
           <nz-form-label nzNoColon nzRequired
             >Image&nbsp;<span
@@ -350,7 +356,7 @@
                 style="display: none"
                 (change)="onFileSelected($event)"
               />
-              <!-- (change)="fileChangeEvent($event)" -->
+             
             </button>
 
             <div
@@ -375,7 +381,7 @@
                   margin-bottom: 10px;
                 "
               />
-              <!-- <img [src]="fullImageUrl" width="128" /> -->
+           
             </div>
             <div
               *ngIf="
@@ -402,9 +408,9 @@
             </div>
           </nz-form-control>
         </nz-form-item>
-      </div>
+      </div> -->
     </div>
-    <!-- </nz-spin> -->
+    
   </form>
 
   <div class="footer">

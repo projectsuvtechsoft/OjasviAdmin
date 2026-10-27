@@ -149,7 +149,7 @@
             </div>
           </div>
 
-          <div nz-row>
+          <!-- <div nz-row>
             <div nz-col nzSpan="10">
               <div>Customer Address</div>
             </div>
@@ -159,7 +159,7 @@
             <div nz-col nzSpan="12">
               <span>{{ data["ADDRESS"] }}</span>
             </div>
-          </div>
+          </div> -->
 
           <div nz-row>
             <div nz-col nzSpan="10">
@@ -331,7 +331,9 @@
       *ngIf="data.ID"
       (click)="data['IS_LOCAL_PICKUP_SELECTED']==0?save(false, websitebannerPage):openPickupModal()"
     >
-      <span>Order Delivered/Picked Up</span>
+      <span>
+    {{ IS_LOCAL_PICKUP_SELECTED == 1 ? 'Picked Up' : 'Order Delivered' }}
+  </span>
     </button>
   </div>
 </div>

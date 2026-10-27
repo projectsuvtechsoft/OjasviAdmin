@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit,OnChanges,SimpleChanges, Input, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -15,7 +15,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit,OnChanges {
   @Input() drawerClose!: Function;
   @Input() data: UserMaster = new UserMaster();
   @Input() drawerVisible: boolean = false;
@@ -51,6 +51,12 @@ export class UserComponent implements OnInit {
     this.selectedRole = new RoleMaster();
     this.loadRoles();
     // this.getDesignationData();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data'] && this.data?.ID) {
+      this.originalPassword = this.data.PASSWORD;
+    }
   }
 
   loadRoles() {
@@ -225,7 +231,8 @@ export class UserComponent implements OnInit {
   loadImageFailed() {
     // Image failed to load
   }
-
+  
+  originalPassword: string | null = null;
   isOk = true;
   save(addNew: boolean, websitebannerPage: NgForm): void {
     this.isSpinning = false;
@@ -284,32 +291,31 @@ export class UserComponent implements OnInit {
     //   this.isOk = false;
     //   this.message.error(' Please Enter Mobile Number.', '');
     // }
-    else if (
-      (this.data.PASSWORD == null ||
-        this.data.PASSWORD == undefined ||
-        this.data.PASSWORD == '') &&
-      !this.data.ID
-    ) {
-      this.isOk = false;
-      this.message.error(' Please Enter Password.', '');
-    }
-    //  else if (
-    //   this.data.PROFILE_PHOTO == null ||
-    //   this.data.PROFILE_PHOTO == undefined ||
-    //   this.data.PROFILE_PHOTO == '' ||
-    //   this.data.PROFILE_PHOTO == ' '
-    // ) {
-    //   this.isOk = false;
-    //   this.message.error('Please Upload Profile Photo', '');
-    // } 
-    else if (
-      !this.commonFunction.passPattern.test(this.data.PASSWORD) &&
-      !this.data.ID
-    ) {
-      this.isOk = false;
-      this.message.error('Please Enter a Valid Password.', '');
+    else if (!this.data.ID) {
+      if (!this.data.PASSWORD) {
+        this.isOk = false;
+        this.message.error('Password is required.', '');
+        return;
+      }
+
+      if (!this.commonFunction.passPattern.test(this.data.PASSWORD)) {
+        this.isOk = false;
+        this.message.error('Please enter a valid password.', '');
+        return;
+      }
     }
 
+    // CASE 2: Edit record → validate ONLY if password changed
+    else if (
+      this.data.PASSWORD &&
+      this.data.PASSWORD !== this.originalPassword
+    ) {
+      if (!this.commonFunction.passPattern.test(this.data.PASSWORD)) {
+        this.isOk = false;
+        this.message.error('Please enter a valid password.', '');
+        return;
+      }
+    }
     if (this.isOk) {
       this.isSpinning = true;
       {
@@ -343,6 +349,7 @@ export class UserComponent implements OnInit {
           // };
 
           this.api.updateUser(this.data).subscribe((successCode) => {
+           
             if (successCode.code == '200') {
               if (
                 this.fileURL != undefined &&
